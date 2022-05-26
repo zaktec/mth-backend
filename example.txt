@@ -1,0 +1,13 @@
+DROP DATABASE
+CREATE DATABASE
+You are now connected to database "mthdb" as user "sheraz".
+CREATE TABLE
+CREATE TABLE
+ user_id | first_name | last_name | email | pass_word | course_id | tutor_id 
+---------+------------+-----------+-------+-----------+-----------+----------
+(0 rows)
+
+ id | course_name | course_code | course_desc | course_level | course_image 
+----+-------------+-------------+-------------+--------------+--------------
+(0 rows)
+
