@@ -3,11 +3,61 @@ CREATE DATABASE
 You are now connected to database "mthdb" as user "sheraz".
 CREATE TABLE
 CREATE TABLE
- user_id | first_name | last_name | email | pass_word | course_id | tutor_id 
----------+------------+-----------+-------+-----------+-----------+----------
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+ user_id | user_role | user_firstname | user_lastname | user_email | user_password | user_active | user_create_date | user_lastupdate | user_course_id | user_digitutor_id 
+---------+-----------+----------------+---------------+------------+---------------+-------------+------------------+-----------------+----------------+-------------------
 (0 rows)
 
- id | course_name | course_code | course_desc | course_level | course_image 
-----+-------------+-------------+-------------+--------------+--------------
+ course_id | course_name | course_code | course_desc | course_level | course_image | course_createdate | course_lastupdate 
+-----------+-------------+-------------+-------------+--------------+--------------+-------------------+-------------------
+(0 rows)
+
+ topic_id | topic_name | topic_code | topic_desc | topic_index | topic_createdate | topic_lastupdate | topic_course_id 
+----------+------------+------------+------------+-------------+------------------+------------------+-----------------
+(0 rows)
+
+ lesson_id | lesson_name | lesson_code | lesson_desc | lesson_ws | lesson_body | lesson_createdate | lesson_lastupdate | lesson_topic_id 
+-----------+-------------+-------------+-------------+-----------+-------------+-------------------+-------------------+-----------------
+(0 rows)
+
+ quiz_id | quiz_name | quiz_code | quiz_desc | quiz_type | quiz_subtype | quiz_calculator | quiz_createdate | quiz_lastupdate | quiz_course_id | quiz_topic_id | quiz_lesson_id 
+---------+-----------+-----------+-----------+-----------+--------------+-----------------+-----------------+-----------------+----------------+---------------+----------------
+(0 rows)
+
+ question_id | question_body | question_type | question_code | question_image | question_mark | question_grade | question_calculator | question_createdate | question_lastupdate | question_lesson_id 
+-------------+---------------+---------------+---------------+----------------+---------------+----------------+---------------------+---------------------+---------------------+--------------------
+(0 rows)
+
+ digitutor_id | digitutor_quizresult | digitutor_usergrade | digitutor_targetgrade | digitutor_tutorinput | digitutor_notes | digitutor_nextstep | digitutor_progressbar | digitutor_createdate | digitutor_lastupdate 
+--------------+----------------------+---------------------+-----------------------+----------------------+-----------------+--------------------+-----------------------+----------------------+----------------------
+(0 rows)
+
+ answer_id | answer_image | answer1_body | answer1_b | answer1_a | answer2_body | answer2_b | answer2_a | answer3_body | answer_questioncode | answer_explanation | answer_correct | answer_createdate | answer_lastupdate | answer_question_id 
+-----------+--------------+--------------+-----------+-----------+--------------+-----------+-----------+--------------+---------------------+--------------------+----------------+-------------------+-------------------+--------------------
+(0 rows)
+
+ quizfb_id | quizfb_answer1 | quizfb_answer2 | quizfb_answer3 | quizfb_status | quizfb_createdate | quizfb_lastupdate | quizfb_quizresult_id | quizfb_question_id | quizfb_answer_id | quizfb_digitutor_id 
+-----------+----------------+----------------+----------------+---------------+-------------------+-------------------+----------------------+--------------------+------------------+---------------------
+(0 rows)
+
+ quizresult_id | quizresult_percent | quizresult_grade | quizresult_createdate | quizresult_lastupdate | quizresult_digitutor_id 
+---------------+--------------------+------------------+-----------------------+-----------------------+-------------------------
+(0 rows)
+
+ questionquiz_id | questionquiz_question_id | questionquiz_quiz_id 
+-----------------+--------------------------+----------------------
+(0 rows)
+
+ conversation_id | conversation_message | conversation_incoming | conversation_createdate | conversation_lastupdate | conversation_digitutor_id | conversation_topic_id 
+-----------------+----------------------+-----------------------+-------------------------+-------------------------+---------------------------+-----------------------
 (0 rows)
 
