@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon listen.js"
+    "test": "npm run setup-db && PGDATABASE=mthdb jest",
+    "setup-db": "psql -f database/mthdb.sql > example.txt",
+    "dev": "PGDATABASE=mthdb nodemon listen.js"
   },
   "repository": {
     "type": "git",

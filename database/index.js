@@ -1,11 +1,17 @@
 const { Pool, Client } = require('pg')
 
-const db = new Pool();
+const dbConnection = new Pool();
 
-db.query(`SELECT NOW()`, (err,res) => {
+if (!process.env.PGDATABASE){
+    throw new Error ("No PGDATABSE configured");
+}
+
+dbConnection.query(`SELECT NOW()`, (err,res) => {
     console.log(err, res);
 });
 
-db.query(`SELECT * FROM users;`, (err,result) => {
-    console.log(result);
+dbConnection.query(`SELECT * FROM course;`, (err,result) => {
+    console.log(result.rows);
 });
+
+module.exports = dbConnection 

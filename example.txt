@@ -13,51 +13,86 @@ CREATE TABLE
 CREATE TABLE
 CREATE TABLE
 CREATE TABLE
- user_id | user_role | user_firstname | user_lastname | user_email | user_password | user_active | user_create_date | user_lastupdate | user_course_id | user_digitutor_id 
----------+-----------+----------------+---------------+------------+---------------+-------------+------------------+-----------------+----------------+-------------------
+INSERT 0 2
+ course_id |        course_name        | course_code |               course_desc               | course_level |        course_image         | course_date 
+-----------+---------------------------+-------------+-----------------------------------------+--------------+-----------------------------+-------------
+         1 | MTH GCSE Maths Foundation | MTH-GF      | MTH GCSE Maths Foundation Online Course | Foundation   | /course/gcse_foundation.png | 
+         2 | MTH GCSE Maths Higher     | MTH-HF      | MTH GCSE Maths Higher Online Course     | Higher       | /course/gcse_higher.png     | 
+(2 rows)
+
+INSERT 0 1
+ digitutor_id | digitutor_quizresult | digitutor_usergrade | digitutor_targetgrade | digitutor_notes | digitutor_nextstep | digitutor_progressbar | digitutor_date 
+--------------+----------------------+---------------------+-----------------------+-----------------+--------------------+-----------------------+----------------
+            1 |                      |                     |                       |                 |                    |                       | 
+(1 row)
+
+INSERT 0 3
+ users_id | users_role | users_firstname | users_lastname |     users_email     | users_password | users_active | users_date | users_course_id | users_digitutor_id 
+----------+------------+-----------------+----------------+---------------------+----------------+--------------+------------+-----------------+--------------------
+        1 | admin      | Admin           | user           | admin@admin.com     | password       | t            |            |               1 |                  1
+        2 | student    | Student         | user           | student@student.com | password       | t            |            |               1 |                  1
+        3 | tutor      | Tutor           | user           | tutor@tutor.com     | password       | t            |            |               1 |                  1
+(3 rows)
+
+INSERT 0 18
+ topic_id |      topic_name       | topic_code |                            topic_desc                             | topic_index | topic_date | topic_course_id 
+----------+-----------------------+------------+-------------------------------------------------------------------+-------------+------------+-----------------
+        1 | Number 1              | GFN1       | MTH GCSE Maths Online Course - Foundation - Number 1              |           1 |            |               1
+        2 | Number 2              | GFN2       | MTH GCSE Maths Online Course - Foundation - Number 2              |           2 |            |               1
+        3 | Algebra 1             | GFA1       | MTH GCSE Maths Online Course - Foundation - Algebra 1             |           3 |            |               1
+        4 | Algebra 2             | GFA2       | MTH GCSE Maths Online Course - Foundation - Algebra 2             |           4 |            |               1
+        5 | Ratio and Measurement | GFRM       | MTH GCSE Maths Online Course - Foundation - Ratio and Measurement |           5 |            |               1
+        6 | Geometry 1            | GFG1       | MTH GCSE Maths Online Course - Foundation - Geometry 1            |           6 |            |               1
+        7 | Geometry 2            | GFG2       | MTH GCSE Maths Online Course - Foundation - Geometry 2            |           7 |            |               1
+        8 | Probability           | GFP1       | MTH GCSE Maths Online Course - Foundation - Probability           |           8 |            |               1
+        9 | Statistics            | GFS1       | MTH GCSE Maths Online Course - Foundation - Statistics            |           9 |            |               1
+       10 | Number 1              | GHN1       | MTH GCSE Maths Online Course - Higher - Number 1                  |           1 |            |               2
+       11 | Number 2              | GHN2       | MTH GCSE Maths Online Course - Higher  - Number 2                 |           2 |            |               2
+       12 | Algebra 1             | GHA1       | MTH GCSE Maths Online Course - Higher  - Algebra 1                |           3 |            |               2
+       13 | Algebra 2             | GHA2       | MTH GCSE Maths Online Course - Higher - Algebra 2                 |           4 |            |               2
+       14 | Ratio and Measurement | GHRM       | MTH GCSE Maths Online Course - Higher  - Ratio and Measurement    |           5 |            |               2
+       15 | Geometry 1            | GHG1       | MTH GCSE Maths Online Course - Higher  - Geometry 1               |           6 |            |               2
+       16 | Geometry 2            | GHG2       | MTH GCSE Maths Online Course - Higher  - Geometry 2               |           7 |            |               2
+       17 | Probability           | GHP1       | MTH GCSE Maths Online Course - Higher - Probability               |           8 |            |               2
+       18 | Statistics            | GHS1       | MTH GCSE Maths Online Course - Higher  - Statistics               |           9 |            |               2
+(18 rows)
+
+INSERT 0 1
+ lesson_id |               lesson_name                | lesson_code |                      lesson_desc                       | lesson_ws | lesson_body | lesson_date | lesson_topic_id 
+-----------+------------------------------------------+-------------+--------------------------------------------------------+-----------+-------------+-------------+-----------------
+         1 | Addition, Subtraction and Money Problems | GFN1LC1     | To be able to add, subtract, and solve money problems. | GFN1WS1   | Examples    |             |               1
+(1 row)
+
+ quiz_id | quiz_name | quiz_code | quiz_desc | quiz_type | quiz_subtype | quiz_calculator | quiz_date | quiz_course_id | quiz_topic_id | quiz_lesson_id 
+---------+-----------+-----------+-----------+-----------+--------------+-----------------+-----------+----------------+---------------+----------------
 (0 rows)
 
- course_id | course_name | course_code | course_desc | course_level | course_image | course_createdate | course_lastupdate 
------------+-------------+-------------+-------------+--------------+--------------+-------------------+-------------------
+ question_id | question_body | question_type | question_code | question_image | question_mark | question_grade | question_calculator | question_date | question_lesson_id 
+-------------+---------------+---------------+---------------+----------------+---------------+----------------+---------------------+---------------+--------------------
 (0 rows)
 
- topic_id | topic_name | topic_code | topic_desc | topic_index | topic_createdate | topic_lastupdate | topic_course_id 
-----------+------------+------------+------------+-------------+------------------+------------------+-----------------
+ digitutor_id | digitutor_quizresult | digitutor_usergrade | digitutor_targetgrade | digitutor_notes | digitutor_nextstep | digitutor_progressbar | digitutor_date 
+--------------+----------------------+---------------------+-----------------------+-----------------+--------------------+-----------------------+----------------
+            1 |                      |                     |                       |                 |                    |                       | 
+(1 row)
+
+ answer_id | answer_image | answer1_body | answer1_b | answer1_a | answer2_body | answer2_b | answer2_a | answer3_body | answer_questioncode | answer_explanation | answer_correct | answer_date | answer_question_id 
+-----------+--------------+--------------+-----------+-----------+--------------+-----------+-----------+--------------+---------------------+--------------------+----------------+-------------+--------------------
 (0 rows)
 
- lesson_id | lesson_name | lesson_code | lesson_desc | lesson_ws | lesson_body | lesson_createdate | lesson_lastupdate | lesson_topic_id 
------------+-------------+-------------+-------------+-----------+-------------+-------------------+-------------------+-----------------
+ quizfb_id | quizfb_answer1 | quizfb_answer2 | quizfb_answer3 | quizfb_status | quizfb_date | quizfb_quizresult_id | quizfb_question_id | quizfb_answer_id | quizfb_digitutor_id 
+-----------+----------------+----------------+----------------+---------------+-------------+----------------------+--------------------+------------------+---------------------
 (0 rows)
 
- quiz_id | quiz_name | quiz_code | quiz_desc | quiz_type | quiz_subtype | quiz_calculator | quiz_createdate | quiz_lastupdate | quiz_course_id | quiz_topic_id | quiz_lesson_id 
----------+-----------+-----------+-----------+-----------+--------------+-----------------+-----------------+-----------------+----------------+---------------+----------------
-(0 rows)
-
- question_id | question_body | question_type | question_code | question_image | question_mark | question_grade | question_calculator | question_createdate | question_lastupdate | question_lesson_id 
--------------+---------------+---------------+---------------+----------------+---------------+----------------+---------------------+---------------------+---------------------+--------------------
-(0 rows)
-
- digitutor_id | digitutor_quizresult | digitutor_usergrade | digitutor_targetgrade | digitutor_tutorinput | digitutor_notes | digitutor_nextstep | digitutor_progressbar | digitutor_createdate | digitutor_lastupdate 
---------------+----------------------+---------------------+-----------------------+----------------------+-----------------+--------------------+-----------------------+----------------------+----------------------
-(0 rows)
-
- answer_id | answer_image | answer1_body | answer1_b | answer1_a | answer2_body | answer2_b | answer2_a | answer3_body | answer_questioncode | answer_explanation | answer_correct | answer_createdate | answer_lastupdate | answer_question_id 
------------+--------------+--------------+-----------+-----------+--------------+-----------+-----------+--------------+---------------------+--------------------+----------------+-------------------+-------------------+--------------------
-(0 rows)
-
- quizfb_id | quizfb_answer1 | quizfb_answer2 | quizfb_answer3 | quizfb_status | quizfb_createdate | quizfb_lastupdate | quizfb_quizresult_id | quizfb_question_id | quizfb_answer_id | quizfb_digitutor_id 
------------+----------------+----------------+----------------+---------------+-------------------+-------------------+----------------------+--------------------+------------------+---------------------
-(0 rows)
-
- quizresult_id | quizresult_percent | quizresult_grade | quizresult_createdate | quizresult_lastupdate | quizresult_digitutor_id 
----------------+--------------------+------------------+-----------------------+-----------------------+-------------------------
+ quizresult_id | quizresult_percent | quizresult_grade | quizresult_date | quizresult_digitutor_id 
+---------------+--------------------+------------------+-----------------+-------------------------
 (0 rows)
 
  questionquiz_id | questionquiz_question_id | questionquiz_quiz_id 
 -----------------+--------------------------+----------------------
 (0 rows)
 
- conversation_id | conversation_message | conversation_incoming | conversation_createdate | conversation_lastupdate | conversation_digitutor_id | conversation_topic_id 
------------------+----------------------+-----------------------+-------------------------+-------------------------+---------------------------+-----------------------
+ conversation_id | conversation_message | conversation_incoming | conversation_date | conversation_digitutor_id | conversation_topic_id 
+-----------------+----------------------+-----------------------+-------------------+---------------------------+-----------------------
 (0 rows)
 
