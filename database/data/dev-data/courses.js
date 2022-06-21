@@ -1,4 +1,4 @@
-[
+module.exports = [
  {
    "course_name": "MTH GCSE Maths Foundation",
    "course_code": "MTH-GF",

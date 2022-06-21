@@ -2,9 +2,10 @@ const db = require("../database/index.js")
 
 
 exports.selectCourses = () => {
-return db.query("SELECT * FROM course;").then((result) => {
+return db.query("SELECT * FROM course;").then(( { rows }) => {
   
-   return result.rows;
+   //console.log(rows)
+   return rows;
 
 });
 

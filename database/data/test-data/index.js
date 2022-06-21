@@ -1,0 +1,1 @@
+exports.courses = require('./courses')
