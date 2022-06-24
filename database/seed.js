@@ -1,11 +1,15 @@
 const db = require("../database/index.js")
+const { topicData, courseData } = require("./data/test-data/index.js")
+const format =require('pg-format')
+const { formatCourseData, formatTopicData } = require("../utils/seed-formatting.js")
 
-function seed({courses}) {
+
+function seed({courses, topics}) {
     return db.query(`DROP DATABASE IF EXISTS topic;`).then(()=> {
      return db.query(`DROP DATABASE IF EXISTS course;`)       
     })
     .then((result) => {
-     console.log(result)
+     //console.log(result)
      return db.query(` CREATE TABLE course (
           course_id SERIAL PRIMARY KEY,
           course_name VARCHAR(200) NOT NULL,
@@ -28,11 +32,33 @@ function seed({courses}) {
             topic_course_id INT REFERENCES course(course_id) ON DELETE CASCADE
        );
        `)
-    });
-
-
-
-
-}
+    })
+    .then(() =>{
+     //console.log(courseData);
+     const formattedCourses = formatCourseData(courseData)
+     const sql1 = format(
+      `INSERT INTO course 
+     (course_name, course_code, course_desc, course_level, course_image, course_date)
+     VALUES %L RETURNING *;`, formattedCourses
+     );
+  return db.query(sql1);
+    })
+    .then((result) => {
+      console.log(result);
+    })
+    .then(() =>{
+      //console.log(courseData);
+      const formattedTopics = formatTopicData(topicData)
+      const sql2 = format(
+       `INSERT INTO topic 
+      (topic_name, topic_code, topic_desc, topic_index, topic_date, topic_course_id)
+      VALUES %L RETURNING *;`, formattedTopics
+      );
+   return db.query(sql2);
+     })
+     .then((result) => {
+       console.log(result);
+     })
+   }
 
 module.exports = seed;

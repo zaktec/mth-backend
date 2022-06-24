@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run setup-db && PGDATABASE=mthdb jest",
     "setup-db": "psql -f database/setup-dbs.sql > example.txt",
-    "dev":  "nodemon listen.js"
+    "dev": "nodemon listen.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,8 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "pg-format": "^1.0.4"
   },
   "devDependencies": {
     "jest": "^28.1.1",

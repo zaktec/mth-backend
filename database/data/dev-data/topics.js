@@ -4,7 +4,7 @@ module.exports = [
    "topic_code" :"GFN1", 
    "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
     "topic_index": 1,
-    "topic_date" : NULL, 
+    "topic_date" : "NULL", 
     "topic_course_id" : 1
 },
 
