@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run setup-db && PGDATABASE=mthdb jest",
+    "test": "npm run setup-db && PGDATABASE=mth_test_db jest", 
     "setup-db": "psql -f database/setup-dbs.sql > example.txt",
-    "dev": "nodemon listen.js"
+    "dev": "nodemon listen.js",
+    "seed": "node  ./database/seeds/run-seed.js"
+  
   },
   "repository": {
     "type": "git",

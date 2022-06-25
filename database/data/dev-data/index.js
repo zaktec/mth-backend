@@ -1,2 +1,3 @@
-exports.courses = require('./courses')
-exports.courses = require('./topics')
+exports.courseData = require('./courses')
+exports.topicData = require('./topics')
+//console.log(courseData)

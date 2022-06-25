@@ -1,4 +1,4 @@
-const db = require("../database/index.js")
+const db = require("../database/connection.js")
 
 
 exports.selectQuestions = () => {
