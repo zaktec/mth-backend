@@ -1,0 +1,126 @@
+{
+
+  "GET /api/welcome": {
+    "description": "serves up a welcome message to my user"
+  },
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
+  "GET /api/topics": {
+    "description": "serves an array of all topics",
+    "queries": [],
+    "exampleResponse": {
+      "topics": [{ "slug": "football", "description": "Footie!" }]
+    }
+  },
+  "GET /api/articles": {
+    "description": "serves an articles array of articles objects",
+    "queries": ["author", "topic", "sort_by", "order"],
+    "exampleResponse": {
+      "articles": [
+        {
+          "article_author": "weegembump",
+          "article_title": "Seafood substitutions are increasing",
+          "article_id": 1,
+          "article_topic": "cooking",
+          "article_body": "cookingjkjfkjfkfjkfjfkjfkfk",
+          "article_created": 1527695953341,
+          "article_votes": 15,
+           "comment_count": 15
+        }
+      ]
+    }
+  },
+  "query1":{
+    "sort_by": "column name to sort_by"
+  },
+  "query2":{
+    "order": "column name to sort_by"
+  },
+  "query3":{
+    "topic": "column name to sort_by"
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves an article object with a given id",
+    "queries": ["author", "topic", "sort_by", "order"],
+    "exampleResponse": {
+      "article": [
+        {
+          "article_author": "weegembump",
+          "article_title": "Seafood substitutions are increasing",
+          "article_id": 1,
+          "article_body": "Text from the article..",
+          "topic": "cooking",
+          "article_created": 1527695953341,
+          "article_votes": 15,
+          "count": 15
+        }
+      ]
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": " serves an object in the form { inc_votes: newVote } and increase/decrease the vote",
+    "exampleRequest": { 
+      "inc_votes" : 1 
+    },
+    "exampleResponse": {
+      "article": [
+        {
+          "article_id": 1,
+          "article_title": "Living in the shadow of a great man",
+          "article_topic": "mitch",
+          "article_author": "butter_bridge",
+          "article_body": "I find this existence challenging",
+          "article_created": "2020-07-09T20:11:00.000Z",
+          "article_votes": 101
+        }
+      ]
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of comments for a given article id",
+    "queries": ["author", "topic", "sort_by", "order"],
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": "Seafood substitutions are increasing",
+          "votes": "cooking",
+          "created_at": 1527695953341,
+          "author": "weegembump",
+          "body": "Text from the article.."
+          
+        }
+      ]
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "serves an array of all topics",
+    "queries": ["author", "topic", "sort_by", "order"],
+    "exampleResponse": {
+      "articles": [
+        {
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "created_at": 1527695953341
+        }
+      ]
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "serves an array of all topics",
+    "queries": ["author", "topic", "sort_by", "order"],
+    "exampleResponse": {
+      "articles": [
+        {
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "weegembump",
+          "body": "Text from the article..",
+          "created_at": 1527695953341
+        }
+      ]
+    }
+  }
+}

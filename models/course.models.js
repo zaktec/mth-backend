@@ -2,10 +2,10 @@ const db = require("../database/connection.js")
 
 
 exports.selectCourses = () => {
-return db.query("SELECT * FROM course;").then(( { rows }) => {
+return db.query("SELECT * FROM course;").then(( result) => {
   
-   //console.log(rows)
-   return rows;
+   //console.log(result)
+   return result.rows;
 
 });
 

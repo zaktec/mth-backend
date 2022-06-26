@@ -1,9 +1,9 @@
 const {  selectCourses } =require('../models/course.models.js')
 
-exports.getCourses = ( req, res) => {
+exports.getCourses = ( req, res, next) => {
 
 selectCourses().then((courses) => {
-    res.status(200).send({ courses});
+    res.status(200).send({ courses });
   })
   .catch((err) => {
     console.log(err)

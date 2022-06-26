@@ -9,7 +9,7 @@ exports.formatCourseData =(courseData) => {
 
 exports.formatTopicData =(topicData) => {
     const formattedTopics = topicData.map((topic) => [
-        topic.topic_name, topic.topic_code, topic.topic_desc,topic.index,topic.topic_date, topic.topic_course_id
+        topic.topic_name, topic.topic_code, topic.topic_desc,topic.topic_index,topic.topic_date, topic.topic_course_id
      ]);
     return formattedTopics
 }

@@ -1,15 +1,13 @@
-const {  selectTopics } =require('../models/topic.models.js')
+const { selectTopics } = require("../models/topic.models.js");
 
-exports.getTopics = ( req, res) => {
-
-selectTopics().then((topics) => {
-    //console.log(courses)
-    res.status(200).send ({ topics});
-  })
-  .catch((err) => {
-    console.log(err)
-
-  })
+exports.getTopics = (req, res, next) => {
+  const { sort_by } = req.query;
+  selectTopics(sort_by)
+    .then((topics) => {
+      res.status(200).send({ topics });
+    })
+    .catch(next);
+  // console.log(err)
 };
 
 exports.getTopicById = () => {};
