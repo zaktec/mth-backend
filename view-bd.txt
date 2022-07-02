@@ -1,34 +1,34 @@
 You are now connected to database "mth_test_db" as user "sheraz".
- course_id |        course_name        | course_code |                 course_desc                 | course_level |              course_image               |     course_date     
+ course_id |        course_name        | course_code |                 course_desc                 | course_level |              course_image               |  course_created_at  
 -----------+---------------------------+-------------+---------------------------------------------+--------------+-----------------------------------------+---------------------
-         1 | MTH GCSE Maths Foundation | MTH-GF      | MTH GCSE Maths Foundation Online Course     | Foundation   | /course/mth_gcse_foundation.png         | 2022-06-26 15:24:54
-         2 | MTH GCSE Maths Higher     | MTH-GH      | MTH GCSE Maths Higher Online Course         | Higher       | /course/mth_gcse_higher.png             | 2022-06-26 15:24:54
-         3 | MTH Functional Skills- E3 | MTH-FSE3    | MTH Functional Skills Entry 3 Online Course | Entry 3      | /course/functionalskill_entrylevel3.png | 2022-06-26 15:24:54
-         4 | MTH Functional Skills- L1 | MTH-FSL1    | MTH Functional Skills L1 Online Course      | Level 1      | /course/mth_functionalskill_level1.png  | 2022-06-26 15:24:54
-         5 | MTH Functional Skills- L2 | MTH-FSL2    | MTH Functional Skills L2 Online Course      | Level 2      | /course/mth_functionalskill_level2.png  | 2022-06-26 15:24:54
+         1 | MTH GCSE Maths Foundation | MTH-GF      | MTH GCSE Maths Foundation Online Course     | Foundation   | /course/mth_gcse_foundation.png         | 2022-06-28 13:04:25
+         2 | MTH GCSE Maths Higher     | MTH-GH      | MTH GCSE Maths Higher Online Course         | Higher       | /course/mth_gcse_higher.png             | 2022-06-28 13:04:25
+         3 | MTH Functional Skills- E3 | MTH-FSE3    | MTH Functional Skills Entry 3 Online Course | Entry 3      | /course/functionalskill_entrylevel3.png | 2022-06-28 13:04:25
+         4 | MTH Functional Skills- L1 | MTH-FSL1    | MTH Functional Skills L1 Online Course      | Level 1      | /course/mth_functionalskill_level1.png  | 2022-06-28 13:04:25
+         5 | MTH Functional Skills- L2 | MTH-FSL2    | MTH Functional Skills L2 Online Course      | Level 2      | /course/mth_functionalskill_level2.png  | 2022-06-28 13:04:25
 (5 rows)
 
- topic_id |      topic_name       | topic_code |                            topic_desc                             | topic_index |     topic_date      | topic_course_id 
+ topic_id |      topic_name       | topic_code |                            topic_desc                             | topic_index |  topic_created_at   | topic_course_id 
 ----------+-----------------------+------------+-------------------------------------------------------------------+-------------+---------------------+-----------------
-        1 | Number 1              | GFN1       | MTH GCSE Maths Online Course - Foundation - Number 1              |           1 | 2022-06-26 15:24:54 |               1
-        2 | Number 2              | GFN2       | MTH GCSE Maths Online Course - Foundation - Number 2              |           2 | 2022-06-26 15:24:54 |               1
-        3 | Algebra 1             | GFA1       | MTH GCSE Maths Online Course - Foundation - Algebra 1             |           3 | 2022-06-26 15:24:54 |               1
-        4 | Algebra 2             | GFA2       | MTH GCSE Maths Online Course - Foundation - Algebra 2             |           4 | 2022-06-26 15:24:54 |               1
-        5 | Ratio and Measurement | GFRM       | MTH GCSE Maths Online Course - Foundation - Ratio and Measurement |           5 | 2022-06-26 15:24:54 |               1
-        6 | Geometry 1            | GFG1       | MTH GCSE Maths Online Course - Foundation - Geometry 1            |           6 | 2022-06-26 15:24:54 |               1
-        7 | Geometry 2            | GFG2       | MTH GCSE Maths Online Course - Foundation - Geometry 2            |           7 | 2022-06-26 15:24:54 |               1
-        8 | Probability           | GFP1       | MTH GCSE Maths Online Course - Foundation - Probability           |           8 | 2022-06-26 15:24:54 |               1
-        9 | Statistics            | GFS1       | MTH GCSE Maths Online Course - Foundation - Statistics            |           9 | 2022-06-26 15:24:54 |               1
-       10 | Number 1              | GHN1       | MTH GCSE Maths Online Course - Higher - Number 1                  |           1 | 2022-06-26 15:24:54 |               2
-       11 | Number 2              | GHN2       | MTH GCSE Maths Online Course - Higher - Number 2                  |           2 | 2022-06-26 15:24:54 |               2
-       12 | Algebra 1             | GHA1       | MTH GCSE Maths Online Course - Higher - Algebra 1                 |           3 | 2022-06-26 15:24:54 |               2
-       13 | Algebra 2             | GHA2       | MTH GCSE Maths Online Course - Higher - Algebra 2                 |           4 | 2022-06-26 15:24:54 |               2
-       14 | Ratio and Measurement | GHRM       | MTH GCSE Maths Online Course - Higher - Ratio and Measurement     |           5 | 2022-06-26 15:24:54 |               2
-       15 | Ratio and Measurement | GHRM       | MTH GCSE Maths Online Course - Higher - Ratio and Measurement     |           5 | 2022-06-26 15:24:54 |               2
-       16 | Geometry 1            | GHG1       | MTH GCSE Maths Online Course - Higher - Geometry 1                |           6 | 2022-06-26 15:24:54 |               2
-       17 | Geometry 2            | GHG2       | MTH GCSE Maths Online Course - Higher - Geometry 2                |           7 | 2022-06-26 15:24:54 |               2
-       18 | Probability           | GHP1       | MTH GCSE Maths Online Course - Higher - Probability               |           8 | 2022-06-26 15:24:54 |               2
-       19 | Statistics            | GHS1       | MTH GCSE Maths Online Course - Higher - Statistics                |           9 | 2022-06-26 15:24:54 |               2
+        1 | Number 1              | GFN1       | MTH GCSE Maths Online Course - Foundation - Number 1              |           1 | 2022-06-28 13:04:25 |               1
+        2 | Number 2              | GFN2       | MTH GCSE Maths Online Course - Foundation - Number 2              |           2 | 2022-06-28 13:04:25 |               1
+        3 | Algebra 1             | GFA1       | MTH GCSE Maths Online Course - Foundation - Algebra 1             |           3 | 2022-06-28 13:04:25 |               1
+        4 | Algebra 2             | GFA2       | MTH GCSE Maths Online Course - Foundation - Algebra 2             |           4 | 2022-06-28 13:04:25 |               1
+        5 | Ratio and Measurement | GFRM       | MTH GCSE Maths Online Course - Foundation - Ratio and Measurement |           5 | 2022-06-28 13:04:25 |               1
+        6 | Geometry 1            | GFG1       | MTH GCSE Maths Online Course - Foundation - Geometry 1            |           6 | 2022-06-28 13:04:25 |               1
+        7 | Geometry 2            | GFG2       | MTH GCSE Maths Online Course - Foundation - Geometry 2            |           7 | 2022-06-28 13:04:25 |               1
+        8 | Probability           | GFP1       | MTH GCSE Maths Online Course - Foundation - Probability           |           8 | 2022-06-28 13:04:25 |               1
+        9 | Statistics            | GFS1       | MTH GCSE Maths Online Course - Foundation - Statistics            |           9 | 2022-06-28 13:04:25 |               1
+       10 | Number 1              | GHN1       | MTH GCSE Maths Online Course - Higher - Number 1                  |           1 | 2022-06-28 13:04:25 |               2
+       11 | Number 2              | GHN2       | MTH GCSE Maths Online Course - Higher - Number 2                  |           2 | 2022-06-28 13:04:25 |               2
+       12 | Algebra 1             | GHA1       | MTH GCSE Maths Online Course - Higher - Algebra 1                 |           3 | 2022-06-28 13:04:25 |               2
+       13 | Algebra 2             | GHA2       | MTH GCSE Maths Online Course - Higher - Algebra 2                 |           4 | 2022-06-28 13:04:25 |               2
+       14 | Ratio and Measurement | GHRM       | MTH GCSE Maths Online Course - Higher - Ratio and Measurement     |           5 | 2022-06-28 13:04:25 |               2
+       15 | Geometry 1            | GHG1       | MTH GCSE Maths Online Course - Higher - Geometry 1                |           6 | 2022-06-28 13:04:25 |               2
+       16 | Geometry 2            | GHG2       | MTH GCSE Maths Online Course - Higher - Geometry 2                |           7 | 2022-06-28 13:04:25 |               2
+       17 | Probability           | GHP1       | MTH GCSE Maths Online Course - Higher - Probability               |           8 | 2022-06-28 13:04:25 |               2
+       18 | Statistics            | GHS1       | MTH GCSE Maths Online Course - Higher - Statistics                |           9 | 2022-06-28 13:04:25 |               2
+       19 | New                   | GFA2       | MTH GCSE Maths Online Course - Foundation - Algebra 2             |           4 |                     |               1
 (19 rows)
 
 You are now connected to database "mthdb" as user "sheraz".

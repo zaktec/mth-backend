@@ -26,7 +26,7 @@ const { courseData, topicData} = data;
           course_desc VARCHAR(200) NOT NULL,
           course_level VARCHAR(100) NOT NULL,
           course_image VARCHAR(200) NOT NULL,
-          course_date timestamp 
+          course_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
        );
        `)   
     })
@@ -37,7 +37,7 @@ const { courseData, topicData} = data;
             topic_code VARCHAR(200) NOT NULL,
             topic_desc VARCHAR(200) NOT NULL,
             topic_index INT,
-            topic_date timestamp,
+            topic_created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             topic_course_id INT REFERENCES course(course_id) ON DELETE CASCADE
        );
        `)
@@ -48,7 +48,7 @@ const { courseData, topicData} = data;
      
      const sql1 = format(
       `INSERT INTO course 
-     (course_name, course_code, course_desc, course_level, course_image, course_date)
+     (course_name, course_code, course_desc, course_level, course_image, course_created_at)
      VALUES %L RETURNING *;`, formattedCourses
      );
   return db.query(sql1);
@@ -61,7 +61,7 @@ const { courseData, topicData} = data;
      const formattedTopics = formatTopicData(topicData)
       const sql2 = format(
        `INSERT INTO topic 
-      (topic_name, topic_code, topic_desc, topic_index, topic_date, topic_course_id)
+      (topic_name, topic_code, topic_desc, topic_index, topic_created_at, topic_course_id)
       VALUES %L RETURNING *;`, formattedTopics
       );
    return db.query(sql2);
