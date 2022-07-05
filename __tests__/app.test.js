@@ -8,7 +8,18 @@ const topics = require("../database/data/test-data/topics");
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
-describe("/api", () => {
+describe("/invalid_url", () => {
+  test("status 404 and message", () => {
+    return request(app)
+      .get("/invalid_url")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid URL");
+      });
+  });
+});
+
+describe("Test1  /api", () => {
   describe("GET", () => {
     test("status: 200 and returns a welcome message", () => {
       return request(app)
@@ -21,7 +32,8 @@ describe("/api", () => {
     });
   });
 });
-describe("/api/courses", () => {
+
+describe("Test2 /api/courses", () => {
   describe("GET", () => {
     test("status: 200 and returns an array of courses", () => {
       return request(app)
@@ -45,7 +57,8 @@ describe("/api/courses", () => {
     });
   });
 });
-describe("/api/topics", () => {
+
+describe("Test3 /api/topics", () => {
   describe("GET", () => {
     test("status: 200 and returns an array of topics", () => {
       return request(app)
@@ -68,17 +81,16 @@ describe("/api/topics", () => {
           });
         });
     });
-    test("200: topics are sorted by index number", () => {
+    test("QUERY: status 200 : topics are sorted by index number", () => {
       return request(app)
         .get("/api/topics")
         .expect(200)
         .then((res) => {
-        //  console.log(topics);
+          //  console.log(topics);
           expect(res.body.topics).toBeSortedBy("topic_index");
         });
     });
-
-    test("200: topics are sorted by passed query", () => {
+    test(" QUERY: status 200: topics are sorted by passed query", () => {
       return request(app)
         .get("/api/topics?sort_by=topic_created_at")
         .expect(200)
@@ -87,7 +99,6 @@ describe("/api/topics", () => {
           expect(res.body.topics).toBeSortedBy("topic_created_at");
         });
     });
-
     test(" ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
       return request(app)
         .get("/api/topics?sort_by=not_a_column")
@@ -97,6 +108,7 @@ describe("/api/topics", () => {
         });
     });
   });
+  
   describe("POST", () => {
     test("status: 201 and return the new topic", () => {
       return request(app)
@@ -106,8 +118,11 @@ describe("/api/topics", () => {
           topic_code: "GFA2",
           topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
           topic_index: 4,
-          //topic_created_at : new Date().toISOString().slice(0, 19).replace("T", " "),
-          topic_course_id: 1
+          topic_created_at: new Date()
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
+          topic_course_id: 1,
         })
         .expect(201)
         .then((res) => {
@@ -116,35 +131,48 @@ describe("/api/topics", () => {
             topic_code: "GFA2",
             topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
             topic_index: 4,
-            topic_created_at : null,
+            topic_created_at: expect.any(String),
             topic_course_id: 1,
-            topic_id: 19
+            topic_id: 19,
           });
         });
     });
   });
 });
 
-
-
-describe("/api/topics/:topic_id", () => {
+describe("Test4  /api/topics/:topic_id", () => {
   describe("GET", () => {
-  test("status: 200 and return a topic object", () => {
-    return request(app)
-      .get("/api/topics/19")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.topic).toEqual({
-          topic_name: "New",
-          topic_code: "GFA2",
-          topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
-          topic_index: 4,
-          topic_created_at : null,
-          topic_course_id: 1,
-          topic_id: 19
+    test("status: 200 and return a topic object", () => {
+      return request(app)
+        .get("/api/topics/18")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.topic).toEqual({
+            topic_name: "Statistics",
+            topic_code: "GHS1",
+            topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
+            topic_index: 9,
+            topic_created_at: expect.any(String),
+            topic_course_id: 2,
+            topic_id: 18,
+          });
         });
+    });
+    test("ERROR  -status: 400 and returns an error message", () => {
+      return request(app)
+        .get("/api/topics/invalid_id")
+        .expect(400)
+        .then((res) => {
+          expect(res.body.msg).toBe("Invalid input");
+        });
+    });
+  });
+  test("ERROR  -status: 404 and returns an error message", () => {
+    return request(app)
+      .get("/api/topics/1000")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Not found");
       });
   });
 });
-});
-

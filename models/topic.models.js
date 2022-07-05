@@ -49,7 +49,7 @@ exports.insertTopic = (topic) => {
 };
 
 exports.selectTopicById = (topic_id) => {
-  console.log(topic_id)
+  //console.log(topic_id)
   return db
   .query("SELECT * FROM topic where topic_id =$1;", [topic_id])
   .then(({ rows }) => {
