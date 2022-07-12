@@ -8,7 +8,7 @@ const topics = require("../database/data/test-data/topics");
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
-describe("/invalid_url", () => {
+describe( "Test1-   GET /invalid_url", () => {
   test("status 404 and message", () => {
     return request(app)
       .get("/invalid_url")
@@ -19,22 +19,33 @@ describe("/invalid_url", () => {
   });
 });
 
-describe("Test1  /api", () => {
-  describe("GET", () => {
+describe("Test2-  GET /api", () => {
+  test("status: 200 and returns a JSON", () => {
+    return request(app)
+      .get("/api/")
+      .expect(200)
+      .then((res) => {
+        //expect(res.body.msg).toBe("Welcome to the HomePage");
+      });
+  });
+});
+
+describe("Test3-  GET /api/homepage", () => {
     test("status: 200 and returns a welcome message", () => {
       return request(app)
         .get("/api/homepage")
         .expect(200)
         .then((res) => {
-          // console.log(res)
           expect(res.body.msg).toBe("Welcome to the HomePage");
         });
     });
   });
-});
 
-describe("Test2 /api/courses", () => {
-  describe("GET", () => {
+ //---------------------------------Courses--------------------------/
+
+
+describe("Test4-   GET /api/courses", () => {
+  //describe("GET", () => {
     test("status: 200 and returns an array of courses", () => {
       return request(app)
         .get("/api/courses")
@@ -54,12 +65,70 @@ describe("Test2 /api/courses", () => {
             });
           });
         });
+});
+test("QUERY: status 200 : courses are sorted by index number", () => {
+  return request(app)
+    .get("/api/courses")
+    .expect(200)
+    .then((res) => {
+      //  console.log(topics);
+      expect(res.body.courses).toBeSortedBy("course_id");
+    });
+});
+test("QUERY: status 200: topics are sorted by passed query", () => {
+  return request(app)
+    .get("/api/courses?sort_by=course_created_at")
+    .expect(200)
+    .then((res) => {
+      //console.log(topics);
+      expect(res.body.courses).toBeSortedBy("course_created_at");
+    });
+});
+test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+  return request(app)
+    .get("/api/courses?sort_by=not_a_column")
+    .expect(400)
+    .then((res) => {
+      expect(res.body.msg).toBe("bad request");
     });
   });
 });
 
-describe("Test3 /api/topics", () => {
-  describe("GET", () => {
+ 
+describe("Test5-   GET /api/courses/:course_id", () => {
+    test("Query: course_id existing, status: 200 and returns a course object", () => {
+      return request(app)
+        .get("/api/courses/1")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.course).toEqual({
+            course_code: "MTH-GF",
+            course_created_at: expect.any(String),
+            course_desc: "MTH GCSE Maths Foundation Online Course",
+            course_id: 1,
+            course_image: "/course/mth_gcse_foundation.png",
+            course_id: 1,
+            course_level: "Foundation",
+            course_name: "MTH GCSE Maths Foundation",
+          });
+        });
+      });
+      
+    
+        test("Query: course_id, non existent but valid. statud 404 and an error message", () => {
+          return request(app)
+          .get("/api/courses/1000")
+          .expect(404)
+          .then((res)=>{
+            expect(res.body.msg).toBe("Not found")
+          })
+        });
+      });
+//---------------------------------Topic--------------------------/
+
+
+describe("Test5-   GET /api/topics", () => {
+  //describe("GET", () => {
     test("status: 200 and returns an array of topics", () => {
       return request(app)
         .get("/api/topics")
@@ -90,7 +159,7 @@ describe("Test3 /api/topics", () => {
           expect(res.body.topics).toBeSortedBy("topic_index");
         });
     });
-    test(" QUERY: status 200: topics are sorted by passed query", () => {
+    test("QUERY: status 200: topics are sorted by passed query", () => {
       return request(app)
         .get("/api/topics?sort_by=topic_created_at")
         .expect(200)
@@ -99,17 +168,18 @@ describe("Test3 /api/topics", () => {
           expect(res.body.topics).toBeSortedBy("topic_created_at");
         });
     });
-    test(" ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+    test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
       return request(app)
         .get("/api/topics?sort_by=not_a_column")
         .expect(400)
         .then((res) => {
           expect(res.body.msg).toBe("bad request");
         });
-    });
+    //});
   });
+});
   
-  describe("POST", () => {
+  describe("Test6- POST /api/topics", () => {
     test("status: 201 and return the new topic", () => {
       return request(app)
         .post("/api/topics")
@@ -138,10 +208,10 @@ describe("Test3 /api/topics", () => {
         });
     });
   });
-});
 
-describe("Test4  /api/topics/:topic_id", () => {
-  describe("GET", () => {
+
+describe("Test7- GET   /api/topics/:topic_id", () => {
+  //describe("GET", () => {
     test("status: 200 and return a topic object", () => {
       return request(app)
         .get("/api/topics/18")
@@ -174,5 +244,5 @@ describe("Test4  /api/topics/:topic_id", () => {
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
       });
-  });
+  //});
 });

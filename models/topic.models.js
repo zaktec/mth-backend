@@ -1,8 +1,9 @@
 const db = require("../database/connection.js");
 
 exports.selectTopics = (sort_by = "topic_index") => {
-  //console.log(sort_by);
+  console.log(sort_by);
   // custom error handling
+  if (sort_by){
   const allowedSortBys = [
     "topic_id",
     "topic_index",
@@ -12,6 +13,8 @@ exports.selectTopics = (sort_by = "topic_index") => {
   if (!allowedSortBys.includes(sort_by)) {
     return Promise.reject({ status: 400, msg: "bad request" });
   }
+}
+
   return db
     .query(`SELECT * FROM topic ORDER BY ${sort_by} ASC;`)
     .then((result) => {
@@ -43,7 +46,7 @@ exports.insertTopic = (topic) => {
       ]
     )
     .then(({ rows }) => {
-      console.log(rows);
+      //console.log(rows);
       return rows[0];
     });
 };
@@ -53,7 +56,7 @@ exports.selectTopicById = (topic_id) => {
   return db
   .query("SELECT * FROM topic where topic_id =$1;", [topic_id])
   .then(({ rows }) => {
-    console.log(rows)
+   // console.log(rows)
   return rows[0];
 });
 }

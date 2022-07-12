@@ -2,10 +2,8 @@ const { selectTopics, insertTopic, selectTopicById } = require("../models/topic.
 
 exports.getTopics = (req, res, next) => {
   const { sort_by } = req.query;
-
-
-  
   selectTopics(sort_by)
+
     .then((topics) => {
       res.status(200).send({ topics });
     })
@@ -15,7 +13,7 @@ exports.getTopics = (req, res, next) => {
 
 exports.getTopicById = (req, res, next) => {
 const { topic_id} = req.params;
-console.log(topic_id)
+//console.log(topic_id)
 selectTopicById (topic_id).then((topic)=> {
   if (topic){
   res.status(200).send({topic})
