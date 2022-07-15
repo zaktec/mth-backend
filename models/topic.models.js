@@ -61,6 +61,14 @@ exports.selectTopicById = (topic_id) => {
 });
 }
 
-exports.deleteTopicById = () => {};
+exports.deleteTopicById= (topic_id) => {
+  return db
+    .query('DELETE FROM topic WHERE topic_id = $1 RETURNING *', [
+      topic_id,
+    ])
+    .then((result) => {
+      return result.rows[0];
+    });
+};
 
 exports.updateTopicsById = () => {};

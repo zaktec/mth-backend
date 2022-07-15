@@ -41,8 +41,51 @@ exports.selectCourseById = (course_id) => {
  }
 
 
-exports.insertCourse = () => {};
+exports.insertCourse = (course) => {
+  const {   course_code, course_created_at, course_desc,
+  course_image, course_level, course_name } = course
 
-exports.deleteCourseById= () => {};
 
-exports.updateCourseById  = () => {}; 
+  return db.query(`INSERT INTO course (course_code, course_created_at, course_desc,
+    course_image, course_level, course_name) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *; `,
+    [   course_code, course_created_at, course_desc, 
+      course_image, course_level, course_name ]
+      )
+      .then(({ rows }) => {
+        console.log(rows);
+        return rows[0];
+      });
+  };
+
+exports.deleteCourseById= (course_id) => {
+  return db
+    .query('DELETE FROM course WHERE course_id = $1 RETURNING *', [
+      course_id,
+    ])
+    .then((result) => {
+      return result.rows[0];
+    });
+};
+
+exports.updateCourseById  = (course, course_id) => {
+  //console.log('votes and article_id', votes, article_id);
+  const {   course_code, course_created_at, course_desc,
+    course_image, course_level, course_name } = course
+  return db
+    .query(
+      `UPDATE course SET 
+      course_code = $1, 
+      course_created_at= $2, 
+      course_desc = $3, 
+      course_image = $4, 
+      course_level = $5, 
+      course_name = $6
+      WHERE course_id = $7 RETURNING *;`,
+      [ course_code, course_created_at, course_desc, 
+        course_image, course_level, course_name, course_id ]
+    )
+    .then(({ rows }) => {
+      console.log(rows)
+      return rows[0];
+    });
+};

@@ -1,36 +1,95 @@
-const {  selectCourses, selectCourseById } =require('../models/course.models.js');
-const { checkCourseExists } = require('../utils/utils.js');
+const {
+  selectCourses,
+  selectCourseById,
+  insertCourse,
+  deleteCourseById,
+  updateCourseById
+} = require("../models/course.models.js");
+const { checkCourseExists } = require("../utils/utils.js");
 
-exports.getCourses = ( req, res, next) => {
+//app.get("/api/courses", getCourses);
+exports.getCourses = (req, res, next) => {
   const { sort_by } = req.query;
-selectCourses(sort_by)
-.then((courses) => {
-  
-    res.status(200).send({ courses });
-  })
-  .catch(next); 
+  selectCourses(sort_by)
+    .then((courses) => {
+      res.status(200).send({ courses });
+    })
+    .catch((err) =>{
+      next(err);
+    });
 };
 
-exports.getCourseById  = (req, res, next) => {
+//app.get("/api/courses/:course_id", getCourseById);
+exports.getCourseById = (req, res, next) => {
+  const { course_id } = req.params;
+
+  return checkCourseExists(course_id)
+    .then((courseExist) => {
+      if (courseExist) {
+        return selectCourseById(course_id).then((course) => {
+          res.status(200).send({ course });
+        });
+      } else {
+        return Promise.reject({ status: 404, msg: "Not found" });
+      }
+    })
+    .catch((err) =>{
+      next(err);
+    });
+};
+
+exports.postCourse = (req, res, next) => {
+  const course =req.body;
+  console.log(course)
+  insertCourse(course)
+  .then((course) => {
+      res.status(201).send({course});
+  })
+  .catch((err) => {
+    next(err);
+  });
+};
+
+
+
+exports.removeCourseById = (req, res, next) => {
   const { course_id } = req.params;
   console.log(course_id)
 
-  return checkCourseExists(course_id)
-  .then((courseExist) => {
-    if (courseExist){
-      return selectCourseById(course_id).then((course)=> {
-        res.status(200).send({course})
-    
-  })
-  } else {
-    return Promise.reject ({ status: 404, msg: "Not found"});
-  }
+  deleteCourseById(course_id)
+    .then((deletedCourse) => {
+      console.log(deletedCourse)
+      if (deletedCourse) {
+        res.sendStatus(204);
+      } else {
+        return Promise.reject({ status: 404, msg: 'Not found' });
+      }
     })
-    .catch(next);
-  };
+    .catch((err) => {
+      next(err);
+    });
+};
 
-exports.postCourse = () => {};
+/**
+ * PATCH /api/articles/:article_id
+ */
 
-exports.removeCourseById = () => {};
-
-exports.patchCourseById = () => {};
+ exports.patchCourseById = (req, res, next) => {
+  //console.log("pdateArticleByVotes controller");
+  const course =req.body;
+  const { course_id } = req.params;
+  console.log(course_id)
+  return updateCourseById(course, course_id)
+    .then((updatedCourse) => {
+      if (updatedCourse) {
+        //console.log(article);
+        res.status(200).send({ updatedCourse });
+      } else {
+        return Promise.reject({ status: 404, msg: "Not found" });
+      }
+    })
+    .catch((err) => {
+      // console.log(err)
+      next(err);
+    });
+};
