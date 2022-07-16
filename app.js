@@ -3,7 +3,7 @@ const app = express();
 const fs = require('fs')
 const  { getHomepage, getEndpoints } = require("./controllers/homepage.controllers.js")
 const  { getCourses, getCourseById, postCourse, removeCourseById, patchCourseById } = require("./controllers/course.controllers.js")
-const  { getTopics, postTopic,  getTopicById, removeTopicById } = require("./controllers/topic.controllers.js")
+const  { getTopics, postTopic,  getTopicById, removeTopicById, patchTopicById } = require("./controllers/topic.controllers.js")
 const  { getUsers} = require("./controllers/user.controllers.js")
 const  { getQuestions} = require("./controllers/question.controllers.js")
 const  { getQuizzes} = require("./controllers/quiz.controllers.js");
@@ -33,6 +33,7 @@ app.get("/api/topics", getTopics);
 app.get("/api/topics/:topic_id", getTopicById );
 app.post("/api/topics", postTopic); 
 app.delete("/api/topics/:topic_id", removeTopicById); 
+app.patch("/api/topics/:topic_id", patchTopicById); 
 
 
 app.get("/api/users", getUsers)  

@@ -2,20 +2,20 @@ const {
   selectTopics,
   insertTopic,
   selectTopicById,
-  deleteTopicById
+  deleteTopicById,
+  updateTopicById,
 } = require("../models/topic.models.js");
 
-//app.get("/api/topics", getTopics);
-exports.getTopics = (req, res, next) => {
-  const { sort_by } = req.query;
-  selectTopics(sort_by)
-    .then((topics) => {
-      res.status(200).send({ topics });
-    })
-    .catch(next);
-  // console.log(err)
-};
 
+exports.getTopics = async (req, res, next) => {
+  const { sort_by } = req.query;
+  try {
+    const topics = await selectTopics(sort_by);
+    res.status(200).send({ topics });
+  } catch (err) {
+    next(err);
+  }
+};
 //app.get("/api/topics/:topic_id", getTopicById );
 exports.getTopicById = (req, res, next) => {
   const { topic_id } = req.params;
@@ -27,7 +27,9 @@ exports.getTopicById = (req, res, next) => {
         return Promise.reject({ status: 404, msg: "Not found" });
       }
     })
-    .catch(next);
+    .catch((err) => {
+      next(err);
+    });
 };
 
 exports.postTopic = (req, res, next) => {
@@ -37,25 +39,39 @@ exports.postTopic = (req, res, next) => {
     .then((topic) => {
       res.status(201).send({ topic });
     })
-    .catch(next);
+    .catch((err) => {
+      next(err);
+    });
 };
 
 exports.removeTopicById = (req, res, next) => {
   const { topic_id } = req.params;
-  console.log(topic_id)
 
   deleteTopicById(topic_id)
     .then((deletedTopics) => {
-      console.log(deletedTopics)
       if (deletedTopics) {
         res.sendStatus(204);
       } else {
-        return Promise.reject({ status: 404, msg: 'Not found' });
+        return Promise.reject({ status: 404, msg: "Not found" });
       }
     })
     .catch((err) => {
       next(err);
     });
 };
-
-exports.patchTopicById = () => {};
+exports.patchTopicById = (req, res, next) => {
+  const topic = req.body;
+  const { topic_id } = req.params;
+  return updateTopicById(topic, topic_id)
+    .then((updatedTopic) => {
+      if (updatedTopic) {
+        res.status(200).send({ updatedTopic });
+      } else {
+        return Promise.reject({ status: 404, msg: "Not found" });
+      }
+    })
+    .catch((err) => {
+      // console.log(err)
+      next(err);
+    });
+};

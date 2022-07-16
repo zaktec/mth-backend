@@ -1,7 +1,6 @@
 const db = require("../database/connection.js");
 
 exports.selectTopics = (sort_by = "topic_index") => {
-  console.log(sort_by);
   // custom error handling
   if (sort_by){
   const allowedSortBys = [
@@ -71,4 +70,44 @@ exports.deleteTopicById= (topic_id) => {
     });
 };
 
-exports.updateTopicsById = () => {};
+exports.updateTopicById = () => {};
+
+
+exports.deleteCourseById= (course_id) => {
+  return db
+    .query('DELETE FROM course WHERE course_id = $1 RETURNING *', [
+      course_id,
+    ])
+    .then((result) => {
+      return result.rows[0];
+    });
+};
+
+exports.updateTopicById  = (topic, topic_id) => {
+  //console.log('votes and article_id', votes, article_id);
+  const {
+    topic_name,
+    topic_code,
+    topic_desc,
+    topic_index,
+    topic_created_at,
+    topic_course_id
+  } = topic;
+  return db
+    .query(
+      `UPDATE topic SET topic_name = $1, topic_code = $2, topic_desc = $3, topic_index = $4,  topic_created_at = $5, topic_course_id= $6 WHERE topic_id = $7 RETURNING *;`,
+      [
+        topic_name,
+        topic_code,
+        topic_desc,
+        topic_index,
+        topic_created_at,
+        topic_course_id,
+        topic_id,
+      ]
+    )
+    .then(({ rows }) => {
+      //console.log(rows)
+      return rows[0];
+    });
+};

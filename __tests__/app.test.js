@@ -129,13 +129,16 @@ describe("Test5-   GET /api/courses/:course_id", () => {
   });
 });
 
-describe("Test7- POST /api/courses", () => {
+describe("Test6- POST /api/courses", () => {
   test("status: 201 and return the new course", () => {
     return request(app)
       .post("/api/courses")
       .send({
         course_code: "New- MTH-GF",
-        course_created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+        course_created_at: new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
         course_desc: "MTH GCSE Maths Foundation Online Course",
         course_image: "/course/mth_gcse_foundation.png",
         course_level: "Foundation",
@@ -154,28 +157,29 @@ describe("Test7- POST /api/courses", () => {
         });
       });
   });
-  test("Missing Field. status 400 and return error message", ()=>{
+  test("Missing Field. status 400 and return error message", () => {
     return request(app)
-    .post("/api/courses")
-    .send({
-      course_code: "New- MTH-GF",
-        course_created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+      .post("/api/courses")
+      .send({
+        course_code: "New- MTH-GF",
+        course_created_at: new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
         course_desc: "MTH GCSE Maths Foundation Online Course",
         course_image: "/course/mth_gcse_foundation.png",
         course_level: "Foundation",
-    })
-    .expect(400)
-    .then((res) =>{
-      expect(res.body.msg).toBe("Invalid input")
-    })
-  })
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
 });
 
-describe("DELETE /api/course/:course_id", () => {
+describe("Test7-   DELETE /api/course/:course_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
-    return request(app)
-    .delete("/api/courses/1")
-    .expect(204);
+    return request(app).delete("/api/courses/1").expect(204);
   });
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
@@ -191,13 +195,16 @@ describe("DELETE /api/course/:course_id", () => {
   });
 });
 
-describe("PATCH /api/courses/:course_id", () => {
-  test.only("Status 200:  ", () => {
+describe("Test8-   PATCH /api/courses/:course_id", () => {
+  test("Status 200:  ", () => {
     return request(app)
       .patch("/api/courses/1")
       .send({
-        ccourse_code: "New- MTH-GF",
-        course_created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+        course_code: "New- MTH-GF",
+        course_created_at: new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
         course_desc: "MTH GCSE Maths Foundation Online Course",
         course_image: "/course/mth_gcse_foundation.png",
         course_level: "Foundation",
@@ -205,13 +212,14 @@ describe("PATCH /api/courses/:course_id", () => {
       })
       .expect(200)
       .then((res) => {
-        expect(res.body.course).toEqual({
-        course_code: "New- MTH-GF",
-        course_created_at: new Date().toISOString().slice(0, 19).replace("T", " "),
-        course_desc: "MTH GCSE Maths Foundation Online Course",
-        course_image: "/course/mth_gcse_foundation.png",
-        course_level: "Foundation",
-        course_name: "MTH GCSE Maths Foundation",
+        expect(res.body.updatedCourse).toEqual({
+          course_code: "New- MTH-GF",
+          course_created_at: expect.any(String),
+          course_desc: "MTH GCSE Maths Foundation Online Course",
+          course_image: "/course/mth_gcse_foundation.png",
+          course_level: "Foundation",
+          course_name: "MTH GCSE Maths Foundation",
+          course_id: 1,
         });
       });
   });
@@ -219,7 +227,7 @@ describe("PATCH /api/courses/:course_id", () => {
 
 //---------------------------------Topic--------------------------/
 
-describe("Test6-   GET /api/topics", () => {
+describe("Test9-   GET /api/topics", () => {
   //describe("GET", () => {
   test("status: 200 and returns an array of topics", () => {
     return request(app)
@@ -271,7 +279,7 @@ describe("Test6-   GET /api/topics", () => {
   });
 });
 
-describe("Test7- POST /api/topics", () => {
+describe("Test10- POST /api/topics", () => {
   test("status: 201 and return the new topic", () => {
     return request(app)
       .post("/api/topics")
@@ -301,7 +309,7 @@ describe("Test7- POST /api/topics", () => {
   });
 });
 
-describe("Test8- GET   /api/topics/:topic_id", () => {
+describe("Test11- GET   /api/topics/:topic_id", () => {
   //describe("GET", () => {
   test("status: 200 and return a topic object", () => {
     return request(app)
@@ -335,14 +343,11 @@ test("ERROR  -status: 404 and returns an error message", () => {
     .then((res) => {
       expect(res.body.msg).toBe("Not found");
     });
-  
 });
 
-describe("DELETE /api/topic/:topic_id", () => {
+describe("Test12-  DELETE /api/topic/:topic_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
-    return request(app)
-    .delete("/api/topics/1")
-    .expect(204);
+    return request(app).delete("/api/topics/1").expect(204);
   });
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
@@ -355,5 +360,34 @@ describe("DELETE /api/topic/:topic_id", () => {
       .delete("/api/topics/1000")
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
+  });
+});
+describe("Test13- PATCH /api/topic/:topic_id", () => {
+  test("Status 200: and return a updated topic object  ", () => {
+    return request(app)
+      .patch("/api/topics/1")
+      .send({
+        topic_name: "Statistics",
+        topic_code: "GHS1",
+        topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
+        topic_index: 9,
+        topic_created_at: new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
+        topic_course_id: 2,
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.updatedTopic).toEqual({
+          topic_name: "Statistics",
+          topic_code: "GHS1",
+          topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
+          topic_index: 9,
+          topic_created_at: expect.any(String),
+          topic_course_id: 2,
+          topic_id: 1,
+        });
+      });
   });
 });

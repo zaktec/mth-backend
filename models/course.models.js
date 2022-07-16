@@ -1,91 +1,93 @@
-const db = require("../database/connection.js")
-
+const db = require("../database/connection.js");
 
 exports.selectCourses = (sort_by = "course_id") => {
-
-   if (sort_by){
-      const allowedSortBys = [
-        "course_id",
-        "course_code",
-        "course_created_at",
-      ];
-      if (!allowedSortBys.includes(sort_by)) {
-        return Promise.reject({ status: 400, msg: "bad request" });
-      }
+  if (sort_by) {
+    const allowedSortBys = ["course_id", "course_code", "course_created_at"];
+    if (!allowedSortBys.includes(sort_by)) {
+      return Promise.reject({ status: 400, msg: "bad request" });
     }
-return db.query(`SELECT * FROM course ORDER BY ${sort_by} ASC;`).then(( result) => {
-  
-   //console.log(result)
-   return result.rows;
-
-});
-
+  }
+  return db
+    .query(`SELECT * FROM course ORDER BY ${sort_by} ASC;`)
+    .then((result) => {
+      //console.log(result)
+      return result.rows;
+    });
 };
 
-
 exports.selectCourseById = (course_id) => {
-   console.log(course_id)
-   let queryString = "SELECT * FROM course";
-   const queryParams = [];
-   if (course_id){
+  let queryString = "SELECT * FROM course";
+  const queryParams = [];
+  if (course_id) {
     queryString += " where course_id =$1;";
     queryParams.push(course_id);
-   }
-   console.log(queryString, queryParams)
-   return db.query(queryString, queryParams).then(({ rows }) => {
-    //console.log(rows)
-    console.log(rows)
-   return rows[0];
- 
- });
- }
-
+  }
+  //console.log(queryString, queryParams);
+  return db.query(queryString, queryParams).then(({ rows }) => {
+    return rows[0];
+  });
+};
 
 exports.insertCourse = (course) => {
-  const {   course_code, course_created_at, course_desc,
-  course_image, course_level, course_name } = course
+  const {
+    course_code,
+    course_created_at,
+    course_desc,
+    course_image,
+    course_level,
+    course_name,
+  } = course;
 
-
-  return db.query(`INSERT INTO course (course_code, course_created_at, course_desc,
-    course_image, course_level, course_name) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *; `,
-    [   course_code, course_created_at, course_desc, 
-      course_image, course_level, course_name ]
-      )
-      .then(({ rows }) => {
-        console.log(rows);
-        return rows[0];
-      });
-  };
-
-exports.deleteCourseById= (course_id) => {
   return db
-    .query('DELETE FROM course WHERE course_id = $1 RETURNING *', [
-      course_id,
-    ])
+    .query(
+      `INSERT INTO course (course_code, course_created_at, course_desc,
+    course_image, course_level, course_name) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *; `,
+      [
+        course_code,
+        course_created_at,
+        course_desc,
+        course_image,
+        course_level,
+        course_name,
+      ]
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
+
+exports.deleteCourseById = (course_id) => {
+  return db
+    .query("DELETE FROM course WHERE course_id = $1 RETURNING *", [course_id])
     .then((result) => {
       return result.rows[0];
     });
 };
 
-exports.updateCourseById  = (course, course_id) => {
+exports.updateCourseById = (course, course_id) => {
   //console.log('votes and article_id', votes, article_id);
-  const {   course_code, course_created_at, course_desc,
-    course_image, course_level, course_name } = course
+  const {
+    course_code,
+    course_created_at,
+    course_desc,
+    course_image,
+    course_level,
+    course_name,
+  } = course;
   return db
     .query(
-      `UPDATE course SET 
-      course_code = $1, 
-      course_created_at= $2, 
-      course_desc = $3, 
-      course_image = $4, 
-      course_level = $5, 
-      course_name = $6
-      WHERE course_id = $7 RETURNING *;`,
-      [ course_code, course_created_at, course_desc, 
-        course_image, course_level, course_name, course_id ]
+      `UPDATE course SET course_code = $1, course_created_at = $2, course_desc = $3, course_image = $4, course_level = $5, course_name = $6 WHERE course_id = $7 RETURNING *;`,
+      [
+        course_code,
+        course_created_at,
+        course_desc,
+        course_image,
+        course_level,
+        course_name,
+        course_id,
+      ]
     )
     .then(({ rows }) => {
-      console.log(rows)
       return rows[0];
     });
 };
