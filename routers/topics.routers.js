@@ -1,9 +1,22 @@
-const express = require('express');
-const { getTopics } = require('../controllers/topics.controllers');
+const express = require("express");
+const {
+  getTopics,
+  postTopic,
+  getTopicById,
+  removeTopicById,
+  patchTopicById,
+} = require("../controllers/topic.controllers.js");
 const topicRouter = express.Router();
 
-// everything starts with /api/topics/ 
 
-topicRouter.get('/', getTopics)
+// everything starts with /api/topics/
+
+topicRouter.get("/", getTopics);
+
+topicRouter.get("/", getTopics);
+topicRouter.get("/:topic_id", getTopicById);
+topicRouter.post("/", postTopic);
+topicRouter.delete("/:topic_id", removeTopicById);
+topicRouter.patch("/:topic_id", patchTopicById);
 
 module.exports = topicRouter;
