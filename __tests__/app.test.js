@@ -9,7 +9,7 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe("Test1-   GET /invalid_url", () => {
-  test("status 404 and message", () => {
+  test("ERROR: status 404 and returns a message when invalid url is passed ", () => {
     return request(app)
       .get("/invalid_url")
       .expect(404)
@@ -25,7 +25,6 @@ describe("Test2-  GET /api", () => {
       .get("/api/")
       .expect(200)
       .then((res) => {
-        //expect(res.body.msg).toBe("Welcome to the HomePage");
       });
   });
 });
@@ -111,7 +110,7 @@ describe("Test5-   GET /api/courses/:course_id", () => {
       });
   });
 
-  test("Query: course_id, non existent but valid. statud 404 and an error message", () => {
+  test("Error: course_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
       .get("/api/courses/1000")
       .expect(404)
@@ -119,7 +118,7 @@ describe("Test5-   GET /api/courses/:course_id", () => {
         expect(res.body.msg).toBe("Not found");
       });
   });
-  test("Query: course_id: invalid course_id. status 404 and an error message", () => {
+  test("Error: course_id: invalid course_id. status 404 and an error message", () => {
     return request(app)
       .get("/app/courses/a")
       .expect(404)
@@ -196,7 +195,7 @@ describe("Test7-   DELETE /api/course/:course_id", () => {
 });
 
 describe("Test8-   PATCH /api/courses/:course_id", () => {
-  test("Status 200:  ", () => {
+  test("Status 200: and returns an updated course ", () => {
     return request(app)
       .patch("/api/courses/1")
       .send({
