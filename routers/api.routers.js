@@ -1,6 +1,7 @@
 const express = require("express");
 const topicRouter = require("./topics.routers");
-const articleRouter = require("./courses.routers");
+const courseRouter = require("./courses.routers");
+const userRouter = require("./users.routers")
 //const commentRouter =require('./comments.routers')
 const {
   getHomepage,
@@ -17,8 +18,8 @@ apiRouter.get("/homepage", getHomepage);
 
 apiRouter.use("/topics", topicRouter);
 
-apiRouter.use("/courses", articleRouter);
+apiRouter.use("/courses", courseRouter);
 
-//apiRouter.use('/comments', commentRouter)
+apiRouter.use('/users', userRouter)
 
 module.exports = apiRouter;

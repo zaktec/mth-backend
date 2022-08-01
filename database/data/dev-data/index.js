@@ -1,3 +1,7 @@
+exports.topicData = require('./topics');
 exports.courseData = require('./courses')
-exports.topicData = require('./topics')
-//console.log(courseData)
+
+//console.log(this.courseData)
+
+
+//console.log(this.topicData) 

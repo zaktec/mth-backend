@@ -1,4 +1,4 @@
-const {  selectUsers } =require('../models/user.models.js')
+const {  selectUsers } =require('../models/student.models.js')
 
 exports.getUsers = ( req, res) => {
 

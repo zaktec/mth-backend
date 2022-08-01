@@ -2,22 +2,22 @@
   "GET /invalid_url": {
     "description": "Serves a error message when invalid url is passed",
     "exampleResponse": {
-    "error": 
-      {
+      "error": {
         "status": "404",
         "msg": "Invalid URL"
       }
-  }},
+    }
+  },
 
-"GET /api": {
-  "description": "serves up a json representation of all the available endpoints of the api"
-},
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints of the api"
+  },
 
   "GET /api/homepage": {
     "description": "serves up a welcome message to my user",
     "msg": {
-        "msg": "Welcome to the HomePage"
-      }
+      "msg": "Welcome to the HomePage"
+    }
   },
 
   "GET /api/courses": {
@@ -33,27 +33,30 @@
           "course_level": "Foundation",
           "course_image": "/course/mth_gcse_foundation.png",
           "course_created_at": 1527695953341
-        }]
-    }},
+        }
+      ]
+    }
+  },
 
-  "query1":{
+  "query1": {
     "sort_by": "column name to sort_by"
   },
-  "query2":{
+  "query2": {
     "order": "column name to sort_by"
   },
-  "query3":{
+  "query3": {
     "topic": "column name to sort_by"
   },
 
   "GET /api/courses?sort_by=not_a_column": {
     "description": "Serves an error message for an invalid sort_by column",
     "exampleResponse": {
-    "error": {
+      "error": {
         "status": 404,
         "msg": "bad request"
       }
-  }},
+    }
+  },
 
   "GET /api/courses/:course_id": {
     "description": "serves a course object with a given id",
@@ -68,26 +71,30 @@
           "course_level": "Foundation",
           "course_image": "/course/mth_gcse_foundation.png",
           "course_created_at": 1527695953341
-        }]
-  }},
-  
+        }
+      ]
+    }
+  },
+
   "GET /api/courses/1000": {
     "description": "Serves a error message when invalid course id is non existent is  passed",
     "exampleResponse": {
-    "error": {
+      "error": {
         "status": "404",
         "msg": "Not found"
       }
-  }},
+    }
+  },
 
   "GET /app/courses/a": {
     "description": "Serves a error message when invalid course id is  passed",
     "exampleResponse": {
-    "error": {
+      "error": {
         "status": "404",
         "msg": "Invalid URL"
       }
-  }},
+    }
+  },
 
   "POST /api/courses": {
     "description": "serves an array of all topics",
@@ -102,36 +109,38 @@
           "course_level": "Foundation",
           "course_image": "/course/mth_gcse_foundation.png",
           "course_created_at": 1527695953341
-        }]
-    }},
-
-    "POST /app/courses": {
-      "description": "Serves a error message when a missing field is passed",
-      "exampleResponse": {
-      "error": {
-          "status": "400",
-          "msg": "Invalid input"
         }
-    }},
+      ]
+    }
+  },
 
-    "DELETE /api/course/:course_id": {
-      "description": "serves an empty response",
-      "exampleResponse": {
-        "courses": {
-          }
+  "POST /app/courses": {
+    "description": "Serves a error message when a missing field is passed",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
       }
-    },
+    }
+  },
+
+  "DELETE /api/course/:course_id": {
+    "description": "serves an empty response",
+    "exampleResponse": {
+      "courses": {}
+    }
+  },
 
   "PATCH /api/course/:course_id": {
     "description": " serves an updated course object ",
-    "exampleRequest": { 
+    "exampleRequest": {
       "course_name": "MTH GCSE Maths Foundation",
-          "course_id": 1,
-          "course_code": "MTH-GF",
-          "course_desc": "MTH GCSE Maths Foundation Online Course",
-          "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png",
-          "course_created_at": 1527695953341
+      "course_id": 1,
+      "course_code": "MTH-GF",
+      "course_desc": "MTH GCSE Maths Foundation Online Course",
+      "course_level": "Foundation",
+      "course_image": "/course/mth_gcse_foundation.png",
+      "course_created_at": 1527695953341
     },
     "exampleResponse": {
       "updatedCourse": [
@@ -143,142 +152,128 @@
           "course_level": "Foundation",
           "course_image": "/course/mth_gcse_foundation.png",
           "course_created_at": 1527695953341
-        }
-      ]
-    }
+        }]
+    }},
+
+  "GET /api/topics": {
+    "description": "serves an articles array of topics objects",
+    "queries": ["course created by", "topicid", "sort_by", "order"],
+    "exampleResponse": {
+      "topic": [
+        {
+          "topic_name": "Number 1",
+          "topic_id": 1,
+          "topic_code": "GFN1",
+          "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+          "topic_index": 1,
+          "topic_course_id": 1,
+          "topic_created_at": 1527695953341
+        }]
+    }},
+
+  "query 1": {
+    "sort_by": "column name to sort_by"
+  },
+  "query 2": {
+    "order": "column name to sort_by"
+  },
+  "query 3": {
+    "topic": "column name to sort_by"
   },
 
-/* djkjd */
+  "GET /api/topics?sort_by=not_a_column": {
+    "description": "Serves an error message for an invalid sort_by column",
+    "exampleResponse": {
+      "error": {
+        "status": 404,
+        "msg": "bad request"
+      }}
+  },
 
-"GET /api/topics": {
-  "description": "serves an articles array of topics objects",
-  "queries": ["course created by", "topicid", "sort_by", "order"],
-  "exampleResponse": {
-    "courses": [
-      {
-        "course_name": "MTH GCSE Maths Foundation",
-        "course_id": 1,
-        "course_code": "MTH-GF",
-        "course_desc": "MTH GCSE Maths Foundation Online Course",
-        "course_level": "Foundation",
-        "course_image": "/course/mth_gcse_foundation.png",
-        "course_created_at": 1527695953341
-      }]
+  "GET /api/topics/:topic_id": {
+    "description": "serves a topic object with a given id",
+    "queries": ["author", "topic", "sort_by", "order"],
+    "exampleResponse": {
+      "topic": {
+        "topic_name": "Number 1",
+        "topic_id": 1,
+        "topic_code": "GFN1",
+        "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+        "topic_index": 1,
+        "topic_course_id": 1,
+        "topic_created_at": 1527695953341
+        }
   }},
 
-"query1":{
-  "sort_by": "column name to sort_by"
-},
-"query2":{
-  "order": "column name to sort_by"
-},
-"query3":{
-  "topic": "column name to sort_by"
-},
+  "GET /api/topics/1000": {
+    "description": "Serves a error message when invalid course id is non existent is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }},
 
-"GET /api/courses?sort_by=not_a_column": {
-  "description": "Serves an error message for an invalid sort_by column",
-  "exampleResponse": {
-  "error": {
-      "status": 404,
-      "msg": "bad request"
-    }
-}},
+  "GET /app/topics/a": {
+    "description": "Serves a error message when invalid course id is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Invalid URL"
+      }
+    }},
 
-"GET /api/courses/:course_id": {
-  "description": "serves a course object with a given id",
-  "queries": ["author", "topic", "sort_by", "order"],
-  "exampleResponse": {
-    "course": [
-      {
-        "course_name": "MTH GCSE Maths Foundation",
-        "course_id": 1,
-        "course_code": "MTH-GF",
-        "course_desc": "MTH GCSE Maths Foundation Online Course",
-        "course_level": "Foundation",
-        "course_image": "/course/mth_gcse_foundation.png",
-        "course_created_at": 1527695953341
-      }]
-}},
+  "POST /api/topics": {
+    "description": "serves an array of all topics",
+    "queries": ["author", "topic", "sort_by", "order"],
+    "exampleResponse": {
+      "topic": {
+        "topic_name": "Number 1",
+        "topic_id": 1,
+        "topic_code": "GFN1",
+        "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+        "topic_index": 1,
+        "topic_course_id": 1,
+        "topic_created_at": 1527695953341
+        }  
+    }},
 
-"GET /api/courses/1000": {
-  "description": "Serves a error message when invalid course id is non existent is  passed",
-  "exampleResponse": {
-  "error": {
-      "status": "404",
-      "msg": "Not found"
-    }
-}},
-
-"GET /app/courses/a": {
-  "description": "Serves a error message when invalid course id is  passed",
-  "exampleResponse": {
-  "error": {
-      "status": "404",
-      "msg": "Invalid URL"
-    }
-}},
-
-"POST /api/courses": {
-  "description": "serves an array of all topics",
-  "queries": ["author", "topic", "sort_by", "order"],
-  "exampleResponse": {
-    "courses": [
-      {
-        "course_name": "MTH GCSE Maths Foundation",
-        "course_id": 1,
-        "course_code": "MTH-GF",
-        "course_desc": "MTH GCSE Maths Foundation Online Course",
-        "course_level": "Foundation",
-        "course_image": "/course/mth_gcse_foundation.png",
-        "course_created_at": 1527695953341
-      }]
-  }},
-
-  "POST /app/courses": {
+  "POST /app/topics": {
     "description": "Serves a error message when a missing field is passed",
     "exampleResponse": {
-    "error": {
+      "error": {
         "status": "400",
         "msg": "Invalid input"
-      }
-  }},
+      }}
+  },
 
-  "DELETE /api/course/:course_id": {
+  "DELETE /api/topic/:topic_id": {
     "description": "serves an empty response",
     "exampleResponse": {
-      "courses": {
-        }
+      "topic": {}
     }
   },
 
-"PATCH /api/course/:course_id": {
-  "description": " serves an updated course object ",
-  "exampleRequest": { 
-    "course_name": "MTH GCSE Maths Foundation",
-        "course_id": 1,
-        "course_code": "MTH-GF",
-        "course_desc": "MTH GCSE Maths Foundation Online Course",
-        "course_level": "Foundation",
-        "course_image": "/course/mth_gcse_foundation.png",
-        "course_created_at": 1527695953341
-  },
-  "exampleResponse": {
-    "updatedCourse": [
-      {
-        "course_name": "MTH GCSE Maths Foundation",
-        "course_id": 1,
-        "course_code": "MTH-GF",
-        "course_desc": "MTH GCSE Maths Foundation Online Course",
-        "course_level": "Foundation",
-        "course_image": "/course/mth_gcse_foundation.png",
-        "course_created_at": 1527695953341
-      }
-    ]
-  }
+  "PATCH /api/topic/:topic_id": {
+    "description": " serves an updated topic object ",
+    "exampleRequest": {
+      "topic_name": "Number 1",
+        "topic_id": 1,
+        "topic_code": "GFN1",
+        "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+        "topic_index": 1,
+        "topic_course_id": 1,
+        "topic_created_at": 1527695953341
+    },
+    "exampleResponse": {
+      "updatedTopic": {
+          "topic_name": "Number 1",
+        "topic_id": 1,
+        "topic_code": "GFN1",
+        "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+        "topic_index": 1,
+        "topic_course_id": 1,
+        "topic_created_at": 1527695953341
+        }
+    }}
 }
-
-
-
-}  
-
