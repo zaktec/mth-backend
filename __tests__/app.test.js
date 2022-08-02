@@ -398,17 +398,55 @@ describe.only("Test14-   GET /api/tutors", () => {
       .get("/api/tutors")
       .expect(200)
       .then((res) => {
-          console.log(res)
-        expect(res.body.courses).toBeInstanceOf(Array);
-        expect(res.body.courses).toHaveLength(5);
-        res.body.courses.forEach((course) => {
-          expect(course).toMatchObject({
-            course_code: expect.any(String),
-            course_created_at: expect.any(String),
-            course_desc: expect.any(String),
-            course_id: expect.any(Number),
-            course_level: expect.any(String),
-            course_name: expect.any(String),
+          //console.log(res)
+        expect(res.body.tutors).toBeInstanceOf(Array);
+        expect(res.body.tutors).toHaveLength(1);
+        res.body.tutors.forEach((tutor) => {
+          expect(tutor).toMatchObject({
+            tutor_firstname: expect.any(String),
+            tutor_lastname: expect.any(String),
+            tutor_email: expect.any(String),
+            tutor_active: expect.any(Boolean),
+            tutor_image: expect.any(String),
+            tutor_created_at: expect.any(String),
+          });
+        });
+      });
+  });
+});
+
+
+
+
+
+
+//---------------------------------Student--------------------------/
+describe.only("Test14-   GET /api/tutors", () => {
+  //describe("GET", () => {
+  test("status: 200 and returns an array of tutors", () => {
+    return request(app)
+      .get("/api/students")
+      .expect(200)
+      .then((res) => {
+          //console.log(res)
+        expect(res.body.students).toBeInstanceOf(Array);
+        expect(res.body.students).toHaveLength(3);
+        res.body.students.forEach((student) => {
+          expect(student).toMatchObject({
+            student_id: expect.any(Number),
+            student_firstname: expect.any(String),
+            student_lastname: expect.any(String),
+            student_email: expect.any(String),
+            student_active: expect.any(Boolean),
+            student_quizresult: expect.any(Number),
+            student_grade: expect.any(Number),
+            student_targetgrade: expect.any(Number),
+            student_notes: expect.any(String),
+            student_progressbar: expect.any(Number),
+            student_image: expect.any(String),
+            student_created_at: expect.any(String),
+            student_course_id: expect.any(Number),
+            student_tutor_id: expect.any(Number),
           });
         });
       });

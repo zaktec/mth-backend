@@ -1,9 +1,9 @@
 const db = require("../database/connection.js")
 
 
-exports.selectUsers = () => {
-return db.query("SELECT * FROM users;").then((result) => {
-  
+exports.selectTutors = () => {
+return db.query("SELECT * FROM tutor;").then((result) => {
+  //console.log(result.rows)
    return result.rows;
 
 });

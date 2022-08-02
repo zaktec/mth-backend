@@ -1,16 +1,16 @@
 const express = require("express");
 const {
-  getUsers,
+  getStudents,
   // getCourseById,
   // postCourse,
   // removeCourseById,
   // patchCourseById,
 } = require("../controllers/student.controllers.js");
-const userRouter = express.Router();
+const studentRouter = express.Router();
 
 // everything starts with /api/articles
 
-userRouter.get("/", getUsers);
+studentRouter.get("/", getStudents);
 // courseRouter.get("/:course_id", getCourseById);
 // courseRouter.post("/", postCourse);
 // courseRouter.delete("/:course_id", removeCourseById);
@@ -18,4 +18,4 @@ userRouter.get("/", getUsers);
 
 
 
-module.exports = userRouter;
+module.exports = studentRouter;

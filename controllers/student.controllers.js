@@ -1,10 +1,12 @@
-const {  selectUsers } =require('../models/student.models.js')
+const {  selectStudents } =require('../models/student.models.js')
 
-exports.getUsers = ( req, res) => {
+exports.getStudents = ( req, res) => {
 
-selectUsers().then((users) => {
+  console.log("inside")
+selectStudents().then((students) => {
     
-    res.status(200).send ({ users});
+    res.status(200).send ({ students});
+    console.log(students)
   })
   .catch((err) => {
     console.log(err)
