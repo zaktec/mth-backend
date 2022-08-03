@@ -1,20 +1,20 @@
 const express = require("express");
 const {
   getTutors,
-  // getCourseById,
-  // postCourse,
-  // removeCourseById,
-  // patchCourseById,
+  getTutorById,
+  postTutor,
+  removeTutorById,
+  patchTutorById,
 } = require("../controllers/tutor.controllers.js");
 const tutorRouter = express.Router();
 
 // everything starts with /api/articles
 
 tutorRouter.get("/", getTutors);
-// courseRouter.get("/:course_id", getCourseById);
-// courseRouter.post("/", postCourse);
-// courseRouter.delete("/:course_id", removeCourseById);
-// courseRouter.patch("/:course_id", patchCourseById);
+tutorRouter.get("/:tutor_id", getTutorById);
+tutorRouter.post("/", postTutor);
+tutorRouter.delete("/:tutor_id", removeTutorById);
+tutorRouter.patch("/:tutor_id", patchTutorById);
 
 
 

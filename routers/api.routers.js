@@ -1,8 +1,8 @@
 const express = require("express");
 const topicRouter = require("./topics.routers");
 const courseRouter = require("./courses.routers");
-const tutorRouter = require("./tutors.routers")
-const studentRouter =require("./students.routers")
+const tutorRouter = require("./tutors.routers");
+const studentRouter = require("./students.routers");
 const {
   getHomepage,
   getEndpoints,
@@ -20,10 +20,8 @@ apiRouter.use("/topics", topicRouter);
 
 apiRouter.use("/courses", courseRouter);
 
-apiRouter.use('/tutors', tutorRouter);
+apiRouter.use("/tutors", tutorRouter);
 
+apiRouter.use("/students", studentRouter);
 
-  apiRouter.use('/students', studentRouter);
- 
-console.log(studentRouter)
 module.exports = apiRouter;

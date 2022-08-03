@@ -15,3 +15,36 @@ exports.checkCourseExists = (course_id) => {
       }
     });
 };
+
+
+exports.checkTopicExists = (topic_id) => {
+  return db
+    .query(
+      `SELECT * FROM topic WHERE
+    topic_id=$1`,
+      [topic_id]
+    )
+    .then(({ rows }) => {
+      if (rows.length) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};
+
+exports.checkTutorExists = (tutor_id) => {
+  return db
+    .query(
+      `SELECT * FROM tutor WHERE
+    tutor_id=$1`,
+      [tutor_id]
+    )
+    .then(({ rows }) => {
+      if (rows.length) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};

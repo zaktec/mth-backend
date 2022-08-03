@@ -5,6 +5,7 @@ const {
   deleteTopicById,
   updateTopicById,
 } = require("../models/topic.models.js");
+const { checkTopicExists } = require("../utils/utils.js");
 
 
 exports.getTopics = async (req, res, next) => {
@@ -19,18 +20,35 @@ exports.getTopics = async (req, res, next) => {
 //app.get("/api/topics/:topic_id", getTopicById );
 exports.getTopicById = (req, res, next) => {
   const { topic_id } = req.params;
-  selectTopicById(topic_id)
-    .then((topic) => {
-      if (topic) {
-        res.status(200).send({ topic });
-      } else {
+
+  return checkTopicExists(topic_id)
+  .then((topicExist) => {
+    if (topicExist){
+        return selectTopicById(topic_id).then((topic)=>{
+          res.status(200).send({ topic })
+        });
+      }else {
         return Promise.reject({ status: 404, msg: "Not found" });
       }
     })
-    .catch((err) => {
-      next(err);
-    });
-};
+      .catch((err) => {
+        next(err);
+        })
+    }
+
+
+  // selectTopicById(topic_id)
+  //   .then((topic) => {
+  //     if (topic) {
+  //       res.status(200).send({ topic });
+  //     } else {
+  //       return Promise.reject({ status: 404, msg: "Not found" });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     next(err);
+  //   });
+
 
 exports.postTopic = (req, res, next) => {
   // console.log(req.body)
