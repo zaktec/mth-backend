@@ -8,15 +8,11 @@ exports.selectStudents = (sort_by = "student_id") => {
       "student_lastname",
       "student_email",
       "student_active",
-      "student_quizresult",
       "student_grade",
       "student_targetgrade",
       "student_notes",
       "student_progressbar",
       "student_image",
-      "student_created_at",
-      "student_course_id",
-      "student_tutor_id",
     ];
     if (!allowedSortBys.includes(sort_by)) {
       return Promise.reject({ status: 400, msg: "bad request" });
@@ -29,10 +25,102 @@ exports.selectStudents = (sort_by = "student_id") => {
     });
 };
 
-exports.selectUserById = () => {};
+exports.selectStudentById = (student_id) => {
+  let queryString = "SELECT * FROM student";
+  const queryParams = [];
+  if (student_id) {
+    queryString += " where student_id=$1;";
+    queryParams.push(student_id);
+  }
+  return db.query(queryString, queryParams).then(({ rows }) => {
+    return rows[0];
+  });
+};
 
-exports.insertUser = () => {};
+exports.insertStudent = (student) => {
+  const {
+    student_firstname,
+    student_lastname,
+    student_email,
+    student_active,
+    student_password,
+    student_grade,
+    student_targetgrade,
+    student_notes,
+    student_progressbar,
+    student_image,
+  } = student;
 
-exports.deleteUserById = () => {};
+  return db
+    .query(
+      `INSERT INTO student (student_firstname, student_lastname, student_email, student_password, student_grade, student_active,student_targetgrade, student_notes, student_progressbar, student_image ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10  ) RETURNING *; `,
+      [
+        student_firstname,
+        student_lastname,
+        student_email,
+        student_password,
+        student_grade,
+        student_active,
+        student_targetgrade,
+        student_notes,
+        student_progressbar,
+        student_image,
 
-exports.updateUserById = () => {};
+      ]
+    )
+    .then(({ rows }) => {
+      console.log(rows)
+      return rows[0];
+      
+    });
+};
+
+exports.deleteStudentById = (student_id) => {
+  return db
+    .query("DELETE FROM student WHERE student_id = $1 RETURNING *", [
+      student_id,
+    ])
+    .then((result) => {
+      //console.log(result)
+      return result.rows[0];
+    });
+};
+
+exports.updateStudentById = (student, student_id) => {
+  console.log(student_id, student)
+  const {
+    student_firstname,
+    student_lastname,
+    student_email,
+    student_active,
+    student_password,
+    student_grade,
+    student_targetgrade,
+    student_notes,
+    student_progressbar,
+    student_image,
+  } = student;
+  console.log(student_email)
+  return db
+    .query(
+      `UPDATE student SET student_firstname = $1, student_lastname = $2, student_email= $3, student_password= $4, student_grade = $5, student_active= $6, student_targetgrade = $7, student_notes = $8, student_progressbar= $9, student_image=$10 WHERE student_id = $11 RETURNING *;`,
+      [
+        student_firstname,
+        student_lastname,
+        student_email,
+        student_password,
+        student_grade,
+        student_active,
+        student_targetgrade,
+        student_notes,
+        student_progressbar,
+        student_image,
+        student_id
+        
+      ]
+    )
+    .then(({ rows }) => {
+      console.log(rows)
+      return rows[0];
+    });
+};

@@ -48,3 +48,20 @@ exports.checkTutorExists = (tutor_id) => {
       }
     });
 };
+
+
+exports.checkStudentExists = (student_id) => {
+  return db
+    .query(
+      `SELECT * FROM student WHERE
+    student_id=$1`,
+      [student_id]
+    )
+    .then(({ rows }) => {
+      if (rows.length) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};

@@ -28,24 +28,22 @@ exports.insertTopic = (topic) => {
     topic_code,
     topic_desc,
     topic_index,
-    topic_created_at,
     topic_course_id,
   } = topic;
   return db
     .query(
       `INSERT INTO topic
-  (topic_name, topic_code, topic_desc, topic_index,  topic_created_at, topic_course_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`,
+  (topic_name, topic_code, topic_desc, topic_index,  topic_course_id) VALUES ($1, $2, $3, $4, $5) RETURNING *;`,
       [
         topic_name,
         topic_code,
         topic_desc,
         topic_index,
-        topic_created_at,
         topic_course_id,
       ]
     )
     .then(({ rows }) => {
-      //console.log(rows);
+      console.log(rows);
       return rows[0];
     });
 };
@@ -70,8 +68,6 @@ exports.deleteTopicById= (topic_id) => {
     });
 };
 
-exports.updateTopicById = () => {};
-
 
 exports.deleteCourseById= (course_id) => {
   return db
@@ -90,18 +86,16 @@ exports.updateTopicById  = (topic, topic_id) => {
     topic_code,
     topic_desc,
     topic_index,
-    topic_created_at,
-    topic_course_id
+    topic_course_id,
   } = topic;
   return db
     .query(
-      `UPDATE topic SET topic_name = $1, topic_code = $2, topic_desc = $3, topic_index = $4,  topic_created_at = $5, topic_course_id= $6 WHERE topic_id = $7 RETURNING *;`,
+      `UPDATE topic SET topic_name = $1, topic_code = $2, topic_desc = $3, topic_index = $4, topic_course_id= $5 WHERE topic_id = $6 RETURNING *;`,
       [
         topic_name,
         topic_code,
         topic_desc,
         topic_index,
-        topic_created_at,
         topic_course_id,
         topic_id,
       ]

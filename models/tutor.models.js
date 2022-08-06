@@ -9,7 +9,6 @@ exports.selectTutors = (sort_by = "tutor_id") => {
       "tutor_email",
       "tutor_active",
       "tutor_image",
-      "tutor_created_at",
       "tutor_id",
     ];
     if (!allowedSortBys.includes(sort_by)) {
@@ -45,19 +44,19 @@ exports.insertTutor = (tutor) => {
           tutor_email,
           tutor_active,
           tutor_image,
-          tutor_created_at,
+          tutor_password,
   }= tutor;
 
   return db
   .query(
-    `INSERT INTO tutor (tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_created_at) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *; `,
+    `INSERT INTO tutor (tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *; `,
     [
       tutor_firstname,
       tutor_lastname,
       tutor_email,
       tutor_active,
       tutor_image,
-      tutor_created_at,
+      tutor_password,
     ]
   )
   .then(({ rows }) => {
@@ -83,18 +82,18 @@ exports.updateTutorById = (tutor, tutor_id) => {
       tutor_email,
       tutor_active,
       tutor_image,
-      tutor_created_at,
+      tutor_password,
   } = tutor;
   return db
     .query(
-      `UPDATE tutor SET tutor_firstname = $1, tutor_lastname = $2, tutor_email= $3, tutor_active= $4, tutor_image = $5, tutor_created_at= $6 WHERE tutor_id = $7 RETURNING *;`,
+      `UPDATE tutor SET tutor_firstname = $1, tutor_lastname = $2, tutor_email= $3, tutor_active= $4, tutor_image = $5, tutor_password= $6 WHERE tutor_id = $7 RETURNING *;`,
       [
         tutor_firstname,
         tutor_lastname,
         tutor_email,
         tutor_active,
         tutor_image,
-        tutor_created_at,
+        tutor_password,
         tutor_id,
       ]
     )
