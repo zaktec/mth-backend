@@ -69,7 +69,6 @@ exports.insertStudent = (student) => {
       ]
     )
     .then(({ rows }) => {
-      console.log(rows)
       return rows[0];
       
     });
@@ -87,7 +86,6 @@ exports.deleteStudentById = (student_id) => {
 };
 
 exports.updateStudentById = (student, student_id) => {
-  console.log(student_id, student)
   const {
     student_firstname,
     student_lastname,
@@ -100,7 +98,6 @@ exports.updateStudentById = (student, student_id) => {
     student_progressbar,
     student_image,
   } = student;
-  console.log(student_email)
   return db
     .query(
       `UPDATE student SET student_firstname = $1, student_lastname = $2, student_email= $3, student_password= $4, student_grade = $5, student_active= $6, student_targetgrade = $7, student_notes = $8, student_progressbar= $9, student_image=$10 WHERE student_id = $11 RETURNING *;`,
@@ -120,7 +117,6 @@ exports.updateStudentById = (student, student_id) => {
       ]
     )
     .then(({ rows }) => {
-      console.log(rows)
       return rows[0];
     });
 };

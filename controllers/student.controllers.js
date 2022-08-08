@@ -25,7 +25,6 @@ exports.getStudentById = (req, res, next) => {
     .then((studentExist) => {
       if (studentExist) {
         return selectStudentById(student_id).then((student) => {
-          console.log(student);
           res.status(200).send({ student });
         });
       } else {
@@ -39,7 +38,6 @@ exports.getStudentById = (req, res, next) => {
 
 exports.postStudent = (req, res, next) => {
   const student = req.body;
-  console.log(student)
   insertStudent(student)
     .then((student) => {
       

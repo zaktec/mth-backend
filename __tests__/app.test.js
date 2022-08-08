@@ -528,8 +528,9 @@ describe("Test18- PATCH /api/tutors/:tutor_id", () => {
   });
 });
 
-//---------------------------------Student--------------------------/
-describe.only("Test16-   GET /api/students", () => {
+//---------------------------------Student------------------------------------/
+
+describe("Test19-   GET /api/students", () => {
   //describe("GET", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
@@ -584,7 +585,7 @@ describe.only("Test16-   GET /api/students", () => {
       });
   });
 });
-describe("Test17- GET   /api/students/:student_id", () => {
+describe("Test20- GET   /api/students/:student_id", () => {
   //describe("GET", () => {
   test("status: 200 and return a student object", () => {
     return request(app)
@@ -624,7 +625,7 @@ test("ERROR  -status: 404 and returns an error message", () => {
       expect(res.body.msg).toBe("Not found");
     });
 });
-describe("Test18- POST /api/students", () => {
+describe("Test21- POST /api/students", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/students")
@@ -658,7 +659,7 @@ describe("Test18- POST /api/students", () => {
       });
   });
 });
-describe("Test19-  DELETE /api/students/:student_id", () => {
+describe("Test22-  DELETE /api/students/:student_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app).delete("/api/students/1").expect(204);
   });
@@ -675,7 +676,7 @@ describe("Test19-  DELETE /api/students/:student_id", () => {
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
 });
-describe.only("Test20- PATCH /api/students/:student_id", () => {
+describe("Test23- PATCH /api/students/:student_id", () => {
   test("Status 200: and return a updated student object  ", () => {
     return request(app)
       .patch("/api/students/1")
@@ -706,6 +707,60 @@ describe.only("Test20- PATCH /api/students/:student_id", () => {
           student_image: "/student/student1.png",
           student_id:1,
         });
+      });
+  });
+});
+
+//---------------------------------Lesson------------------------------------/
+
+describe.only("Test19-   GET /api/lessons", () => {
+  //describe("GET", () => {
+  test("status: 200 and returns an array of tutors", () => {
+    return request(app)
+      .get("/api/lessons")
+      .expect(200)
+      .then((res) => {
+        //console.log(res)
+        expect(res.body.lessons).toBeInstanceOf(Array);
+        expect(res.body.lessons).toHaveLength(77);
+        res.body.lessons.forEach((lesson) => {
+          expect(lesson).toMatchObject({
+            lesson_id: expect.any(Number),
+            lesson_name: expect.any(String),
+            lesson_code: expect.any(String),
+            lesson_desc: expect.any(String),
+            lesson_ws: expect.any(String),
+            lesson_body: expect.any(String),
+            lesson_topic_id: expect.any(Number),
+          });
+        });
+      });
+  });
+
+  test("QUERY: status 200 : lessons are sorted by index number", () => {
+    return request(app)
+      .get("/api/lessons")
+      .expect(200)
+      .then((res) => {
+        //  console.log(res);
+        expect(res.body.lessons).toBeSortedBy("lesson_name");
+      });
+  });
+  test("QUERY: status 200: lessons are sorted by passed query", () => {
+    return request(app)
+      .get("/api/lessons?sort_by=lesson_name")
+      .expect(200)
+      .then((res) => {
+        //console.log(topics);
+        expect(res.body.lessons).toBeSortedBy("lesson_name");
+      });
+  });
+  test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+    return request(app)
+      .get("/api/lessons?sort_by=not_a_column")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
       });
   });
 });

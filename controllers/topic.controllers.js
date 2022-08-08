@@ -42,7 +42,6 @@ exports.postTopic = (req, res, next) => {
   insertTopic(topic)
     .then((topic) => {
       res.status(201).send({ topic });
-      console.log(topic)
     })
     .catch((err) => {
       next(err);
@@ -69,7 +68,6 @@ exports.patchTopicById = (req, res, next) => {
   const { topic_id } = req.params;
   return updateTopicById(topic, topic_id)
     .then((updatedTopic) => {
-      console.log(updatedTopic)
       if (updatedTopic) {
         res.status(200).send({ updatedTopic });
       } else {

@@ -19,7 +19,6 @@ exports.selectTutors = (sort_by = "tutor_id") => {
   return db
     .query(`SELECT * FROM tutor ORDER BY ${sort_by} ASC;`)
     .then((result) => {
-      console.log(result.rows);
       return result.rows;
     });
 };

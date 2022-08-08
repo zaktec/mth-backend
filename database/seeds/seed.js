@@ -5,16 +5,19 @@ const {
   formatCourseData,
   formatTopicData,
   formatStudentData,
-  formatTutorData
+  formatTutorData,
+  formatLessonData
 } = require("../../utils/seed-formatting.js");
 
 const seed = (data) => {
-  const { courseData, topicData, studentData, tutorData } = data;
+  const { courseData, topicData, studentData, tutorData, lessonData } = data;
   //console.log(studentData);
 
   // drop everything
-  return db
-    .query(`DROP TABLE IF EXISTS student;`)
+  return db.query(`DROP TABLE IF EXISTS lesson;`)
+  .then(() => {
+    return db.query(`DROP TABLE IF EXISTS student;`);
+  })
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS tutor;`);
     })
@@ -24,6 +27,7 @@ const seed = (data) => {
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS course;`);
     })
+    
     .then(() => {
       //console.log(result)
 
@@ -76,8 +80,19 @@ const seed = (data) => {
           student_progressbar INT DEFAULT 0,
           student_image VARCHAR(200)
           );
+        `)
+    }) .then(() => {
+      return db.query(`CREATE TABLE lesson (
+        lesson_id SERIAL PRIMARY KEY,
+          lesson_name VARCHAR(200) NOT NULL,
+          lesson_code VARCHAR(200),
+          lesson_desc VARCHAR(200) NOT NULL,
+          lesson_ws VARCHAR(200) NOT NULL,
+          lesson_body VARCHAR(200),
+          lesson_topic_id INT REFERENCES topic(topic_id) ON DELETE CASCADE
+          );
         `);
-    })
+     })
     .then(() => {
       const formattedCourses = formatCourseData(courseData);
 
@@ -126,6 +141,18 @@ const seed = (data) => {
       );
       //console.log(sql3)
       return db.query(sql4);
+    }).then(() => {
+      //console.log(courseData);
+      const formattedLessons = formatLessonData(lessonData);
+      const sql5 = format(
+        `INSERT INTO lesson 
+      (lesson_name, lesson_code, lesson_desc, lesson_ws, lesson_body, lesson_topic_id)
+        VALUES %L RETURNING *;`,
+        formattedLessons
+
+      );
+      //console.log(sql3)
+      return db.query(sql5);
     })
     .then((result) => {
      // console.log(result);

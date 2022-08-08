@@ -52,3 +52,15 @@ exports.formatTutorData = (tutorData) => {
   return formattedTutors;
 };
 
+exports.formatLessonData = (lessonData) => {
+  const formattedLessons = lessonData.map((lesson) => [
+    lesson.lesson_name,
+    lesson.lesson_code,
+    lesson.lesson_desc,
+    lesson.lesson_ws,
+    lesson.lesson_body,
+    lesson.lesson_topic_id
+   
+  ]);
+  return formattedLessons;
+};

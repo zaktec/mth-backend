@@ -65,3 +65,19 @@ exports.checkStudentExists = (student_id) => {
       }
     });
 };
+
+exports.checkLessonExists = (lesson_id) => {
+  return db
+    .query(
+      `SELECT * FROM lesson WHERE
+    lesson_id=$1`,
+      [lesson_id]
+    )
+    .then(({ rows }) => {
+      if (rows.length) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};
