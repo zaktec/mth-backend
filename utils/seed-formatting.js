@@ -64,3 +64,14 @@ exports.formatLessonData = (lessonData) => {
   ]);
   return formattedLessons;
 };
+
+exports.formatQuizData = (quizData) => {
+  const formattedQuizzes = quizData.map((quiz) => [
+    quiz.quiz_name,
+    quiz.quiz_code,
+    quiz.quiz_type
+   
+  ]);
+  return formattedQuizzes;
+};
+

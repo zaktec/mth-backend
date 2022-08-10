@@ -4,6 +4,7 @@ const courseRouter = require("./courses.routers");
 const tutorRouter = require("./tutors.routers");
 const studentRouter = require("./students.routers");
 const lessonRouter = require("./lessons.routers");
+const quizRouter = require("./quizzes.routers");
 const {
   getHomepage,
   getEndpoints,
@@ -25,5 +26,9 @@ apiRouter.use("/tutors", tutorRouter);
 
 apiRouter.use("/students", studentRouter);
 apiRouter.use("/lessons", lessonRouter);
+apiRouter.use("/quizzes", quizRouter);
+
+
+
 
 module.exports = apiRouter;

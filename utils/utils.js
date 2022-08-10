@@ -81,3 +81,19 @@ exports.checkLessonExists = (lesson_id) => {
       }
     });
 };
+
+exports.checkQuizExists = (quiz_id) => {
+  return db
+    .query(
+      `SELECT * FROM quiz WHERE
+    quiz_id=$1`,
+      [quiz_id]
+    )
+    .then(({ rows }) => {
+      if (rows.length) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};

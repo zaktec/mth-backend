@@ -631,15 +631,15 @@ describe("Test21- POST /api/students", () => {
       .post("/api/students")
       .send({
         student_firstname: "New",
-          student_lastname: "Student1LN",
-          student_email: "csheraz@hotmail.com",
-          student_password: "password",
-          student_active: true,
-          student_grade: 1,
-          student_targetgrade: 1,
-          student_notes: "Working well",
-          student_progressbar: 3,
-          student_image: "/student/student1.png",
+        student_lastname: "Student1LN",
+        student_email: "csheraz@hotmail.com",
+        student_password: "password",
+        student_active: true,
+        student_grade: 1,
+        student_targetgrade: 1,
+        student_notes: "Working well",
+        student_progressbar: 3,
+        student_image: "/student/student1.png",
       })
       .expect(201)
       .then((res) => {
@@ -705,7 +705,7 @@ describe("Test23- PATCH /api/students/:student_id", () => {
           student_notes: "Working well",
           student_progressbar: 3,
           student_image: "/student/student1.png",
-          student_id:1,
+          student_id: 1,
         });
       });
   });
@@ -713,7 +713,7 @@ describe("Test23- PATCH /api/students/:student_id", () => {
 
 //---------------------------------Lesson------------------------------------/
 
-describe.only("Test19-   GET /api/lessons", () => {
+describe("Test24-   GET /api/lessons", () => {
   //describe("GET", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
@@ -737,13 +737,13 @@ describe.only("Test19-   GET /api/lessons", () => {
       });
   });
 
-  test("QUERY: status 200 : lessons are sorted by index number", () => {
+  test("QUERY: status 200 : lessons are sorted by lesson id", () => {
     return request(app)
       .get("/api/lessons")
       .expect(200)
       .then((res) => {
         //  console.log(res);
-        expect(res.body.lessons).toBeSortedBy("lesson_name");
+        expect(res.body.lessons).toBeSortedBy("lesson_id");
       });
   });
   test("QUERY: status 200: lessons are sorted by passed query", () => {
@@ -761,6 +761,197 @@ describe.only("Test19-   GET /api/lessons", () => {
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("bad request");
+      });
+  });
+});
+describe("Test25- GET   /api/lessons/:lesson_id", () => {
+  //describe("GET", () => {
+  test("status: 200 and return a lesson object", () => {
+    return request(app)
+      .get("/api/lessons/1")
+      .expect(200)
+      .then((res) => {
+        // console.log(res)
+        expect(res.body.lesson).toEqual({
+          lesson_id: 1,
+          lesson_name: "Addition, Subtraction and Money Problems",
+          lesson_code: "GFN1LC1",
+          lesson_desc: "To be able to add, subtract, and solve money problems.",
+          lesson_ws: "GFN1WS1",
+          lesson_body: "PowerPoint",
+          lesson_topic_id: 1,
+        });
+      });
+  });
+  test("Error: student_id, non existent but valid. status 404 and an error message", () => {
+    return request(app)
+      .get("/api/lessons/invalid_id")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
+
+  test("ERROR  -status: 404 and returns an error message", () => {
+    return request(app)
+      .get("/api/lessons/1000")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Not found");
+      });
+  });
+});
+describe("Test26- POST /api/lessons", () => {
+  test("status: 201 and return the new tutors", () => {
+    return request(app)
+      .post("/api/lessons")
+      .send({
+          lesson_name: "New- Addition, Subtraction and Money Problems",
+          lesson_code: "GFN1LC1",
+          lesson_desc: "To be able to add, subtract, and solve money problems.",
+          lesson_ws: "GFN1WS1",
+          lesson_body: "PowerPoint",
+          lesson_topic_id: 1,
+      })
+      .expect(201)
+      .then((res) => {
+        expect(res.body.lesson).toEqual({
+          lesson_name: "New- Addition, Subtraction and Money Problems",
+          lesson_code: "GFN1LC1",
+          lesson_desc: "To be able to add, subtract, and solve money problems.",
+          lesson_ws: "GFN1WS1",
+          lesson_body: "PowerPoint",
+          lesson_topic_id: 1,
+          lesson_id: 78
+        });
+      });
+  });
+});
+describe("Test27-  DELETE /api/lessons/:lesson_id", () => {
+  test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
+    return request(app).delete("/api/lessons/1").expect(204);
+  });
+  test("status 400 and returns an error message if it is a bad request", () => {
+    return request(app)
+      .delete("/api/lessons/Invalid_id")
+      .expect(400)
+      .then((res) => expect(res.body.msg).toBe("Invalid input"));
+  });
+  test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
+    return request(app)
+      .delete("/api/lessons/1000")
+      .expect(404)
+      .then((res) => expect(res.body.msg).toBe("Not found"));
+  });
+});
+describe.only("Test28- PATCH /api/lessons/:lesson_id", () => {
+  test("Status 200: and return a updated student object  ", () => {
+    return request(app)
+      .patch("/api/lessons/1")
+      .send({
+        lesson_name: "patched- Addition, Subtraction and Money Problems",
+        lesson_code: "GFN1LC1",
+        lesson_desc: "To be able to add, subtract, and solve money problems.",
+        lesson_ws: "GFN1WS1",
+        lesson_body: "PowerPoint",
+        lesson_topic_id: 1,
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.updatedLesson).toEqual({
+          lesson_name: "patched- Addition, Subtraction and Money Problems",
+        lesson_code: "GFN1LC1",
+        lesson_desc: "To be able to add, subtract, and solve money problems.",
+        lesson_ws: "GFN1WS1",
+        lesson_body: "PowerPoint",
+        lesson_topic_id: 1,
+        lesson_id:1
+        });
+      });
+  });
+});
+
+//---------------------------------Quiz--------------------------/
+
+describe.only("Test29-   GET /api/Quizzes", () => {
+  //describe("GET", () => {
+  test("status: 200 and returns an array of tutors", () => {
+    return request(app)
+      .get("/api/quizzes")
+      .expect(200)
+      .then((res) => {
+        //console.log(res)
+        expect(res.body.quizzes).toBeInstanceOf(Array);
+        expect(res.body.quizzes).toHaveLength(97);
+        res.body.quizzes.forEach((quiz) => {
+          expect(quiz).toMatchObject({
+            quiz_id: expect.any(Number),
+            quiz_name: expect.any(String),
+            quiz_code: expect.any(String),
+            quiz_type: expect.any(String),
+
+          });
+        });
+      });
+  });
+
+  test("QUERY: status 200 : quizzes are sorted by quiz id", () => {
+    return request(app)
+      .get("/api/quizzes")
+      .expect(200)
+      .then((res) => {
+        //  console.log(res);
+        expect(res.body.quizzes).toBeSortedBy("quiz_id");
+      });
+  });
+  test("QUERY: status 200: quizes are sorted by passed query", () => {
+    return request(app)
+      .get("/api/quizzes?sort_by=quiz_code")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.quizzes).toBeSortedBy("quiz_code");
+      });
+  });
+  test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+    return request(app)
+      .get("/api/quizzes?sort_by=not_a_column")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+});
+describe.only("Test30- GET   /api/quizzes/:quiz_id", () => {
+  //describe("GET", () => {
+  test("status: 200 and return a quiz object", () => {
+    return request(app)
+      .get("/api/quizzes/1")
+      .expect(200)
+      .then((res) => {
+        // console.log(res)
+        expect(res.body.quiz).toEqual({
+          quiz_id: 1,
+          quiz_name: expect.any(String),
+          quiz_code: expect.any(String),
+          quiz_type: expect.any(String),
+        });
+      });
+  });
+  test("Error: student_id, non existent but valid. status 404 and an error message", () => {
+    return request(app)
+      .get("/api/lessons/invalid_id")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
+
+  test("ERROR  -status: 404 and returns an error message", () => {
+    return request(app)
+      .get("/api/lessons/1000")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Not found");
       });
   });
 });

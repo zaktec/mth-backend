@@ -6,18 +6,23 @@ const {
   formatTopicData,
   formatStudentData,
   formatTutorData,
-  formatLessonData
+  formatLessonData,
+  formatQuizData
 } = require("../../utils/seed-formatting.js");
 
 const seed = (data) => {
-  const { courseData, topicData, studentData, tutorData, lessonData } = data;
+  const { courseData, topicData, studentData, tutorData, lessonData, quizData } = data;
   //console.log(studentData);
 
   // drop everything
-  return db.query(`DROP TABLE IF EXISTS lesson;`)
+  return db.query(`DROP TABLE IF EXISTS quiz;`)
+  .then(() => {
+    return db.query(`DROP TABLE IF EXISTS lesson;`);
+  })
   .then(() => {
     return db.query(`DROP TABLE IF EXISTS student;`);
   })
+
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS tutor;`);
     })
@@ -92,7 +97,16 @@ const seed = (data) => {
           lesson_topic_id INT REFERENCES topic(topic_id) ON DELETE CASCADE
           );
         `);
+     }).then(() => {
+      return db.query(`CREATE TABLE quiz (
+        quiz_id SERIAL PRIMARY KEY,
+          quiz_name VARCHAR(200) NOT NULL,
+          quiz_code VARCHAR(200),
+          quiz_type VARCHAR(200) NOT NULL
+          );
+        `);
      })
+
     .then(() => {
       const formattedCourses = formatCourseData(courseData);
 
@@ -151,8 +165,18 @@ const seed = (data) => {
         formattedLessons
 
       );
-      //console.log(sql3)
       return db.query(sql5);
+    })
+    .then(() => {
+      //console.log(courseData);
+      const formattedQuizzes = formatQuizData(quizData);
+      const sql6 = format(
+        `INSERT INTO quiz 
+      (quiz_name, quiz_code, quiz_type) VALUES %L RETURNING *;`,
+        formattedQuizzes
+
+      );
+      return db.query(sql6);
     })
     .then((result) => {
      // console.log(result);

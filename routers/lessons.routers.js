@@ -15,6 +15,6 @@ lessonRouter.get("/", getLessons);
 lessonRouter.get("/:lesson_id", getLessonById);
 lessonRouter.post("/", postLesson);
 lessonRouter.delete("/:lesson_id", removeLessonById);
-lessonRouter.patch("/:topic_id", patchLessonById);
+lessonRouter.patch("/:lesson_id", patchLessonById);
 
 module.exports = lessonRouter;
