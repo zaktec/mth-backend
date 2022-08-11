@@ -15,7 +15,19 @@ const seed = (data) => {
   //console.log(studentData);
 
   // drop everything
-  return db.query(`DROP TABLE IF EXISTS quiz;`)
+  return db.query(`DROP TABLE IF EXISTS question;`)
+  .then(() => {
+    return db.query(`DROP TABLE IF EXISTS quizfb;`);
+  })
+  .then(() => {
+    return db.query(`DROP TABLE IF EXISTS digitutor;`);
+  })
+  .then(() => {
+    return db.query(`DROP TABLE IF EXISTS auth;`);
+  })
+  .then(() => {
+    return db.query(`DROP TABLE IF EXISTS quiz;`);
+  })
   .then(() => {
     return db.query(`DROP TABLE IF EXISTS lesson;`);
   })
@@ -103,6 +115,58 @@ const seed = (data) => {
           quiz_name VARCHAR(200) NOT NULL,
           quiz_code VARCHAR(200),
           quiz_type VARCHAR(200) NOT NULL
+          );
+        `);
+     })
+     .then(() => {
+      return db.query(`CREATE TABLE auth (
+        auth_id SERIAL PRIMARY KEY,
+        auth_student_id INT REFERENCES student(student_id) ON DELETE CASCADE,
+        auth_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
+        auth_token VARCHAR (1000) NOT NULL
+          );
+        `);
+     }).then(() => {
+      return db.query(`CREATE TABLE digitutor (
+        digitutor_id SERIAL PRIMARY KEY,
+        digitutor_student_id INT REFERENCES student(student_id) ON DELETE CASCADE,
+        digitutor_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
+        digitutor_msg INT,
+        digitutor_input VARCHAR(200),
+        digitutor_output VARCHAR(200)
+          );
+        `);
+     }).then(() => {
+      return db.query(`CREATE TABLE quizfb (
+        quizfb_id SERIAL PRIMARY KEY,
+        quizfb_digitutor_id INT REFERENCES digitutor(digitutor_id) ON DELETE CASCADE,
+        quizfb_quiz_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE,
+        quizfb_result INT,
+        quizfb_notes VARCHAR(200),
+        quizfb_percent INT
+          );
+        `);
+     })
+     .then(() => {
+      return db.query(`CREATE TABLE question (
+        ques_id SERIAL PRIMARY KEY,
+        ques_body VARCHAR (500) NOT NULL,
+        ques_image VARCHAR (200),
+        ques_grade INT,
+        ques_calc BOOLEAN,
+        ques_mark INT,
+        ques1_ans VARCHAR (200),
+        ques2_ans VARCHAR (200),
+        ques3_ans VARCHAR (200),
+        ques_explain VARCHAR (200),
+        ques_ans_mark INT,
+        ques_ans_image VARCHAR (200),
+        ques_ans_correct BOOLEAN,
+        ques_ans_sym_b VARCHAR (5),
+        ques_ans_sym_a VARCHAR (5),
+        ques_quiz_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE,
+        ques_lesson_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE
+        
           );
         `);
      })

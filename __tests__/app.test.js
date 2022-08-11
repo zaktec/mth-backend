@@ -557,7 +557,6 @@ describe("Test19-   GET /api/students", () => {
         });
       });
   });
-
   test("QUERY: status 200 : courses are sorted by index number", () => {
     return request(app)
       .get("/api/students")
@@ -736,7 +735,6 @@ describe("Test24-   GET /api/lessons", () => {
         });
       });
   });
-
   test("QUERY: status 200 : lessons are sorted by lesson id", () => {
     return request(app)
       .get("/api/lessons")
@@ -791,7 +789,6 @@ describe("Test25- GET   /api/lessons/:lesson_id", () => {
         expect(res.body.msg).toBe("Invalid input");
       });
   });
-
   test("ERROR  -status: 404 and returns an error message", () => {
     return request(app)
       .get("/api/lessons/1000")
@@ -806,12 +803,12 @@ describe("Test26- POST /api/lessons", () => {
     return request(app)
       .post("/api/lessons")
       .send({
-          lesson_name: "New- Addition, Subtraction and Money Problems",
-          lesson_code: "GFN1LC1",
-          lesson_desc: "To be able to add, subtract, and solve money problems.",
-          lesson_ws: "GFN1WS1",
-          lesson_body: "PowerPoint",
-          lesson_topic_id: 1,
+        lesson_name: "New- Addition, Subtraction and Money Problems",
+        lesson_code: "GFN1LC1",
+        lesson_desc: "To be able to add, subtract, and solve money problems.",
+        lesson_ws: "GFN1WS1",
+        lesson_body: "PowerPoint",
+        lesson_topic_id: 1,
       })
       .expect(201)
       .then((res) => {
@@ -822,7 +819,7 @@ describe("Test26- POST /api/lessons", () => {
           lesson_ws: "GFN1WS1",
           lesson_body: "PowerPoint",
           lesson_topic_id: 1,
-          lesson_id: 78
+          lesson_id: 78,
         });
       });
   });
@@ -844,7 +841,7 @@ describe("Test27-  DELETE /api/lessons/:lesson_id", () => {
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
 });
-describe.only("Test28- PATCH /api/lessons/:lesson_id", () => {
+describe("Test28- PATCH /api/lessons/:lesson_id", () => {
   test("Status 200: and return a updated student object  ", () => {
     return request(app)
       .patch("/api/lessons/1")
@@ -860,12 +857,12 @@ describe.only("Test28- PATCH /api/lessons/:lesson_id", () => {
       .then((res) => {
         expect(res.body.updatedLesson).toEqual({
           lesson_name: "patched- Addition, Subtraction and Money Problems",
-        lesson_code: "GFN1LC1",
-        lesson_desc: "To be able to add, subtract, and solve money problems.",
-        lesson_ws: "GFN1WS1",
-        lesson_body: "PowerPoint",
-        lesson_topic_id: 1,
-        lesson_id:1
+          lesson_code: "GFN1LC1",
+          lesson_desc: "To be able to add, subtract, and solve money problems.",
+          lesson_ws: "GFN1WS1",
+          lesson_body: "PowerPoint",
+          lesson_topic_id: 1,
+          lesson_id: 1,
         });
       });
   });
@@ -873,7 +870,7 @@ describe.only("Test28- PATCH /api/lessons/:lesson_id", () => {
 
 //---------------------------------Quiz--------------------------/
 
-describe.only("Test29-   GET /api/Quizzes", () => {
+describe("Test29-   GET /api/Quizzes", () => {
   //describe("GET", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
@@ -889,12 +886,10 @@ describe.only("Test29-   GET /api/Quizzes", () => {
             quiz_name: expect.any(String),
             quiz_code: expect.any(String),
             quiz_type: expect.any(String),
-
           });
         });
       });
   });
-
   test("QUERY: status 200 : quizzes are sorted by quiz id", () => {
     return request(app)
       .get("/api/quizzes")
@@ -921,14 +916,12 @@ describe.only("Test29-   GET /api/Quizzes", () => {
       });
   });
 });
-describe.only("Test30- GET   /api/quizzes/:quiz_id", () => {
-  //describe("GET", () => {
+describe("Test30- GET   /api/quizzes/:quiz_id", () => {
   test("status: 200 and return a quiz object", () => {
     return request(app)
       .get("/api/quizzes/1")
       .expect(200)
       .then((res) => {
-        // console.log(res)
         expect(res.body.quiz).toEqual({
           quiz_id: 1,
           quiz_name: expect.any(String),
@@ -937,21 +930,77 @@ describe.only("Test30- GET   /api/quizzes/:quiz_id", () => {
         });
       });
   });
-  test("Error: student_id, non existent but valid. status 404 and an error message", () => {
+  test("Error: quiz_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
-      .get("/api/lessons/invalid_id")
+      .get("/api/quizzes/invalid_id")
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Invalid input");
       });
   });
-
   test("ERROR  -status: 404 and returns an error message", () => {
     return request(app)
-      .get("/api/lessons/1000")
+      .get("/api/quizzes/1000")
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
+      });
+  });
+});
+describe("Test31- POST /api/quizzes", () => {
+  test("status: 201 and return the new tutors", () => {
+    return request(app)
+      .post("/api/quizzes")
+      .send({
+        quiz_name: "  NewPost Number 2- Topic Diagnostic Quiz",
+        quiz_code: "GFN2TDQ",
+        quiz_type: "TopicDiagnostic",
+      })
+      .expect(201)
+      .then((res) => {
+        expect(res.body.quiz).toEqual({
+          quiz_name: "  NewPost Number 2- Topic Diagnostic Quiz",
+        quiz_code: "GFN2TDQ",
+        quiz_type: "TopicDiagnostic",
+        quiz_id: 98
+        });
+      });
+  });
+});
+describe("Test32-  DELETE /api/quizzes/:quiz_id", () => {
+  test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
+    return request(app).delete("/api/quizzes/1").expect(204);
+  });
+  test("status 400 and returns an error message if it is a bad request", () => {
+    return request(app)
+      .delete("/api/quizzes/Invalid_id")
+      .expect(400)
+      .then((res) => expect(res.body.msg).toBe("Invalid input"));
+  });
+  test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
+    return request(app)
+      .delete("/api/quizzes/1000")
+      .expect(404)
+      .then((res) => expect(res.body.msg).toBe("Not found"));
+  });
+});
+describe("Test33- PATCH /api/quizzes/:quiz_id", () => {
+  test("Status 200: and return a updated quiz object  ", () => {
+    return request(app)
+      .patch("/api/quizzes/1")
+      .send({
+        quiz_name: "  NewPatch Number 2- Topic Diagnostic Quiz",
+        quiz_code: "GFN2TDQ",
+        quiz_type: "TopicDiagnostic",
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.updatedQuiz).toEqual({
+          quiz_name: "  NewPatch Number 2- Topic Diagnostic Quiz",
+          quiz_code: "GFN2TDQ",
+          quiz_type: "TopicDiagnostic",
+          quiz_id: 1
+        });
       });
   });
 });

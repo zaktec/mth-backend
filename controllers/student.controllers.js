@@ -19,8 +19,6 @@ exports.getStudents = async (req, res, next) => {
 
 exports.getStudentById = (req, res, next) => {
   const { student_id } = req.params;
-  console.log(student_id);
-
   return checkStudentExists(student_id)
     .then((studentExist) => {
       if (studentExist) {

@@ -13,7 +13,6 @@ const { sort_by } = req.query;
   try {
     const tutors = await selectTutors(sort_by);
       res.status(200).send ({tutors});
-      console.log(tutors)
   } catch (err) {
     next(err)    
   }
@@ -27,7 +26,6 @@ return checkTutorExists (tutor_id)
 .then((topicExist)=>{
   if(topicExist)  {
     return selectTutorById(tutor_id).then((tutor) => {
-      console.log(tutor)
       res.status(200).send({ tutor });
     });
   } else {

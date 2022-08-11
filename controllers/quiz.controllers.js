@@ -1,5 +1,8 @@
 const {  selectQuizzes,
         selectQuizById,
+        insertQuiz,
+        deleteQuizById,
+        updateQuizById
 
 
 } =require('../models/quiz.models.js')
@@ -39,9 +42,9 @@ exports.getQuizById = (req, res, next) => {
 
 exports.postQuiz = (req, res, next) => {
   const quiz = req.body;
-  insertCourse(course)
-    .then((course) => {
-      res.status(201).send({ course });
+  insertQuiz(quiz)
+    .then((quiz) => {
+      res.status(201).send({ quiz });
     })
     .catch((err) => {
       next(err);
@@ -49,11 +52,11 @@ exports.postQuiz = (req, res, next) => {
 };
 
 exports.removeQuizById = (req, res, next) => {
-  const { course_id } = req.params;
+  const { quiz_id } = req.params;
 
-  deleteCourseById(course_id)
-    .then((deletedCourse) => {
-      if (deletedCourse) {
+  deleteQuizById(quiz_id)
+    .then((deletedQuiz) => {
+      if (deletedQuiz) {
         res.sendStatus(204);
       } else {
         return Promise.reject({ status: 404, msg: "Not found" });
@@ -65,13 +68,13 @@ exports.removeQuizById = (req, res, next) => {
 };
 
 exports.patchQuizById = (req, res, next) => {
-  const course = req.body;
-  const { course_id } = req.params;
+  const quiz = req.body;
+  const { quiz_id } = req.params;
   // console.log(course_id, course)
-  return updateCourseById(course, course_id)
-    .then((updatedCourse) => {
-      if (updatedCourse) {
-        res.status(200).send({ updatedCourse });
+  return updateQuizById(quiz, quiz_id)
+    .then((updatedQuiz) => {
+      if (updatedQuiz) {
+        res.status(200).send({ updatedQuiz });
       } else {
         return Promise.reject({ status: 404, msg: "Not found" });
       }

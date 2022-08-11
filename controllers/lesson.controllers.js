@@ -26,7 +26,6 @@ exports.getLessonById = (req, res, next) => {
     .then((lessonExist) => {
       if (lessonExist) {
         return selectLessonById(lesson_id).then((lesson) => {
-          console.log(lesson)
           res.status(200).send({ lesson });
         });
       } else {
@@ -71,11 +70,8 @@ exports.removeLessonById = (req, res, next) => {
 exports.patchLessonById = (req, res, next) => {
   const lesson = req.body;
   const { lesson_id } = req.params;
-  console.log(lesson_id)
-  // console.log(course_id, course)
   return updateLessonById(lesson, lesson_id)
     .then((updatedLesson) => {
-      console.log(updatedLesson)
       if (updatedLesson) {
         res.status(200).send({ updatedLesson });
       } else {

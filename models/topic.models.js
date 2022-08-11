@@ -43,7 +43,6 @@ exports.insertTopic = (topic) => {
       ]
     )
     .then(({ rows }) => {
-      console.log(rows);
       return rows[0];
     });
 };

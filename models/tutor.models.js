@@ -1,7 +1,6 @@
 const db = require("../database/connection.js");
 
 exports.selectTutors = (sort_by = "tutor_id") => {
-  console.log(sort_by);
   if (sort_by) {
     const allowedSortBys = [
       "tutor_firstname",
@@ -15,7 +14,6 @@ exports.selectTutors = (sort_by = "tutor_id") => {
       return Promise.reject({ status: 400, msg: "bad request" });
     }
   }
-
   return db
     .query(`SELECT * FROM tutor ORDER BY ${sort_by} ASC;`)
     .then((result) => {
