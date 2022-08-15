@@ -75,3 +75,26 @@ exports.formatQuizData = (quizData) => {
   return formattedQuizzes;
 };
 
+exports.formatQuestionData = (questionData) => {
+  const formattedQuestions = questionData.map((question) => [
+    question.ques_body, 
+    question.ques_image, 
+    question.ques_grade, 
+    question.ques_calc, 
+    question.ques_mark,
+    question.ques1_ans, 
+    question.ques2_ans, 
+    question.ques3_ans,
+    question.ques_ans_explain, 
+    question.ques_ans_mark,
+    question.ques_ans_image, 
+    question.ques_ans_correct, 
+    question.ques_ans_sym_b,
+    question.ques_ans_sym_a,
+    question.ques_quiz_id,
+    question.ques_lesson_id 
+   
+  ]);
+  return formattedQuestions;
+};
+

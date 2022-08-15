@@ -7,4 +7,4 @@ const runSeed = () => {
 
     return seed(devData).then(() => db.end());
 }
-runSeed();
+ runSeed();

@@ -30,13 +30,16 @@
     "pg-format": "^1.0.4"
   },
   "devDependencies": {
+    "expect-more-jest": "^5.4.1",
     "jest": "^28.1.1",
+    "jest-extended": "^3.0.2",
     "nodemon": "^2.0.16",
     "supertest": "^6.2.3"
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "jest-sorted"
+      "jest-sorted",
+      "jest-extended/all"
     ]
   }
 }

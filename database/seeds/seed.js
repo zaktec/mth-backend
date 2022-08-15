@@ -7,33 +7,43 @@ const {
   formatStudentData,
   formatTutorData,
   formatLessonData,
-  formatQuizData
+  formatQuizData,
+  formatQuestionData
 } = require("../../utils/seed-formatting.js");
 
 const seed = (data) => {
-  const { courseData, topicData, studentData, tutorData, lessonData, quizData } = data;
+  const {
+    courseData,
+    topicData,
+    studentData,
+    tutorData,
+    lessonData,
+    quizData,
+    questionData
+  } = data;
   //console.log(studentData);
 
   // drop everything
-  return db.query(`DROP TABLE IF EXISTS question;`)
-  .then(() => {
-    return db.query(`DROP TABLE IF EXISTS quizfb;`);
-  })
-  .then(() => {
-    return db.query(`DROP TABLE IF EXISTS digitutor;`);
-  })
-  .then(() => {
-    return db.query(`DROP TABLE IF EXISTS auth;`);
-  })
-  .then(() => {
-    return db.query(`DROP TABLE IF EXISTS quiz;`);
-  })
-  .then(() => {
-    return db.query(`DROP TABLE IF EXISTS lesson;`);
-  })
-  .then(() => {
-    return db.query(`DROP TABLE IF EXISTS student;`);
-  })
+  return db
+    .query(`DROP TABLE IF EXISTS question;`)
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS quizfb;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS digitutor;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS auth;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS quiz;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS lesson;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS student;`);
+    })
 
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS tutor;`);
@@ -44,7 +54,7 @@ const seed = (data) => {
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS course;`);
     })
-    
+
     .then(() => {
       //console.log(result)
 
@@ -55,8 +65,7 @@ const seed = (data) => {
           course_code VARCHAR(200) NOT NULL,
           course_desc VARCHAR(200) NOT NULL,
           course_level VARCHAR(100) NOT NULL,
-          course_image VARCHAR(200) NOT NULL
-          
+          course_image VARCHAR(200) NOT NULL   
        );
        `);
     })
@@ -97,8 +106,9 @@ const seed = (data) => {
           student_progressbar INT DEFAULT 0,
           student_image VARCHAR(200)
           );
-        `)
-    }) .then(() => {
+        `);
+    })
+    .then(() => {
       return db.query(`CREATE TABLE lesson (
         lesson_id SERIAL PRIMARY KEY,
           lesson_name VARCHAR(200) NOT NULL,
@@ -109,7 +119,8 @@ const seed = (data) => {
           lesson_topic_id INT REFERENCES topic(topic_id) ON DELETE CASCADE
           );
         `);
-     }).then(() => {
+    })
+    .then(() => {
       return db.query(`CREATE TABLE quiz (
         quiz_id SERIAL PRIMARY KEY,
           quiz_name VARCHAR(200) NOT NULL,
@@ -117,8 +128,8 @@ const seed = (data) => {
           quiz_type VARCHAR(200) NOT NULL
           );
         `);
-     })
-     .then(() => {
+    })
+    .then(() => {
       return db.query(`CREATE TABLE auth (
         auth_id SERIAL PRIMARY KEY,
         auth_student_id INT REFERENCES student(student_id) ON DELETE CASCADE,
@@ -126,17 +137,19 @@ const seed = (data) => {
         auth_token VARCHAR (1000) NOT NULL
           );
         `);
-     }).then(() => {
+    })
+    .then(() => {
       return db.query(`CREATE TABLE digitutor (
         digitutor_id SERIAL PRIMARY KEY,
         digitutor_student_id INT REFERENCES student(student_id) ON DELETE CASCADE,
         digitutor_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
-        digitutor_msg INT,
+        digitutor_msg_count INT DEFAULT 0,
         digitutor_input VARCHAR(200),
         digitutor_output VARCHAR(200)
           );
         `);
-     }).then(() => {
+    })
+    .then(() => {
       return db.query(`CREATE TABLE quizfb (
         quizfb_id SERIAL PRIMARY KEY,
         quizfb_digitutor_id INT REFERENCES digitutor(digitutor_id) ON DELETE CASCADE,
@@ -146,31 +159,30 @@ const seed = (data) => {
         quizfb_percent INT
           );
         `);
-     })
-     .then(() => {
+    })
+    .then(() => {
       return db.query(`CREATE TABLE question (
         ques_id SERIAL PRIMARY KEY,
         ques_body VARCHAR (500) NOT NULL,
         ques_image VARCHAR (200),
-        ques_grade INT,
+        ques_grade INT DEFAULT 0,
         ques_calc BOOLEAN,
-        ques_mark INT,
+        ques_mark INT DEFAULT 1,
         ques1_ans VARCHAR (200),
         ques2_ans VARCHAR (200),
         ques3_ans VARCHAR (200),
-        ques_explain VARCHAR (200),
-        ques_ans_mark INT,
+        ques_ans_explain VARCHAR (200),
+        ques_ans_mark INT DEFAULT 1,
         ques_ans_image VARCHAR (200),
-        ques_ans_correct BOOLEAN,
+        ques_ans_correct BOOLEAN DEFAULT FALSE,
         ques_ans_sym_b VARCHAR (5),
         ques_ans_sym_a VARCHAR (5),
         ques_quiz_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE,
         ques_lesson_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE
-        
           );
         `);
-     })
-
+    })
+   
     .then(() => {
       const formattedCourses = formatCourseData(courseData);
 
@@ -196,7 +208,8 @@ const seed = (data) => {
         formattedTopics
       );
       return db.query(sql2);
-    }).then(() => {
+    })
+    .then(() => {
       //console.log(courseData);
       const formattedTutors = formatTutorData(tutorData);
       const sql3 = format(
@@ -207,7 +220,8 @@ const seed = (data) => {
       );
       //console.log(sql3)
       return db.query(sql3);
-    }).then(() => {
+    })
+    .then(() => {
       //console.log(courseData);
       const formattedStudents = formatStudentData(studentData);
       const sql4 = format(
@@ -215,11 +229,11 @@ const seed = (data) => {
       (student_firstname, student_lastname, student_email,student_password, student_active,student_image, student_grade, student_targetgrade,student_notes, student_progressbar)
       VALUES %L RETURNING *;`,
         formattedStudents
-
       );
       //console.log(sql3)
       return db.query(sql4);
-    }).then(() => {
+    })
+    .then(() => {
       //console.log(courseData);
       const formattedLessons = formatLessonData(lessonData);
       const sql5 = format(
@@ -227,7 +241,6 @@ const seed = (data) => {
       (lesson_name, lesson_code, lesson_desc, lesson_ws, lesson_body, lesson_topic_id)
         VALUES %L RETURNING *;`,
         formattedLessons
-
       );
       return db.query(sql5);
     })
@@ -238,12 +251,24 @@ const seed = (data) => {
         `INSERT INTO quiz 
       (quiz_name, quiz_code, quiz_type) VALUES %L RETURNING *;`,
         formattedQuizzes
-
       );
       return db.query(sql6);
     })
+    .then(() => {
+     
+      const formattedQuestions = formatQuestionData(questionData);
+      const sql7 = format(
+        `INSERT INTO question 
+      (ques_body,  ques_image, ques_grade, ques_calc, ques_mark,
+        ques1_ans, ques2_ans, ques3_ans, ques_ans_explain, ques_ans_mark,
+        ques_ans_image, ques_ans_correct, ques_ans_sym_b,
+        ques_ans_sym_a, ques_quiz_id,ques_lesson_id ) VALUES %L RETURNING *;`,
+        formattedQuestions
+      );
+      return db.query(sql7);
+    })
     .then((result) => {
-     // console.log(result);
+      // console.log(result);
     });
 };
 

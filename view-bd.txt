@@ -1,76 +1,486 @@
 You are now connected to database "mth_test_db" as user "sheraz".
- course_id |        course_name        | course_code |                 course_desc                 | course_level |              course_image               |  course_created_at  
------------+---------------------------+-------------+---------------------------------------------+--------------+-----------------------------------------+---------------------
-         1 | MTH GCSE Maths Foundation | MTH-GF      | MTH GCSE Maths Foundation Online Course     | Foundation   | /course/mth_gcse_foundation.png         | 2022-08-01 21:27:08
-         2 | MTH GCSE Maths Higher     | MTH-GH      | MTH GCSE Maths Higher Online Course         | Higher       | /course/mth_gcse_higher.png             | 2022-08-01 21:27:08
-         3 | MTH Functional Skills- E3 | MTH-FSE3    | MTH Functional Skills Entry 3 Online Course | Entry 3      | /course/functionalskill_entrylevel3.png | 2022-08-01 21:27:08
-         4 | MTH Functional Skills- L1 | MTH-FSL1    | MTH Functional Skills L1 Online Course      | Level 1      | /course/mth_functionalskill_level1.png  | 2022-08-01 21:27:08
-         5 | MTH Functional Skills- L2 | MTH-FSL2    | MTH Functional Skills L2 Online Course      | Level 2      | /course/mth_functionalskill_level2.png  | 2022-08-01 21:27:08
+ course_id |        course_name        | course_code |                 course_desc                 | course_level |              course_image               
+-----------+---------------------------+-------------+---------------------------------------------+--------------+-----------------------------------------
+         1 | MTH GCSE Maths Foundation | MTH-GF      | MTH GCSE Maths Foundation Online Course     | Foundation   | /course/mth_gcse_foundation.png
+         2 | MTH GCSE Maths Higher     | MTH-GH      | MTH GCSE Maths Higher Online Course         | Higher       | /course/mth_gcse_higher.png
+         3 | MTH Functional Skills- E3 | MTH-FSE3    | MTH Functional Skills Entry 3 Online Course | Entry 3      | /course/functionalskill_entrylevel3.png
+         4 | MTH Functional Skills- L1 | MTH-FSL1    | MTH Functional Skills L1 Online Course      | Level 1      | /course/mth_functionalskill_level1.png
+         5 | MTH Functional Skills- L2 | MTH-FSL2    | MTH Functional Skills L2 Online Course      | Level 2      | /course/mth_functionalskill_level2.png
 (5 rows)
 
- topic_id |      topic_name       | topic_code |                            topic_desc                             | topic_index |  topic_created_at   | topic_course_id 
-----------+-----------------------+------------+-------------------------------------------------------------------+-------------+---------------------+-----------------
-        1 | Number 1              | GFN1       | MTH GCSE Maths Online Course - Foundation - Number 1              |           1 | 2022-08-01 21:27:08 |               1
-        2 | Number 2              | GFN2       | MTH GCSE Maths Online Course - Foundation - Number 2              |           2 | 2022-08-01 21:27:08 |               1
-        3 | Algebra 1             | GFA1       | MTH GCSE Maths Online Course - Foundation - Algebra 1             |           3 | 2022-08-01 21:27:08 |               1
-        4 | Algebra 2             | GFA2       | MTH GCSE Maths Online Course - Foundation - Algebra 2             |           4 | 2022-08-01 21:27:08 |               1
-        5 | Ratio and Measurement | GFRM       | MTH GCSE Maths Online Course - Foundation - Ratio and Measurement |           5 | 2022-08-01 21:27:08 |               1
-        6 | Geometry 1            | GFG1       | MTH GCSE Maths Online Course - Foundation - Geometry 1            |           6 | 2022-08-01 21:27:08 |               1
-        7 | Geometry 2            | GFG2       | MTH GCSE Maths Online Course - Foundation - Geometry 2            |           7 | 2022-08-01 21:27:08 |               1
-        8 | Probability           | GFP1       | MTH GCSE Maths Online Course - Foundation - Probability           |           8 | 2022-08-01 21:27:08 |               1
-        9 | Statistics            | GFS1       | MTH GCSE Maths Online Course - Foundation - Statistics            |           9 | 2022-08-01 21:27:08 |               1
-       10 | Number 1              | GHN1       | MTH GCSE Maths Online Course - Higher - Number 1                  |           1 | 2022-08-01 21:27:08 |               2
-       11 | Number 2              | GHN2       | MTH GCSE Maths Online Course - Higher - Number 2                  |           2 | 2022-08-01 21:27:08 |               2
-       12 | Algebra 1             | GHA1       | MTH GCSE Maths Online Course - Higher - Algebra 1                 |           3 | 2022-08-01 21:27:08 |               2
-       13 | Algebra 2             | GHA2       | MTH GCSE Maths Online Course - Higher - Algebra 2                 |           4 | 2022-08-01 21:27:08 |               2
-       14 | Ratio and Measurement | GHRM       | MTH GCSE Maths Online Course - Higher - Ratio and Measurement     |           5 | 2022-08-01 21:27:08 |               2
-       15 | Geometry 1            | GHG1       | MTH GCSE Maths Online Course - Higher - Geometry 1                |           6 | 2022-08-01 21:27:08 |               2
-       16 | Geometry 2            | GHG2       | MTH GCSE Maths Online Course - Higher - Geometry 2                |           7 | 2022-08-01 21:27:08 |               2
-       17 | Probability           | GHP1       | MTH GCSE Maths Online Course - Higher - Probability               |           8 | 2022-08-01 21:27:08 |               2
-       18 | Statistics            | GHS1       | MTH GCSE Maths Online Course - Higher - Statistics                |           9 | 2022-08-01 21:27:08 |               2
+ topic_id |      topic_name       | topic_code |                            topic_desc                             | topic_index | topic_course_id 
+----------+-----------------------+------------+-------------------------------------------------------------------+-------------+-----------------
+        1 | Number 1              | GFN1       | MTH GCSE Maths Online Course - Foundation - Number 1              |           1 |               1
+        2 | Number 2              | GFN2       | MTH GCSE Maths Online Course - Foundation - Number 2              |           2 |               1
+        3 | Algebra 1             | GFA1       | MTH GCSE Maths Online Course - Foundation - Algebra 1             |           3 |               1
+        4 | Algebra 2             | GFA2       | MTH GCSE Maths Online Course - Foundation - Algebra 2             |           4 |               1
+        5 | Ratio and Measurement | GFRM       | MTH GCSE Maths Online Course - Foundation - Ratio and Measurement |           5 |               1
+        6 | Geometry 1            | GFG1       | MTH GCSE Maths Online Course - Foundation - Geometry 1            |           6 |               1
+        7 | Geometry 2            | GFG2       | MTH GCSE Maths Online Course - Foundation - Geometry 2            |           7 |               1
+        8 | Probability           | GFP1       | MTH GCSE Maths Online Course - Foundation - Probability           |           8 |               1
+        9 | Statistics            | GFS1       | MTH GCSE Maths Online Course - Foundation - Statistics            |           9 |               1
+       10 | Number 1              | GHN1       | MTH GCSE Maths Online Course - Higher - Number 1                  |           1 |               2
+       11 | Number 2              | GHN2       | MTH GCSE Maths Online Course - Higher - Number 2                  |           2 |               2
+       12 | Algebra 1             | GHA1       | MTH GCSE Maths Online Course - Higher - Algebra 1                 |           3 |               2
+       13 | Algebra 2             | GHA2       | MTH GCSE Maths Online Course - Higher - Algebra 2                 |           4 |               2
+       14 | Ratio and Measurement | GHRM       | MTH GCSE Maths Online Course - Higher - Ratio and Measurement     |           5 |               2
+       15 | Geometry 1            | GHG1       | MTH GCSE Maths Online Course - Higher - Geometry 1                |           6 |               2
+       16 | Geometry 2            | GHG2       | MTH GCSE Maths Online Course - Higher - Geometry 2                |           7 |               2
+       17 | Probability           | GHP1       | MTH GCSE Maths Online Course - Higher - Probability               |           8 |               2
+       18 | Statistics            | GHS1       | MTH GCSE Maths Online Course - Higher - Statistics                |           9 |               2
 (18 rows)
 
- tutor_id | tutor_firstname | tutor_lastname |     tutor_email     | tutor_active |    tutor_image    |  tutor_created_at   
-----------+-----------------+----------------+---------------------+--------------+-------------------+---------------------
-        1 | Sheraz          | Cheema         | csheraz@hotmail.com | t            | /tutor/tutor1.png | 2022-08-01 21:27:08
+ tutor_id | tutor_firstname | tutor_lastname |     tutor_email     | tutor_password | tutor_active |    tutor_image    
+----------+-----------------+----------------+---------------------+----------------+--------------+-------------------
+        1 | Sheraz          | Cheema         | csheraz@hotmail.com | password       | t            | /tutor/tutor1.png
 (1 row)
 
- student_id | student_firstname | student_lastname |    student_email    | student_active | student_quizresult | student_grade | student_targetgrade | student_notes | student_progressbar |     student_image     | student_created_at  | student_course_id | student_tutor_id 
-------------+-------------------+------------------+---------------------+----------------+--------------------+---------------+---------------------+---------------+---------------------+-----------------------+---------------------+-------------------+------------------
-          1 | Student1FN        | Student1LN       | csheraz@hotmail.com | t              |                  9 |             2 |                   5 | Working well  |                   3 | /student/student1.png | 2022-08-01 21:27:08 |                 1 |                1
-          2 | Student2FN        | Student2LN       | csheraz@hotmail.com | t              |                  9 |             2 |                   5 | Working well  |                   3 | /student/student2.png | 2022-08-01 21:27:08 |                 1 |                1
-          3 | Student1FN        | Student3LN       | csheraz@hotmail.com | t              |                  9 |             2 |                   5 | Working well  |                   3 | /student/student3.png | 2022-08-01 21:27:08 |                 1 |                1
+ student_id | student_firstname | student_lastname |    student_email    | student_password | student_active | student_grade | student_targetgrade | student_notes | student_progressbar |     student_image     
+------------+-------------------+------------------+---------------------+------------------+----------------+---------------+---------------------+---------------+---------------------+-----------------------
+          1 | Student1FN        | Student1LN       | csheraz@hotmail.com | password         | t              |             2 |                   5 | Working well  |                   3 | /student/student1.png
+          2 | Student2FN        | Student2LN       | csheraz@hotmail.com | password         | t              |             2 |                   5 | Working well  |                   3 | /student/student2.png
+          3 | Student1FN        | Student3LN       | csheraz@hotmail.com | password         | t              |             2 |                   5 | Working well  |                   3 | /student/student3.png
 (3 rows)
 
+ lesson_id |               lesson_name                | lesson_code |                                               lesson_desc                                                | lesson_ws | lesson_body | lesson_topic_id 
+-----------+------------------------------------------+-------------+----------------------------------------------------------------------------------------------------------+-----------+-------------+-----------------
+         1 | Addition, Subtraction and Money Problems | GFN1LC1     | To be able to add, subtract, and solve money problems.                                                   | GFN1WS1   | PowerPoint  |               1
+         2 | Place Value and Decimals                 | GFN1LC2     | To be able to use place value to read and write numbers including decimals.                              | GFN1WS2   | PowerPoint  |               1
+         3 | Negative Numbers                         | GFN1LC3     | To be able to add, subtract, divide and multiply integer numbers                                         | GFN1WS3   | PowerPoint  |               1
+         4 | Multiplication and Division              | GFN1LC4     | To be able to multiply and divde                                                                         | GFN1WS4   | PowerPoint  |               1
+         5 | Squares, Cubes and Roots                 | GFN1LC5     | To be able to recognize square and cube numbers.                                                         | GFN1WS5   | PowerPoint  |               1
+         6 | Index Notation                           | GFN1LC6     | Introduction to Index Notation and Index laws                                                            | GFN1WS6   | PowerPoint  |               1
+         7 | Order of Operation                       | GFN1LC7     | To be able to use BIDMAS to work out calculations                                                        | GFN1WS7   | PowerPoint  |               1
+         8 | Rounding Numbers and Estimation          | GFN1LC8     | To be able to round numbers and estimate calculation                                                     | GFN1WS8   | PowerPoint  |               1
+         9 | Factors,Multiples and Prime Numbers      | GFN1LC9     | To be able to recognize factors, multiple and prime numbers                                              | GFN1WS9   | PowerPoint  |               1
+        10 | Primefactors HCF AND LCM                 | GFN1LC10    | To be able to calculate primefactors, HCF and LCM                                                        | GFN1WS10  | PowerPoint  |               1
+        11 | Calculator Skills                        | GFN2LC1     | To understand how to use a scientific calculator.                                                        | GFN2WS1   | PowerPoint  |               2
+        12 | Fraction 1                               | GFN2LC2     | Introduction to fraction and how to simplify, convert and order them                                     | GFN2WS2   | PowerPoint  |               2
+        13 | Fraction 2                               | GFN2LC3     | To be able to add and subtract fractions including mixed numbers                                         | GFN2WS3   | PowerPoint  |               2
+        14 | Fraction 3                               | GFN2LC4     | To be able to multiply and divide fractions including mixed numbers                                      | GFN2WS4   | PowerPoint  |               2
+        15 | Fractions, Decimals and Percentage       | GFN2LC5     | To be able to convert fraction, decimal and percentage.                                                  | GFN2WS5   | PowerPoint  |               2
+        16 | Percentage 1                             | GFN2LC6     | To be able to calculate percentage of an amount, percentage and percentage change.                       | GFN2WS6   | PowerPoint  |               2
+        17 | Percentage 2                             | GFN2LC7     | To be able to Increase/decrease by a percentage (using multiplier) including compound/reverse percentage | GFN2WS7   | PowerPoint  |               2
+        18 | Standard Form                            | GFN2LC8     | To be able to convert standard form and do standard form operations.                                     | GFN2WS8   | PowerPoint  |               2
+        19 | Limits of Accuracy and Reciprocals       | GFN2LC9     | To be able to calculate the reciprocal and limits of accuracy                                            | GFN2WS9   | PowerPoint  |               2
+        20 | Times and Timetables                     | GFRMLC1     | To be able to convert time and read bus/train timetables                                                 | GFRMWS1   | PowerPoint  |               3
+        21 | Measurement                              | GFRMLC2     | Introductions to Measurement Systems and how to Convert Units                                            | GFRMWS2   | PowerPoint  |               3
+        22 | Ratio 1                                  | GFRMLC3     | To be able to express ratio, simplify them and write ratio as a fraction.                                | GFRMWS3   | PowerPoint  |               3
+        23 | Ratio 2                                  | GFRMLC4     | To be able to use ratio tables to solve problems including ratio recipe                                  | GFRMWS4   | PowerPoint  |               3
+        24 | Best Buy                                 | GFRMLC5     | To be able to find the unit cost to find which product is cheaper                                        | GFRMWS5   | PowerPoint  |               3
+        25 | Share Ratio                              | GFRMLC6     | To be able to share a quantity in a given ratio                                                          | GFRMWS6   | PowerPoint  |               3
+        26 | Exchanging Money                         | GFRMLC7     | To be able to solve currency conversion problems.                                                        | GFRMWS7   | PowerPoint  |               3
+        27 | Compound Measures                        | GFRMLC8     | To be able to use compound measures such as DST and MDV                                                  | GFRMWS8   | PowerPoint  |               3
+        28 | Scale Drawings and Maps                  | GFRMLC9     | To be able to solve scale drawings and map problems                                                      | GFRMWS9   | PowerPoint  |               3
+        29 | Triangles                                | GFG1LC1     | Understand triangle properties and calculate angles in a triangle                                        | GFG1WS1   | PowerPoint  |               4
+        30 | Quadrilaterals                           | GFG1LC2     | Understand quadrilateral properties and calculate angles in a quadrilateral                              | GFG1WS2   | PowerPoint  |               4
+        31 | Angle Problems                           | GFG1LC3     | To be able to use angle facts to solve angle problems                                                    | GFG1WS3   | PowerPoint  |               4
+        32 | Circles                                  | GFG1LC4     | To be able to label, calculate circumference and area of a circle                                        | GFG1WS4   | PowerPoint  |               4
+        33 | Polygons                                 | GFG1LC5     | To be able to work out the interior and exterior angles of a polygon                                     | GFG1WS5   | PowerPoint  |               4
+        34 | Area                                     | GFG1LC6     | To be able to find area of 2d shapes including compound shapes.                                          | GFG1WS6   | PowerPoint  |               4
+        35 | Perimeter                                | GFG1LC7     | To be able to find perimeter of 2d shapes including compound shapes.                                     | GFG1WS7   | PowerPoint  |               4
+        36 | 3D Shapes                                | GFG1LC8     | To be able to recognize 3D Shapes and draw plans and elevations.                                         | GFG1WS8   | PowerPoint  |               4
+        37 | Volumes                                  | GFG1LC9     | Introduction to volume and how to calculate the volume of a prism.                                       | GFG1WS9   | PowerPoint  |               4
+        38 | Surface Area                             | GFG1LC10    | To be able calculate surface area of solid figures                                                       | GFG1WS10  | PowerPoint  |               4
+        39 | Pythagoras theorem                       | GFG2LC1     | To be able to Find the unknown side of a right angle triangle using Pythagoras’ theorem                  | GFG2WS1   | PowerPoint  |               5
+        40 | Trigonometry                             | GFG2LC2     | To be able to solve Trigonometry problems                                                                | GFG2WS2   | PowerPoint  |               5
+        41 | Construction and Loci                    | GFG2LC3     | To be able to make constructions and do loci problems                                                    | GFG2WS3   | PowerPoint  |               5
+        42 | Vectors                                  | GFG2LC4     | To be able to understand and use vector notation                                                         | GFG2WS4   | PowerPoint  |               5
+        43 | Bearings                                 | GFG2LC5     | To be able to work out and measure bearings                                                              | GFG2WS5   | PowerPoint  |               5
+        44 | Translations                             | GFG2LC6     | To be able to translate shapes and describe translation                                                  | GFG2WS6   | PowerPoint  |               5
+        45 | Reflections                              | GFG2LC7     | To be able to reflect shapes and describe reflection                                                     | GFG2WS7   | PowerPoint  |               5
+        46 | Rotations                                | GFG2LC8     | To be able to rotate shapes and describe rotation                                                        | GFG2WS8   | PowerPoint  |               5
+        47 | Enlargements                             | GFG2LC9     | To be able to enlarge shapes and describe enlargement.                                                   | GFG2WS9   | PowerPoint  |               5
+        48 | Similarity and Congruence                | GFG2LC10    | Introduction to similarity, congruence, tessellation and symmetry                                        | GFG2WS10  | PowerPoint  |               5
+        49 | Algebra Introduction                     | GFA1LC1     | Introduction to Algebra Vocabulary and write algebraic expressions                                       | GFA1WS1   | PowerPoint  |               6
+        50 | Simplifying Expressions                  | GFA1LC2     | To be able to simplify expressions with the four operations                                              | GFA1WS2   | PowerPoint  |               6
+        51 | Expanding Brackets                       | GFA1LC3     | To be able to expand  brackets and simplify                                                              | GFA1WS3   | PowerPoint  |               6
+        52 | Factorising Expressions                  | GFA1LC4     | To be able to use a scientific calculator                                                                | GFA1WS4   | PowerPoint  |               6
+        53 | Solving Linear Equations                 | GFA1LC5     | To be able to Solve Linear Equations with bracket and unknown on both sides                              | GFA1WS5   | PowerPoint  |               6
+        54 | Forming Equations                        | GFA1LC6     | To be able to form and solve equations.                                                                  | GFA1WS6   | PowerPoint  |               6
+        55 | Formulae and Substitution                | GFA1LC7     | Introduction to formulae and to substitute numbers into expressions or formulae                          | GFA1WS7   | PowerPoint  |               6
+        56 | Inequalities                             | GFA1LC8     | To be able to solve inequalities                                                                         | GFA1WS8   | PowerPoint  |               6
+        57 | Sequences                                | GFA2LC1     | To be able to generate sequences, and find the nth Term                                                  | GFA2WS1   | PowerPoint  |               7
+        58 | Straight-line graphs                     | GFA2LC2     | Interpret equation of a line, drawing straight line graphs and calculating gradient                      | GFA2WS2   | PowerPoint  |               7
+        59 | Simultaneous Equations                   | GFA2LC3     | To be able to solve simultaneous equations                                                               | GFA2WS3   | PowerPoint  |               7
+        60 | Graphs of Quadratics                     | GFA2LC4     | To be able to plot Graphs of Quadratics                                                                  | GFA2WS4   | PowerPoint  |               7
+        61 | Solving Quadratic Equations              | GFA2LC5     | To be able to solve Quadratic Equations                                                                  | GFA2WS5   | PowerPoint  |               7
+        62 | Real-life Graphs                         | GFA2LC7     | Understanding real life graphs such as conversion graph and travel graph                                 | GFA2WS7   | PowerPoint  |               7
+        63 | Cubic and Reciprocal Graphs              | GFA2LC7     | To be able to plot cubic and reciprocal graphs                                                           | GFA2WS7   | PowerPoint  |               7
+        64 | Probability 1                            | GFP1LC1     | To be able to calculate theoretical probability including mutually exclusivity                           | GFP1WS1   | PowerPoint  |               8
+        65 | Probability 2                            | GFP1LC2     | To be able to calculate relative frequency/experimental probability and listing outcomes                 | GFP1WS2   | PowerPoint  |               8
+        66 | Tree Diagrams                            | GFP1LC3     | To be able to draw a tree diagram and calculate probabilities using tree diagram.                        | GFP1WS3   | PowerPoint  |               8
+        67 | Frequency Trees                          | GFP1LC4     | To be able to use frequency trees to solve problems                                                      | GFP1WS4   | PowerPoint  |               8
+        68 | Venn diagrams                            | GFP1LC5     | To be able to complete and interpret a Venn diagram and answer questions for it                          | GFP1WS5   | PowerPoint  |               8
+        69 | Two-way Tables                           | GFP1LC6     | To be able to Interpret, Complete and Find probabilities from two-way tables.                            | GFP1WS6   | PowerPoint  |               8
+        70 | Sampling                                 | GFP1LC7     | To be able to collect and sample data                                                                    | GFP1WS7   | PowerPoint  |               8
+        71 | Basic Graphs                             | GFS1LC1     | Introduction to Bar charts, Line graphs, Pictograms and Tally Charts                                     | GFS1WS1   | PowerPoint  |               9
+        72 | Pie Charts                               | GFS1LC2     | To be able to construct and Interpret pie charts.                                                        | GFS1WS3   | PowerPoint  |               9
+        73 | Scatter Graphs                           | GFS1LC3     | To be able to Draw Scatter Graph and Identify the type of correlation                                    | GFS1WS4   | PowerPoint  |               9
+        74 | Averages and Range                       | GFS1LC4     | To be able to calculate averages (mean, median, mode) and range.                                         | GFS1WS5   | PowerPoint  |               9
+        75 | Averages from tables                     | GFS1LC5     | To be able to find Averages from the discrete data/ grouped data on a frequency table.                   | GFS1WS6   | PowerPoint  |               9
+        76 | Stem-and-leaf diagrams                   | GFS1LC6     | To be able to use a stem and leaf diagram and find averages                                              | GFS1WS8   | PowerPoint  |               9
+        77 | Frequency Polygon                        | GFS1LC7     | To be able to draw and interpret a frequency polygon                                                     | GFS1WS9   | PowerPoint  |               9
+(77 rows)
+
+ quiz_id |                   quiz_name                   | quiz_code |    quiz_type    
+---------+-----------------------------------------------+-----------+-----------------
+       2 | Number 1 Topic Summary Quiz                   | GFN1TSQ   | TopicSummary
+       3 | Number 2 Topic Diagnostic Quiz                | GFN2TDQ   | TopicDiagnostic
+       4 | Number 2 Topic Summary Quiz                   | GFN2TSQ   | TopicSummary
+       5 | Algebra 1 Topic Diagnostic Quiz               | GFA1TDQ   | TopicDiagnostic
+       6 | Algebra 1 Topic Summary Quiz                  | GFA1TSQ   | TopicSummary
+       7 | Algebra 2 Topic Diagnostic Quiz               | GFA2TDQ   | TopicDiagnostic
+       8 | Algebra 2 Topic Summary Quiz                  | GFA2TSQ   | TopicSummary
+       9 | Ratio and Measurement Topic Diagnostic Quiz   | GFRMTDQ   | TopicDiagnostic
+      10 | Ratio and Measurement Topic Summary Quiz      | GFRMTSQ   | TopicSummary
+      11 | Geometry 1 Topic Diagnostic Quiz              | GFG1TDQ   | TopicDiagnostic
+      12 | Geometry 1 Topic Summary Quiz                 | GFG1TSQ   | TopicSummary
+      13 | Geometry 2 Topic Diagnostic Quiz              | GFG2TDQ   | TopicDiagnostic
+      14 | Geometry 2 Topic Summary Quiz                 | GFG2TSQ   | TopicSummary
+      15 | Probability Topic Diagnostic Quiz             | GFP1TDQ   | TopicDiagnostic
+      16 | Probability Topic Summary Quiz                | GFP1TSQ   | TopicSummary
+      17 | Statistics Topic Diagnostic Quiz              | GFS1TDQ   | TopicDiagnostic
+      18 | Statistics Topic Summary Quiz                 | GFS1TSQ   | TopicSummary
+      19 | Edexcel Mathematics Paper 1 (NonCalculator)   | 1MA11F    | Course-Exam
+      20 | Edexcel Mathematics Paper 1 (Calculator)      | 1MA11F    | Course-Exam
+      21 | Addition, Subtraction and Money Problems Quiz | GFN1LC1Q  | LessonSummary
+      22 | Place Value and Decimals Quiz                 | GFN1LC2Q  | LessonSummary
+      23 | Negative Numbers Quiz                         | GFN1LC3Q  | LessonSummary
+      24 | Multiplication and Division Quiz              | GFN1LC4Q  | LessonSummary
+      25 | Squares, Cubes and Roots Quiz                 | GFN1LC5Q  | LessonSummary
+      26 | Index Notation Quiz                           | GFN1LC6Q  | LessonSummary
+      27 | Order of Operation Quiz                       | GFN1LC7Q  | LessonSummary
+      28 | Rounding Numbers and Estimation Quiz          | GFN1LC8Q  | LessonSummary
+      29 | Factors,Multiples and Prime Numbers Quiz      | GFN1LC9Q  | LessonSummary
+      30 | Primefactors HCF AND LCM Quiz                 | GFN1LC10Q | LessonSummary
+      31 | Calculator Skills Quiz                        | GFN2LC1Q  | LessonSummary
+      32 | Fraction 1 Quiz                               | GFN2LC2Q  | LessonSummary
+      33 | Fraction 2 Quiz                               | GFN2LC3Q  | LessonSummary
+      34 | Fraction 3 Quiz                               | GFN2LC4Q  | LessonSummary
+      35 | Fractions, Decimals and Percentage Quiz       | GFN2LC5Q  | LessonSummary
+      36 | Percentage 1 Quiz                             | GFN2LC6Q  | LessonSummary
+      37 | Percentage 2 Quiz                             | GFN2LC7Q  | LessonSummary
+      38 | Standard Form Quiz                            | GFN2LC8Q  | LessonSummary
+      39 | Limits of Accuracy and Reciprocals  Quiz      | GFN2LC9Q  | LessonSummary
+      40 | Times and Timetables Quiz                     | GFRMLC1Q  | LessonSummary
+      41 | Measurement Quiz                              | GFRMLC2Q  | LessonSummary
+      42 | Ratio 1 Quiz                                  | GFRMLC3Q  | LessonSummary
+      43 | Ratio 2 Quiz                                  | GFRMLC4Q  | LessonSummary
+      44 | Best Buy Quiz                                 | GFRMLC5Q  | LessonSummary
+      45 | Share Ratio Quiz                              | GFRMLC6Q  | LessonSummary
+      46 | Exchanging Money Quiz                         | GFRMLC7Q  | LessonSummary
+      47 | Compound Measures Quiz                        | GFRMLC8Q  | LessonSummary
+      48 | Scale Drawings and Maps Quiz                  | GFRMLC9Q  | LessonSummary
+      49 | Triangles Quiz                                | GFG1LC1Q  | LessonSummary
+      50 | Quadrilaterals Quiz                           | GFG1LC2Q  | LessonSummary
+      51 | Angle Problems Quiz                           | GFG1LC3Q  | LessonSummary
+      52 | Circles Quiz                                  | GFG1LC4Q  | LessonSummary
+      53 | Polygons Quiz                                 | GFG1LC5Q  | LessonSummary
+      54 | Area Quiz                                     | GFG1LC6Q  | LessonSummary
+      55 | Perimeter Quiz                                | GFG1LC7Q  | LessonSummary
+      56 | 3D Shapes Quiz                                | GFG1LC8Q  | LessonSummary
+      57 | Volumes Quiz                                  | GFG1LC9Q  | LessonSummary
+      58 | Surface Area Quiz                             | GFG1LC10Q | LessonSummary
+      59 | Pythagoras theorem Quiz                       | GFG2LC1Q  | LessonSummary
+      60 | Trigonometry Quiz                             | GFG2LC2Q  | LessonSummary
+      61 | Construction and Loci Quiz                    | GFG2LC3Q  | LessonSummary
+      62 | Vectors Quiz                                  | GFG2LC4Q  | LessonSummary
+      63 | Bearings Quiz                                 | GFG2LC5Q  | LessonSummary
+      64 | Translations Quiz                             | GFG2LC6Q  | LessonSummary
+      65 | Reflections Quiz                              | GFG2LC7Q  | LessonSummary
+      66 | Rotations Quiz                                | GFG2LC8Q  | LessonSummary
+      67 | Enlargements Quiz                             | GFG2LC9Q  | LessonSummary
+      68 | Similarity and Congruence Quiz                | GFG2LC10Q | LessonSummary
+      69 | Algebra Introduction Quiz                     | GFA1LC1Q  | LessonSummary
+      70 | Simplifying Expressions Quiz                  | GFA1LC2Q  | LessonSummary
+      71 | Expanding Brackets Quiz                       | GFA1LC3Q  | LessonSummary
+      72 | Factorising Expressions Quiz                  | GFA1LC4Q  | LessonSummary
+      73 | Solving Linear Equations Quiz                 | GFA1LC5Q  | LessonSummary
+      74 | Forming Equations Quiz                        | GFA1LC6Q  | LessonSummary
+      75 | Formulae and Substitution Quiz                | GFA1LC7Q  | LessonSummary
+      76 | Inequalities Quiz                             | GFA1LC8Q  | LessonSummary
+      77 | Sequences Quiz                                | GFA2LC1Q  | LessonSummary
+      78 | Straight-line graphs Quiz                     | GFA2LC2Q  | LessonSummary
+      79 | Simultaneous Equations Quiz                   | GFA2LC3Q  | LessonSummary
+      80 | Graphs of Quadratics Quiz                     | GFA2LC4Q  | LessonSummary
+      81 | Solving Quadratic Equations Quiz              | GFA2LC5Q  | LessonSummary
+      82 | Real-life Graphs Quiz                         | GFA2LC7Q  | LessonSummary
+      83 | Cubic and Reciprocal Graphs Quiz              | GFA2LC7Q  | LessonSummary
+      84 | Probability 1 Quiz                            | GFP1LC1Q  | LessonSummary
+      85 | Probability 2 Quiz                            | GFP1LC2Q  | LessonSummary
+      86 | Tree Diagrams Quiz                            | GFP1LC3Q  | LessonSummary
+      87 | Frequency Trees Quiz                          | GFP1LC4Q  | LessonSummary
+      88 | Venn diagrams Quiz                            | GFP1LC5Q  | LessonSummary
+      89 | Two-way Tables Quiz                           | GFP1LC6Q  | LessonSummary
+      90 | Sampling Quiz                                 | GFP1LC7Q  | LessonSummary
+      91 | Basic Graphs Quiz                             | GFS1LC1Q  | LessonSummary
+      92 | Pie Charts Quiz                               | GFS1LC2Q  | LessonSummary
+      93 | Scatter Graphs Quiz                           | GFS1LC3Q  | LessonSummary
+      94 | Averages and Range  Quiz                      | GFS1LC4Q  | LessonSummary
+      95 | Averages from tables Quiz                     | GFS1LC5Q  | LessonSummary
+      96 | Stem-and-leaf diagrams Quiz                   | GFS1LC6Q  | LessonSummary
+      97 | Frequency Polygon Quiz                        | GFS1LC7Q  | LessonSummary
+       1 | NewPatch Number 2- Topic Diagnostic Quiz      | GFN2TDQ   | TopicDiagnostic
+(97 rows)
+
+ auth_id | auth_student_id | auth_tutor_id | auth_token 
+---------+-----------------+---------------+------------
+(0 rows)
+
+ digitutor_id | digitutor_student_id | digitutor_tutor_id | digitutor_msg_count | digitutor_input | digitutor_output 
+--------------+----------------------+--------------------+---------------------+-----------------+------------------
+(0 rows)
+
+ quizfb_id | quizfb_digitutor_id | quizfb_quiz_id | quizfb_result | quizfb_notes | quizfb_percent 
+-----------+---------------------+----------------+---------------+--------------+----------------
+(0 rows)
+
+ ques_id |  ques_body  | ques_image | ques_grade | ques_calc | ques_mark | ques1_ans | ques2_ans | ques3_ans | ques_explain | ques_ans_mark | ques_ans_image | ques_ans_correct | ques_ans_sym_b | ques_ans_sym_a | ques_quiz_id | ques_lesson_id 
+---------+-------------+------------+------------+-----------+-----------+-----------+-----------+-----------+--------------+---------------+----------------+------------------+----------------+----------------+--------------+----------------
+       1 | 3.26 + 14.9 |            |          2 | f         |         1 | 18.16     |           |           |              |               |                |                  |                |                |              |              1
+(1 row)
+
 You are now connected to database "mthdb" as user "sheraz".
- course_id |        course_name        | course_code |                 course_desc                 | course_level |              course_image               |  course_created_at  
------------+---------------------------+-------------+---------------------------------------------+--------------+-----------------------------------------+---------------------
-         1 | MTH GCSE Maths Foundation | MTH-GF      | MTH GCSE Maths Foundation Online Course     | Foundation   | /course/mth_gcse_foundation.png         | 2022-08-01 12:43:30
-         2 | MTH GCSE Maths Higher     | MTH-GH      | MTH GCSE Maths Higher Online Course         | Higher       | /course/mth_gcse_higher.png             | 2022-08-01 12:43:30
-         3 | MTH Functional Skills- E3 | MTH-FSE3    | MTH Functional Skills Entry 3 Online Course | Entry 3      | /course/functionalskill_entrylevel3.png | 2022-08-01 12:43:30
-         4 | MTH Functional Skills- L1 | MTH-FSL1    | MTH Functional Skills L1 Online Course      | Level 1      | /course/mth_functionalskill_level1.png  | 2022-08-01 12:43:30
-         5 | MTH Functional Skills- L2 | MTH-FSL2    | MTH Functional Skills L2 Online Course      | Level 2      | /course/mth_functionalskill_level2.png  | 2022-08-01 12:43:30
+ course_id |        course_name        | course_code |                 course_desc                 | course_level |              course_image               
+-----------+---------------------------+-------------+---------------------------------------------+--------------+-----------------------------------------
+         1 | MTH GCSE Maths Foundation | MTH-GF      | MTH GCSE Maths Foundation Online Course     | Foundation   | /course/mth_gcse_foundation.png
+         2 | MTH GCSE Maths Higher     | MTH-GH      | MTH GCSE Maths Higher Online Course         | Higher       | /course/mth_gcse_higher.png
+         3 | MTH Functional Skills- E3 | MTH-FSE3    | MTH Functional Skills Entry 3 Online Course | Entry 3      | /course/functionalskill_entrylevel3.png
+         4 | MTH Functional Skills- L1 | MTH-FSL1    | MTH Functional Skills L1 Online Course      | Level 1      | /course/mth_functionalskill_level1.png
+         5 | MTH Functional Skills- L2 | MTH-FSL2    | MTH Functional Skills L2 Online Course      | Level 2      | /course/mth_functionalskill_level2.png
 (5 rows)
 
- topic_id |      topic_name       | topic_code |                            topic_desc                             | topic_index |  topic_created_at   | topic_course_id 
-----------+-----------------------+------------+-------------------------------------------------------------------+-------------+---------------------+-----------------
-        1 | Number 1              | GFN1       | MTH GCSE Maths Online Course - Foundation - Number 1              |           1 | 2022-08-01 12:43:30 |               1
-        2 | Number 2              | GFN2       | MTH GCSE Maths Online Course - Foundation - Number 2              |           2 | 2022-08-01 12:43:30 |               1
-        3 | Algebra 1             | GFA1       | MTH GCSE Maths Online Course - Foundation - Algebra 1             |           3 | 2022-08-01 12:43:30 |               1
-        4 | Algebra 2             | GFA2       | MTH GCSE Maths Online Course - Foundation - Algebra 2             |           4 | 2022-08-01 12:43:30 |               1
-        5 | Ratio and Measurement | GFRM       | MTH GCSE Maths Online Course - Foundation - Ratio and Measurement |           5 | 2022-08-01 12:43:30 |               1
-        6 | Geometry 1            | GFG1       | MTH GCSE Maths Online Course - Foundation - Geometry 1            |           6 | 2022-08-01 12:43:30 |               1
-        7 | Geometry 2            | GFG2       | MTH GCSE Maths Online Course - Foundation - Geometry 2            |           7 | 2022-08-01 12:43:30 |               1
-        8 | Probability           | GFP1       | MTH GCSE Maths Online Course - Foundation - Probability           |           8 | 2022-08-01 12:43:30 |               1
-        9 | Statistics            | GFS1       | MTH GCSE Maths Online Course - Foundation - Statistics            |           9 | 2022-08-01 12:43:30 |               1
-       10 | Number 1              | GHN1       | MTH GCSE Maths Online Course - Higher - Number 1                  |           1 | 2022-08-01 12:43:30 |               2
-       11 | Number 2              | GHN2       | MTH GCSE Maths Online Course - Higher - Number 2                  |           2 | 2022-08-01 12:43:30 |               2
-       12 | Algebra 1             | GHA1       | MTH GCSE Maths Online Course - Higher - Algebra 1                 |           3 | 2022-08-01 12:43:30 |               2
-       13 | Algebra 2             | GHA2       | MTH GCSE Maths Online Course - Higher - Algebra 2                 |           4 | 2022-08-01 12:43:30 |               2
-       14 | Ratio and Measurement | GHRM       | MTH GCSE Maths Online Course - Higher - Ratio and Measurement     |           5 | 2022-08-01 12:43:30 |               2
-       15 | Geometry 1            | GHG1       | MTH GCSE Maths Online Course - Higher - Geometry 1                |           6 | 2022-08-01 12:43:30 |               2
-       16 | Geometry 2            | GHG2       | MTH GCSE Maths Online Course - Higher - Geometry 2                |           7 | 2022-08-01 12:43:30 |               2
-       17 | Probability           | GHP1       | MTH GCSE Maths Online Course - Higher - Probability               |           8 | 2022-08-01 12:43:30 |               2
-       18 | Statistics            | GHS1       | MTH GCSE Maths Online Course - Higher - Statistics                |           9 | 2022-08-01 12:43:30 |               2
+ topic_id |      topic_name       | topic_code |                            topic_desc                             | topic_index | topic_course_id 
+----------+-----------------------+------------+-------------------------------------------------------------------+-------------+-----------------
+        1 | Number 1              | GFN1       | MTH GCSE Maths Online Course - Foundation - Number 1              |           1 |               1
+        2 | Number 2              | GFN2       | MTH GCSE Maths Online Course - Foundation - Number 2              |           2 |               1
+        3 | Algebra 1             | GFA1       | MTH GCSE Maths Online Course - Foundation - Algebra 1             |           3 |               1
+        4 | Algebra 2             | GFA2       | MTH GCSE Maths Online Course - Foundation - Algebra 2             |           4 |               1
+        5 | Ratio and Measurement | GFRM       | MTH GCSE Maths Online Course - Foundation - Ratio and Measurement |           5 |               1
+        6 | Geometry 1            | GFG1       | MTH GCSE Maths Online Course - Foundation - Geometry 1            |           6 |               1
+        7 | Geometry 2            | GFG2       | MTH GCSE Maths Online Course - Foundation - Geometry 2            |           7 |               1
+        8 | Probability           | GFP1       | MTH GCSE Maths Online Course - Foundation - Probability           |           8 |               1
+        9 | Statistics            | GFS1       | MTH GCSE Maths Online Course - Foundation - Statistics            |           9 |               1
+       10 | Number 1              | GHN1       | MTH GCSE Maths Online Course - Higher - Number 1                  |           1 |               2
+       11 | Number 2              | GHN2       | MTH GCSE Maths Online Course - Higher - Number 2                  |           2 |               2
+       12 | Algebra 1             | GHA1       | MTH GCSE Maths Online Course - Higher - Algebra 1                 |           3 |               2
+       13 | Algebra 2             | GHA2       | MTH GCSE Maths Online Course - Higher - Algebra 2                 |           4 |               2
+       14 | Ratio and Measurement | GHRM       | MTH GCSE Maths Online Course - Higher - Ratio and Measurement     |           5 |               2
+       15 | Geometry 1            | GHG1       | MTH GCSE Maths Online Course - Higher - Geometry 1                |           6 |               2
+       16 | Geometry 2            | GHG2       | MTH GCSE Maths Online Course - Higher - Geometry 2                |           7 |               2
+       17 | Probability           | GHP1       | MTH GCSE Maths Online Course - Higher - Probability               |           8 |               2
+       18 | Statistics            | GHS1       | MTH GCSE Maths Online Course - Higher - Statistics                |           9 |               2
 (18 rows)
+
+ tutor_id | tutor_firstname | tutor_lastname |     tutor_email     | tutor_password | tutor_active |    tutor_image    
+----------+-----------------+----------------+---------------------+----------------+--------------+-------------------
+        1 | Sheraz          | Cheema         | csheraz@hotmail.com | password       | t            | /tutor/tutor1.png
+(1 row)
+
+ student_id | student_firstname | student_lastname |    student_email    | student_password | student_active | student_grade | student_targetgrade | student_notes | student_progressbar |     student_image     
+------------+-------------------+------------------+---------------------+------------------+----------------+---------------+---------------------+---------------+---------------------+-----------------------
+          1 | Student1FN        | Student1LN       | csheraz@hotmail.com | password         | t              |             2 |                   5 | Working well  |                   3 | /student/student1.png
+          2 | Student2FN        | Student2LN       | csheraz@hotmail.com | password         | t              |             2 |                   5 | Working well  |                   3 | /student/student2.png
+          3 | Student1FN        | Student3LN       | csheraz@hotmail.com | password         | t              |             2 |                   5 | Working well  |                   3 | /student/student3.png
+(3 rows)
+
+ lesson_id |               lesson_name                | lesson_code |                                               lesson_desc                                                | lesson_ws | lesson_body | lesson_topic_id 
+-----------+------------------------------------------+-------------+----------------------------------------------------------------------------------------------------------+-----------+-------------+-----------------
+         1 | Addition, Subtraction and Money Problems | GFN1LC1     | To be able to add, subtract, and solve money problems.                                                   | GFN1WS1   | PowerPoint  |               1
+         2 | Place Value and Decimals                 | GFN1LC2     | To be able to use place value to read and write numbers including decimals.                              | GFN1WS2   | PowerPoint  |               1
+         3 | Negative Numbers                         | GFN1LC3     | To be able to add, subtract, divide and multiply integer numbers                                         | GFN1WS3   | PowerPoint  |               1
+         4 | Multiplication and Division              | GFN1LC4     | To be able to multiply and divde                                                                         | GFN1WS4   | PowerPoint  |               1
+         5 | Squares, Cubes and Roots                 | GFN1LC5     | To be able to recognize square and cube numbers.                                                         | GFN1WS5   | PowerPoint  |               1
+         6 | Index Notation                           | GFN1LC6     | Introduction to Index Notation and Index laws                                                            | GFN1WS6   | PowerPoint  |               1
+         7 | Order of Operation                       | GFN1LC7     | To be able to use BIDMAS to work out calculations                                                        | GFN1WS7   | PowerPoint  |               1
+         8 | Rounding Numbers and Estimation          | GFN1LC8     | To be able to round numbers and estimate calculation                                                     | GFN1WS8   | PowerPoint  |               1
+         9 | Factors,Multiples and Prime Numbers      | GFN1LC9     | To be able to recognize factors, multiple and prime numbers                                              | GFN1WS9   | PowerPoint  |               1
+        10 | Primefactors HCF AND LCM                 | GFN1LC10    | To be able to calculate primefactors, HCF and LCM                                                        | GFN1WS10  | PowerPoint  |               1
+        11 | Calculator Skills                        | GFN2LC1     | To understand how to use a scientific calculator.                                                        | GFN2WS1   | PowerPoint  |               2
+        12 | Fraction 1                               | GFN2LC2     | Introduction to fraction and how to simplify, convert and order them                                     | GFN2WS2   | PowerPoint  |               2
+        13 | Fraction 2                               | GFN2LC3     | To be able to add and subtract fractions including mixed numbers                                         | GFN2WS3   | PowerPoint  |               2
+        14 | Fraction 3                               | GFN2LC4     | To be able to multiply and divide fractions including mixed numbers                                      | GFN2WS4   | PowerPoint  |               2
+        15 | Fractions, Decimals and Percentage       | GFN2LC5     | To be able to convert fraction, decimal and percentage.                                                  | GFN2WS5   | PowerPoint  |               2
+        16 | Percentage 1                             | GFN2LC6     | To be able to calculate percentage of an amount, percentage and percentage change.                       | GFN2WS6   | PowerPoint  |               2
+        17 | Percentage 2                             | GFN2LC7     | To be able to Increase/decrease by a percentage (using multiplier) including compound/reverse percentage | GFN2WS7   | PowerPoint  |               2
+        18 | Standard Form                            | GFN2LC8     | To be able to convert standard form and do standard form operations.                                     | GFN2WS8   | PowerPoint  |               2
+        19 | Limits of Accuracy and Reciprocals       | GFN2LC9     | To be able to calculate the reciprocal and limits of accuracy                                            | GFN2WS9   | PowerPoint  |               2
+        20 | Times and Timetables                     | GFRMLC1     | To be able to convert time and read bus/train timetables                                                 | GFRMWS1   | PowerPoint  |               3
+        21 | Measurement                              | GFRMLC2     | Introductions to Measurement Systems and how to Convert Units                                            | GFRMWS2   | PowerPoint  |               3
+        22 | Ratio 1                                  | GFRMLC3     | To be able to express ratio, simplify them and write ratio as a fraction.                                | GFRMWS3   | PowerPoint  |               3
+        23 | Ratio 2                                  | GFRMLC4     | To be able to use ratio tables to solve problems including ratio recipe                                  | GFRMWS4   | PowerPoint  |               3
+        24 | Best Buy                                 | GFRMLC5     | To be able to find the unit cost to find which product is cheaper                                        | GFRMWS5   | PowerPoint  |               3
+        25 | Share Ratio                              | GFRMLC6     | To be able to share a quantity in a given ratio                                                          | GFRMWS6   | PowerPoint  |               3
+        26 | Exchanging Money                         | GFRMLC7     | To be able to solve currency conversion problems.                                                        | GFRMWS7   | PowerPoint  |               3
+        27 | Compound Measures                        | GFRMLC8     | To be able to use compound measures such as DST and MDV                                                  | GFRMWS8   | PowerPoint  |               3
+        28 | Scale Drawings and Maps                  | GFRMLC9     | To be able to solve scale drawings and map problems                                                      | GFRMWS9   | PowerPoint  |               3
+        29 | Triangles                                | GFG1LC1     | Understand triangle properties and calculate angles in a triangle                                        | GFG1WS1   | PowerPoint  |               4
+        30 | Quadrilaterals                           | GFG1LC2     | Understand quadrilateral properties and calculate angles in a quadrilateral                              | GFG1WS2   | PowerPoint  |               4
+        31 | Angle Problems                           | GFG1LC3     | To be able to use angle facts to solve angle problems                                                    | GFG1WS3   | PowerPoint  |               4
+        32 | Circles                                  | GFG1LC4     | To be able to label, calculate circumference and area of a circle                                        | GFG1WS4   | PowerPoint  |               4
+        33 | Polygons                                 | GFG1LC5     | To be able to work out the interior and exterior angles of a polygon                                     | GFG1WS5   | PowerPoint  |               4
+        34 | Area                                     | GFG1LC6     | To be able to find area of 2d shapes including compound shapes.                                          | GFG1WS6   | PowerPoint  |               4
+        35 | Perimeter                                | GFG1LC7     | To be able to find perimeter of 2d shapes including compound shapes.                                     | GFG1WS7   | PowerPoint  |               4
+        36 | 3D Shapes                                | GFG1LC8     | To be able to recognize 3D Shapes and draw plans and elevations.                                         | GFG1WS8   | PowerPoint  |               4
+        37 | Volumes                                  | GFG1LC9     | Introduction to volume and how to calculate the volume of a prism.                                       | GFG1WS9   | PowerPoint  |               4
+        38 | Surface Area                             | GFG1LC10    | To be able calculate surface area of solid figures                                                       | GFG1WS10  | PowerPoint  |               4
+        39 | Pythagoras theorem                       | GFG2LC1     | To be able to Find the unknown side of a right angle triangle using Pythagoras’ theorem                  | GFG2WS1   | PowerPoint  |               5
+        40 | Trigonometry                             | GFG2LC2     | To be able to solve Trigonometry problems                                                                | GFG2WS2   | PowerPoint  |               5
+        41 | Construction and Loci                    | GFG2LC3     | To be able to make constructions and do loci problems                                                    | GFG2WS3   | PowerPoint  |               5
+        42 | Vectors                                  | GFG2LC4     | To be able to understand and use vector notation                                                         | GFG2WS4   | PowerPoint  |               5
+        43 | Bearings                                 | GFG2LC5     | To be able to work out and measure bearings                                                              | GFG2WS5   | PowerPoint  |               5
+        44 | Translations                             | GFG2LC6     | To be able to translate shapes and describe translation                                                  | GFG2WS6   | PowerPoint  |               5
+        45 | Reflections                              | GFG2LC7     | To be able to reflect shapes and describe reflection                                                     | GFG2WS7   | PowerPoint  |               5
+        46 | Rotations                                | GFG2LC8     | To be able to rotate shapes and describe rotation                                                        | GFG2WS8   | PowerPoint  |               5
+        47 | Enlargements                             | GFG2LC9     | To be able to enlarge shapes and describe enlargement.                                                   | GFG2WS9   | PowerPoint  |               5
+        48 | Similarity and Congruence                | GFG2LC10    | Introduction to similarity, congruence, tessellation and symmetry                                        | GFG2WS10  | PowerPoint  |               5
+        49 | Algebra Introduction                     | GFA1LC1     | Introduction to Algebra Vocabulary and write algebraic expressions                                       | GFA1WS1   | PowerPoint  |               6
+        50 | Simplifying Expressions                  | GFA1LC2     | To be able to simplify expressions with the four operations                                              | GFA1WS2   | PowerPoint  |               6
+        51 | Expanding Brackets                       | GFA1LC3     | To be able to expand  brackets and simplify                                                              | GFA1WS3   | PowerPoint  |               6
+        52 | Factorising Expressions                  | GFA1LC4     | To be able to use a scientific calculator                                                                | GFA1WS4   | PowerPoint  |               6
+        53 | Solving Linear Equations                 | GFA1LC5     | To be able to Solve Linear Equations with bracket and unknown on both sides                              | GFA1WS5   | PowerPoint  |               6
+        54 | Forming Equations                        | GFA1LC6     | To be able to form and solve equations.                                                                  | GFA1WS6   | PowerPoint  |               6
+        55 | Formulae and Substitution                | GFA1LC7     | Introduction to formulae and to substitute numbers into expressions or formulae                          | GFA1WS7   | PowerPoint  |               6
+        56 | Inequalities                             | GFA1LC8     | To be able to solve inequalities                                                                         | GFA1WS8   | PowerPoint  |               6
+        57 | Sequences                                | GFA2LC1     | To be able to generate sequences, and find the nth Term                                                  | GFA2WS1   | PowerPoint  |               7
+        58 | Straight-line graphs                     | GFA2LC2     | Interpret equation of a line, drawing straight line graphs and calculating gradient                      | GFA2WS2   | PowerPoint  |               7
+        59 | Simultaneous Equations                   | GFA2LC3     | To be able to solve simultaneous equations                                                               | GFA2WS3   | PowerPoint  |               7
+        60 | Graphs of Quadratics                     | GFA2LC4     | To be able to plot Graphs of Quadratics                                                                  | GFA2WS4   | PowerPoint  |               7
+        61 | Solving Quadratic Equations              | GFA2LC5     | To be able to solve Quadratic Equations                                                                  | GFA2WS5   | PowerPoint  |               7
+        62 | Real-life Graphs                         | GFA2LC7     | Understanding real life graphs such as conversion graph and travel graph                                 | GFA2WS7   | PowerPoint  |               7
+        63 | Cubic and Reciprocal Graphs              | GFA2LC7     | To be able to plot cubic and reciprocal graphs                                                           | GFA2WS7   | PowerPoint  |               7
+        64 | Probability 1                            | GFP1LC1     | To be able to calculate theoretical probability including mutually exclusivity                           | GFP1WS1   | PowerPoint  |               8
+        65 | Probability 2                            | GFP1LC2     | To be able to calculate relative frequency/experimental probability and listing outcomes                 | GFP1WS2   | PowerPoint  |               8
+        66 | Tree Diagrams                            | GFP1LC3     | To be able to draw a tree diagram and calculate probabilities using tree diagram.                        | GFP1WS3   | PowerPoint  |               8
+        67 | Frequency Trees                          | GFP1LC4     | To be able to use frequency trees to solve problems                                                      | GFP1WS4   | PowerPoint  |               8
+        68 | Venn diagrams                            | GFP1LC5     | To be able to complete and interpret a Venn diagram and answer questions for it                          | GFP1WS5   | PowerPoint  |               8
+        69 | Two-way Tables                           | GFP1LC6     | To be able to Interpret, Complete and Find probabilities from two-way tables.                            | GFP1WS6   | PowerPoint  |               8
+        70 | Sampling                                 | GFP1LC7     | To be able to collect and sample data                                                                    | GFP1WS7   | PowerPoint  |               8
+        71 | Basic Graphs                             | GFS1LC1     | Introduction to Bar charts, Line graphs, Pictograms and Tally Charts                                     | GFS1WS1   | PowerPoint  |               9
+        72 | Pie Charts                               | GFS1LC2     | To be able to construct and Interpret pie charts.                                                        | GFS1WS3   | PowerPoint  |               9
+        73 | Scatter Graphs                           | GFS1LC3     | To be able to Draw Scatter Graph and Identify the type of correlation                                    | GFS1WS4   | PowerPoint  |               9
+        74 | Averages and Range                       | GFS1LC4     | To be able to calculate averages (mean, median, mode) and range.                                         | GFS1WS5   | PowerPoint  |               9
+        75 | Averages from tables                     | GFS1LC5     | To be able to find Averages from the discrete data/ grouped data on a frequency table.                   | GFS1WS6   | PowerPoint  |               9
+        76 | Stem-and-leaf diagrams                   | GFS1LC6     | To be able to use a stem and leaf diagram and find averages                                              | GFS1WS8   | PowerPoint  |               9
+        77 | Frequency Polygon                        | GFS1LC7     | To be able to draw and interpret a frequency polygon                                                     | GFS1WS9   | PowerPoint  |               9
+(77 rows)
+
+ quiz_id |                   quiz_name                   | quiz_code |    quiz_type    
+---------+-----------------------------------------------+-----------+-----------------
+       1 | Number 1 Topic Diagnostic Quiz                | GFN1TDQ   | TopicDiagnostic
+       2 | Number 1 Topic Summary Quiz                   | GFN1TSQ   | TopicSummary
+       3 | Number 2 Topic Diagnostic Quiz                | GFN2TDQ   | TopicDiagnostic
+       4 | Number 2 Topic Summary Quiz                   | GFN2TSQ   | TopicSummary
+       5 | Algebra 1 Topic Diagnostic Quiz               | GFA1TDQ   | TopicDiagnostic
+       6 | Algebra 1 Topic Summary Quiz                  | GFA1TSQ   | TopicSummary
+       7 | Algebra 2 Topic Diagnostic Quiz               | GFA2TDQ   | TopicDiagnostic
+       8 | Algebra 2 Topic Summary Quiz                  | GFA2TSQ   | TopicSummary
+       9 | Ratio and Measurement Topic Diagnostic Quiz   | GFRMTDQ   | TopicDiagnostic
+      10 | Ratio and Measurement Topic Summary Quiz      | GFRMTSQ   | TopicSummary
+      11 | Geometry 1 Topic Diagnostic Quiz              | GFG1TDQ   | TopicDiagnostic
+      12 | Geometry 1 Topic Summary Quiz                 | GFG1TSQ   | TopicSummary
+      13 | Geometry 2 Topic Diagnostic Quiz              | GFG2TDQ   | TopicDiagnostic
+      14 | Geometry 2 Topic Summary Quiz                 | GFG2TSQ   | TopicSummary
+      15 | Probability Topic Diagnostic Quiz             | GFP1TDQ   | TopicDiagnostic
+      16 | Probability Topic Summary Quiz                | GFP1TSQ   | TopicSummary
+      17 | Statistics Topic Diagnostic Quiz              | GFS1TDQ   | TopicDiagnostic
+      18 | Statistics Topic Summary Quiz                 | GFS1TSQ   | TopicSummary
+      19 | Edexcel Mathematics Paper 1 (NonCalculator)   | 1MA11F    | Course-Exam
+      20 | Edexcel Mathematics Paper 1 (Calculator)      | 1MA11F    | Course-Exam
+      21 | Addition, Subtraction and Money Problems Quiz | GFN1LC1Q  | LessonSummary
+      22 | Place Value and Decimals Quiz                 | GFN1LC2Q  | LessonSummary
+      23 | Negative Numbers Quiz                         | GFN1LC3Q  | LessonSummary
+      24 | Multiplication and Division Quiz              | GFN1LC4Q  | LessonSummary
+      25 | Squares, Cubes and Roots Quiz                 | GFN1LC5Q  | LessonSummary
+      26 | Index Notation Quiz                           | GFN1LC6Q  | LessonSummary
+      27 | Order of Operation Quiz                       | GFN1LC7Q  | LessonSummary
+      28 | Rounding Numbers and Estimation Quiz          | GFN1LC8Q  | LessonSummary
+      29 | Factors,Multiples and Prime Numbers Quiz      | GFN1LC9Q  | LessonSummary
+      30 | Primefactors HCF AND LCM Quiz                 | GFN1LC10Q | LessonSummary
+      31 | Calculator Skills Quiz                        | GFN2LC1Q  | LessonSummary
+      32 | Fraction 1 Quiz                               | GFN2LC2Q  | LessonSummary
+      33 | Fraction 2 Quiz                               | GFN2LC3Q  | LessonSummary
+      34 | Fraction 3 Quiz                               | GFN2LC4Q  | LessonSummary
+      35 | Fractions, Decimals and Percentage Quiz       | GFN2LC5Q  | LessonSummary
+      36 | Percentage 1 Quiz                             | GFN2LC6Q  | LessonSummary
+      37 | Percentage 2 Quiz                             | GFN2LC7Q  | LessonSummary
+      38 | Standard Form Quiz                            | GFN2LC8Q  | LessonSummary
+      39 | Limits of Accuracy and Reciprocals  Quiz      | GFN2LC9Q  | LessonSummary
+      40 | Times and Timetables Quiz                     | GFRMLC1Q  | LessonSummary
+      41 | Measurement Quiz                              | GFRMLC2Q  | LessonSummary
+      42 | Ratio 1 Quiz                                  | GFRMLC3Q  | LessonSummary
+      43 | Ratio 2 Quiz                                  | GFRMLC4Q  | LessonSummary
+      44 | Best Buy Quiz                                 | GFRMLC5Q  | LessonSummary
+      45 | Share Ratio Quiz                              | GFRMLC6Q  | LessonSummary
+      46 | Exchanging Money Quiz                         | GFRMLC7Q  | LessonSummary
+      47 | Compound Measures Quiz                        | GFRMLC8Q  | LessonSummary
+      48 | Scale Drawings and Maps Quiz                  | GFRMLC9Q  | LessonSummary
+      49 | Triangles Quiz                                | GFG1LC1Q  | LessonSummary
+      50 | Quadrilaterals Quiz                           | GFG1LC2Q  | LessonSummary
+      51 | Angle Problems Quiz                           | GFG1LC3Q  | LessonSummary
+      52 | Circles Quiz                                  | GFG1LC4Q  | LessonSummary
+      53 | Polygons Quiz                                 | GFG1LC5Q  | LessonSummary
+      54 | Area Quiz                                     | GFG1LC6Q  | LessonSummary
+      55 | Perimeter Quiz                                | GFG1LC7Q  | LessonSummary
+      56 | 3D Shapes Quiz                                | GFG1LC8Q  | LessonSummary
+      57 | Volumes Quiz                                  | GFG1LC9Q  | LessonSummary
+      58 | Surface Area Quiz                             | GFG1LC10Q | LessonSummary
+      59 | Pythagoras theorem Quiz                       | GFG2LC1Q  | LessonSummary
+      60 | Trigonometry Quiz                             | GFG2LC2Q  | LessonSummary
+      61 | Construction and Loci Quiz                    | GFG2LC3Q  | LessonSummary
+      62 | Vectors Quiz                                  | GFG2LC4Q  | LessonSummary
+      63 | Bearings Quiz                                 | GFG2LC5Q  | LessonSummary
+      64 | Translations Quiz                             | GFG2LC6Q  | LessonSummary
+      65 | Reflections Quiz                              | GFG2LC7Q  | LessonSummary
+      66 | Rotations Quiz                                | GFG2LC8Q  | LessonSummary
+      67 | Enlargements Quiz                             | GFG2LC9Q  | LessonSummary
+      68 | Similarity and Congruence Quiz                | GFG2LC10Q | LessonSummary
+      69 | Algebra Introduction Quiz                     | GFA1LC1Q  | LessonSummary
+      70 | Simplifying Expressions Quiz                  | GFA1LC2Q  | LessonSummary
+      71 | Expanding Brackets Quiz                       | GFA1LC3Q  | LessonSummary
+      72 | Factorising Expressions Quiz                  | GFA1LC4Q  | LessonSummary
+      73 | Solving Linear Equations Quiz                 | GFA1LC5Q  | LessonSummary
+      74 | Forming Equations Quiz                        | GFA1LC6Q  | LessonSummary
+      75 | Formulae and Substitution Quiz                | GFA1LC7Q  | LessonSummary
+      76 | Inequalities Quiz                             | GFA1LC8Q  | LessonSummary
+      77 | Sequences Quiz                                | GFA2LC1Q  | LessonSummary
+      78 | Straight-line graphs Quiz                     | GFA2LC2Q  | LessonSummary
+      79 | Simultaneous Equations Quiz                   | GFA2LC3Q  | LessonSummary
+      80 | Graphs of Quadratics Quiz                     | GFA2LC4Q  | LessonSummary
+      81 | Solving Quadratic Equations Quiz              | GFA2LC5Q  | LessonSummary
+      82 | Real-life Graphs Quiz                         | GFA2LC7Q  | LessonSummary
+      83 | Cubic and Reciprocal Graphs Quiz              | GFA2LC7Q  | LessonSummary
+      84 | Probability 1 Quiz                            | GFP1LC1Q  | LessonSummary
+      85 | Probability 2 Quiz                            | GFP1LC2Q  | LessonSummary
+      86 | Tree Diagrams Quiz                            | GFP1LC3Q  | LessonSummary
+      87 | Frequency Trees Quiz                          | GFP1LC4Q  | LessonSummary
+      88 | Venn diagrams Quiz                            | GFP1LC5Q  | LessonSummary
+      89 | Two-way Tables Quiz                           | GFP1LC6Q  | LessonSummary
+      90 | Sampling Quiz                                 | GFP1LC7Q  | LessonSummary
+      91 | Basic Graphs Quiz                             | GFS1LC1Q  | LessonSummary
+      92 | Pie Charts Quiz                               | GFS1LC2Q  | LessonSummary
+      93 | Scatter Graphs Quiz                           | GFS1LC3Q  | LessonSummary
+      94 | Averages and Range  Quiz                      | GFS1LC4Q  | LessonSummary
+      95 | Averages from tables Quiz                     | GFS1LC5Q  | LessonSummary
+      96 | Stem-and-leaf diagrams Quiz                   | GFS1LC6Q  | LessonSummary
+      97 | Frequency Polygon Quiz                        | GFS1LC7Q  | LessonSummary
+(97 rows)
+
+ auth_id | auth_student_id | auth_tutor_id | auth_token 
+---------+-----------------+---------------+------------
+(0 rows)
+
+ digitutor_id | digitutor_student_id | digitutor_tutor_id | digitutor_msg_count | digitutor_input | digitutor_output 
+--------------+----------------------+--------------------+---------------------+-----------------+------------------
+(0 rows)
+
+ quizfb_id | quizfb_digitutor_id | quizfb_quiz_id | quizfb_result | quizfb_notes | quizfb_percent 
+-----------+---------------------+----------------+---------------+--------------+----------------
+(0 rows)
+
+ ques_id |  ques_body  | ques_image | ques_grade | ques_calc | ques_mark | ques1_ans | ques2_ans | ques3_ans | ques_explain | ques_ans_mark | ques_ans_image | ques_ans_correct | ques_ans_sym_b | ques_ans_sym_a | ques_quiz_id | ques_lesson_id 
+---------+-------------+------------+------------+-----------+-----------+-----------+-----------+-----------+--------------+---------------+----------------+------------------+----------------+----------------+--------------+----------------
+       1 | 3.26 + 14.9 |            |          2 | f         |         1 | 18.16     |           |           |              |               |                |                  |                |                |              |              1
+(1 row)
 

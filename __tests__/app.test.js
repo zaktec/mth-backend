@@ -3,7 +3,8 @@ const app = require("../app");
 const db = require("../database/connection.js");
 const seed = require("../database/seeds/seed");
 const testData = require("../database/data/test-data");
-const topics = require("../database/data/test-data/topics");
+require('expect-more-jest');
+
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -38,6 +39,29 @@ describe("Test3-  GET /api/homepage", () => {
       });
   });
 });
+
+
+//---------------------------------Setting--------------------------/
+
+describe("Test3-  GET /api/setting", () => {
+  test("status: 200 and returns a welcome message for setting page", () => {
+    return request(app)
+      .get("/api/settings")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.msg).toBe("Welcome to the SettingPage");
+      });
+  });
+  test("status: 200 and returns a welcome message for setting page", () => {
+    return request(app)
+      .get("/api/settings/resit")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.msg).toBe("Welcome to the ResitPage");
+      });
+  });
+});
+
 
 //---------------------------------Courses--------------------------/
 
@@ -901,10 +925,10 @@ describe("Test29-   GET /api/Quizzes", () => {
   });
   test("QUERY: status 200: quizes are sorted by passed query", () => {
     return request(app)
-      .get("/api/quizzes?sort_by=quiz_code")
+      .get("/api/quizzes?sort_by=quiz_name")
       .expect(200)
       .then((res) => {
-        expect(res.body.quizzes).toBeSortedBy("quiz_code");
+        expect(res.body.quizzes).toBeSortedBy("quiz_name");
       });
   });
   test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
@@ -952,14 +976,14 @@ describe("Test31- POST /api/quizzes", () => {
     return request(app)
       .post("/api/quizzes")
       .send({
-        quiz_name: "  NewPost Number 2- Topic Diagnostic Quiz",
+        quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
         quiz_code: "GFN2TDQ",
         quiz_type: "TopicDiagnostic",
       })
       .expect(201)
       .then((res) => {
         expect(res.body.quiz).toEqual({
-          quiz_name: "  NewPost Number 2- Topic Diagnostic Quiz",
+          quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
         quiz_code: "GFN2TDQ",
         quiz_type: "TopicDiagnostic",
         quiz_id: 98
@@ -989,14 +1013,165 @@ describe("Test33- PATCH /api/quizzes/:quiz_id", () => {
     return request(app)
       .patch("/api/quizzes/1")
       .send({
-        quiz_name: "  NewPatch Number 2- Topic Diagnostic Quiz",
+        quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
         quiz_code: "GFN2TDQ",
         quiz_type: "TopicDiagnostic",
       })
       .expect(200)
       .then((res) => {
         expect(res.body.updatedQuiz).toEqual({
-          quiz_name: "  NewPatch Number 2- Topic Diagnostic Quiz",
+          quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
+          quiz_code: "GFN2TDQ",
+          quiz_type: "TopicDiagnostic",
+          quiz_id: 1
+        });
+      });
+  });
+});
+
+
+//---------------------------------Question--------------------------/
+
+describe("Test34-   GET /api/Questions", () => {
+  //describe("GET", () => {
+  test("status: 200 and returns an array of questions", () => {
+    return request(app)
+      .get("/api/questions")
+      .expect(200)
+      .then((res) => {
+        //console.log(res)
+        expect(res.body.questions).toBeInstanceOf(Array);
+        expect(res.body.questions).toHaveLength(369);
+        res.body.questions.forEach((question) => {
+          expect(question).toMatchObject({
+            ques_id: expect.any(Number),
+            ques_body:expect.any(String),
+            ques_image: expect.toBeOneOf([expect.any(String), null]),
+            ques_grade: expect.any(Number),
+            ques_calc: expect.any(Boolean),
+            ques_mark: expect.toBeOneOf([expect.any(Number), null]),
+            ques1_ans: expect.any(String),
+            ques2_ans: expect.toBeOneOf([expect.any(String), null]),
+            ques3_ans: expect.toBeOneOf([expect.any(String), null]),
+            ques_ans_explain: expect.toBeOneOf([expect.any(String), null]),
+            ques_ans_mark: expect.toBeOneOf([expect.any(Number), null]),
+            ques_ans_image: expect.toBeOneOf([expect.any(String), null]),
+            ques_ans_correct: expect.toBeOneOf([expect.any(Boolean), null]),
+            ques_ans_sym_b: expect.toBeOneOf([expect.any(String), null]),
+            ques_ans_sym_a: expect.toBeOneOf([expect.any(String), null]),
+            ques_quiz_id: expect.toBeOneOf([expect.any(Number), null]),
+            ques_lesson_id: expect.any(Number),
+          });
+        });
+      });
+  });
+  test("QUERY: status 200 : quizzes are sorted by question id", () => {
+    return request(app)
+      .get("/api/questions")
+      .expect(200)
+      .then((res) => {
+        //  console.log(res);
+        expect(res.body.questions).toBeSortedBy("ques_id");
+      });
+  });
+  test("QUERY: status 200: question are sorted by passed query", () => {
+    return request(app)
+      .get("/api/questions?sort_by=ques_id")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.question).toBeSortedBy("ques_id");
+      });
+  });
+  test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+    return request(app)
+      .get("/api/questions?sort_by=not_a_column")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+});
+describe("Test35- GET   /api/questions/:question_id", () => {
+  test("status: 200 and return a question object", () => {
+    return request(app)
+      .get("/api/questions/1")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.questions).toEqual({
+          quiz_id: 1,
+          quiz_name: expect.any(String),
+          quiz_code: expect.any(String),
+          quiz_type: expect.any(String),
+        });
+      });
+  });
+  test("Error: quiz_id, non existent but valid. status 404 and an error message", () => {
+    return request(app)
+      .get("/api/quizzes/invalid_id")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
+  test("ERROR  -status: 404 and returns an error message", () => {
+    return request(app)
+      .get("/api/quizzes/1000")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Not found");
+      });
+  });
+});
+describe("Test31- POST /api/quizzes", () => {
+  test("status: 201 and return the new tutors", () => {
+    return request(app)
+      .post("/api/quizzes")
+      .send({
+        quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
+        quiz_code: "GFN2TDQ",
+        quiz_type: "TopicDiagnostic",
+      })
+      .expect(201)
+      .then((res) => {
+        expect(res.body.quiz).toEqual({
+          quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
+        quiz_code: "GFN2TDQ",
+        quiz_type: "TopicDiagnostic",
+        quiz_id: 98
+        });
+      });
+  });
+});
+describe("Test32-  DELETE /api/quizzes/:quiz_id", () => {
+  test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
+    return request(app).delete("/api/quizzes/1").expect(204);
+  });
+  test("status 400 and returns an error message if it is a bad request", () => {
+    return request(app)
+      .delete("/api/quizzes/Invalid_id")
+      .expect(400)
+      .then((res) => expect(res.body.msg).toBe("Invalid input"));
+  });
+  test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
+    return request(app)
+      .delete("/api/quizzes/1000")
+      .expect(404)
+      .then((res) => expect(res.body.msg).toBe("Not found"));
+  });
+});
+describe("Test33- PATCH /api/quizzes/:quiz_id", () => {
+  test("Status 200: and return a updated quiz object  ", () => {
+    return request(app)
+      .patch("/api/quizzes/1")
+      .send({
+        quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
+        quiz_code: "GFN2TDQ",
+        quiz_type: "TopicDiagnostic",
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.updatedQuiz).toEqual({
+          quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
           quiz_code: "GFN2TDQ",
           quiz_type: "TopicDiagnostic",
           quiz_id: 1
