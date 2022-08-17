@@ -3,8 +3,7 @@ const app = require("../app");
 const db = require("../database/connection.js");
 const seed = require("../database/seeds/seed");
 const testData = require("../database/data/test-data");
-require('expect-more-jest');
-
+require("expect-more-jest");
 
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
@@ -40,7 +39,6 @@ describe("Test3-  GET /api/homepage", () => {
   });
 });
 
-
 //---------------------------------Setting--------------------------/
 
 describe("Test3-  GET /api/setting", () => {
@@ -61,7 +59,6 @@ describe("Test3-  GET /api/setting", () => {
       });
   });
 });
-
 
 //---------------------------------Courses--------------------------/
 
@@ -984,9 +981,9 @@ describe("Test31- POST /api/quizzes", () => {
       .then((res) => {
         expect(res.body.quiz).toEqual({
           quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
-        quiz_code: "GFN2TDQ",
-        quiz_type: "TopicDiagnostic",
-        quiz_id: 98
+          quiz_code: "GFN2TDQ",
+          quiz_type: "TopicDiagnostic",
+          quiz_id: 98,
         });
       });
   });
@@ -1023,16 +1020,15 @@ describe("Test33- PATCH /api/quizzes/:quiz_id", () => {
           quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
           quiz_code: "GFN2TDQ",
           quiz_type: "TopicDiagnostic",
-          quiz_id: 1
+          quiz_id: 1,
         });
       });
   });
 });
 
-
 //---------------------------------Question--------------------------/
 
-describe("Test34-   GET /api/Questions", () => {
+describe.only("Test34-   GET /api/Questions", () => {
   //describe("GET", () => {
   test("status: 200 and returns an array of questions", () => {
     return request(app)
@@ -1045,7 +1041,7 @@ describe("Test34-   GET /api/Questions", () => {
         res.body.questions.forEach((question) => {
           expect(question).toMatchObject({
             ques_id: expect.any(Number),
-            ques_body:expect.any(String),
+            ques_body: expect.any(String),
             ques_image: expect.toBeOneOf([expect.any(String), null]),
             ques_grade: expect.any(Number),
             ques_calc: expect.any(Boolean),
@@ -1079,7 +1075,7 @@ describe("Test34-   GET /api/Questions", () => {
       .get("/api/questions?sort_by=ques_id")
       .expect(200)
       .then((res) => {
-        expect(res.body.question).toBeSortedBy("ques_id");
+        expect(res.body.questions).toBeSortedBy("ques_id");
       });
   });
   test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
@@ -1097,17 +1093,30 @@ describe("Test35- GET   /api/questions/:question_id", () => {
       .get("/api/questions/1")
       .expect(200)
       .then((res) => {
-        expect(res.body.questions).toEqual({
-          quiz_id: 1,
-          quiz_name: expect.any(String),
-          quiz_code: expect.any(String),
-          quiz_type: expect.any(String),
+        expect(res.body.question).toEqual({
+          ques_id: expect.any(Number),
+          ques_body: expect.any(String),
+          ques_image: expect.toBeOneOf([expect.any(String), null]),
+          ques_grade: expect.any(Number),
+          ques_calc: expect.any(Boolean),
+          ques_mark: expect.toBeOneOf([expect.any(Number), null]),
+          ques1_ans: expect.any(String),
+          ques2_ans: expect.toBeOneOf([expect.any(String), null]),
+          ques3_ans: expect.toBeOneOf([expect.any(String), null]),
+          ques_ans_explain: expect.toBeOneOf([expect.any(String), null]),
+          ques_ans_mark: expect.toBeOneOf([expect.any(Number), null]),
+          ques_ans_image: expect.toBeOneOf([expect.any(String), null]),
+          ques_ans_correct: expect.toBeOneOf([expect.any(Boolean), null]),
+          ques_ans_sym_b: expect.toBeOneOf([expect.any(String), null]),
+          ques_ans_sym_a: expect.toBeOneOf([expect.any(String), null]),
+          ques_quiz_id: expect.toBeOneOf([expect.any(Number), null]),
+          ques_lesson_id: expect.any(Number),
         });
       });
   });
-  test("Error: quiz_id, non existent but valid. status 404 and an error message", () => {
+  test("Error: question_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
-      .get("/api/quizzes/invalid_id")
+      .get("/api/questions/invalid_id")
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Invalid input");
@@ -1115,66 +1124,103 @@ describe("Test35- GET   /api/questions/:question_id", () => {
   });
   test("ERROR  -status: 404 and returns an error message", () => {
     return request(app)
-      .get("/api/quizzes/1000")
+      .get("/api/questions/1000")
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
       });
   });
 });
-describe("Test31- POST /api/quizzes", () => {
-  test("status: 201 and return the new tutors", () => {
+describe("Test36- POST /api/questions", () => {
+  test("status: 201 and return the new questions", () => {
     return request(app)
-      .post("/api/quizzes")
+      .post("/api/questions")
       .send({
-        quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
-        quiz_code: "GFN2TDQ",
-        quiz_type: "TopicDiagnostic",
+        ques_body: "4.79 - 1.2",
+        ques1_ans: 3.59,
+        ques_mark: 1,
+        ques_grade: 2,
+        ques_lesson_id: 1,
+        ques_quiz_id: 2,
+        ques_calc: false,
+        ques_ans_explain: "explanation",
       })
       .expect(201)
       .then((res) => {
-        expect(res.body.quiz).toEqual({
-          quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
-        quiz_code: "GFN2TDQ",
-        quiz_type: "TopicDiagnostic",
-        quiz_id: 98
+        expect(res.body.question).toEqual({
+          ques_id: 370,
+          ques_body: "4.79 - 1.2",
+          ques1_ans: "3.59",
+          ques_mark: 1,
+          ques_grade: 2,
+          ques_lesson_id: 1,
+          ques_quiz_id: 2,
+          ques_calc: false,
+          ques_ans_explain: "explanation",
+          ques2_ans: null,
+          ques3_ans: null,
+          ques_ans_correct: null,
+          ques_ans_image: null,
+          ques_ans_mark: null,
+          ques_ans_sym_a: null,
+          ques_ans_sym_b: null,
+          ques_image: null,
+          
         });
       });
   });
 });
-describe("Test32-  DELETE /api/quizzes/:quiz_id", () => {
+describe("Test37-  DELETE /api/questions/:quiz_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
-    return request(app).delete("/api/quizzes/1").expect(204);
+    return request(app).delete("/api/questions/1").expect(204);
   });
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
-      .delete("/api/quizzes/Invalid_id")
+      .delete("/api/questions/Invalid_id")
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
     return request(app)
-      .delete("/api/quizzes/1000")
+      .delete("/api/questions/1000")
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
 });
-describe("Test33- PATCH /api/quizzes/:quiz_id", () => {
-  test("Status 200: and return a updated quiz object  ", () => {
+describe("Test38- PATCH /api/questions/:ques_id", () => {
+  test("Status 200: and return a updated ques object  ", () => {
     return request(app)
-      .patch("/api/quizzes/1")
+      .patch("/api/questions/1")
       .send({
-        quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
-        quiz_code: "GFN2TDQ",
-        quiz_type: "TopicDiagnostic",
+        ques_body: "new 4.79 - 1.2",
+        ques1_ans: 3.59,
+        ques_mark: 1,
+        ques_grade: 2,
+        ques_lesson_id: 1,
+        ques_quiz_id: 2,
+        ques_calc: false,
+        ques_ans_explain: "explanation",
       })
       .expect(200)
       .then((res) => {
-        expect(res.body.updatedQuiz).toEqual({
-          quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
-          quiz_code: "GFN2TDQ",
-          quiz_type: "TopicDiagnostic",
-          quiz_id: 1
+        expect(res.body.updatedQuestion).toEqual({
+          ques_body: "new 4.79 - 1.2",
+          ques1_ans: "3.59",
+          ques_mark: 1,
+          ques_grade: 2,
+          ques_lesson_id: 1,
+          ques_quiz_id: 2,
+          ques_calc: false,
+          ques_ans_explain: "explanation",
+          ques2_ans: null,
+          ques3_ans: null,
+          ques_ans_correct: null,
+          ques_ans_image: null,
+          ques_ans_mark: null,
+          ques_ans_sym_a: null,
+          ques_ans_sym_b: null,
+          ques_image: null,
+          ques_id:1
         });
       });
   });
