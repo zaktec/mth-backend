@@ -10,7 +10,6 @@ const { checkQuestionExists } = require("../utils/utils.js");
 exports.getQuestions = ( req, res, next) => {
 
   const { sort_by } = req.query;
-  console.log(sort_by)
 
   selectQuestions(sort_by)
     .then((questions) => {
