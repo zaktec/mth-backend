@@ -2,7 +2,7 @@ const db = require("../database/connection.js");
 
 exports.selectCourses = (sort_by = "course_id") => {
   if (sort_by) {
-    const allowedSortBys = ["course_id", "course_code", "course_name"];
+    const allowedSortBys = ["course_id", "course_code", "course_name", "course_level"];
     if (!allowedSortBys.includes(sort_by)) {
       return Promise.reject({ status: 400, msg: "bad request" });
     }

@@ -29,7 +29,6 @@ exports.getQuestionById = (req, res, next) => {
     .then((questionExist) => {
       if (questionExist) {
         return selectQuestionById(ques_id).then((question) => {
-          console.log(question)
           res.status(200).send({ question });
         });
       } else {

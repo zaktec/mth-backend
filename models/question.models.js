@@ -31,7 +31,7 @@ exports.selectQuestionById = (ques_id) => {
   }
   //console.log(queryString, queryParams);
   return db.query(queryString, queryParams).then(({ rows }) => {
-    console.log(rows);
+    //console.log(rows);
     return rows[0];
   });
 };

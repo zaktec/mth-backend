@@ -20,7 +20,7 @@ describe("Test1-   GET /invalid_url", () => {
 });
 
 describe("Test2-  GET /api", () => {
-  test("status: 200 and returns a JSON", () => {
+  test("status: 200 and json representation of all the available endpoints of the api", () => {
     return request(app)
       .get("/api/")
       .expect(200)
@@ -39,9 +39,9 @@ describe("Test3-  GET /api/homepage", () => {
   });
 });
 
-//---------------------------------Setting--------------------------/
+//-------------------Setting----------------------/
 
-describe("Test3-  GET /api/setting", () => {
+describe("Test4-  GET /api/setting", () => {
   test("status: 200 and returns a welcome message for setting page", () => {
     return request(app)
       .get("/api/settings")
@@ -62,7 +62,7 @@ describe("Test3-  GET /api/setting", () => {
 
 //---------------------------------Courses--------------------------/
 
-describe("Test4-   GET /api/courses", () => {
+describe("Test5-   GET /api/courses", () => {
   //describe("GET", () => {
   test("status: 200 and returns an array of courses", () => {
     return request(app)
@@ -88,7 +88,6 @@ describe("Test4-   GET /api/courses", () => {
       .get("/api/courses")
       .expect(200)
       .then((res) => {
-        //  console.log(topics);
         expect(res.body.courses).toBeSortedBy("course_id");
       });
   });
@@ -111,7 +110,7 @@ describe("Test4-   GET /api/courses", () => {
   });
 });
 
-describe("Test5-   GET /api/courses/:course_id", () => {
+describe("Test6-   GET /api/courses/:course_id", () => {
   test("Query: course_id existing, status: 200 and returns a course object", () => {
     return request(app)
       .get("/api/courses/1")
@@ -146,7 +145,7 @@ describe("Test5-   GET /api/courses/:course_id", () => {
   });
 });
 
-describe("Test6- POST /api/courses", () => {
+describe("Test7- POST /api/courses", () => {
   test("status: 201 and return the new course", () => {
     return request(app)
       .post("/api/courses")
@@ -174,13 +173,9 @@ describe("Test6- POST /api/courses", () => {
       .post("/api/courses")
       .send({
         course_code: "New- MTH-GF",
-        course_created_at: new Date()
-          .toISOString()
-          .slice(0, 19)
-          .replace("T", " "),
         course_desc: "MTH GCSE Maths Foundation Online Course",
         course_image: "/course/mth_gcse_foundation.png",
-        course_level: "Foundation",
+        
       })
       .expect(400)
       .then((res) => {
@@ -189,7 +184,7 @@ describe("Test6- POST /api/courses", () => {
   });
 });
 
-describe("Test7-   DELETE /api/course/:course_id", () => {
+describe("Test8-   DELETE /api/course/:course_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app).delete("/api/courses/1").expect(204);
   });
@@ -207,13 +202,12 @@ describe("Test7-   DELETE /api/course/:course_id", () => {
   });
 });
 
-describe("Test8-   PATCH /api/courses/:course_id", () => {
+describe("Test9-   PATCH /api/courses/:course_id", () => {
   test("Status 200: and returns an updated course ", () => {
     return request(app)
       .patch("/api/courses/1")
       .send({
         course_code: "New Patched- MTH-GF",
-
         course_desc: "MTH GCSE Maths Foundation Online Course",
         course_image: "/course/mth_gcse_foundation.png",
         course_level: "Foundation",
@@ -235,7 +229,7 @@ describe("Test8-   PATCH /api/courses/:course_id", () => {
 
 //---------------------------------Topic--------------------------/
 
-describe("Test9-   GET /api/topics", () => {
+describe("Test10-   GET /api/topics", () => {
   //describe("GET", () => {
   test("status: 200 and returns an array of topics", () => {
     return request(app)
@@ -272,7 +266,6 @@ describe("Test9-   GET /api/topics", () => {
       .get("/api/topics?sort_by=topic_id")
       .expect(200)
       .then((res) => {
-        //console.log(topics);
         expect(res.body.topics).toBeSortedBy("topic_id");
       });
   });
@@ -287,8 +280,7 @@ describe("Test9-   GET /api/topics", () => {
   });
 });
 
-describe("Test10- GET   /api/topics/:topic_id", () => {
-  //describe("GET", () => {
+describe("Test11- GET   /api/topics/:topic_id", () => {
   test("status: 200 and return a topic object", () => {
     return request(app)
       .get("/api/topics/18")
@@ -322,7 +314,7 @@ test("ERROR  -status: 404 and returns an error message", () => {
     });
 });
 
-describe("Test11- POST /api/topics", () => {
+describe("Test12- POST /api/topics", () => {
   test("status: 201 and return the new topic", () => {
     return request(app)
       .post("/api/topics")
@@ -345,9 +337,21 @@ describe("Test11- POST /api/topics", () => {
         });
       });
   });
+  test("Missing Field. status 400 and return error message", () => {
+    return request(app)
+      .post("/api/topics")
+      .send({
+        topic_code: "GFA2",
+        topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
 });
 
-describe("Test12-  DELETE /api/topic/:topic_id", () => {
+describe("Test13-  DELETE /api/topic/:topic_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app).delete("/api/topics/1").expect(204);
   });
@@ -365,7 +369,7 @@ describe("Test12-  DELETE /api/topic/:topic_id", () => {
   });
 });
 
-describe("Test13- PATCH /api/topic/:topic_id", () => {
+describe("Test14- PATCH /api/topic/:topic_id", () => {
   test("Status 200: and return a updated topic object  ", () => {
     return request(app)
       .patch("/api/topics/1")
@@ -390,8 +394,7 @@ describe("Test13- PATCH /api/topic/:topic_id", () => {
   });
 });
 //---------------------------------Tutor--------------------------/
-describe("Test14-   GET /api/tutors", () => {
-  //describe("GET", () => {
+describe("Test15-   GET /api/tutors", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
       .get("/api/tutors")
@@ -440,8 +443,7 @@ describe("Test14-   GET /api/tutors", () => {
   });
 });
 
-describe("Test15- GET   /api/tutors/:tutor_id", () => {
-  //describe("GET", () => {
+describe("Test16- GET   /api/tutors/:tutor_id", () => {
   test("status: 200 and return a tutor object", () => {
     return request(app)
       .get("/api/tutors/1")
@@ -455,7 +457,7 @@ describe("Test15- GET   /api/tutors/:tutor_id", () => {
           tutor_email: "csheraz@hotmail.com",
           tutor_active: true,
           tutor_image: "/tutor/tutor1.png",
-          tutor_password: expect.any(String),
+          tutor_password: "password",
         });
       });
   });
@@ -477,7 +479,7 @@ test("ERROR  -status: 404 and returns an error message", () => {
     });
 });
 
-describe("Test16- POST /api/tutors", () => {
+describe("Test17- POST /api/tutors", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/tutors")
@@ -502,9 +504,22 @@ describe("Test16- POST /api/tutors", () => {
         });
       });
   });
+  test("Missing Field. status 400 and return error message", () => {
+    return request(app)
+      .post("/api/tutors")
+      .send({
+        tutor_firstname: "New",
+          tutor_lastname: "Cheema",
+          topic_code: "GFA2",
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
 });
 
-describe("Test17-  DELETE /api/tutor/:tutor_id", () => {
+describe("Test18-  DELETE /api/tutor/:tutor_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app).delete("/api/tutors/1").expect(204);
   });
@@ -522,7 +537,7 @@ describe("Test17-  DELETE /api/tutor/:tutor_id", () => {
   });
 });
 
-describe("Test18- PATCH /api/tutors/:tutor_id", () => {
+describe("Test19- PATCH /api/tutors/:tutor_id", () => {
   test("Status 200: and return a updated tutor object  ", () => {
     return request(app)
       .patch("/api/tutors/1")
@@ -549,10 +564,9 @@ describe("Test18- PATCH /api/tutors/:tutor_id", () => {
   });
 });
 
-//---------------------------------Student------------------------------------/
+//--------------------Student----------------------------/
 
-describe("Test19-   GET /api/students", () => {
-  //describe("GET", () => {
+describe("Test20-   GET /api/students", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
       .get("/api/students")
@@ -605,7 +619,7 @@ describe("Test19-   GET /api/students", () => {
       });
   });
 });
-describe("Test20- GET   /api/students/:student_id", () => {
+describe("Test21- GET   /api/students/:student_id", () => {
   //describe("GET", () => {
   test("status: 200 and return a student object", () => {
     return request(app)
@@ -645,7 +659,7 @@ test("ERROR  -status: 404 and returns an error message", () => {
       expect(res.body.msg).toBe("Not found");
     });
 });
-describe("Test21- POST /api/students", () => {
+describe("Test22- POST /api/students", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/students")
@@ -678,8 +692,20 @@ describe("Test21- POST /api/students", () => {
         });
       });
   });
+  test("Missing Field. status 400 and return error message", () => {
+    return request(app)
+      .post("/api/students")
+      .send({
+        student_lastname: "Student1LN",
+          student_email: "csheraz@hotmail.com",
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
 });
-describe("Test22-  DELETE /api/students/:student_id", () => {
+describe("Test23-  DELETE /api/students/:student_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app).delete("/api/students/1").expect(204);
   });
@@ -696,7 +722,7 @@ describe("Test22-  DELETE /api/students/:student_id", () => {
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
 });
-describe("Test23- PATCH /api/students/:student_id", () => {
+describe("Test24- PATCH /api/students/:student_id", () => {
   test("Status 200: and return a updated student object  ", () => {
     return request(app)
       .patch("/api/students/1")
@@ -731,16 +757,14 @@ describe("Test23- PATCH /api/students/:student_id", () => {
   });
 });
 
-//---------------------------------Lesson------------------------------------/
+//------------------------Lesson--------------/
 
-describe("Test24-   GET /api/lessons", () => {
-  //describe("GET", () => {
+describe("Test25-   GET /api/lessons", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
       .get("/api/lessons")
       .expect(200)
       .then((res) => {
-        //console.log(res)
         expect(res.body.lessons).toBeInstanceOf(Array);
         expect(res.body.lessons).toHaveLength(77);
         res.body.lessons.forEach((lesson) => {
@@ -783,7 +807,7 @@ describe("Test24-   GET /api/lessons", () => {
       });
   });
 });
-describe("Test25- GET   /api/lessons/:lesson_id", () => {
+describe("Test26- GET   /api/lessons/:lesson_id", () => {
   //describe("GET", () => {
   test("status: 200 and return a lesson object", () => {
     return request(app)
@@ -819,7 +843,7 @@ describe("Test25- GET   /api/lessons/:lesson_id", () => {
       });
   });
 });
-describe("Test26- POST /api/lessons", () => {
+describe("Test27- POST /api/lessons", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/lessons")
@@ -844,8 +868,22 @@ describe("Test26- POST /api/lessons", () => {
         });
       });
   });
+
+  test("Missing Field. status 400 and return error message", () => {
+    return request(app)
+      .post("/api/lessons")
+      .send({
+        student_lastname: "Student1LN",
+          student_email: "csheraz@hotmail.com",
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
 });
-describe("Test27-  DELETE /api/lessons/:lesson_id", () => {
+
+describe("Test28-  DELETE /api/lessons/:lesson_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app).delete("/api/lessons/1").expect(204);
   });
@@ -862,7 +900,7 @@ describe("Test27-  DELETE /api/lessons/:lesson_id", () => {
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
 });
-describe("Test28- PATCH /api/lessons/:lesson_id", () => {
+describe("Test29- PATCH /api/lessons/:lesson_id", () => {
   test("Status 200: and return a updated student object  ", () => {
     return request(app)
       .patch("/api/lessons/1")
@@ -889,10 +927,9 @@ describe("Test28- PATCH /api/lessons/:lesson_id", () => {
   });
 });
 
-//---------------------------------Quiz--------------------------/
+//--------------------Quiz--------------------------/
 
-describe("Test29-   GET /api/Quizzes", () => {
-  //describe("GET", () => {
+describe("Test30-   GET /api/quizzes", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
       .get("/api/quizzes")
@@ -937,7 +974,7 @@ describe("Test29-   GET /api/Quizzes", () => {
       });
   });
 });
-describe("Test30- GET   /api/quizzes/:quiz_id", () => {
+describe("Test31- GET   /api/quizzes/:quiz_id", () => {
   test("status: 200 and return a quiz object", () => {
     return request(app)
       .get("/api/quizzes/1")
@@ -968,7 +1005,7 @@ describe("Test30- GET   /api/quizzes/:quiz_id", () => {
       });
   });
 });
-describe("Test31- POST /api/quizzes", () => {
+describe("Test32- POST /api/quizzes", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/quizzes")
@@ -987,8 +1024,21 @@ describe("Test31- POST /api/quizzes", () => {
         });
       });
   });
+  test("Missing Field. status 400 and return error message", () => {
+    return request(app)
+      .post("/api/quizzes")
+      .send({
+        quiz_code: "GFN2TDQ",
+        quiz_type: "TopicDiagnostic",
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
 });
-describe("Test32-  DELETE /api/quizzes/:quiz_id", () => {
+
+describe("Test33-  DELETE /api/quizzes/:quiz_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app).delete("/api/quizzes/1").expect(204);
   });
@@ -1005,7 +1055,7 @@ describe("Test32-  DELETE /api/quizzes/:quiz_id", () => {
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
 });
-describe("Test33- PATCH /api/quizzes/:quiz_id", () => {
+describe("Test34- PATCH /api/quizzes/:quiz_id", () => {
   test("Status 200: and return a updated quiz object  ", () => {
     return request(app)
       .patch("/api/quizzes/1")
@@ -1026,10 +1076,9 @@ describe("Test33- PATCH /api/quizzes/:quiz_id", () => {
   });
 });
 
-//---------------------------------Question--------------------------/
+//----------------------Question--------------------------/
 
-describe("Test34-   GET /api/Questions", () => {
-  //describe("GET", () => {
+describe("Test35-   GET /api/questions", () => {
   test("status: 200 and returns an array of questions", () => {
     return request(app)
       .get("/api/questions")
@@ -1087,7 +1136,7 @@ describe("Test34-   GET /api/Questions", () => {
       });
   });
 });
-describe("Test35- GET   /api/questions/:question_id", () => {
+describe("Test36- GET   /api/questions/:question_id", () => {
   test("status: 200 and return a question object", () => {
     return request(app)
       .get("/api/questions/1")
@@ -1131,7 +1180,7 @@ describe("Test35- GET   /api/questions/:question_id", () => {
       });
   });
 });
-describe("Test36- POST /api/questions", () => {
+describe("Test37- POST /api/questions", () => {
   test("status: 201 and return the new questions", () => {
     return request(app)
       .post("/api/questions")
@@ -1169,8 +1218,19 @@ describe("Test36- POST /api/questions", () => {
         });
       });
   });
+  test("Missing Field. status 400 and return error message", () => {
+    return request(app)
+      .post("/api/questions")
+      .send({
+          ques1_ans: "3.59"
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
 });
-describe("Test37-  DELETE /api/questions/:quiz_id", () => {
+describe("Test38-  DELETE /api/questions/:quiz_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app).delete("/api/questions/1").expect(204);
   });
@@ -1187,7 +1247,7 @@ describe("Test37-  DELETE /api/questions/:quiz_id", () => {
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
 });
-describe("Test38- PATCH /api/questions/:ques_id", () => {
+describe("Test39- PATCH /api/questions/:ques_id", () => {
   test("Status 200: and return a updated ques object  ", () => {
     return request(app)
       .patch("/api/questions/1")
@@ -1226,336 +1286,3 @@ describe("Test38- PATCH /api/questions/:ques_id", () => {
   });
 });
 
-//---------------------------------Students--------------------------/
-
-describe("Test39-   GET /api/Students", () => {
-  //describe("GET", () => {
-  test("status: 200 and returns an array of students", () => {
-    return request(app)
-      .get("/api/students")
-      .expect(200)
-      .then((res) => {
-        //console.log(res)
-        expect(res.body.students).toBeInstanceOf(Array);
-        expect(res.body.students).toHaveLength(3);
-        res.body.students.forEach((student) => {
-          expect(student).toMatchObject({
-            student_id: expect.any(Number),
-            student_firstname: expect.any(String),
-            student_lastname: expect.any(String),
-            student_password: expect.any(String),
-            student_active: expect.any(Boolean),
-            student_image: expect.any(String),
-            student_grade: expect.any(Number),
-           student_targetgrade: expect.any(Number),
-           student_notes: expect.any(String),
-           student_progressbar: expect.any(Number),
-           student_email: expect.any(String),
-          });
-        });
-      });
-  });
-  test("QUERY: status 200 : quizzes are sorted by student_id", () => {
-    return request(app)
-      .get("/api/students")
-      .expect(200)
-      .then((res) => {
-        //  console.log(res);
-        expect(res.body.students).toBeSortedBy("student_id");
-      });
-  });
-  test("QUERY: status 200: student are sorted by passed query", () => {
-    return request(app)
-      .get("/api/students?sort_by=student_id")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.students).toBeSortedBy("student_id");
-      });
-  });
-  test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
-    return request(app)
-      .get("/api/students?sort_by=not_a_column")
-      .expect(400)
-      .then((res) => {
-        expect(res.body.msg).toBe("bad request");
-      });
-  });
-});
-describe("Test40- GET   /api/students/:student_id", () => {
-  test("status: 200 and return a student object", () => {
-    return request(app)
-      .get("/api/students/1")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.student).toEqual({
-          student_id: expect.any(Number),
-          student_firstname: expect.any(String),
-          student_lastname: expect.any(String),
-          student_password: expect.any(String),
-          student_active: expect.any(Boolean),
-          student_image: expect.any(String),
-          student_grade: expect.any(Number),
-         student_targetgrade: expect.any(Number),
-         student_notes: expect.any(String),
-         student_progressbar: expect.any(Number),
-         student_email: expect.any(String),
-        });
-      });
-  });
-  test("Error: student_id, non existent but valid. status 404 and an error message", () => {
-    return request(app)
-      .get("/api/students/invalid_id")
-      .expect(400)
-      .then((res) => {
-        expect(res.body.msg).toBe("Invalid input");
-      });
-  });
-  test("ERROR  -status: 404 and returns an error message", () => {
-    return request(app)
-      .get("/api/students/1000")
-      .expect(404)
-      .then((res) => {
-        expect(res.body.msg).toBe("Not found");
-      });
-  });
-});
-describe("Test41- POST /api/students", () => {
-  test("status: 201 and return the new questions", () => {
-    return request(app)
-      .post("/api/students")
-      .send({
-        student_firstname: "Posted- Student1FN",
-        student_lastname: "Student1LN",
-        student_email: "csheraz@hotmail.com",
-        student_password: "password",
-        student_active: true,
-        student_image: "/student/student1.png",
-        student_grade: 2,
-        student_targetgrade: 5,
-        student_notes: "Working well",
-        student_progressbar: 3,
-      })
-      .expect(201)
-      .then((res) => {
-        expect(res.body.student).toEqual({
-          student_id: 4,
-          student_firstname: "Posted- Student1FN",
-        student_lastname: "Student1LN",
-        student_email: "csheraz@hotmail.com",
-        student_password: "password",
-        student_active: true,
-        student_image: "/student/student1.png",
-        student_grade: 2,
-        student_targetgrade: 5,
-        student_notes: "Working well",
-        student_progressbar: 3,
-        });
-      });
-  });
-});
-describe("Test42-  DELETE /api/students/:student_id", () => {
-  test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
-    return request(app).delete("/api/students/1").expect(204);
-  });
-  test("status 400 and returns an error message if it is a bad request", () => {
-    return request(app)
-      .delete("/api/students/Invalid_id")
-      .expect(400)
-      .then((res) => expect(res.body.msg).toBe("Invalid input"));
-  });
-  test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
-    return request(app)
-      .delete("/api/students/1000")
-      .expect(404)
-      .then((res) => expect(res.body.msg).toBe("Not found"));
-  });
-});
-describe("Test43- PATCH /api/students/:student_id", () => {
-  test("Status 200: and return a updated student object  ", () => {
-    return request(app)
-      .patch("/api/students/1")
-      .send({
-        student_firstname: "Pathched Student1FN",
-        student_lastname: "Student1LN",
-        student_email: "csheraz@hotmail.com",
-        student_password: "password",
-        student_active: true,
-        student_image: "/student/student1.png",
-        student_grade: 2,
-        student_targetgrade: 5,
-        student_notes: "Working well",
-        student_progressbar: 3,
-      })
-      .expect(200)
-      .then((res) => {
-        expect(res.body.updatedStudent).toEqual({
-          student_firstname: "Pathched Student1FN",
-          student_lastname: "Student1LN",
-          student_email: "csheraz@hotmail.com",
-          student_password: "password",
-          student_active: true,
-          student_image: "/student/student1.png",
-          student_grade: 2,
-          student_targetgrade: 5,
-          student_notes: "Working well",
-          student_progressbar: 3,
-          student_id: 1
-        });
-      });
-  });
-});
-
-//---------------------------------Tutors--------------------------/
-
-describe("Test44-   GET /api/tutors", () => {
-  //describe("GET", () => {
-  test("status: 200 and returns an array of tutors", () => {
-    return request(app)
-      .get("/api/tutors")
-      .expect(200)
-      .then((res) => {
-        //console.log(res)
-        expect(res.body.tutors).toBeInstanceOf(Array);
-        expect(res.body.tutors).toHaveLength(1);
-        res.body.tutors.forEach((tutor) => {
-          expect(tutor).toMatchObject({
-            tutor_id: expect.any(Number),
-            tutor_firstname: expect.any(String),
-            tutor_lastname: expect.any(String),
-            tutor_email: expect.any(String),
-            tutor_password: expect.any(String),
-            tutor_active: expect.any(Boolean),
-            tutor_image: expect.any(String),
-          });
-        });
-      });
-  });
-  test("QUERY: status 200 : tutors are sorted by tutor_id", () => {
-    return request(app)
-      .get("/api/tutors")
-      .expect(200)
-      .then((res) => {
-        //  console.log(res);
-        expect(res.body.tutors).toBeSortedBy("tutor_id");
-      });
-  });
-  test("QUERY: status 200:tutor are sorted by passed query", () => {
-    return request(app)
-      .get("/api/tutors?sort_by=tutor_id")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.tutors).toBeSortedBy("tutor_id");
-      });
-  });
-  test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
-    return request(app)
-      .get("/api/tutors?sort_by=not_a_column")
-      .expect(400)
-      .then((res) => {
-        expect(res.body.msg).toBe("bad request");
-      });
-  });
-});
-describe("Test45- GET   /api/tutors/:tutor_id", () => {
-  test("status: 200 and return a tutor object", () => {
-    return request(app)
-      .get("/api/tutors/1")
-      .expect(200)
-      .then((res) => {
-        expect(res.body.tutor).toEqual({
-          tutor_id: expect.any(Number),
-          tutor_firstname: expect.any(String),
-          tutor_lastname: expect.any(String),
-          tutor_email: expect.any(String),
-          tutor_password: expect.any(String),
-          tutor_active: expect.any(Boolean),
-          tutor_image: expect.any(String),
-        });
-      });
-  });
-  test("Error: tutor_id, non existent but valid. status 404 and an error message", () => {
-    return request(app)
-      .get("/api/tutors/invalid_id")
-      .expect(400)
-      .then((res) => {
-        expect(res.body.msg).toBe("Invalid input");
-      });
-  });
-  test("ERROR  -status: 404 and returns an error message", () => {
-    return request(app)
-      .get("/api/tutors/1000")
-      .expect(404)
-      .then((res) => {
-        expect(res.body.msg).toBe("Not found");
-      });
-  });
-});
-describe("Test46- POST /api/tutors", () => {
-  test("status: 201 and return the new tutors", () => {
-    return request(app)
-      .post("/api/tutors")
-      .send({
-        tutor_firstname: "Sheraz",
-        tutor_lastname: "Cheema",
-        tutor_email: "csheraz@hotmail.com",
-        tutor_password: "password",
-        tutor_active: true,
-        tutor_image: "/tutor/tutor1.png",
-      })
-      .expect(201)
-      .then((res) => {
-        expect(res.body.tutor).toEqual({
-          tutor_id: 2,
-          tutor_firstname: "Sheraz",
-          tutor_lastname: "Cheema",
-          tutor_email: "csheraz@hotmail.com",
-          tutor_password: "password",
-          tutor_active: true,
-          tutor_image: "/tutor/tutor1.png",
-        });
-      });
-  });
-});
-describe("Test47-  DELETE /api/tutors/:tutor_id", () => {
-  test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
-    return request(app).delete("/api/tutors/1").expect(204);
-  });
-  test("status 400 and returns an error message if it is a bad request", () => {
-    return request(app)
-      .delete("/api/tutors/Invalid_id")
-      .expect(400)
-      .then((res) => expect(res.body.msg).toBe("Invalid input"));
-  });
-  test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
-    return request(app)
-      .delete("/api/tutors/1000")
-      .expect(404)
-      .then((res) => expect(res.body.msg).toBe("Not found"));
-  });
-});
-describe("Test48- PATCH /api/tutors/:tutor_id", () => {
-  test("Status 200: and return a updated student object  ", () => {
-    return request(app)
-      .patch("/api/tutors/1")
-      .send({
-        tutor_firstname: "Patched Sheraz",
-        tutor_lastname: "Cheema",
-        tutor_email: "csheraz@hotmail.com",
-        tutor_password: "password",
-        tutor_active: true,
-        tutor_image: "/tutor/tutor1.png",
-      })
-      .expect(200)
-      .then((res) => {
-        expect(res.body.updatedTutor).toEqual({
-          tutor_firstname: "Patched Sheraz",
-        tutor_lastname: "Cheema",
-        tutor_email: "csheraz@hotmail.com",
-        tutor_password: "password",
-        tutor_active: true,
-        tutor_image: "/tutor/tutor1.png",
-          tutor_id: 1
-        });
-      });
-  });
-});

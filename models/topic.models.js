@@ -7,7 +7,8 @@ exports.selectTopics = (sort_by = "topic_index") => {
     "topic_id",
     "topic_index",
     "topic_code",
-    "topic_created_at",
+    "topic_name",
+    "topic_course_id",
   ];
   if (!allowedSortBys.includes(sort_by)) {
     return Promise.reject({ status: 400, msg: "bad request" });

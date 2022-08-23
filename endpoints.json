@@ -20,9 +20,16 @@
     }
   },
 
+  "GET /api/setting": {
+    "description": "status: 200 and returns a welcome message for setting page",
+    "msg": {
+      "msg": "Welcome to the SettingPage"
+    }
+  },
+
   "GET /api/courses": {
     "description": "serves an articles array of courses objects",
-    "queries": ["course created by", "courseid", "sort_by", "order"],
+    "queries": ["course_id", "course_code", "course_name", "course_level"],
     "exampleResponse": {
       "courses": [
         {
@@ -31,28 +38,27 @@
           "course_code": "MTH-GF",
           "course_desc": "MTH GCSE Maths Foundation Online Course",
           "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png",
-          "course_created_at": 1527695953341
+          "course_image": "/course/mth_gcse_foundation.png"
         }
       ]
     }
   },
 
   "query1": {
-    "sort_by": "column name to sort_by"
+    "course_id": "column name to sort_by"
   },
   "query2": {
-    "order": "column name to sort_by"
+    "course_code": "column name to sort_by"
   },
   "query3": {
-    "topic": "column name to sort_by"
+    "course_name": "column name to sort_by"
   },
 
   "GET /api/courses?sort_by=not_a_column": {
     "description": "Serves an error message for an invalid sort_by column",
     "exampleResponse": {
       "error": {
-        "status": 404,
+        "status": 400,
         "msg": "bad request"
       }
     }
@@ -60,7 +66,6 @@
 
   "GET /api/courses/:course_id": {
     "description": "serves a course object with a given id",
-    "queries": ["author", "topic", "sort_by", "order"],
     "exampleResponse": {
       "course": [
         {
@@ -69,8 +74,7 @@
           "course_code": "MTH-GF",
           "course_desc": "MTH GCSE Maths Foundation Online Course",
           "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png",
-          "course_created_at": 1527695953341
+          "course_image": "/course/mth_gcse_foundation.png"
         }
       ]
     }
@@ -97,24 +101,29 @@
   },
 
   "POST /api/courses": {
-    "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "description": " serves an updated course object ",
+    "exampleRequest": {
+      "course_name": "MTH GCSE Maths Foundation",
+      "course_code": "MTH-GF",
+      "course_desc": "MTH GCSE Maths Foundation Online Course",
+      "course_level": "Foundation",
+      "course_image": "/course/mth_gcse_foundation.png"
+    },
     "exampleResponse": {
-      "courses": [
+      "course": [
         {
           "course_name": "MTH GCSE Maths Foundation",
           "course_id": 1,
           "course_code": "MTH-GF",
           "course_desc": "MTH GCSE Maths Foundation Online Course",
           "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png",
-          "course_created_at": 1527695953341
+          "course_image": "/course/mth_gcse_foundation.png"
         }
       ]
     }
   },
 
-  "POST /app/courses": {
+  "POST /api/courses/missingfield": {
     "description": "Serves a error message when a missing field is passed",
     "exampleResponse": {
       "error": {
@@ -124,14 +133,34 @@
     }
   },
 
-  "DELETE /api/course/:course_id": {
+  "DELETE /api/courses/:course_id": {
     "description": "serves an empty response",
     "exampleResponse": {
       "courses": {}
     }
   },
 
-  "PATCH /api/course/:course_id": {
+  "DELETE /api/courses/Invalid_id": {
+    "description": "status 400 and returns an error message if it is a bad request",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/courses/1000": {
+    "description": "status 404 and returns an error message if the ID does not exist",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "PATCH /api/courses/:course_id": {
     "description": " serves an updated course object ",
     "exampleRequest": {
       "course_name": "MTH GCSE Maths Foundation",
@@ -139,8 +168,7 @@
       "course_code": "MTH-GF",
       "course_desc": "MTH GCSE Maths Foundation Online Course",
       "course_level": "Foundation",
-      "course_image": "/course/mth_gcse_foundation.png",
-      "course_created_at": 1527695953341
+      "course_image": "/course/mth_gcse_foundation.png"
     },
     "exampleResponse": {
       "updatedCourse": [
@@ -150,14 +178,21 @@
           "course_code": "MTH-GF",
           "course_desc": "MTH GCSE Maths Foundation Online Course",
           "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png",
-          "course_created_at": 1527695953341
-        }]
-    }},
+          "course_image": "/course/mth_gcse_foundation.png"
+        }
+      ]
+    }
+  },
 
   "GET /api/topics": {
     "description": "serves an articles array of topics objects",
-    "queries": ["course created by", "topicid", "sort_by", "order"],
+    "queries": [
+      "topic_id",
+      "topic_index",
+      "topic_code",
+      "topic_name",
+      "topic_course_id"
+    ],
     "exampleResponse": {
       "topic": [
         {
@@ -166,33 +201,33 @@
           "topic_code": "GFN1",
           "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
           "topic_index": 1,
-          "topic_course_id": 1,
-          "topic_created_at": 1527695953341
-        }]
-    }},
+          "topic_course_id": 1
+        }
+      ]
+    }
+  },
 
   "query 1": {
-    "sort_by": "column name to sort_by"
+    "topic_id": "column name to sort_by"
   },
   "query 2": {
-    "order": "column name to sort_by"
+    "topic_index": "column name to sort_by"
   },
   "query 3": {
-    "topic": "column name to sort_by"
+    "topic_code": "column name to sort_by"
   },
-
   "GET /api/topics?sort_by=not_a_column": {
     "description": "Serves an error message for an invalid sort_by column",
     "exampleResponse": {
       "error": {
-        "status": 404,
+        "status": 400,
         "msg": "bad request"
-      }}
+      }
+    }
   },
 
   "GET /api/topics/:topic_id": {
     "description": "serves a topic object with a given id",
-    "queries": ["author", "topic", "sort_by", "order"],
     "exampleResponse": {
       "topic": {
         "topic_name": "Number 1",
@@ -200,10 +235,10 @@
         "topic_code": "GFN1",
         "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
         "topic_index": 1,
-        "topic_course_id": 1,
-        "topic_created_at": 1527695953341
-        }
-  }},
+        "topic_course_id": 1
+      }
+    }
+  },
 
   "GET /api/topics/1000": {
     "description": "Serves a error message when invalid course id is non existent is  passed",
@@ -212,7 +247,8 @@
         "status": "404",
         "msg": "Not found"
       }
-    }},
+    }
+  },
 
   "GET /app/topics/a": {
     "description": "Serves a error message when invalid course id is  passed",
@@ -221,59 +257,900 @@
         "status": "404",
         "msg": "Invalid URL"
       }
-    }},
+    }
+  },
 
   "POST /api/topics": {
-    "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
+    "description": " serves an inserted topic object ",
+    "exampleRequest": {
+      "topic_name": "Number 1",
+      "topic_id": 1,
+      "topic_code": "GFN1",
+      "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+      "topic_index": 1,
+      "topic_course_id": 1
+    },
     "exampleResponse": {
-      "topic": {
+      "updatedTopic": [
+        {
+          "topic_name": "Number 1",
+          "topic_id": 1,
+          "topic_code": "GFN1",
+          "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+          "topic_index": 1,
+          "topic_course_id": 1
+        }
+      ]
+    },
+
+    "POST /app/topics": {
+      "description": "Serves a error message when a missing field is passed",
+      "exampleResponse": {
+        "error": {
+          "status": "400",
+          "msg": "Invalid input"
+        }
+      }
+    },
+
+    "DELETE /api/topics/:topic_id": {
+      "description": "serves an empty response",
+      "exampleResponse": {
+        "topic": {}
+      }
+    },
+
+    "DELETE /api/topics/Invalid_id": {
+      "description": "status 400 and returns an error message if it is a bad request",
+      "exampleResponse": {
+        "error": {
+          "status": "400",
+          "msg": "Invalid input"
+        }
+      }
+    },
+
+    "DELETE /api/topics/1000": {
+      "description": "status 404 and returns an error message if the ID does not exist",
+      "exampleResponse": {
+        "error": {
+          "status": "404",
+          "msg": "Not found"
+        }
+      }
+    },
+
+    "PATCH /api/topic/:topic_id": {
+      "description": " serves an updated topic object ",
+      "exampleRequest": {
         "topic_name": "Number 1",
         "topic_id": 1,
         "topic_code": "GFN1",
         "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
         "topic_index": 1,
-        "topic_course_id": 1,
-        "topic_created_at": 1527695953341
-        }  
-    }},
-
-  "POST /app/topics": {
-    "description": "Serves a error message when a missing field is passed",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
-        "msg": "Invalid input"
-      }}
+        "topic_course_id": 1
+      },
+      "exampleResponse": {
+        "updatedTopic": {
+          "topic_name": "Number 1",
+          "topic_id": 1,
+          "topic_code": "GFN1",
+          "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+          "topic_index": 1,
+          "topic_course_id": 1
+        }
+      }
+    }
   },
 
-  "DELETE /api/topic/:topic_id": {
+  "GET /api/tutors": {
+    "description": "serves an articles array of tutors objects",
+    "queries": [
+      "tutor_firstname",
+      "tutor_lastname",
+      "tutor_email",
+      "tutor_active",
+      "tutor_image",
+      "tutor_id"
+    ],
+    "exampleResponse": {
+      "tutors": [
+        {
+          "tutor_id": 1,
+          "tutor_firstname": "Sheraz",
+          "tutor_lastname": "Cheema",
+          "tutor_email": "csheraz@hotmail.com",
+          "tutor_active": true,
+          "tutor_image": "/tutor/tutor1.png",
+          "tutor_password": "password"
+        }
+      ]
+    }
+  },
+
+  "queryT1": {
+    "tutor_id": "column name to sort_by"
+  },
+  "queryT2": {
+    "tutor_firstname": "column name to sort_by"
+  },
+  "queryT3": {
+    "tutor_lastname": "column name to sort_by"
+  },
+
+  "GET /api/tutors?sort_by=not_a_column": {
+    "description": "Serves an error message for an invalid sort_by column",
+    "exampleResponse": {
+      "error": {
+        "status": 400,
+        "msg": "bad request"
+      }
+    }
+  },
+
+  "GET /api/tutors/1000": {
+    "description": "Serves a error message when invalid course id is non existent is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "GET /app/tutors/a": {
+    "description": "Serves a error message when invalid course id is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Invalid URL"
+      }
+    }
+  },
+
+  "POST /api/tutors": {
+    "description": "serves an inserted topic object ",
+    "exampleRequest": {
+      "tutor_firstname": "New",
+      "tutor_lastname": "Cheema",
+      "tutor_email": "csheraz@hotmail.com",
+      "tutor_active": true,
+      "tutor_image": "/tutor/tutor1.png",
+      "tutor_password": "password"
+    },
+    "exampleResponse": {
+      "tutor": [
+        {
+          "tutor_firstname": "New",
+          "tutor_lastname": "Cheema",
+          "tutor_email": "csheraz@hotmail.com",
+          "tutor_active": true,
+          "tutor_image": "/tutor/tutor1.png",
+          "tutor_password": "password"
+        }
+      ]
+    },
+
+    "POST /app/tutors": {
+      "description": "Serves a error message when a missing field is passed",
+      "exampleResponse": {
+        "error": {
+          "status": "400",
+          "msg": "Invalid input"
+        }
+      }
+    }
+  },
+
+  "DELETE /api/tutors/:tutor_id": {
     "description": "serves an empty response",
     "exampleResponse": {
       "topic": {}
     }
   },
 
-  "PATCH /api/topic/:topic_id": {
-    "description": " serves an updated topic object ",
+  "DELETE /api/tutors/Invalid_id": {
+    "description": "status 400 and returns an error message if it is a bad request",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/tutors/1000": {
+    "description": "status 404 and returns an error message if the ID does not exist",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+  "PATCH /api/tutors/:tutor_id": {
+    "description": " serves an updated tutor object ",
     "exampleRequest": {
-      "topic_name": "Number 1",
-        "topic_id": 1,
-        "topic_code": "GFN1",
-        "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
-        "topic_index": 1,
-        "topic_course_id": 1,
-        "topic_created_at": 1527695953341
+      "tutor_firstname": "Patched",
+      "tutor_lastname": "Cheema",
+      "tutor_email": "csheraz@hotmail.com",
+      "tutor_active": true,
+      "tutor_image": "/tutor/tutor1.png",
+      "tutor_password": "password"
     },
     "exampleResponse": {
-      "updatedTopic": {
-          "topic_name": "Number 1",
-        "topic_id": 1,
-        "topic_code": "GFN1",
-        "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
-        "topic_index": 1,
-        "topic_course_id": 1,
-        "topic_created_at": 1527695953341
+      "updatedTutor": {
+        "tutor_firstname": "Patched",
+        "tutor_lastname": "Cheema",
+        "tutor_email": "csheraz@hotmail.com",
+        "tutor_active": true,
+        "tutor_image": "/tutor/tutor1.png",
+        "tutor_password": "password"
+      }
+    }
+  },
+
+  "GET /api/students": {
+    "description": "serves an  array of student objects",
+    "queries": [
+      "student_id",
+      "student_firstname",
+      "student_lastname",
+      "student_email",
+      "student_active",
+      "student_grade",
+      "student_targetgrade",
+      "student_notes",
+      "student_progressbar",
+      "student_image"
+    ],
+    "exampleResponse": {
+      "students": [
+        {
+          "student_firstname": "Student1FN",
+          "student_lastname": "Student1LN",
+          "student_email": "csheraz@hotmail.com",
+          "student_password": "password",
+          "student_active": "TRUE",
+          "student_image": "/student/student1.png",
+          "student_grade": 2,
+          "student_targetgrade": 5,
+          "student_notes": "Working well",
+          "student_progressbar": 3
         }
-    }}
+      ]
+    }
+  },
+
+  "querys1": {
+    "student_id": "column name to sort_by"
+  },
+  "querys2": {
+    "student_firstname": "column name to sort_by"
+  },
+  "querys3": {
+    "student_lastname": "column name to sort_by"
+  },
+
+  "GET /api/students?sort_by=not_a_column": {
+    "description": "Serves an error message for an invalid sort_by column",
+    "exampleResponse": {
+      "error": {
+        "status": 400,
+        "msg": "bad request"
+      }
+    }
+  },
+
+  "GET /api/students/:student_id": {
+    "description": "serves a student object with a given id",
+    "exampleResponse": {
+      "student": [
+        {
+          "student_firstname": "Student1FN",
+          "student_lastname": "Student1LN",
+          "student_email": "csheraz@hotmail.com",
+          "student_password": "password",
+          "student_active": "TRUE",
+          "student_image": "/student/student1.png",
+          "student_grade": 2,
+          "student_targetgrade": 5,
+          "student_notes": "Working well",
+          "student_progressbar": 3
+        }
+      ]
+    }
+  },
+
+  "GET /api/students/1000": {
+    "description": "Serves a error message when invalid student id is non existent is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "GET /app/students/a": {
+    "description": "Serves a error message when invalid student id is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Invalid URL"
+      }
+    }
+  },
+
+  "POST /api/students": {
+    "description": " serves an updated student object ",
+    "exampleRequest": {
+      "student_firstname": "Student1FN",
+      "student_lastname": "Student1LN",
+      "student_email": "csheraz@hotmail.com",
+      "student_password": "password",
+      "student_active": "TRUE",
+      "student_image": "/student/student1.png",
+      "student_grade": 2,
+      "student_targetgrade": 5,
+      "student_notes": "Working well",
+      "student_progressbar": 3
+    },
+    "exampleResponse": {
+      "student": [
+        {
+          "student_firstname": "Student1FN",
+          "student_lastname": "Student1LN",
+          "student_email": "csheraz@hotmail.com",
+          "student_password": "password",
+          "student_active": "TRUE",
+          "student_image": "/student/student1.png",
+          "student_grade": 2,
+          "student_targetgrade": 5,
+          "student_notes": "Working well",
+          "student_progressbar": 3
+        }
+      ]
+    }
+  },
+
+  "POST /api/students/missingfield": {
+    "description": "Serves a error message when a missing field is passed",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/students/:student_id": {
+    "description": "serves an empty response",
+    "exampleResponse": {
+      "students": {}
+    }
+  },
+
+  "DELETE /api/students/Invalid_id": {
+    "description": "status 400 and returns an error message if it is a bad request",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/students/1000": {
+    "description": "status 404 and returns an error message if the ID does not exist",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "PATCH /api/students/:student_id": {
+    "description": " serves an updated student object ",
+    "exampleRequest": {
+      "student_firstname": "Student1FN",
+      "student_lastname": "Student1LN",
+      "student_email": "csheraz@hotmail.com",
+      "student_password": "password",
+      "student_active": "TRUE",
+      "student_image": "/student/student1.png",
+      "student_grade": 2,
+      "student_targetgrade": 5,
+      "student_notes": "Working well",
+      "student_progressbar": 3,
+      "exampleResponse": {
+        "updatedStudent": [
+          {
+            "student_firstname": "Student1FN",
+            "student_lastname": "Student1LN",
+            "student_email": "csheraz@hotmail.com",
+            "student_password": "password",
+            "student_active": "TRUE",
+            "student_image": "/student/student1.png",
+            "student_grade": 2,
+            "student_targetgrade": 5,
+            "student_notes": "Working well",
+            "student_progressbar": 3
+          }
+        ]
+      }
+    }
+  },
+
+  "GET /api/lessons": {
+    "description": "serves an articles array of lessons objects",
+    "queries": ["lesson_id", "lesson_code", "lesson_name, lesson_topic_id"],
+    "exampleResponse": {
+      "lessons": [
+        {
+          "lesson_name": "Addition, Subtraction and Money Problems",
+          "lesson_code": "GFN1LC1",
+          "lesson_desc": "To be able to add, subtract, and solve money problems.",
+          "lesson_ws": "GFN1WS1",
+          "lesson_body": "PowerPoint",
+          "lesson_topic_id": 1
+        }
+      ]
+    }
+  },
+
+  "queryL1": {
+    "lesson_name": "column name to sort_by"
+  },
+  "queryL2": {
+    "lesson_code": "column name to sort_by"
+  },
+  "queryL3": {
+    "lesson_topic_id": "column name to sort_by"
+  },
+
+  "GET /api/lessons?sort_by=not_a_column": {
+    "description": "Serves an error message for an invalid sort_by column",
+    "exampleResponse": {
+      "error": {
+        "status": 400,
+        "msg": "bad request"
+      }
+    }
+  },
+
+  "GET /api/lessons/:lesson_id": {
+    "description": "serves a lesson object with a given id",
+    "exampleResponse": {
+      "lesson": [
+        {
+          "lesson_name": "Addition, Subtraction and Money Problems",
+          "lesson_code": "GFN1LC1",
+          "lesson_desc": "To be able to add, subtract, and solve money problems.",
+          "lesson_ws": "GFN1WS1",
+          "lesson_body": "PowerPoint",
+          "lesson_topic_id": 1
+        }
+      ]
+    }
+  },
+
+  "GET /api/lessons/1000": {
+    "description": "Serves a error message when invalid course id is non existent is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "GET /app/lessons/a": {
+    "description": "Serves a error message when invalid lesson id is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Invalid URL"
+      }
+    }
+  },
+
+  "POST /api/lessons": {
+    "description": " serves an updated course object ",
+    "exampleRequest": {
+      "lesson_name": "Addition, Subtraction and Money Problems",
+      "lesson_code": "GFN1LC1",
+      "lesson_desc": "To be able to add, subtract, and solve money problems.",
+      "lesson_ws": "GFN1WS1",
+      "lesson_body": "PowerPoint",
+      "lesson_topic_id": 1
+    },
+    "exampleResponse": {
+      "lesson": [
+        {
+          "lesson_name": "Addition, Subtraction and Money Problems",
+          "lesson_code": "GFN1LC1",
+          "lesson_desc": "To be able to add, subtract, and solve money problems.",
+          "lesson_ws": "GFN1WS1",
+          "lesson_body": "PowerPoint",
+          "lesson_topic_id": 1
+        }
+      ]
+    }
+  },
+
+  "POST /api/lessons/missingfield": {
+    "description": "Serves a error message when a missing field is passed",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/lessons/:lesson_id": {
+    "description": "serves an empty response",
+    "exampleResponse": {
+      "courses": {}
+    }
+  },
+
+  "DELETE /api/lessons/Invalid_id": {
+    "description": "status 400 and returns an error message if it is a bad request",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/lessons/1000": {
+    "description": "status 404 and returns an error message if the ID does not exist",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "PATCH /api/lesson/:lesson_id": {
+    "description": " serves an updated course object ",
+    "exampleRequest": {
+      "lesson_name": "Addition, Subtraction and Money Problems",
+      "lesson_code": "GFN1LC1",
+      "lesson_desc": "To be able to add, subtract, and solve money problems.",
+      "lesson_ws": "GFN1WS1",
+      "lesson_body": "PowerPoint",
+      "lesson_topic_id": 1
+    },
+    "exampleResponse": {
+      "updatedLesson": [
+        {
+          "lesson_name": "Addition, Subtraction and Money Problems",
+          "lesson_code": "GFN1LC1",
+          "lesson_desc": "To be able to add, subtract, and solve money problems.",
+          "lesson_ws": "GFN1WS1",
+          "lesson_body": "PowerPoint",
+          "lesson_topic_id": 1
+        }
+      ]
+    }
+  },
+
+  "GET /api/quizzes": {
+    "description": "serves an articles array of lessons objects",
+    "queries": ["quiz_name", "quiz_code", "quiz_type"],
+    "exampleResponse": {
+      "quizzes": [
+        {
+          "quiz_name": "Number 1 Topic Diagnostic Quiz",
+          "quiz_code": "GFN1TDQ",
+          "quiz_type": "TopicDiagnostic"
+        }
+      ]
+    }
+  },
+
+  "queryq1": {
+    "quiz_name": "column name to sort_by"
+  },
+  "queryq2": {
+    "quiz_code": "column name to sort_by"
+  },
+  "queryq3": {
+    "quiz_type": "column name to sort_by"
+  },
+
+  "GET /api/quizzes?sort_by=not_a_column": {
+    "description": "Serves an error message for an invalid sort_by column",
+    "exampleResponse": {
+      "error": {
+        "status": 400,
+        "msg": "bad request"
+      }
+    }
+  },
+
+  "GET /api/quizzes/:quiz_id": {
+    "description": "serves a quiz object with a given id",
+    "exampleResponse": {
+      "quiz": [
+        {
+          "quiz_name": "Number 2 Topic Diagnostic Quiz",
+          "quiz_code": "GFN2TDQ",
+          "quiz_type": "TopicDiagnostic",
+          "quiz_id": 1
+        }
+      ]
+    }
+  },
+
+  "GET /api/quizzes/1000": {
+    "description": "Serves a error message when invalid quiz id is non existent is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "GET /app/quizzes/a": {
+    "description": "Serves a error message when invalid quiz id is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Invalid URL"
+      }
+    }
+  },
+
+  "POST /api/quizzes": {
+    "description": " serves an updated course object ",
+    "exampleRequest": {
+      "quiz_name": "Number 2 Topic Diagnostic Quiz",
+      "quiz_code": "GFN2TDQ",
+      "quiz_type": "TopicDiagnostic"
+    },
+    "exampleResponse": {
+      "quiz": [
+        {
+          "quiz_name": "Number 2 Topic Diagnostic Quiz",
+          "quiz_code": "GFN2TDQ",
+          "quiz_type": "TopicDiagnostic",
+          "quiz_id": 1
+        }
+      ]
+    }
+  },
+
+  "POST /api/quizzes/missingfield": {
+    "description": "Serves a error message when a missing field is passed",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/quizzes/:quiz_id": {
+    "description": "serves an empty response",
+    "exampleResponse": {
+      "courses": {}
+    }
+  },
+
+  "DELETE /api/quizzes/Invalid_id": {
+    "description": "status 400 and returns an error message if it is a bad request",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/quizzes/1000": {
+    "description": "status 404 and returns an error message if the ID does not exist",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "PATCH /api/quizzes/:quiz_id": {
+    "description": " serves an updated quiz object ",
+    "exampleRequest": {
+      "quiz_name": "Number 2 Topic Diagnostic Quiz",
+      "quiz_code": "GFN2TDQ",
+      "quiz_type": "TopicDiagnostic"
+    },
+    "exampleResponse": {
+      "updatedQuiz": [
+        {
+          "quiz_name": "Number 2 Topic Diagnostic Quiz",
+          "quiz_code": "GFN2TDQ",
+          "quiz_type": "TopicDiagnostic",
+          "quiz_id": 1
+        }
+      ]
+    }
+  },
+
+  "GET /api/questions": {
+    "description": "serves an articles array of question objects",
+    "queries": ["ques_body","ques_image","ques_grade","ques_calc","ques_mark","ques1_ans","ques2_ans",
+    "ques3_ans","ques_ans_explain","ques_ans_mark",
+    "ques_ans_image","ques_ans_correct","ques_ans_sym_b","ques_ans_sym_a","ques_quiz_id",
+    "ques_lesson_id","ques_id,"],
+    "exampleResponse": {
+      "questions": [
+        {
+          "ques_id": 5,
+          "ques_body": "4.79 - 1.2",
+          "ques1_ans": 3.59,
+          "ques_mark": 1,
+          "ques_grade": 2,
+          "ques_lesson_id": 1,
+          "ques_quiz_id": 2,
+          "ques_calc": false,
+          "ques_ans_explain": "explanation"
+        }
+      ]
+    }
+  },
+
+  "queryqu1": {
+    "ques_grade": "column name to sort_by"
+  },
+  "queryqu2": {
+    "ques_id": "column name to sort_by"
+  },
+  "queryqu3": {
+    "ques_lesson_id": "column name to sort_by"
+  },
+
+  "GET /api/questions?sort_by=not_a_column": {
+    "description": "Serves an error message for an invalid sort_by column",
+    "exampleResponse": {
+      "error": {
+        "status": 400,
+        "msg": "bad request"
+      }
+    }
+  },
+
+  "GET /api/questions/:question_id": {
+    "description": "serves a question object with a given id",
+    "exampleResponse": {
+      "question": [
+        {
+          "ques_id": 5,
+          "ques_body": "4.79 - 1.2",
+          "ques1_ans": 3.59,
+          "ques_mark": 1,
+          "ques_grade": 2,
+          "ques_lesson_id": 1,
+          "ques_quiz_id": 2,
+          "ques_calc": false,
+          "ques_ans_explain": "explanation"
+        }
+      ]
+    }
+  },
+
+  "GET /api/questions/1000": {
+    "description": "Serves a error message when invalid course id is non existent is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "GET /app/questions/a": {
+    "description": "Serves a error message when invalid course id is  passed",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Invalid URL"
+      }
+    }
+  },
+
+  "POST /api/questions": {
+    "description": " serves an updated course object ",
+    "exampleRequest": {
+      "course_name": "MTH GCSE Maths Foundation",
+      "course_code": "MTH-GF",
+      "course_desc": "MTH GCSE Maths Foundation Online Course",
+      "course_level": "Foundation",
+      "course_image": "/course/mth_gcse_foundation.png"
+    },
+    "exampleResponse": {
+      "question": [
+        {
+          "course_name": "MTH GCSE Maths Foundation",
+          "course_id": 1,
+          "course_code": "MTH-GF",
+          "course_desc": "MTH GCSE Maths Foundation Online Course",
+          "course_level": "Foundation",
+          "course_image": "/course/mth_gcse_foundation.png"
+        }
+      ]
+    }
+  },
+
+  "POST /api/questions/missingfield": {
+    "description": "Serves a error message when a missing field is passed",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/questions/:course_id": {
+    "description": "serves an empty response",
+    "exampleResponse": {
+      "courses": {}
+    }
+  },
+
+  "DELETE /api/questions/Invalid_id": {
+    "description": "status 400 and returns an error message if it is a bad request",
+    "exampleResponse": {
+      "error": {
+        "status": "400",
+        "msg": "Invalid input"
+      }
+    }
+  },
+
+  "DELETE /api/questions/1000": {
+    "description": "status 404 and returns an error message if the ID does not exist",
+    "exampleResponse": {
+      "error": {
+        "status": "404",
+        "msg": "Not found"
+      }
+    }
+  },
+
+  "PATCH /api/questions/:question_id": {
+    "description": " serves an updated course object ",
+    "exampleRequest": {
+      "ques_id": 5,
+      "ques_body": "4.79 - 1.2",
+      "ques1_ans": 3.59,
+      "ques_mark": 1,
+      "ques_grade": 2,
+      "ques_lesson_id": 1,
+      "ques_quiz_id": 2,
+      "ques_calc": false,
+      "ques_ans_explain": "explanation"
+    },
+    "exampleResponse": {
+      "updatedQuestion": [
+        {
+          "course_name": "MTH GCSE Maths Foundation",
+          "course_id": 1,
+          "course_code": "MTH-GF",
+          "course_desc": "MTH GCSE Maths Foundation Online Course",
+          "course_level": "Foundation",
+          "course_image": "/course/mth_gcse_foundation.png"
+        }
+      ]
+    }
+  }
+  
 }
