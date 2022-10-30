@@ -11,6 +11,7 @@ const {
   getHomepage,
   getEndpoints,
 } = require("../controllers/homepage.controllers.js");
+const { getUserhomepage } = require("../controllers/usercontrollers/userhomepage.controllers");
 
 const apiRouter = express.Router();
 
@@ -19,6 +20,7 @@ const apiRouter = express.Router();
 //GET /api sends back endpoint
 apiRouter.get("/", getEndpoints);
 apiRouter.get("/homepage", getHomepage);
+apiRouter.get("/userhomepage", getUserhomepage);
 
 apiRouter.use("/topics", topicRouter);
 

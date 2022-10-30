@@ -634,10 +634,10 @@ describe("Test21- GET   /api/students/:student_id", () => {
           student_email: "csheraz@hotmail.com",
           student_password: "password",
           student_active: true,
-          student_grade: 2,
+          student_grade: 1,
           student_targetgrade: 5,
           student_notes: "Working well",
-          student_progressbar: 3,
+          student_progressbar: 1,
           student_image: "/student/student1.png",
         });
       });
@@ -1282,6 +1282,17 @@ describe("Test39- PATCH /api/questions/:ques_id", () => {
           ques_image: null,
           ques_id:1
         });
+      });
+  });
+});
+
+describe("Test40-  GET /api/userhomepage", () => {
+  test("status: 200 and returns a welcome message from the user homepage", () => {
+    return request(app)
+      .get("/api/userhomepage")
+      .expect(200)
+      .then((res) => {
+        expect(res.body.msg).toBe("Welcome to the User HomePage");
       });
   });
 });

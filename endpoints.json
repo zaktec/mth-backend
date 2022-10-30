@@ -101,8 +101,9 @@
   },
 
   "POST /api/courses": {
-    "description": " serves an updated course object ",
-    "exampleRequest": {
+    "description":"creates a new course and responds with the new course object, including course_id",
+    "queries": null,
+    "exampleRequestBody": {
       "course_name": "MTH GCSE Maths Foundation",
       "course_code": "MTH-GF",
       "course_desc": "MTH GCSE Maths Foundation Online Course",
@@ -110,7 +111,7 @@
       "course_image": "/course/mth_gcse_foundation.png"
     },
     "exampleResponse": {
-      "course": [
+      "course": 
         {
           "course_name": "MTH GCSE Maths Foundation",
           "course_id": 1,
@@ -119,7 +120,6 @@
           "course_level": "Foundation",
           "course_image": "/course/mth_gcse_foundation.png"
         }
-      ]
     }
   },
 
@@ -161,7 +161,7 @@
   },
 
   "PATCH /api/courses/:course_id": {
-    "description": " serves an updated course object ",
+    "description": "creates an updated course object",
     "exampleRequest": {
       "course_name": "MTH GCSE Maths Foundation",
       "course_id": 1,
@@ -261,7 +261,8 @@
   },
 
   "POST /api/topics": {
-    "description": " serves an inserted topic object ",
+    "description":"creates a new topic and responds with the new topic object, including course_id",
+    "queries": null,
     "exampleRequest": {
       "topic_name": "Number 1",
       "topic_id": 1,
@@ -271,7 +272,7 @@
       "topic_course_id": 1
     },
     "exampleResponse": {
-      "updatedTopic": [
+      "updatedTopic": 
         {
           "topic_name": "Number 1",
           "topic_id": 1,
@@ -280,11 +281,10 @@
           "topic_index": 1,
           "topic_course_id": 1
         }
-      ]
     },
 
     "POST /app/topics": {
-      "description": "Serves a error message when a missing field is passed",
+      "description": "Creates a error message when a missing field is passed",
       "exampleResponse": {
         "error": {
           "status": "400",
@@ -321,7 +321,7 @@
     },
 
     "PATCH /api/topic/:topic_id": {
-      "description": " serves an updated topic object ",
+      "description": "Creates an updated topic object ",
       "exampleRequest": {
         "topic_name": "Number 1",
         "topic_id": 1,
@@ -409,7 +409,8 @@
   },
 
   "POST /api/tutors": {
-    "description": "serves an inserted topic object ",
+    "description": "creates a new tutors and responds with the new tutor object, including tutor_id",
+    "queries": null,
     "exampleRequest": {
       "tutor_firstname": "New",
       "tutor_lastname": "Cheema",
@@ -419,7 +420,7 @@
       "tutor_password": "password"
     },
     "exampleResponse": {
-      "tutor": [
+      "tutor": 
         {
           "tutor_firstname": "New",
           "tutor_lastname": "Cheema",
@@ -428,11 +429,10 @@
           "tutor_image": "/tutor/tutor1.png",
           "tutor_password": "password"
         }
-      ]
     },
 
     "POST /app/tutors": {
-      "description": "Serves a error message when a missing field is passed",
+      "description": "Creates a error message when a missing field is passed",
       "exampleResponse": {
         "error": {
           "status": "400",
@@ -469,7 +469,7 @@
     }
   },
   "PATCH /api/tutors/:tutor_id": {
-    "description": " serves an updated tutor object ",
+    "description": "Creates an updated tutor object ",
     "exampleRequest": {
       "tutor_firstname": "Patched",
       "tutor_lastname": "Cheema",
@@ -583,7 +583,8 @@
   },
 
   "POST /api/students": {
-    "description": " serves an updated student object ",
+    "description": "creates a new student and responds with the new student object, including student_id",
+    "queries": null,
     "exampleRequest": {
       "student_firstname": "Student1FN",
       "student_lastname": "Student1LN",
@@ -597,8 +598,7 @@
       "student_progressbar": 3
     },
     "exampleResponse": {
-      "student": [
-        {
+      "student": {
           "student_firstname": "Student1FN",
           "student_lastname": "Student1LN",
           "student_email": "csheraz@hotmail.com",
@@ -610,12 +610,11 @@
           "student_notes": "Working well",
           "student_progressbar": 3
         }
-      ]
     }
   },
 
   "POST /api/students/missingfield": {
-    "description": "Serves a error message when a missing field is passed",
+    "description": "Creates a error message when a missing field is passed",
     "exampleResponse": {
       "error": {
         "status": "400",
@@ -652,9 +651,7 @@
   },
 
   "PATCH /api/students/:student_id": {
-    "description": " serves an updated student object ",
-    "exampleRequest": {
-      "student_firstname": "Student1FN",
+    "description": "Creates an updated topic object ",
       "student_lastname": "Student1LN",
       "student_email": "csheraz@hotmail.com",
       "student_password": "password",
@@ -680,7 +677,6 @@
           }
         ]
       }
-    }
   },
 
   "GET /api/lessons": {
@@ -757,7 +753,8 @@
   },
 
   "POST /api/lessons": {
-    "description": " serves an updated course object ",
+    "description":"creates a new lesson and responds with the new lesson object, including lessson_id",
+    "queries": null,
     "exampleRequest": {
       "lesson_name": "Addition, Subtraction and Money Problems",
       "lesson_code": "GFN1LC1",
@@ -910,7 +907,8 @@
   },
 
   "POST /api/quizzes": {
-    "description": " serves an updated course object ",
+    "description": "creates a new quiz and responds with the new quiz object, including quiz_id",
+    "queries": null,
     "exampleRequest": {
       "quiz_name": "Number 2 Topic Diagnostic Quiz",
       "quiz_code": "GFN2TDQ",
@@ -1067,7 +1065,8 @@
   },
 
   "POST /api/questions": {
-    "description": " serves an updated course object ",
+    "description":"creates a new questions and responds with the new question object, including question_id",
+    "queries": null,
     "exampleRequest": {
       "course_name": "MTH GCSE Maths Foundation",
       "course_code": "MTH-GF",
@@ -1152,5 +1151,4 @@
       ]
     }
   }
-  
 }
