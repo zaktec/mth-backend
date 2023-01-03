@@ -22,7 +22,7 @@ describe("Test1-   GET /invalid_url", () => {
 describe("Test2-  GET /api", () => {
   test("status: 200 and json representation of all the available endpoints of the api", () => {
     return request(app)
-      .get("/api/")
+      .get("/")
       .expect(200)
       .then((res) => {});
   });
@@ -31,7 +31,7 @@ describe("Test2-  GET /api", () => {
 describe("Test3-  GET /api/homepage", () => {
   test("status: 200 and returns a welcome message", () => {
     return request(app)
-      .get("/api/homepage")
+      .get("/homepage")
       .expect(200)
       .then((res) => {
         expect(res.body.msg).toBe("Welcome to the HomePage");

@@ -1,5 +1,9 @@
 const express = require ('express')
 const apiRouter = require('./routers/api.routers');
+const {
+  getHomepage,
+  getEndpoints,
+} = require("./controllers/homepage.controllers.js");
 const app = express();
 const cors = require("cors")
 
@@ -11,12 +15,22 @@ const {
     handleServerErrors,
     handle404s 
   } = require('./errors/index');
+const { protect } = require('./auth/auth');
 
 
 app.use(express.json())
 app.use(cors());
 
-app.use('/api', apiRouter)
+//http://localhost:3009/api/homepage
+app.get("/", getEndpoints);
+app.get("/homepage", getHomepage);
+app.post("/loginuser", loginUser);
+app.post("/loginuser", loginUser);
+
+
+//authroised user allowed on these route
+
+app.use('/api', protect, apiRouter)
 
 
 

@@ -9,11 +9,11 @@
     }
   },
 
-  "GET /api": {
+  "GET /": {
     "description": "serves up a json representation of all the available endpoints of the api"
   },
 
-  "GET /api/homepage": {
+  "GET /homepage": {
     "description": "serves up a welcome message to my user",
     "msg": {
       "msg": "Welcome to the HomePage"
