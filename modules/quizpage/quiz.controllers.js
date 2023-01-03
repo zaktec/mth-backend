@@ -1,16 +1,14 @@
-const {  selectQuizzes,
-        selectQuizById,
-        insertQuiz,
-        deleteQuizById,
-        updateQuizById
+const {
+  selectQuizzes,
+  selectQuizById,
+  insertQuiz,
+  deleteQuizById,
+  updateQuizById,
+} = require("./quiz.models.js");
 
-
-} =require('../models/quiz.models.js')
-
-const { checkQuizExists } = require("../utils/utils.js");
+const { checkQuizExists } = require("../../utils/utils.js");
 
 exports.getQuizzes = (req, res, next) => {
-    
   const { sort_by } = req.query;
   selectQuizzes(sort_by)
     .then((quizzes) => {
@@ -37,7 +35,6 @@ exports.getQuizById = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
-
 };
 
 exports.postQuiz = (req, res, next) => {
@@ -83,5 +80,4 @@ exports.patchQuizById = (req, res, next) => {
       // console.log(err)
       next(err);
     });
-
 };

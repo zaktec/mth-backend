@@ -1,4 +1,4 @@
-const db = require("../database/connection.js");
+const db = require("../../database/connection.js");
 
 exports.selectTutors = (sort_by = "tutor_id") => {
   if (sort_by) {
@@ -30,61 +30,62 @@ exports.selectTutorById = (tutor_id) => {
   }
   return db.query(queryString, queryParams).then(({ rows }) => {
     return rows[0];
-    
   });
 };
 
 exports.insertTutor = (tutor) => {
   const {
-          tutor_firstname,
-          tutor_lastname,
-          tutor_email,
-          tutor_active,
-          tutor_image,
-          tutor_password,
-  }= tutor;
+    tutor_username,
+    tutor_firstname,
+    tutor_lastname,
+    tutor_email,
+    tutor_active,
+    tutor_image,
+    tutor_password,
+  } = tutor;
 
   return db
-  .query(
-    `INSERT INTO tutor (tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *; `,
-    [
-      tutor_firstname,
-      tutor_lastname,
-      tutor_email,
-      tutor_active,
-      tutor_image,
-      tutor_password,
-    ]
-  )
-  .then(({ rows }) => {
-    return rows[0];
-  });
+    .query(
+      `INSERT INTO tutor (tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *; `,
+      [
+        tutor_username,
+        tutor_firstname,
+        tutor_lastname,
+        tutor_email,
+        tutor_active,
+        tutor_image,
+        tutor_password,
+      ]
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
 };
-
 
 exports.deleteTutorById = (tutor_id) => {
   return db
-  .query("DELETE FROM tutor WHERE tutor_id = $1 RETURNING *", [tutor_id])
-  .then((result) => {
-    //console.log(result)
-    return result.rows[0];
-  });
-
+    .query("DELETE FROM tutor WHERE tutor_id = $1 RETURNING *", [tutor_id])
+    .then((result) => {
+      //console.log(result)
+      return result.rows[0];
+    });
 };
 
 exports.updateTutorById = (tutor, tutor_id) => {
   const {
+    tutor_username,
     tutor_firstname,
-      tutor_lastname,
-      tutor_email,
-      tutor_active,
-      tutor_image,
-      tutor_password,
+    tutor_lastname,
+    tutor_email,
+    tutor_active,
+    tutor_image,
+    tutor_password,
   } = tutor;
   return db
     .query(
-      `UPDATE tutor SET tutor_firstname = $1, tutor_lastname = $2, tutor_email= $3, tutor_active= $4, tutor_image = $5, tutor_password= $6 WHERE tutor_id = $7 RETURNING *;`,
+      `UPDATE tutor SET  tutor_username=$1, tutor_firstname = $2, tutor_lastname = $3, tutor_email= $4, tutor_active= $5, tutor_image = $6, tutor_password= $7 WHERE tutor_id = $8 RETURNING *;`,
       [
+        tutor_username,
         tutor_firstname,
         tutor_lastname,
         tutor_email,
@@ -98,4 +99,3 @@ exports.updateTutorById = (tutor, tutor_id) => {
       return rows[0];
     });
 };
-

@@ -1,4 +1,4 @@
-const { selectResit } = require("../../models/setting.model");
+const { selectResit } = require("./setting.model");
 //const runSeed = require("../database/seeds/run-seed.js")
 //const seed = require("../database/seeds/seed");
 //const devData = require("../database/data/dev-data");

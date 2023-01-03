@@ -1,4 +1,4 @@
-const db = require("../database/connection.js");
+const db = require("../../database/connection.js");
 
 exports.selectStudents = (sort_by = "student_id") => {
   if (sort_by) {
@@ -65,12 +65,10 @@ exports.insertStudent = (student) => {
         student_notes,
         student_progressbar,
         student_image,
-
       ]
     )
     .then(({ rows }) => {
       return rows[0];
-      
     });
 };
 
@@ -112,8 +110,7 @@ exports.updateStudentById = (student, student_id) => {
         student_notes,
         student_progressbar,
         student_image,
-        student_id
-        
+        student_id,
       ]
     )
     .then(({ rows }) => {

@@ -1,14 +1,14 @@
-const {  selectQuestions,
-        selectQuestionById,
-        insertQuestion,
-        deleteQuestionById,
-        updateQuestionById
-      } =require('../models/question.models.js')
+const {
+  selectQuestions,
+  selectQuestionById,
+  insertQuestion,
+  deleteQuestionById,
+  updateQuestionById,
+} = require("./question.models.js");
 
-const { checkQuestionExists } = require("../utils/utils.js");
+const { checkQuestionExists } = require("../../utils/utils.js");
 
-exports.getQuestions = ( req, res, next) => {
-
+exports.getQuestions = (req, res, next) => {
   const { sort_by } = req.query;
 
   selectQuestions(sort_by)
@@ -20,10 +20,8 @@ exports.getQuestions = ( req, res, next) => {
     });
 };
 
-
 exports.getQuestionById = (req, res, next) => {
   const { ques_id } = req.params;
-  
 
   return checkQuestionExists(ques_id)
     .then((questionExist) => {
@@ -38,7 +36,6 @@ exports.getQuestionById = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
-
 };
 
 exports.postQuestion = (req, res, next) => {
@@ -68,9 +65,7 @@ exports.removeQuestionById = (req, res, next) => {
     });
 };
 
-
 exports.patchQuestionById = (req, res, next) => {
-
   const question = req.body;
   const { ques_id } = req.params;
   // console.log(course_id, course)

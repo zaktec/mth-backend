@@ -1,4 +1,4 @@
-const db = require("../database/connection.js");
+const db = require("../../database/connection.js");
 
 exports.selectQuizzes = (sort_by = "quiz_id") => {
   if (sort_by) {

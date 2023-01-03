@@ -1,4 +1,4 @@
-const db = require("../database/connection.js");
+const db = require("../../database/connection.js");
 
 exports.selectQuestions = (sort_by = "ques_id") => {
   if (sort_by) {
@@ -85,11 +85,10 @@ exports.insertQuestion = (question) => {
 
 exports.deleteQuestionById = (ques_id) => {
   return db
-  .query("DELETE FROM question WHERE ques_id = $1 RETURNING *", [ques_id])
-  .then((result) => {
-    return result.rows[0];
-  });
-
+    .query("DELETE FROM question WHERE ques_id = $1 RETURNING *", [ques_id])
+    .then((result) => {
+      return result.rows[0];
+    });
 };
 
 exports.updateQuestionById = (question, ques_id) => {

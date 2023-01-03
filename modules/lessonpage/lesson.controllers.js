@@ -1,16 +1,16 @@
-const {  selectLessons,
+const {
+  selectLessons,
   selectLessonById,
   insertLesson,
   deleteLessonById,
   updateLessonById,
-} =require('../models/lesson.models.js')
+} = require("./lesson.models.js");
 
-const { checkLessonExists } = require("../utils/utils.js");
+const { checkLessonExists } = require("../../utils/utils.js");
 
-exports.getLessons = ( req, res, next) => {
-
+exports.getLessons = (req, res, next) => {
   const { sort_by } = req.query;
-  selectLessons (sort_by)
+  selectLessons(sort_by)
     .then((lessons) => {
       res.status(200).send({ lessons });
     })
@@ -35,11 +35,9 @@ exports.getLessonById = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
-
 };
 
 exports.postLesson = (req, res, next) => {
-
   const lesson = req.body;
   insertLesson(lesson)
     .then((lesson) => {
@@ -51,7 +49,6 @@ exports.postLesson = (req, res, next) => {
 };
 
 exports.removeLessonById = (req, res, next) => {
-
   const { lesson_id } = req.params;
 
   deleteLessonById(lesson_id)
@@ -82,5 +79,4 @@ exports.patchLessonById = (req, res, next) => {
       // console.log(err)
       next(err);
     });
-
 };

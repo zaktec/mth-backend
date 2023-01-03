@@ -1,8 +1,13 @@
-const db = require("../database/connection.js");
+const db = require("../../database/connection.js");
 
 exports.selectCourses = (sort_by = "course_id") => {
   if (sort_by) {
-    const allowedSortBys = ["course_id", "course_code", "course_name", "course_level"];
+    const allowedSortBys = [
+      "course_id",
+      "course_code",
+      "course_name",
+      "course_level",
+    ];
     if (!allowedSortBys.includes(sort_by)) {
       return Promise.reject({ status: 400, msg: "bad request" });
     }
@@ -29,25 +34,14 @@ exports.selectCourseById = (course_id) => {
 };
 
 exports.insertCourse = (course) => {
-  const {
-    course_code,
-    course_desc,
-    course_image,
-    course_level,
-    course_name,
-  } = course;
+  const { course_code, course_desc, course_image, course_level, course_name } =
+    course;
 
   return db
     .query(
       `INSERT INTO course (course_code, course_desc,
     course_image, course_level, course_name) VALUES ($1, $2, $3, $4, $5) RETURNING *; `,
-      [
-        course_code,
-        course_desc,
-        course_image,
-        course_level,
-        course_name,
-      ]
+      [course_code, course_desc, course_image, course_level, course_name]
     )
     .then(({ rows }) => {
       return rows[0];
@@ -64,13 +58,8 @@ exports.deleteCourseById = (course_id) => {
 
 exports.updateCourseById = (course, course_id) => {
   //console.log('votes and article_id', votes, article_id);
-  const {
-    course_code,
-    course_desc,
-    course_image,
-    course_level,
-    course_name,
-  } = course;
+  const { course_code, course_desc, course_image, course_level, course_name } =
+    course;
   return db
     .query(
       `UPDATE course SET course_code = $1, course_desc = $2, course_image = $3, course_level = $4, course_name = $5 WHERE course_id = $6 RETURNING *;`,

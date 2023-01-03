@@ -452,6 +452,7 @@ describe("Test16- GET   /api/tutors/:tutor_id", () => {
         // console.log(res)
         expect(res.body.tutor).toEqual({
           tutor_id: 1,
+          tutor_username: "scheema",
           tutor_firstname: "Sheraz",
           tutor_lastname: "Cheema",
           tutor_email: "csheraz@hotmail.com",
@@ -484,6 +485,7 @@ describe("Test17- POST /api/tutors", () => {
     return request(app)
       .post("/api/tutors")
       .send({
+        tutor_username: "scheema1",
         tutor_firstname: "New",
         tutor_lastname: "Cheema",
         tutor_email: "csheraz@hotmail.com",
@@ -495,6 +497,7 @@ describe("Test17- POST /api/tutors", () => {
       .then((res) => {
         expect(res.body.tutor).toEqual({
           tutor_id: 2,
+          tutor_username: "scheema1",
           tutor_firstname: "New",
           tutor_lastname: "Cheema",
           tutor_email: "csheraz@hotmail.com",
@@ -542,6 +545,7 @@ describe("Test19- PATCH /api/tutors/:tutor_id", () => {
     return request(app)
       .patch("/api/tutors/1")
       .send({
+        tutor_username: "scheema",
         tutor_firstname: "Patched",
         tutor_lastname: "Cheema",
         tutor_email: "csheraz@hotmail.com",
@@ -552,6 +556,7 @@ describe("Test19- PATCH /api/tutors/:tutor_id", () => {
       .expect(200)
       .then((res) => {
         expect(res.body.updatedTutor).toEqual({
+          tutor_username: "scheema",
           tutor_firstname: "Patched",
           tutor_lastname: "Cheema",
           tutor_email: "csheraz@hotmail.com",

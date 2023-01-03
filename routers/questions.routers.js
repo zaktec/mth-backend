@@ -4,8 +4,8 @@ const {
   getQuestionById,
   postQuestion,
   removeQuestionById,
-  patchQuestionById
-} = require("../controllers/question.controllers.js");
+  patchQuestionById,
+} = require("../modules/questionpage/question.controllers.js");
 const questionRouter = express.Router();
 
 // everything starts with /api/articles
@@ -15,6 +15,5 @@ questionRouter.get("/:ques_id", getQuestionById);
 questionRouter.post("/", postQuestion);
 questionRouter.delete("/:ques_id", removeQuestionById);
 questionRouter.patch("/:ques_id", patchQuestionById);
-
 
 module.exports = questionRouter;

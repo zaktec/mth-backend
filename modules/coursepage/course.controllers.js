@@ -4,8 +4,8 @@ const {
   insertCourse,
   deleteCourseById,
   updateCourseById,
-} = require("../models/course.models.js");
-const { checkCourseExists } = require("../utils/utils.js");
+} = require("./course.models.js");
+const { checkCourseExists } = require("../../utils/utils.js");
 
 /**
  * app.get("/api/courses", getCourses);

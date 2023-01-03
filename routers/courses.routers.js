@@ -5,7 +5,7 @@ const {
   postCourse,
   removeCourseById,
   patchCourseById,
-} = require("../controllers/course.controllers.js");
+} = require("../modules/coursepage/course.controllers.js");
 const courseRouter = express.Router();
 
 // everything starts with /api/articles

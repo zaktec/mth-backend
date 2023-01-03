@@ -4,8 +4,8 @@ const {
   insertStudent,
   deleteStudentById,
   updateStudentById,
-} = require("../models/student.models.js");
-const { checkStudentExists } = require("../utils/utils.js");
+} = require("./student.models.js");
+const { checkStudentExists } = require("../../utils/utils.js");
 
 exports.getStudents = async (req, res, next) => {
   const { sort_by } = req.query;
@@ -38,7 +38,6 @@ exports.postStudent = (req, res, next) => {
   const student = req.body;
   insertStudent(student)
     .then((student) => {
-      
       res.status(201).send({ student });
     })
     .catch((err) => {
@@ -65,7 +64,7 @@ exports.removeStudentById = (req, res, next) => {
 exports.patchStudentById = (req, res, next) => {
   const student = req.body;
   const { student_id } = req.params;
-   
+
   return updateStudentById(student, student_id)
     .then((updatedStudent) => {
       if (updatedStudent) {

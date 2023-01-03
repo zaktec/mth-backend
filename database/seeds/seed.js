@@ -83,6 +83,7 @@ const seed = (data) => {
     .then(() => {
       return db.query(` CREATE TABLE tutor (
         tutor_id SERIAL PRIMARY KEY,
+        tutor_username VARCHAR(200) NOT NULL UNIQUE,
         tutor_firstname VARCHAR(200) NOT NULL,
         tutor_lastname VARCHAR(200),
         tutor_email VARCHAR(200) NOT NULL,
@@ -214,7 +215,7 @@ const seed = (data) => {
       const formattedTutors = formatTutorData(tutorData);
       const sql3 = format(
         `INSERT INTO tutor 
-      (tutor_firstname, tutor_lastname, tutor_email, tutor_password, tutor_active, tutor_image)
+      (tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_password, tutor_active, tutor_image)
       VALUES %L RETURNING *;`,
         formattedTutors
       );

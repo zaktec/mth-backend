@@ -5,7 +5,7 @@ const {
   postTutor,
   removeTutorById,
   patchTutorById,
-} = require("../controllers/tutor.controllers.js");
+} = require("../modules/tutorpage/tutor.controllers.js");
 const tutorRouter = express.Router();
 
 // everything starts with /api/articles
@@ -15,7 +15,5 @@ tutorRouter.get("/:tutor_id", getTutorById);
 tutorRouter.post("/", postTutor);
 tutorRouter.delete("/:tutor_id", removeTutorById);
 tutorRouter.patch("/:tutor_id", patchTutorById);
-
-
 
 module.exports = tutorRouter;

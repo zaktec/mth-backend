@@ -1,13 +1,12 @@
 const express = require("express");
 const {
-getLessons,
-getLessonById,
-postLesson,
-removeLessonById,
-patchLessonById,
-} = require("../controllers/lesson.controllers.js");
+  getLessons,
+  getLessonById,
+  postLesson,
+  removeLessonById,
+  patchLessonById,
+} = require("../modules/lessonpage/lesson.controllers.js");
 const lessonRouter = express.Router();
-
 
 // everything starts with /api/topics/
 

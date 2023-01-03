@@ -41,6 +41,7 @@ exports.formatStudentData = (studentData) => {
 
 exports.formatTutorData = (tutorData) => {
   const formattedTutors = tutorData.map((tutor) => [
+    tutor.tutor_username,
     tutor.tutor_firstname,
     tutor.tutor_lastname,
     tutor.tutor_email,
