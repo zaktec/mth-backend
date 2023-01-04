@@ -1,3 +1,4 @@
+const bcrypt =require('bcrypt')
 exports.formatCourseData = (courseData) => {
   const formattedCourses = courseData.map((course) => [
     course.course_name,
@@ -23,10 +24,12 @@ exports.formatTopicData = (topicData) => {
 
 exports.formatStudentData = (studentData) => {
   const formattedStudents = studentData.map((student) => [
+    student.student_username,
     student.student_firstname,
     student.student_lastname, 
     student.student_email,
     student.student_password,
+    //student.student_password:bcrypt.hashSync(student.student_password,10),
     student.student_active, 
     student.student_image, 
     student.student_grade, 

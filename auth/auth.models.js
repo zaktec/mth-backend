@@ -1,11 +1,11 @@
-const connection = require("../database/connection.js");
+const db = require("../database/connection.js");
 
-exports.checkUser = (username, password) => {
-  return connection
-    .query("student")
-    .select("*")
-    .where({ username })
-    .first()
-    .then(user);
-  return user;
+
+exports.checkUser = (username= "username", password) => {
+  console.log(username, password);
+
+  return db.query(`SELECT * FROM student WHERE student_username = $1;`, [username]).then(({ rows }) => {
+    
+    return rows[0];
+  });
 };

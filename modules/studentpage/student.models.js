@@ -39,6 +39,7 @@ exports.selectStudentById = (student_id) => {
 
 exports.insertStudent = (student) => {
   const {
+    student_username,
     student_firstname,
     student_lastname,
     student_email,
@@ -53,8 +54,9 @@ exports.insertStudent = (student) => {
 
   return db
     .query(
-      `INSERT INTO student (student_firstname, student_lastname, student_email, student_password, student_grade, student_active,student_targetgrade, student_notes, student_progressbar, student_image ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10  ) RETURNING *; `,
+      `INSERT INTO student (student_username,student_firstname, student_lastname, student_email, student_password, student_grade, student_active,student_targetgrade, student_notes, student_progressbar, student_image ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11  ) RETURNING *; `,
       [
+        student_username,
         student_firstname,
         student_lastname,
         student_email,
@@ -85,6 +87,7 @@ exports.deleteStudentById = (student_id) => {
 
 exports.updateStudentById = (student, student_id) => {
   const {
+    student_username,
     student_firstname,
     student_lastname,
     student_email,
@@ -98,8 +101,9 @@ exports.updateStudentById = (student, student_id) => {
   } = student;
   return db
     .query(
-      `UPDATE student SET student_firstname = $1, student_lastname = $2, student_email= $3, student_password= $4, student_grade = $5, student_active= $6, student_targetgrade = $7, student_notes = $8, student_progressbar= $9, student_image=$10 WHERE student_id = $11 RETURNING *;`,
+      `UPDATE student SET student_username =$1, student_firstname = $2, student_lastname = $3, student_email= $4, student_password= $5, student_grade = $6, student_active= $7, student_targetgrade = $8, student_notes = $9, student_progressbar= $10, student_image=$11 WHERE student_id = $12 RETURNING *;`,
       [
+        student_username,
         student_firstname,
         student_lastname,
         student_email,

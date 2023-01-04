@@ -6,7 +6,42 @@ const testData = require("../database/data/test-data");
 require("expect-more-jest");
 
 beforeEach(() => seed(testData));
-afterAll(() => db.end());
+ afterAll(() => db.end());
+
+// describe("/api", () => {
+//   return db.seed(testData);
+// });
+// after(() => db.destroy());
+
+describe("login",() => {
+    it("POST responds with and access token given correct username and password", () => {
+      request
+        .post("/login")
+        .send({ username: "mitch", password: "secure123" })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).to.have.ownProperty("token");
+        });
+    });
+    it("POST responds with status 401 for an incorrect password", () => {
+      request
+        .post("/login")
+        .send({ username: "mitch", password: "secure123" })
+        .expect(200)
+        .then(({ body:{msg } }) => {
+          expect(msg).to.equal("invalid username or password");
+        });
+    });
+    it("POST responds with status 401 for an incorrect username", () => {
+      request
+        .post("/login")
+        .send({ username: "mitch", password: "secure123" })
+        .expect(200)
+        .then(({ body: {msg} }) => {
+          expect(msg).to.equal("invalid username or password");
+        });
+    });
+  });
 
 describe("Test1-   GET /invalid_url", () => {
   test("ERROR: status 404 and returns a message when invalid url is passed ", () => {
@@ -175,7 +210,6 @@ describe("Test7- POST /api/courses", () => {
         course_code: "New- MTH-GF",
         course_desc: "MTH GCSE Maths Foundation Online Course",
         course_image: "/course/mth_gcse_foundation.png",
-        
       })
       .expect(400)
       .then((res) => {
@@ -512,8 +546,8 @@ describe("Test17- POST /api/tutors", () => {
       .post("/api/tutors")
       .send({
         tutor_firstname: "New",
-          tutor_lastname: "Cheema",
-          topic_code: "GFA2",
+        tutor_lastname: "Cheema",
+        topic_code: "GFA2",
       })
       .expect(400)
       .then((res) => {
@@ -634,6 +668,7 @@ describe("Test21- GET   /api/students/:student_id", () => {
         // console.log(res)
         expect(res.body.student).toEqual({
           student_id: 1,
+          student_username: "stundentusername1",
           student_firstname: "Student1FN",
           student_lastname: "Student1LN",
           student_email: "csheraz@hotmail.com",
@@ -669,6 +704,7 @@ describe("Test22- POST /api/students", () => {
     return request(app)
       .post("/api/students")
       .send({
+        student_username: "stundentusername4",
         student_firstname: "New",
         student_lastname: "Student1LN",
         student_email: "csheraz@hotmail.com",
@@ -684,6 +720,7 @@ describe("Test22- POST /api/students", () => {
       .then((res) => {
         expect(res.body.student).toEqual({
           student_id: 4,
+          student_username: "stundentusername4",
           student_firstname: "New",
           student_lastname: "Student1LN",
           student_email: "csheraz@hotmail.com",
@@ -702,7 +739,7 @@ describe("Test22- POST /api/students", () => {
       .post("/api/students")
       .send({
         student_lastname: "Student1LN",
-          student_email: "csheraz@hotmail.com",
+        student_email: "csheraz@hotmail.com",
       })
       .expect(400)
       .then((res) => {
@@ -732,6 +769,7 @@ describe("Test24- PATCH /api/students/:student_id", () => {
     return request(app)
       .patch("/api/students/1")
       .send({
+        student_username: "stundentusername1",
         student_firstname: "Patched",
         student_lastname: "Student1LN",
         student_email: "csheraz@hotmail.com",
@@ -746,6 +784,7 @@ describe("Test24- PATCH /api/students/:student_id", () => {
       .expect(200)
       .then((res) => {
         expect(res.body.updatedStudent).toEqual({
+          student_username: "stundentusername1",
           student_firstname: "Patched",
           student_lastname: "Student1LN",
           student_email: "csheraz@hotmail.com",
@@ -879,7 +918,7 @@ describe("Test27- POST /api/lessons", () => {
       .post("/api/lessons")
       .send({
         student_lastname: "Student1LN",
-          student_email: "csheraz@hotmail.com",
+        student_email: "csheraz@hotmail.com",
       })
       .expect(400)
       .then((res) => {
@@ -1219,7 +1258,6 @@ describe("Test37- POST /api/questions", () => {
           ques_ans_sym_a: null,
           ques_ans_sym_b: null,
           ques_image: null,
-          
         });
       });
   });
@@ -1227,7 +1265,7 @@ describe("Test37- POST /api/questions", () => {
     return request(app)
       .post("/api/questions")
       .send({
-          ques1_ans: "3.59"
+        ques1_ans: "3.59",
       })
       .expect(400)
       .then((res) => {
@@ -1285,7 +1323,7 @@ describe("Test39- PATCH /api/questions/:ques_id", () => {
           ques_ans_sym_a: null,
           ques_ans_sym_b: null,
           ques_image: null,
-          ques_id:1
+          ques_id: 1,
         });
       });
   });
@@ -1301,4 +1339,3 @@ describe("Test40-  GET /api/userhomepage", () => {
       });
   });
 });
-

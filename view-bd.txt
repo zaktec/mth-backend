@@ -30,16 +30,16 @@ You are now connected to database "mthdb" as user "sheraz".
        18 | Statistics            | GHS1       | MTH GCSE Maths Online Course - Higher - Statistics                |           9 |               2
 (18 rows)
 
- tutor_id | tutor_firstname | tutor_lastname |     tutor_email     | tutor_password | tutor_active |    tutor_image    
-----------+-----------------+----------------+---------------------+----------------+--------------+-------------------
-        1 | Sheraz          | Cheema         | csheraz@hotmail.com | password       | t            | /tutor/tutor1.png
+ tutor_id | tutor_username | tutor_firstname | tutor_lastname |     tutor_email     | tutor_password | tutor_active |    tutor_image    
+----------+----------------+-----------------+----------------+---------------------+----------------+--------------+-------------------
+        1 | scheema        | Sheraz          | Cheema         | csheraz@hotmail.com | password       | t            | /tutor/tutor1.png
 (1 row)
 
- student_id | student_firstname | student_lastname |    student_email    | student_password | student_active | student_grade | student_targetgrade | student_notes | student_progressbar |     student_image     
-------------+-------------------+------------------+---------------------+------------------+----------------+---------------+---------------------+---------------+---------------------+-----------------------
-          1 | Student1FN        | Student1LN       | csheraz@hotmail.com | password         | t              |             1 |                   5 | Working well  |                   1 | /student/student1.png
-          2 | Student2FN        | Student2LN       | csheraz@hotmail.com | password         | t              |             5 |                   4 | Working well  |                   3 | /student/student2.png
-          3 | Student3FN        | Student3LN       | csheraz@hotmail.com | password         | t              |             7 |                   3 | Working well  |                   5 | /student/student3.png
+ student_id | student_username  | student_firstname | student_lastname |    student_email    | student_password | student_active | student_grade | student_targetgrade | student_notes | student_progressbar |     student_image     
+------------+-------------------+-------------------+------------------+---------------------+------------------+----------------+---------------+---------------------+---------------+---------------------+-----------------------
+          1 | stundentusername1 | Student1FN        | Student1LN       | csheraz@hotmail.com | password         | t              |             1 |                   5 | Working well  |                   1 | /student/student1.png
+          2 | stundentusername2 | Student2FN        | Student2LN       | csheraz@hotmail.com | password         | t              |             5 |                   4 | Working well  |                   3 | /student/student2.png
+          3 | stundentusername3 | Student3FN        | Student3LN       | csheraz@hotmail.com | password         | t              |             7 |                   3 | Working well  |                   5 | /student/student3.png
 (3 rows)
 
  lesson_id |               lesson_name                | lesson_code |                                               lesson_desc                                                | lesson_ws | lesson_body | lesson_topic_id 

@@ -1,5 +1,6 @@
 module.exports = [
   {
+    student_username: "stundentusername1",
     student_firstname: "Student1FN",
     student_lastname: "Student1LN",
     student_email: "csheraz@hotmail.com",
@@ -13,6 +14,7 @@ module.exports = [
     
   },
   {
+    student_username: "stundentusername2",
     student_firstname: "Student2FN",
     student_lastname: "Student2LN",
     student_email: "csheraz@hotmail.com",
@@ -27,6 +29,7 @@ module.exports = [
     
   },
   {
+    student_username: "stundentusername3",
     student_firstname: "Student3FN",
     student_lastname: "Student3LN",
     student_email: "csheraz@hotmail.com",
