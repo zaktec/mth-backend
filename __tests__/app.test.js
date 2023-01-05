@@ -5,43 +5,48 @@ const seed = require("../database/seeds/seed");
 const testData = require("../database/data/test-data");
 require("expect-more-jest");
 
-beforeEach(() => seed(testData));
+
+// beforeEach(() => seed(testData));
+// afterAll(() => db.end());
+
+describe("/", () => {
+ beforeEach(() => {
+  return seed(testData);
+});
  afterAll(() => db.end());
 
-// describe("/api", () => {
-//   return db.seed(testData);
-// });
-// after(() => db.destroy());
+
 
 describe("login",() => {
-    it("POST responds with and access token given correct username and password", () => {
-      request
+    test("POST responds with and access token given correct username and password", () => {
+      return request(app)
+        .post("/login")
+        .send({ username: "stundentusername1", password: "password" })
+        .expect(200)
+        .then((res) =>
+        expect(res.body.msg).toBe("Logged in"))
+       // .then(({ body }) => {
+         // expect(body).toHaveProperty("token")
+    }); 
+    test("POST responds with status 401 for an incorrect password", () => {
+      return request(app)
         .post("/login")
         .send({ username: "mitch", password: "secure123" })
-        .expect(200)
-        .then(({ body }) => {
-          expect(body).to.have.ownProperty("token");
+        .expect(401)
+        .then((res) =>
+         expect(res.body.msg).toBe("invalid username or password"))
         });
-    });
-    it("POST responds with status 401 for an incorrect password", () => {
-      request
+   
+    test("POST responds with status 401 for an incorrect username", () => {
+      return request(app)
         .post("/login")
         .send({ username: "mitch", password: "secure123" })
-        .expect(200)
-        .then(({ body:{msg } }) => {
-          expect(msg).to.equal("invalid username or password");
+        .expect(401)
+        .then((res) => expect(res.body.msg).toBe("invalid username or password"))
         });
     });
-    it("POST responds with status 401 for an incorrect username", () => {
-      request
-        .post("/login")
-        .send({ username: "mitch", password: "secure123" })
-        .expect(200)
-        .then(({ body: {msg} }) => {
-          expect(msg).to.equal("invalid username or password");
-        });
-    });
-  });
+  
+  
 
 describe("Test1-   GET /invalid_url", () => {
   test("ERROR: status 404 and returns a message when invalid url is passed ", () => {
@@ -1339,3 +1344,4 @@ describe("Test40-  GET /api/userhomepage", () => {
       });
   });
 });
+})
