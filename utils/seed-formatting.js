@@ -1,12 +1,12 @@
-const bcrypt =require('bcrypt')
+const bcrypt = require("bcrypt");
+const { studentData } = require("../database/data/test-data");
 exports.formatCourseData = (courseData) => {
   const formattedCourses = courseData.map((course) => [
     course.course_name,
     course.course_code,
     course.course_desc,
     course.course_level,
-    course.course_image
-    
+    course.course_image,
   ]);
   return formattedCourses;
 };
@@ -17,27 +17,37 @@ exports.formatTopicData = (topicData) => {
     topic.topic_code,
     topic.topic_desc,
     topic.topic_index,
-    topic.topic_course_id
+    topic.topic_course_id,
   ]);
   return formattedTopics;
 };
 
+ const formattedPassword = studentData.map(student =>{
+return {
+...student,
+student_password: bcrypt.hashSync(student.student_password, 3)
+}
+ })
+
 exports.formatStudentData = (studentData) => {
+  studentData.forEach(
+    (item) =>
+      (item.student_password = bcrypt.hashSync(item.student_password, 10))
+  );
+ 
+
   const formattedStudents = studentData.map((student) => [
     student.student_username,
     student.student_firstname,
-    student.student_lastname, 
+    student.student_lastname,
     student.student_email,
     student.student_password,
-    //student.student_password:bcrypt.hashSync(student.student_password,10),
-    student.student_active, 
-    student.student_image, 
-    student.student_grade, 
+    student.student_active,
+    student.student_image,
+    student.student_grade,
     student.student_targetgrade,
     student.student_notes,
     student.student_progressbar,
-  
-   
   ]);
   return formattedStudents;
 };
@@ -50,8 +60,7 @@ exports.formatTutorData = (tutorData) => {
     tutor.tutor_email,
     tutor.tutor_password,
     tutor.tutor_active,
-    tutor.tutor_image
-   
+    tutor.tutor_image,
   ]);
   return formattedTutors;
 };
@@ -63,8 +72,7 @@ exports.formatLessonData = (lessonData) => {
     lesson.lesson_desc,
     lesson.lesson_ws,
     lesson.lesson_body,
-    lesson.lesson_topic_id
-   
+    lesson.lesson_topic_id,
   ]);
   return formattedLessons;
 };
@@ -73,32 +81,29 @@ exports.formatQuizData = (quizData) => {
   const formattedQuizzes = quizData.map((quiz) => [
     quiz.quiz_name,
     quiz.quiz_code,
-    quiz.quiz_type
-   
+    quiz.quiz_type,
   ]);
   return formattedQuizzes;
 };
 
 exports.formatQuestionData = (questionData) => {
   const formattedQuestions = questionData.map((question) => [
-    question.ques_body, 
-    question.ques_image, 
-    question.ques_grade, 
-    question.ques_calc, 
+    question.ques_body,
+    question.ques_image,
+    question.ques_grade,
+    question.ques_calc,
     question.ques_mark,
-    question.ques1_ans, 
-    question.ques2_ans, 
+    question.ques1_ans,
+    question.ques2_ans,
     question.ques3_ans,
-    question.ques_ans_explain, 
+    question.ques_ans_explain,
     question.ques_ans_mark,
-    question.ques_ans_image, 
-    question.ques_ans_correct, 
+    question.ques_ans_image,
+    question.ques_ans_correct,
     question.ques_ans_sym_b,
     question.ques_ans_sym_a,
     question.ques_quiz_id,
-    question.ques_lesson_id 
-   
+    question.ques_lesson_id,
   ]);
   return formattedQuestions;
 };
-

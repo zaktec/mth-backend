@@ -8,7 +8,7 @@ const {
   formatTutorData,
   formatLessonData,
   formatQuizData,
-  formatQuestionData
+  formatQuestionData,
 } = require("../../utils/seed-formatting.js");
 
 const seed = (data) => {
@@ -19,7 +19,7 @@ const seed = (data) => {
     tutorData,
     lessonData,
     quizData,
-    questionData
+    questionData,
   } = data;
   //console.log(studentData);
 
@@ -98,10 +98,10 @@ const seed = (data) => {
         student_id SERIAL PRIMARY KEY,
         student_username VARCHAR(200) NOT NULL UNIQUE,
           student_firstname VARCHAR(200) NOT NULL,
-          student_lastname VARCHAR(200),
+          student_lastname VARCHAR(200) NOT NULL,
           student_email VARCHAR(200) NOT NULL,
           student_password VARCHAR(200) NOT NULL,
-          student_active BOOLEAN,
+          student_active BOOLEAN DEFAULT TRUE,
           student_grade INT DEFAULT 0,
           student_targetgrade INT DEFAULT 0,
           student_notes VARCHAR(500),
@@ -184,7 +184,7 @@ const seed = (data) => {
           );
         `);
     })
-   
+
     .then(() => {
       const formattedCourses = formatCourseData(courseData);
 
@@ -257,7 +257,6 @@ const seed = (data) => {
       return db.query(sql6);
     })
     .then(() => {
-     
       const formattedQuestions = formatQuestionData(questionData);
       const sql7 = format(
         `INSERT INTO question 

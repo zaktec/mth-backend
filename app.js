@@ -12,8 +12,8 @@ const {
   handleServerErrors,
   handle404s,
 } = require("./errors/index");
-const { protect, validateStudent } = require("./auth/auth.controllers");
-const { loginUser, createNewUser } = require("./auth/auth.controllers");
+const { loginUser, validateStudent, createNewStudent } = require("./auth/auth.controllers");
+
 
 app.use(express.json());
 app.use(cors());
@@ -22,12 +22,15 @@ app.use(cors());
 app.get("/", getEndpoints);
 app.get("/homepage", getHomepage);
 app.post("/login", loginUser);
-app.post("/signin", createNewUser );
+app.post("/signin", createNewStudent );
 
 //authroised user allowed on these route
-//app.use(validateStudent)
+app.use(validateStudent)
 app.use('/api', apiRouter)
-//app.use("/api", apiRouter);
+
+
+
+
 
 // Error Handlers
 app.all("*", handle404s);
