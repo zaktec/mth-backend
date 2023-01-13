@@ -26,7 +26,7 @@ app.post("/signin", createNewStudent );
 
 //authroised user allowed on these route
 app.use(validateStudent)
-app.use('/api', apiRouter)
+app.use('/api/', apiRouter)
 
 
 

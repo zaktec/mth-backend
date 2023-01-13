@@ -22,19 +22,27 @@ exports.formatTopicData = (topicData) => {
   return formattedTopics;
 };
 
- const formattedPassword = studentData.map(student =>{
-return {
-...student,
-student_password: bcrypt.hashSync(student.student_password, 3)
-}
- })
+//  const formattedPassword = studentData.map(student =>{
+// return {
+// ...student,
+// student_password: bcrypt.hashSync(student.student_password, 3)
+// }
+//  })
 
 exports.formatStudentData = (studentData) => {
-  studentData.forEach(
-    (item) =>
-      (item.student_password = bcrypt.hashSync(item.student_password, 10))
-  );
+   studentData.forEach(
+     (item) =>
+       (item.student_password = bcrypt.hashSync(item.student_password, 10))
+   );
  
+//  studentData.map(item => {
+//   return{
+//   ...item,
+//   student_password :  bcrypt.hashSync(item.student_password, 10)
+//   }
+// })
+console.log (studentData)
+  
 
   const formattedStudents = studentData.map((student) => [
     student.student_username,

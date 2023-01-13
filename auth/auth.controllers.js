@@ -27,7 +27,7 @@ exports.loginUser = (req, res, next) => {
   //console.log(username, password);
   checkUser(username, password)
   .then((student) => {
-   console.log(student);
+   console.log("ping",student);
   return Promise.all([student, bcrypt.compare(password, student.student_password)]);
   })
   .then (([ student, passwordIsValid])=>{
