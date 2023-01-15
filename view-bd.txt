@@ -41,7 +41,8 @@ You are now connected to database "mthdb" as user "sheraz".
           2 | stundentusername2 | Student2FN        | Student2LN       | csheraz@hotmail.com | $2b$10$9OizJ69rSALNQf.iIiGAKOWOPE.wGawgYbVPJ55PWufptguvM01ve | t              |             5 |                   4 | Working well  |                   3 | /student/student2.png
           3 | stundentusername3 | Student3FN        | Student3LN       | csheraz@hotmail.com | $2b$10$QU8nivC/Sk66WaXkR0BOCe9Q2lfXV1o5VkKbFKjkdBb70y2Lmsz1S | t              |             7 |                   3 | Working well  |                   5 | /student/student3.png
           8 | stundentusername5 | Patched           | Student1LN       | csheraz@hotmail.com | password                                                     | t              |             1 |                   1 | Working well  |                   3 | /student/student1.png
-(4 rows)
+         14 | stundentusername9 | Patched           | Student1LN       | csheraz@hotmail.com | password                                                     | t              |             1 |                   1 | Working well  |                   3 | /student/student1.png
+(5 rows)
 
  lesson_id |               lesson_name                | lesson_code |                                               lesson_desc                                                | lesson_ws | lesson_body | lesson_topic_id 
 -----------+------------------------------------------+-------------+----------------------------------------------------------------------------------------------------------+-----------+-------------+-----------------

@@ -9,21 +9,22 @@ require("expect-more-jest");
 //  afterAll(() => db.end());
 
 describe("/api", () => {
-  let validStudent;
+  let validStudent = `BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHVkZW50X2lkIjoxLCJ1c2VybmFtZSI6InN0dW5kZW50dXNlcm5hbWUxIiwiaWF0IjoxNjczNjkzMjIwNzMwfQ.nBOPvDSEgeKeH3bp9dJcIjQm1EjLwJukixo7O5y8Z_I`;
   let invalidStudent =`BEARER invalidToken`
-  beforeEach(() => {
-     return seed(testData)
-       .then(() => {
-        return request(app)
-          .post("/login")
-          .send({ username: "stundentusername1", password: "password" });
-      })
-      .then(({ body }) => {
-        validStudent = `BEARER ${body.token}`;
-        //console.log(validStudent)
-      });
-  });
-  afterAll(() => db.end());
+  // beforeEach(() => {
+  //    return seed(testData)
+  //      .then(() => {
+  //       return request(app)
+  //         .post("/login")
+  //         .send({ username: "stundentusername1", password: "password" });
+  //     })
+  //     .then(({ body }) => {
+  //       console.log("test>>>",body)
+  //       validStudent = `BEARER ${body.token}`;
+  //       //console.log(validStudent)
+  //     });
+  // });
+  //afterAll(() => db.end());
 
   describe("login", () => {
     test("POST responds with and access token given correct username and password", () => {
@@ -41,8 +42,8 @@ describe("/api", () => {
         .send({ username: "mitch", password: "secure123" })
         .expect(401)
         .then((res) =>
-        consolelog("ping >>>>." ,  res)
-        //  expect(res.body.msg).toBe("invalid username or password")
+       // consolelog("ping >>>>." ,  res)
+          expect(res.body.msg).toBe("invalid username or password")
         );
     });
 
@@ -1468,7 +1469,7 @@ describe("/api", () => {
     });
   });
 
-  describe.only("Test40-  GET /api/userhomepage", () => {
+  describe("Test40-  GET /api/userhomepage", () => {
     test("status: 200 and returns a welcome message from the user homepage", () => {
       return request(app)
         .get("/api/userhomepage")

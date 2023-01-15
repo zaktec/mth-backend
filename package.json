@@ -8,7 +8,8 @@
     "setup-db": "psql -f database/setup-dbs.sql > example.txt",
     "start": "nodemon listen.js",
     "seed": "node  ./database/seeds/run-seed.js",
-    "viewdb": "psql -f view-db.sql > view-bd.txt"
+    "viewdb": "psql -f view-db.sql > view-bd.txt",
+    "kill": "sudo kill $(sudo lsof -t -i:3009)"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,7 @@
   },
   "homepage": "https://github.com/zaktec/mth-backend#readme",
   "dependencies": {
-    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",

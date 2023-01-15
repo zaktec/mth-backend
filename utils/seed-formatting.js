@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { studentData } = require("../database/data/test-data");
 exports.formatCourseData = (courseData) => {
   const formattedCourses = courseData.map((course) => [
@@ -41,7 +41,7 @@ exports.formatStudentData = (studentData) => {
 //   student_password :  bcrypt.hashSync(item.student_password, 10)
 //   }
 // })
-console.log (studentData)
+//console.log (studentData)
   
 
   const formattedStudents = studentData.map((student) => [
