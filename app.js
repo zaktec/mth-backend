@@ -12,8 +12,10 @@ const {
   handleServerErrors,
   handle404s,
 } = require("./errors/index");
-const { loginUser, validateStudent, createNewStudent } = require("./auth/auth.controllers");
-
+const { loginUser,  createNewStudent } = require("./auth/auth.controllers");
+const {  validateStudent, } = require("./utils/jwtHelper");
+const dotenv = require('dotenv');
+dotenv.config();
 
 app.use(express.json());
 app.use(cors());

@@ -1,4 +1,4 @@
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const { studentData } = require("../database/data/test-data");
 exports.formatCourseData = (courseData) => {
   const formattedCourses = courseData.map((course) => [
