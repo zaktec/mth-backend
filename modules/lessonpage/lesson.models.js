@@ -15,7 +15,7 @@ exports.selectLessons = (sort_by = "lesson_id") => {
   return db
     .query(`SELECT * FROM lesson ORDER BY ${sort_by} ASC;`)
     .then((result) => {
-      //console.log(result)
+      console.log(result.rows)
       return result.rows;
     });
 };

@@ -8,7 +8,8 @@
     "setup-db": "psql -f database/setup-dbs.sql > example.txt",
     "start": "nodemon listen.js",
     "seed": "node  ./database/seeds/run-seed.js",
-    "viewdb": "psql -f view-db.sql > view-bd.txt",
+    "viewdb": "psql -f database/view-db.sql > database/view-bd.txt",
+    "viewtestdb": "psql -f database/view-dbtest.sql > database/viewtest-bd.txt",
     "kill": "sudo kill $(sudo lsof -t -i:3009)"
   },
   "repository": {

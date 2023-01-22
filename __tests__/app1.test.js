@@ -10,17 +10,20 @@ require("expect-more-jest");
 /* -------------------------------------------------------- 
 Unauthorised Link               Line Code 33
 Student SignUp/login             Line Code 66
-Student                          Line Code 
-Tutors                           Line Code
-Courses                          Line Code  
-Topic                            Line Code
-Quiz                             Line COde 
-Question                         Line Code
+Setting                          Line Code 148
+Student                          Line Code 181
+Tutors                           Line Code  397
+Courses                          Line Code  591
+Topic                            Line Code  774
+Lesson                           Line Code  960
+Quiz                             Line Code  1147
+Question                         Line Code   1312
  ---------------------------------------------------------*/
 let topic_id;
 let tutor_id;
 let course_id;
 let student_id;
+let ques_id;
 let validStudent;
 let tutor_username;
 let student_username;
@@ -28,7 +31,8 @@ let initial_student_id;
 let invalidStudent = `BEARER invalidToken`;
 const password = bcrypt.hashSync("password", 10);
 
-afterAll(() => seed(testData));
+beforeAll(() => seed(testData));
+//afterAll(() => seed(testData));
 afterAll(() => db.end());
 
 //-------------------unauthrised Link---------------------/
@@ -144,7 +148,7 @@ describe("Test5-  login", () => {
   });
 });
 
- //-------------------Setting----------------------/
+ //-------------------Setting----------------------------------------/
 
  describe("Test6-  GET /api/setting", () => {
   test("status: 200 and returns a welcome message for setting page", () => {
@@ -177,7 +181,7 @@ describe("Test5-  login", () => {
 });
 });
 
-//-------------------student----------------------/
+//-------------------student--------------------------------------/
 
 
 describe("Test7- POST /api/students", () => {
@@ -392,7 +396,7 @@ describe("Test8-   GET /api/students", () => {
         .then((res) => expect(res.body.msg).toBe("Not found"));
     });
   });
-  //---------------------------------Tutors--------------------------/
+  //---------------------------------Tutors-------------------------------/
 
 
   describe("Test12-   GET /api/tutors", () => {
@@ -532,29 +536,6 @@ describe("Test8-   GET /api/students", () => {
     });
   });
 
-  describe("Test15-  DELETE /api/tutor/:tutor_id", () => {
-    test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
-      return request(app)
-      .delete("/api/tutors/1")
-      .set('Authorization', validStudent)
-      .expect(204);
-    });
-    test("status 400 and returns an error message if it is a bad request", () => {
-      return request(app)
-        .delete("/api/tutors/Invalid_id")
-        .set('Authorization', validStudent)
-        .expect(400)
-        .then((res) => expect(res.body.msg).toBe("Invalid input"));
-    });
-    test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
-      return request(app)
-        .delete("/api/tutors/1000")
-        .set('Authorization', validStudent)
-        .expect(404)
-        .then((res) => expect(res.body.msg).toBe("Not found"));
-    });
-  });
-
   describe("Test16- PATCH /api/tutors/:tutor_id", () => {
     test("Status 200: and return a updated tutor object  ", () => {
       return request(app)
@@ -584,6 +565,31 @@ describe("Test8-   GET /api/students", () => {
         });
     });
   });
+
+  describe("Test15-  DELETE /api/tutor/:tutor_id", () => {
+    test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
+      return request(app)
+      .delete("/api/tutors/1")
+      .set('Authorization', validStudent)
+      .expect(204);
+    });
+    test("status 400 and returns an error message if it is a bad request", () => {
+      return request(app)
+        .delete("/api/tutors/Invalid_id")
+        .set('Authorization', validStudent)
+        .expect(400)
+        .then((res) => expect(res.body.msg).toBe("Invalid input"));
+    });
+    test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
+      return request(app)
+        .delete("/api/tutors/1000")
+        .set('Authorization', validStudent)
+        .expect(404)
+        .then((res) => expect(res.body.msg).toBe("Not found"));
+    });
+  });
+
+  
 //---------------------------------Courses--------------------------/
 
 describe("Test17-   GET /api/courses", () => {
@@ -716,29 +722,6 @@ describe("Test19- POST /api/courses", () => {
   });
 });
 
-describe("Test20-   DELETE /api/course/:course_id", () => {
-  test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
-    return request(app)
-    .delete("/api/courses/1")
-    .set("Authorization", validStudent)
-    .expect(204);
-  });
-  test("status 400 and returns an error message if it is a bad request", () => {
-    return request(app)
-      .delete("/api/courses/Invalid_id")
-      .set("Authorization", validStudent)
-      .expect(400)
-      .then((res) => expect(res.body.msg).toBe("Invalid input"));
-  });
-  test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
-    return request(app)
-      .delete("/api/courses/1000")
-      .set("Authorization", validStudent)
-      .expect(404)
-      .then((res) => expect(res.body.msg).toBe("Not found"));
-  });
-});
-
 describe("Test21-   PATCH /api/courses/:course_id", () => {
   test("Status 200: and returns an updated course ", () => {
     return request(app)
@@ -765,6 +748,31 @@ describe("Test21-   PATCH /api/courses/:course_id", () => {
   });
 });
 
+describe("Test20-   DELETE /api/course/:course_id", () => {
+  test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
+    return request(app)
+    .delete("/api/courses/1")
+    .set("Authorization", validStudent)
+    .expect(204);
+  });
+  test("status 400 and returns an error message if it is a bad request", () => {
+    return request(app)
+      .delete("/api/courses/Invalid_id")
+      .set("Authorization", validStudent)
+      .expect(400)
+      .then((res) => expect(res.body.msg).toBe("Invalid input"));
+  });
+  test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
+    return request(app)
+      .delete("/api/courses/1000")
+      .set("Authorization", validStudent)
+      .expect(404)
+      .then((res) => expect(res.body.msg).toBe("Not found"));
+  });
+});
+
+
+
 //---------------------------------Topic--------------------------/
 
 describe("Test22-   GET /api/topics", () => {
@@ -777,7 +785,7 @@ describe("Test22-   GET /api/topics", () => {
       .then((res) => {
         //  console.log(res)
         expect(res.body.topics).toBeInstanceOf(Array);
-        expect(res.body.topics).toHaveLength(18);
+        expect(res.body.topics).toHaveLength(9);
         res.body.topics.forEach((topic) => {
           //console.log(topic)
           expect(topic).toMatchObject({
@@ -869,17 +877,18 @@ describe("Test24- POST /api/topics", () => {
         topic_code: "GFA2",
         topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
         topic_index: 4,
-       // topic_course_id: 1,
+        topic_course_id:3,
       })
       .expect(201)
       .then((res) => {
+        topic_id = res.body.topic.topic_id;
         expect(res.body.topic).toEqual({
           topic_name: "New",
           topic_code: "GFA2",
           topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
           topic_index: 4,
-          topic_course_id: 1,
-          topic_id: 19,
+          topic_course_id: 3,
+          topic_id: topic_id,
         });
       });
   });
@@ -897,11 +906,38 @@ describe("Test24- POST /api/topics", () => {
       });
   });
 });
+describe("Test26- PATCH /api/topic/:topic_id", () => {
+  test("Status 200: and return a updated topic object  ", () => {
+    return request(app)
+      .patch(`/api/topics/${topic_id}`)
+      .set("Authorization", validStudent)
+      .send({
+        topic_name: "Patched Statistics",
+        topic_code: "GHS1",
+        topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
+        topic_index: 9,
+        topic_course_id: 2,
+      })
+      .expect(200)
+      .then((res) => {
+        console.log(res.body.updatedTopic)
+        expect(res.body.updatedTopic).toEqual({
+          topic_name: "Patched Statistics",
+          topic_code: "GHS1",
+          topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
+          topic_index: 9,
+          topic_course_id: 2,
+          topic_id: topic_id,
+        });
+      });
+  });
+});
+
 
 describe("Test25-  DELETE /api/topic/:topic_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-      .delete("/api/topics/1")
+      .delete(`/api/topics/${topic_id}`)
       .set("Authorization", validStudent)
       .expect(204);
   });
@@ -921,36 +957,11 @@ describe("Test25-  DELETE /api/topic/:topic_id", () => {
   });
 });
 
-describe("Test26- PATCH /api/topic/:topic_id", () => {
-  test("Status 200: and return a updated topic object  ", () => {
-    return request(app)
-      .patch("/api/topics/1")
-      .set("Authorization", validStudent)
-      .send({
-        topic_name: "Patched Statistics",
-        topic_code: "GHS1",
-        topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
-        topic_index: 9,
-        topic_course_id: 2,
-      })
-      .expect(200)
-      .then((res) => {
-        expect(res.body.updatedTopic).toEqual({
-          topic_name: "Patched Statistics",
-          topic_code: "GHS1",
-          topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
-          topic_index: 9,
-          topic_course_id: 2,
-          topic_id: 1,
-        });
-      });
-  });
-});
 
 //------------------------Lesson--------------/
 
 describe("Test27-   GET /api/lessons", () => {
-  test("status: 200 and returns an array of tutors", () => {
+  test("status: 200 and returns an array of lessons", () => {
     return request(app)
       .get("/api/lessons")
       .set('Authorization', validStudent)
@@ -1042,7 +1053,7 @@ describe("Test28- GET   /api/lessons/:lesson_id", () => {
   });
 });
 describe("Test29- POST /api/lessons", () => {
-  test("status: 201 and return the new tutors", () => {
+  test("status: 201 and return the new lessons", () => {
     return request(app)
       .post("/api/lessons")
       .set('Authorization', validStudent)
@@ -1052,7 +1063,7 @@ describe("Test29- POST /api/lessons", () => {
         lesson_desc: "To be able to add, subtract, and solve money problems.",
         lesson_ws: "GFN1WS1",
         lesson_body: "PowerPoint",
-        //lesson_topic_id: 1,
+        lesson_topic_id: 1,
       })
       .expect(201)
       .then((res) => {
@@ -1254,6 +1265,28 @@ describe("Test34- POST /api/quizzes", () => {
   });
 });
 
+describe("Test36- PATCH /api/quizzes/:quiz_id", () => {
+  test("Status 200: and return a updated quiz object  ", () => {
+    return request(app)
+      .patch("/api/quizzes/1")
+      .set('Authorization', validStudent)
+      .send({
+        quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
+        quiz_code: "GFN2TDQ",
+        quiz_type: "TopicDiagnostic",
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.updatedQuiz).toEqual({
+          quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
+          quiz_code: "GFN2TDQ",
+          quiz_type: "TopicDiagnostic",
+          quiz_id: 1,
+        });
+      });
+  });
+});
+
 describe("Test35-  DELETE /api/quizzes/:quiz_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
@@ -1276,27 +1309,7 @@ describe("Test35-  DELETE /api/quizzes/:quiz_id", () => {
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
 });
-describe("Test36- PATCH /api/quizzes/:quiz_id", () => {
-  test("Status 200: and return a updated quiz object  ", () => {
-    return request(app)
-      .patch("/api/quizzes/1")
-      .set('Authorization', validStudent)
-      .send({
-        quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
-        quiz_code: "GFN2TDQ",
-        quiz_type: "TopicDiagnostic",
-      })
-      .expect(200)
-      .then((res) => {
-        expect(res.body.updatedQuiz).toEqual({
-          quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
-          quiz_code: "GFN2TDQ",
-          quiz_type: "TopicDiagnostic",
-          quiz_id: 1,
-        });
-      });
-  });
-});
+
 //----------------------Question--------------------------/
 
 describe("Test37- POST /api/questions", () => {
@@ -1310,7 +1323,7 @@ describe("Test37- POST /api/questions", () => {
         ques_mark: 1,
         ques_grade: 2,
         ques_lesson_id: 1,
-        ques_quiz_id: quiz_id,
+        ques_quiz_id: 2,
         ques_calc: false,
         ques_ans_explain: "explanation",
       })
@@ -1324,7 +1337,7 @@ describe("Test37- POST /api/questions", () => {
           ques_mark: 1,
           ques_grade: 2,
           ques_lesson_id: 1,
-          ques_quiz_id: quiz_id,
+          ques_quiz_id: 2,
           ques_calc: false,
           ques_ans_explain: "explanation",
           ques2_ans: null,
