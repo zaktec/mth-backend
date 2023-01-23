@@ -30,6 +30,10 @@ app.post("/signin", createNewStudent );
 app.use(validateStudent)
 app.use('/api/', apiRouter)
 
+app.use(validateTutor)
+app.use('/api/', apiRouter)
+
+
 
 
 

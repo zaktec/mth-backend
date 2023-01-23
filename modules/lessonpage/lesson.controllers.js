@@ -40,9 +40,12 @@ exports.getLessonById = (req, res, next) => {
 
 exports.postLesson = (req, res, next) => {
   const lesson = req.body;
+  
   insertLesson(lesson)
     .then((lesson) => {
+      
       res.status(201).send({ lesson });
+      
     })
     .catch((err) => {
       next(err);

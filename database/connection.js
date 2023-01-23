@@ -1,4 +1,7 @@
-const { Pool, Client } = require('pg')
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
+dotenv.config();
+
 const ENV = process.env.NODE_ENV  ||  "development";
 const pathToCorrectEnvFile = `${__dirname}/../.env.${ENV}`;
 
@@ -10,7 +13,7 @@ require('dotenv').config({
 
 const dbConnection = new Pool();
 
-//console.log(pathToCorrectEnvFile)
+//console.log(">>>>>>",process.env.PGDATABASE)
 
 if (!process.env.PGDATABASE){
     throw new Error ("No PGDATABSE configured");

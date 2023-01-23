@@ -57,6 +57,7 @@ exports.insertLesson = (lesson) => {
       ]
     )
     .then(({ rows }) => {
+      console.log(">>>>>>>>>>>", rows)
       return rows[0];
     });
 };
