@@ -12,7 +12,6 @@ exports.getLessons = (req, res, next) => {
   const { sort_by } = req.query;
   selectLessons(sort_by)
     .then((lessons) => {
-      console.log(lessons)
       res.status(200).send({ lessons });
     })
     .catch((err) => {

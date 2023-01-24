@@ -42,9 +42,9 @@ describe("Test1-   GET /invalid_url", () => {
   test("ERROR: status 404 and returns a message when invalid url is passed ", () => {
     return request(app)
       .get("/invalid_url")
-      .expect(500)
+      .expect(404)
       .then((res) => {
-        expect(res.body.message).toBe("Internal Server Error");
+        expect(res.body.msg).toBe("Invalid URL");
       });
   });
 });

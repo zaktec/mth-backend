@@ -11,11 +11,13 @@ const {
   handlePsqlErrors,
   handleServerErrors,
   handle404s,
+  handleInputErrors,
 } = require("./errors/index");
 const { loginUser,  createNewStudent } = require("./auth/auth.controllers");
 const {  validateStudent, } = require("./utils/jwtHelper");
 const dotenv = require('dotenv');
 dotenv.config();
+const { body, validationResult } =require( "express-validator");
 
 app.use(express.json());
 app.use(cors());
@@ -23,15 +25,15 @@ app.use(cors());
 //http://localhost:3009/api/homepage
 app.get("/", getEndpoints);
 app.get("/homepage", getHomepage);
-app.post("/login", loginUser);
+app.post("/login", body('username').isString(),handleInputErrors, loginUser);
 app.post("/signin", createNewStudent );
 
 //authroised user allowed on these route
-app.use(validateStudent)
-app.use('/api/', apiRouter)
+//app.use(validateStudent)
+app.use('/api/', validateStudent, apiRouter)
 
-app.use(validateTutor)
-app.use('/api/', apiRouter)
+/* app.use(validateTutor)
+app.use('/api/', apiRouter) */
 
 
 

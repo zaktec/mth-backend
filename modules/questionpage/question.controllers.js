@@ -54,7 +54,6 @@ exports.removeQuestionById = (req, res, next) => {
 
   deleteQuestionById(ques_id)
     .then((deletedQuestion) => {
-      console.log(">>>",deletedQuestion)
       if (deletedQuestion) {
         res.sendStatus(204);
       } else {

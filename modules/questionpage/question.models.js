@@ -87,7 +87,6 @@ exports.deleteQuestionById = (ques_id) => {
   return db
     .query("DELETE FROM question WHERE ques_id = $1 RETURNING *", [ques_id])
     .then((result) => {
-      console.log(">>>",result.rows[0])
       return result.rows[0];
     });
 };

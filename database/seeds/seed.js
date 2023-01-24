@@ -44,9 +44,11 @@ const seed = (data) => {
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS student;`);
     })
-
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS tutor;`);
+    })
+    .then(() => {
+      return db.query(`DROP TABLE IF EXISTS admin;`);
     })
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS topic;`);
@@ -79,6 +81,19 @@ const seed = (data) => {
             topic_course_id INT REFERENCES course(course_id) ON DELETE CASCADE
        );
        `);
+    })
+    .then(() => {
+      return db.query(` CREATE TABLE admin (
+        admin_id SERIAL PRIMARY KEY,
+        admin_username VARCHAR(200) NOT NULL UNIQUE,
+        admin_firstname VARCHAR(200) NOT NULL,
+        admin_lastname VARCHAR(200),
+        admin_email VARCHAR(200) NOT NULL,
+        admin_password VARCHAR(100) NOT NULL,
+        admin_active BOOLEAN,
+        admin_image VARCHAR(200)
+        );
+        `);
     })
     .then(() => {
       return db.query(` CREATE TABLE tutor (

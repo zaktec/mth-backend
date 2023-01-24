@@ -1,15 +1,5 @@
 const db = require("../database/connection.js");
 
-// exports.checkUser = (username = "username") => {
-//   //console.log(username, password);
-//   return db
-//     .query(`SELECT * FROM student WHERE student_username = $1;`, [username])
-//     .then(({ rows }) => {
-//       return rows[0];
-//     });
-// };
-
-
 exports.checkStudentByUsername = async (username) => {
   const checkUserQuery = 'SELECT * FROM student WHERE student_username=$1;'
   const data = await db.query(checkUserQuery, [username]);

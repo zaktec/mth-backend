@@ -1,5 +1,7 @@
 // errors/index.js
 
+const { body, validationResult } =require( "express-validator");
+
 exports.handle404s = (req, res) => {
   res.status(404).send({ msg: "Invalid URL" });
 };
@@ -20,4 +22,15 @@ exports.handlePsqlErrors = (err, req, res, next) => {
 exports.handleServerErrors = (err, req, res, next) => {
   console.log(err);
   res.status(500).send({ msg: "Internal Server Error" });
+};
+
+exports.handleInputErrors = (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.status(400);
+    res.json({ errors: errors.array() });
+  }else {
+    next()
+  }
 };
