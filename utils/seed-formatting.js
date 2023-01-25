@@ -22,12 +22,6 @@ exports.formatTopicData = (topicData) => {
   return formattedTopics;
 };
 
-//  const formattedPassword = studentData.map(student =>{
-// return {
-// ...student,
-// student_password: bcrypt.hashSync(student.student_password, 3)
-// }
-//  })
 
 exports.formatStudentData = (studentData) => {
    studentData.forEach(
@@ -35,15 +29,6 @@ exports.formatStudentData = (studentData) => {
        (item.student_password = bcrypt.hashSync(item.student_password, 10))
    );
  
-//  studentData.map(item => {
-//   return{
-//   ...item,
-//   student_password :  bcrypt.hashSync(item.student_password, 10)
-//   }
-// })
-//console.log (studentData)
-  
-
   const formattedStudents = studentData.map((student) => [
     student.student_username,
     student.student_firstname,
@@ -59,6 +44,20 @@ exports.formatStudentData = (studentData) => {
   ]);
   return formattedStudents;
 };
+
+exports.formatAdminsData = (adminsData) => {
+  const formattedAdmins = adminsData.map((admin) => [
+    admin.admins_username,
+    admin.admins_firstname,
+    admin.admins_lastname,
+    admin.admins_email,
+    admin.admins_password,
+    admin.admins_active,
+    admin.admins_image,
+  ]);
+  return formattedAdmins;
+};
+
 
 exports.formatTutorData = (tutorData) => {
   const formattedTutors = tutorData.map((tutor) => [

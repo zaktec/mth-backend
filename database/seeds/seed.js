@@ -9,6 +9,7 @@ const {
   formatLessonData,
   formatQuizData,
   formatQuestionData,
+  formatAdminsData
 } = require("../../utils/seed-formatting.js");
 
 const seed = (data) => {
@@ -20,6 +21,7 @@ const seed = (data) => {
     lessonData,
     quizData,
     questionData,
+    adminsData
   } = data;
   //console.log(studentData);
 
@@ -48,7 +50,7 @@ const seed = (data) => {
       return db.query(`DROP TABLE IF EXISTS tutor;`);
     })
     .then(() => {
-      return db.query(`DROP TABLE IF EXISTS admin;`);
+      return db.query(`DROP TABLE IF EXISTS admins;`);
     })
     .then(() => {
       return db.query(`DROP TABLE IF EXISTS topic;`);
@@ -83,15 +85,15 @@ const seed = (data) => {
        `);
     })
     .then(() => {
-      return db.query(` CREATE TABLE admin (
-        admin_id SERIAL PRIMARY KEY,
-        admin_username VARCHAR(200) NOT NULL UNIQUE,
-        admin_firstname VARCHAR(200) NOT NULL,
-        admin_lastname VARCHAR(200),
-        admin_email VARCHAR(200) NOT NULL,
-        admin_password VARCHAR(100) NOT NULL,
-        admin_active BOOLEAN,
-        admin_image VARCHAR(200)
+      return db.query(` CREATE TABLE admins (
+        admins_id SERIAL PRIMARY KEY,
+        admins_username VARCHAR(200) NOT NULL UNIQUE,
+        admins_firstname VARCHAR(200) NOT NULL,
+        admins_lastname VARCHAR(200),
+        admins_email VARCHAR(200) NOT NULL,
+        admins_password VARCHAR(100) NOT NULL,
+        admins_active BOOLEAN,
+        admins_image VARCHAR(200)
         );
         `);
     })
@@ -227,53 +229,62 @@ const seed = (data) => {
       return db.query(sql2);
     })
     .then(() => {
-      //console.log(courseData);
-      const formattedTutors = formatTutorData(tutorData);
+      const formattedAdmins = formatAdminsData(adminsData);
       const sql3 = format(
+        `INSERT INTO admins 
+      (admins_username, admins_firstname, admins_lastname, admins_email, admins_password, admins_active, admins_image)
+      VALUES %L RETURNING *;`,
+        formattedAdmins
+      );
+      return db.query(sql3);
+    })
+    .then(() => {
+      const formattedTutors = formatTutorData(tutorData);
+      const sql4 = format(
         `INSERT INTO tutor 
       (tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_password, tutor_active, tutor_image)
       VALUES %L RETURNING *;`,
         formattedTutors
       );
-      //console.log(sql3)
-      return db.query(sql3);
+      console.log(sql4)
+      return db.query(sql4);
     })
     .then(() => {
       //console.log(courseData);
       const formattedStudents = formatStudentData(studentData);
-      const sql4 = format(
+      const sql5 = format(
         `INSERT INTO student 
       (student_username, student_firstname, student_lastname, student_email,student_password, student_active,student_image, student_grade, student_targetgrade,student_notes, student_progressbar)
       VALUES %L RETURNING *;`,
         formattedStudents
       );
-      //console.log(sql3)
-      return db.query(sql4);
+      
+      return db.query(sql5);
     })
     .then(() => {
       //console.log(courseData);
       const formattedLessons = formatLessonData(lessonData);
-      const sql5 = format(
+      const sql6 = format(
         `INSERT INTO lesson 
       (lesson_name, lesson_code, lesson_desc, lesson_ws, lesson_body, lesson_topic_id)
         VALUES %L RETURNING *;`,
         formattedLessons
       );
-      return db.query(sql5);
+      return db.query(sql6);
     })
     .then(() => {
       //console.log(courseData);
       const formattedQuizzes = formatQuizData(quizData);
-      const sql6 = format(
+      const sql7 = format(
         `INSERT INTO quiz 
       (quiz_name, quiz_code, quiz_type) VALUES %L RETURNING *;`,
         formattedQuizzes
       );
-      return db.query(sql6);
+      return db.query(sql7);
     })
     .then(() => {
       const formattedQuestions = formatQuestionData(questionData);
-      const sql7 = format(
+      const sql8 = format(
         `INSERT INTO question 
       (ques_body,  ques_image, ques_grade, ques_calc, ques_mark,
         ques1_ans, ques2_ans, ques3_ans, ques_ans_explain, ques_ans_mark,
@@ -281,7 +292,7 @@ const seed = (data) => {
         ques_ans_sym_a, ques_quiz_id,ques_lesson_id ) VALUES %L RETURNING *;`,
         formattedQuestions
       );
-      return db.query(sql7);
+      return db.query(sql8);
     })
     .then((result) => {
       // console.log(result);

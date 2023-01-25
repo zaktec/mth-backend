@@ -4,7 +4,7 @@ const {  generateStudentJWT } = require("../utils/jwtHelper");
 const jwt = require("jsonwebtoken");
 
 
-exports.loginUser= async (req, res, next) => {
+exports.loginStudent= async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const isStudentExist = await checkStudentByUsername(username);

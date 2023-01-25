@@ -37,10 +37,15 @@ You are now connected to database "mthdb" as user "sheraz".
 
  student_id | student_username  | student_firstname | student_lastname |    student_email    |                       student_password                       | student_active | student_grade | student_targetgrade | student_notes | student_progressbar |     student_image     
 ------------+-------------------+-------------------+------------------+---------------------+--------------------------------------------------------------+----------------+---------------+---------------------+---------------+---------------------+-----------------------
-          1 | stundentusername1 | Student1FN        | Student1LN       | csheraz@hotmail.com | $2b$10$3ChG2yHEKH80BY2NkyKTWu5PbStH9uK7y4dXf8zu4NezMxjKgFWRW | t              |             1 |                   5 | Working well  |                   1 | /student/student1.png
-          2 | stundentusername2 | Student2FN        | Student2LN       | csheraz@hotmail.com | $2b$10$GksJbmiPFVp5Yd0nBIS7a.STDrCiM1XU2VkE7pbkKX8SeqeRytzF6 | t              |             5 |                   4 | Working well  |                   3 | /student/student2.png
-          3 | stundentusername3 | Student3FN        | Student3LN       | csheraz@hotmail.com | $2b$10$SxNh96eQ.tJ4hsh5aW7wGuYqECZTLQEufw7R0y52akGsjc/k4y/dK | t              |             7 |                   3 | Working well  |                   5 | /student/student3.png
+          1 | stundentusername1 | Student1FN        | Student1LN       | csheraz@hotmail.com | $2b$10$160Lx6Dcgk13QkUAbVLPfuFKmJvYyydec9oDifs3TolV8OznHOwna | t              |             1 |                   5 | Working well  |                   1 | /student/student1.png
+          2 | stundentusername2 | Student2FN        | Student2LN       | csheraz@hotmail.com | $2b$10$OSgxC2RKlrTpkXk8XmCOtetirfwMcQcEsnwvYzIOSjf1ZV5dyrFaa | t              |             5 |                   4 | Working well  |                   3 | /student/student2.png
+          3 | stundentusername3 | Student3FN        | Student3LN       | csheraz@hotmail.com | $2b$10$II68wwDd3xJfWPvsPCliW.KxEFkFgsAy2Gb9KM99R/kwfAtoMAACa | t              |             7 |                   3 | Working well  |                   5 | /student/student3.png
 (3 rows)
+
+ admins_id | admins_username | admins_firstname | admins_lastname |    admins_email     | admins_password | admins_active |   admins_image    
+-----------+-----------------+------------------+-----------------+---------------------+-----------------+---------------+-------------------
+         1 | scheema         | Sheraz           | Cheema          | csheraz@hotmail.com | password        | t             | /tutor/tutor1.png
+(1 row)
 
  lesson_id |               lesson_name                | lesson_code |                                               lesson_desc                                                | lesson_ws | lesson_body | lesson_topic_id 
 -----------+------------------------------------------+-------------+----------------------------------------------------------------------------------------------------------+-----------+-------------+-----------------
