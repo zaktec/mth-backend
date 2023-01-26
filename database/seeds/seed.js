@@ -246,7 +246,7 @@ const seed = (data) => {
       VALUES %L RETURNING *;`,
         formattedTutors
       );
-      console.log(sql4)
+     // console.log(sql4)
       return db.query(sql4);
     })
     .then(() => {

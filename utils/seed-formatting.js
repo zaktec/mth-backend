@@ -46,6 +46,13 @@ exports.formatStudentData = (studentData) => {
 };
 
 exports.formatAdminsData = (adminsData) => {
+
+  adminsData.forEach(
+    (item) =>
+      (item.admins_password = bcrypt.hashSync(item.admins_password, 10))
+  );
+
+
   const formattedAdmins = adminsData.map((admin) => [
     admin.admins_username,
     admin.admins_firstname,

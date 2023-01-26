@@ -13,7 +13,7 @@ const {
   handle404s,
   handleInputErrors,
 } = require("./errors/index");
-const { studentUser,  createNewStudent, loginStudent } = require("./auth/auth.controllers");
+const { loginAdmin,  createNewStudent, loginStudent, createNewAdmin, loginTutor,createNewTutor } = require("./auth/auth.controllers");
 const {  validateStudent, } = require("./utils/jwtHelper");
 const dotenv = require('dotenv');
 dotenv.config();
@@ -25,8 +25,20 @@ app.use(cors());
 //http://localhost:3009/api/homepage
 app.get("/", getEndpoints);
 app.get("/homepage", getHomepage);
-app.post("/login", body('username').isString(),handleInputErrors, loginStudent);
-app.post("/signin", body('student_username').isString(),handleInputErrors, createNewStudent );
+
+//student authrisation
+app.post("/studentlogin", body('username').isString(),handleInputErrors, loginStudent);
+app.post("/studentsignin", body('student_username').isString(),handleInputErrors, createNewStudent );
+
+
+//admin authrisation
+app.post("/adminlogin", body('username').isString(),handleInputErrors,  loginAdmin)
+app.post("/adminsignin", body('admins_username').isString(),handleInputErrors,createNewAdmin)
+
+//tutor authrisation
+app.post("/tutorlogin", body('username').isString(),handleInputErrors,  loginTutor)
+app.post("/tutorsignin", body('admins_username').isString(),handleInputErrors,createNewTutor)
+
 
 //authroised user allowed on these route
 //app.use(validateStudent)

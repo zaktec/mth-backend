@@ -27,6 +27,8 @@ let tutor_id;
 let lesson_id;
 let course_id;
 let student_id;
+let validAdmin;
+let validTutor;
 let validStudent;
 let initial_student_id;
 let invalidStudent = `BEARER invalidToken`;
@@ -69,12 +71,158 @@ describe("Test3-  GET /api/homepage", () => {
   });
 });
 
+
+//-------------------Admin SignUp/login ----------------------/
+
+describe("Test 3 -POST /signup admin", ()=>{
+test("Post respond with and access token given correct username", ()=> {
+return request (app)
+  .post("/adminsignin")
+  .send({
+    admins_username: "scheema1",
+    admins_firstname: "New",
+    admins_lastname: "Cheema",
+    admins_email: "csheraz@hotmail.com",
+    admins_active: true,
+    admins_image: "/tutor/tutor1.png",
+    admins_password: password,
+  })
+  .expect(201)
+  .then((res) => {
+    admins_id = res.body.admin.admins_id;
+    expect(res.body.admin).toEqual({
+      admins_id: res.body.admin.admins_id,
+      admins_username: "scheema1",
+      admins_firstname: "New",
+      admins_lastname: "Cheema",
+      admins_email: "csheraz@hotmail.com",
+      admins_active: true,
+      admins_image: "/tutor/tutor1.png",
+      admins_password: password,
+    });
+  });
+});
+});
+
+describe("Test5-  Admin login", () => {
+  test("POST responds with and access token given correct username and password", () => {
+    return request(app)
+      .post("/adminlogin")
+      .send({ username: "scheema", password: "password" })
+      .expect(200)
+      .then((res) => {
+        validAdmin = `BEARER ${res.body.token}`;
+        expect(res.body.message).toBe("Success");
+      });
+  });
+
+  test("POST responds with status 401 for an incorrect password", () => {
+    return request(app)
+      .post("/adminlogin")
+      .send({ username: "stundentusernamedemo1", password: "secure123" })
+      .expect(401)
+      .then((res) =>
+        expect(res.body.message).toBe('username and password do not exist')
+      );
+  });
+
+  test("POST responds with status 401 for an incorrect username", () => {
+    return request(app)
+      .post("/adminlogin")
+      .send({ username: "mitch", password: "secure123" })
+      .expect(401)
+      .then((res) => expect(res.body.message).toBe('username and password do not exist'));
+  });
+
+  test.skip("ERROR: status 401 if an invalid token is provided ", () => {
+    return request(app)
+      .get("/adminlogin")
+      .set("Authorization", invalidStudent)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.message).toBe("halt intruder! get outta here");
+      });
+  });
+});
+
+//-------------------tutor SignUp/login ----------------------/
+
+describe("Test 3 -POST /signup tutor", ()=>{
+  test("Post respond with and access token given correct username", ()=> {
+  return request (app)
+    .post("/tutorsignin")
+    .send({
+      tutor_username: "scheema1",
+      tutor_firstname: "New",
+      tutor_lastname: "Cheema",
+      tutor_email: "csheraz@hotmail.com",
+      tutor_active: true,
+      tutor_image: "/tutor/tutor1.png",
+      tutor_password: password,
+    })
+    .expect(201)
+    .then((res) => {
+      tutor_id = res.body.tutor.tutor_id;
+      expect(res.body.tutor).toEqual({
+        tutor_id: res.body.tutor.tutor_id,
+        tutor_username: "scheema1",
+        tutor_firstname: "New",
+        tutor_lastname: "Cheema",
+        tutor_email: "csheraz@hotmail.com",
+        tutor_active: true,
+        tutor_image: "/tutor/tutor1.png",
+        tutor_password: password,
+      });
+    });
+  });
+  });
+  
+  describe("Test5-  Admin login", () => {
+    test("POST responds with and access token given correct username and password", () => {
+      return request(app)
+        .post("/tutorlogin")
+        .send({ username: "scheema", password: "password" })
+        .expect(200)
+        .then((res) => {
+          validAdmin = `BEARER ${res.body.token}`;
+          expect(res.body.message).toBe("Success");
+        });
+    });
+  
+    test("POST responds with status 401 for an incorrect password", () => {
+      return request(app)
+        .post("/tutorlogin")
+        .send({ username: "stundentusernamedemo1", password: "secure123" })
+        .expect(401)
+        .then((res) =>
+          expect(res.body.message).toBe('username and password do not exist')
+        );
+    });
+  
+    test("POST responds with status 401 for an incorrect username", () => {
+      return request(app)
+        .post("/tutorlogin")
+        .send({ username: "mitch", password: "secure123" })
+        .expect(401)
+        .then((res) => expect(res.body.message).toBe('username and password do not exist'));
+    });
+  
+    test.skip("ERROR: status 401 if an invalid token is provided ", () => {
+      return request(app)
+        .get("/tutorlogin")
+        .set("Authorization", invalidStudent)
+        .expect(404)
+        .then((res) => {
+          expect(res.body.message).toBe("halt intruder! get outta here");
+        });
+    });
+  });
 //-------------------Student SignUp/login ----------------------/
 
 describe("Test4- POST /signin", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
-      .post("/signin")
+      .post("/studentsignin")
       .send({
         student_grade: 100,
         student_targetgrade: 1,
@@ -112,7 +260,7 @@ describe("Test4- POST /signin", () => {
 describe("Test5-  login", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
-      .post("/login")
+      .post("/studentlogin")
       .send({ username: "stundentusernamedemo1", password: "password" })
       .expect(200)
       .then((res) => {
@@ -123,7 +271,7 @@ describe("Test5-  login", () => {
 
   test("POST responds with status 401 for an incorrect password", () => {
     return request(app)
-      .post("/login")
+      .post("/studentlogin")
       .send({ username: "stundentusernamedemo1", password: "secure123" })
       .expect(401)
       .then((res) =>
@@ -133,7 +281,7 @@ describe("Test5-  login", () => {
 
   test("POST responds with status 401 for an incorrect username", () => {
     return request(app)
-      .post("/login")
+      .post("/studentlogin")
       .send({ username: "mitch", password: "secure123" })
       .expect(401)
       .then((res) => expect(res.body.message).toBe('username and password do not exist'));
