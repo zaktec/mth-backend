@@ -67,6 +67,11 @@ exports.formatAdminsData = (adminsData) => {
 
 
 exports.formatTutorData = (tutorData) => {
+
+  tutorData.forEach(
+    (item) =>
+      (item.tutor_password = bcrypt.hashSync(item.tutor_password, 10))
+  );
   const formattedTutors = tutorData.map((tutor) => [
     tutor.tutor_username,
     tutor.tutor_firstname,

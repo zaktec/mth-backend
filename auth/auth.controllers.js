@@ -3,9 +3,11 @@ const {
   insertNewStudent,
   insertNewAdmin,
   checkAdminByUsername,
+  checkTutorByUsername,
+  insertNewTutor
 } = require("./auth.models");
 const { comparePasswords } = require("../utils/passwordhelper");
-const { generateStudentJWT, generateAdminJWT } = require("../utils/jwtHelper");
+const { generateStudentJWT, generateAdminJWT, generateTutorJWT } = require("../utils/jwtHelper");
 const jwt = require("jsonwebtoken");
 
 exports.loginStudent = async (req, res, next) => {
@@ -97,6 +99,7 @@ exports.createNewAdmin = (req, res, next) => {
 exports.createNewTutor = async (req, res, next) => {
   try {
     const tutor = req.body;
+    console.log(tutor)
     insertNewTutor(tutor).then((tutor) => {
       res.status(201).send({ tutor });
     });
@@ -119,14 +122,14 @@ exports.loginTutor = async (req, res, next) => {
 
     const isPasswordExist = await comparePasswords(
       password,
-      isTutorExist.student_password
+      isTutorExist.tutor_password
     );
     if (!isPasswordExist)
       return res
         .status(401)
         .json({ status: 401, message: "username and password do not exist" });
 
-    const token = await generateTutorJWT(isTutorExist.student_id);
+    const token = await generateTutorJWT(isTutorExist.tutor_id);
     res.status(200).json({ status: 200, message: "Success", token });
   } catch (error) {
     return res.status(500).json({

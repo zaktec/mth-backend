@@ -37,7 +37,7 @@ app.post("/adminsignin", body('admins_username').isString(),handleInputErrors,cr
 
 //tutor authrisation
 app.post("/tutorlogin", body('username').isString(),handleInputErrors,  loginTutor)
-app.post("/tutorsignin", body('admins_username').isString(),handleInputErrors,createNewTutor)
+app.post("/tutorsignin", body('tutor_username').isString(),handleInputErrors,createNewTutor)
 
 
 //authroised user allowed on these route

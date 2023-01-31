@@ -134,11 +134,11 @@ describe("Test5-  Admin login", () => {
       .then((res) => expect(res.body.message).toBe('username and password do not exist'));
   });
 
-  test.skip("ERROR: status 401 if an invalid token is provided ", () => {
+  test("ERROR: status 401 if an invalid token is provided ", () => {
     return request(app)
-      .get("/adminlogin")
+      .get("/api")
       .set("Authorization", invalidStudent)
-      .expect(404)
+      .expect(401)
       .then((res) => {
         expect(res.body.message).toBe("halt intruder! get outta here");
       });
@@ -207,11 +207,11 @@ describe("Test 3 -POST /signup tutor", ()=>{
         .then((res) => expect(res.body.message).toBe('username and password do not exist'));
     });
   
-    test.skip("ERROR: status 401 if an invalid token is provided ", () => {
+    test("ERROR: status 401 if an invalid token is provided ", () => {
       return request(app)
-        .get("/tutorlogin")
+        .get("/api")
         .set("Authorization", invalidStudent)
-        .expect(404)
+        .expect(401)
         .then((res) => {
           expect(res.body.message).toBe("halt intruder! get outta here");
         });
@@ -550,7 +550,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
         .post("/api/tutors")
         .set("Authorization", validStudent)
         .send({
-          tutor_username: "scheema1",
+          tutor_username: "scheema2",
           tutor_firstname: "New",
           tutor_lastname: "Cheema",
           tutor_email: "csheraz@hotmail.com",
@@ -563,7 +563,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
           tutor_id = res.body.tutor.tutor_id;
           expect(res.body.tutor).toEqual({
             tutor_id: res.body.tutor.tutor_id,
-            tutor_username: "scheema1",
+            tutor_username: "scheema2",
             tutor_firstname: "New",
             tutor_lastname: "Cheema",
             tutor_email: "csheraz@hotmail.com",
@@ -599,7 +599,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
         .then((res) => {
           expect(res.body.tutors).toBeInstanceOf(Array);
          // expect(res.body.tutors).toHaveLength(res.body.tutors.length);
-         expect(res.body.tutors).toHaveLength(2);
+         expect(res.body.tutors).toHaveLength(3);
           res.body.tutors.forEach((tutor) => {
             expect(tutor).toMatchObject({
               tutor_id: expect.any(Number),
@@ -653,7 +653,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
         .then((res) => {
           expect(res.body.tutor).toEqual({
             tutor_id: tutor_id,
-            tutor_username: "scheema1",
+            tutor_username: "scheema2",
             tutor_firstname: "New",
             tutor_lastname: "Cheema",
             tutor_email: "csheraz@hotmail.com",

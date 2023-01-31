@@ -13,7 +13,7 @@ exports.checkAdminByUsername = async(username) =>{
 }
 
 exports.checkTutorByUsername = async(username) =>{
-  const checkUserQuery = "SELECT * FROM tutor WHERE admins_username=$1;";
+  const checkUserQuery = "SELECT * FROM tutor WHERE tutor_username=$1;";
   const data = await db.query(checkUserQuery, [username]);
   return data.rows[0];
 }
