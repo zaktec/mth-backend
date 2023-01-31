@@ -16,7 +16,6 @@ exports.checkCourseExists = (course_id) => {
     });
 };
 
-
 exports.checkTopicExists = (topic_id) => {
   return db
     .query(
@@ -48,7 +47,6 @@ exports.checkTutorExists = (tutor_id) => {
       }
     });
 };
-
 
 exports.checkStudentExists = (student_id) => {
   return db
@@ -104,6 +102,22 @@ exports.checkQuestionExists = (ques_id) => {
       `SELECT * FROM question WHERE
     ques_id=$1`,
       [ques_id]
+    )
+    .then(({ rows }) => {
+      if (rows.length) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};
+
+exports.checkAdminExist = (admins_id) => {
+  return db
+    .query(
+      `SELECT * FROM admins WHERE 
+    admins_id=$1`,
+      [admins_id]
     )
     .then(({ rows }) => {
       if (rows.length) {

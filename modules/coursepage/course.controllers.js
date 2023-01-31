@@ -86,7 +86,6 @@ exports.removeCourseById = (req, res, next) => {
 exports.patchCourseById = (req, res, next) => {
   const course = req.body;
   const { course_id } = req.params;
-  // console.log(course_id, course)
   return updateCourseById(course, course_id)
     .then((updatedCourse) => {
       if (updatedCourse) {

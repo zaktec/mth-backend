@@ -7,11 +7,13 @@ const lessonRouter = require("./lessons.routers");
 const quizRouter = require("./quizzes.routers");
 const settingRouter = require("./settings.routers");
 const questionRouter = require("./questions.routers");
+const adminRouter = require("./admin.routers");
 
 
 const {
   getUserhomepage,
 } = require("../modules/userpage/userhomepage.controllers");
+
 
 const apiRouter = express.Router();
 
@@ -20,15 +22,10 @@ const apiRouter = express.Router();
 //GET /api sends back endpoint
 
 
-
-
-
- // protected route 
-
-
 apiRouter.get("/userhomepage", getUserhomepage);
 
 apiRouter.use("/topics", topicRouter);
+apiRouter.use("/admin", adminRouter)
 
 apiRouter.use("/courses", courseRouter);
 
