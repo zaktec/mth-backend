@@ -9,10 +9,15 @@ require("expect-more-jest");
 
 /* -------------------------------------------------------- 
 Unauthorised Link               Line Code 33
-Student SignUp/login             Line Code 66
-Setting                          Line Code 148
+Admin SignUp/login               Line Code 77
+Tutor SignUp/login             Line Code 152
+Student SignUp/login             Line Code 224
+Admin Dashboard                  Line Code 306
+Tutor Dashboard                  Line Code 341
+Student Dashboard                Line Code  357
+Admin                            Line Code 374
 Student                          Line Code 181
-Tutors                           Line Code  397
+Tutors                           Line Code  744
 Courses                          Line Code  591
 Topic                            Line Code  774
 Lesson                           Line Code  960
@@ -74,7 +79,7 @@ describe("Test3-  GET /api/homepage", () => {
 
 //-------------------Admin SignUp/login ----------------------/
 
-describe("Test 3 -POST /signup admin", ()=>{
+describe("Test 4 -POST /signup admin", ()=>{
 test("Post respond with and access token given correct username", ()=> {
 return request (app)
   .post("/adminsignin")
@@ -104,7 +109,7 @@ return request (app)
 });
 });
 
-describe("Test5-  Admin login", () => {
+describe("Test 5-  Admin login", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
       .post("/adminlogin")
@@ -112,6 +117,7 @@ describe("Test5-  Admin login", () => {
       .expect(200)
       .then((res) => {
         validAdmin = `BEARER ${res.body.token}`;
+        console.log(validAdmin)
         expect(res.body.message).toBe("Success");
       });
   });
@@ -145,9 +151,11 @@ describe("Test5-  Admin login", () => {
   });
 });
 
+
+
 //-------------------tutor SignUp/login ----------------------/
 
-describe("Test 3 -POST /signup tutor", ()=>{
+describe("Test 6 -POST /signup tutor", ()=>{
   test("Post respond with and access token given correct username", ()=> {
   return request (app)
     .post("/tutorsignin")
@@ -177,7 +185,7 @@ describe("Test 3 -POST /signup tutor", ()=>{
   });
   });
   
-  describe("Test5-  Admin login", () => {
+  describe("Test7-  Admin login", () => {
     test("POST responds with and access token given correct username and password", () => {
       return request(app)
         .post("/tutorlogin")
@@ -219,7 +227,7 @@ describe("Test 3 -POST /signup tutor", ()=>{
   });
 //-------------------Student SignUp/login ----------------------/
 
-describe("Test4- POST /signin", () => {
+describe("Test8- POST /signin", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
       .post("/studentsignin")
@@ -257,7 +265,7 @@ describe("Test4- POST /signin", () => {
   });
 });
 
-describe("Test5-  login", () => {
+describe("Test9-  login", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
       .post("/studentlogin")
@@ -298,27 +306,14 @@ describe("Test5-  login", () => {
   });
 });
 
-//-------------------Homepage----------------------------------------/
 
-describe("Test42-  GET /api/userhomepage", () => {
-  test("status: 200 and returns a welcome message from the user homepage", () => {
-    return request(app)
-      .get("/api/userhomepage")
-      .set('Authorization', validStudent)
-      .expect(200)
-      .then((res) => {
-        expect(res.body.msg).toBe("Welcome to the User HomePage");
-      });
-  });
-});
+//-------------------Admin Dashabooard----------------------------------------/
 
-//-------------------Setting----------------------------------------/
-
- describe("Test6-  GET /api/setting", () => {
+describe("Test10-  GET /api/setting", () => {
   test("status: 200 and returns a welcome message for setting page", () => {
     return request(app)
       .get("/api/settings")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.msg).toBe("Welcome to the SettingPage");
@@ -328,7 +323,7 @@ describe("Test42-  GET /api/userhomepage", () => {
   test("status: 200 and returns a welcome message for setting page", () => {
     return request(app)
       .get("/api/settings/resit")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.msg).toBe("Welcome to the ResitPage");
@@ -346,9 +341,212 @@ describe("Test42-  GET /api/userhomepage", () => {
 });
 });
 
+//-------------------Tutor Dashbaord--------------------------------/
+
+describe("Test11-  GET /api/userhomepage", () => {
+  test("status: 200 and returns a welcome message from the user homepage", () => {
+    return request(app)
+      .get("/api/userhomepage")
+      .set('Authorization', validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.msg).toBe("Welcome to the User HomePage");
+      });
+  });
+});
+
+
+//-------------------Student Dashbaord--------------------------------/
+
+describe("Test12-  GET /api/userhomepage", () => {
+  test("status: 200 and returns a welcome message from the user homepage", () => {
+    return request(app)
+      .get("/api/userhomepage")
+      .set('Authorization', validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.msg).toBe("Welcome to the User HomePage");
+      });
+  });
+});
+
+
+
+//-------------------Admin--------------------------------------/
+
+  describe("Test13- POST /api/admins", () => {
+    test("status: 201 and return the new admin", () => {
+      return request(app)
+        .post("/api/admin")
+        .set("Authorization", validAdmin)
+        .send({
+          admins_username: "scheema2",
+          admins_firstname: "New",
+          admins_lastname: "Cheema",
+          admins_email: "csheraz@hotmail.com",
+          admins_active: true,
+          admins_image: "/tutor/tutor1.png",
+          admins_password: password,
+        })
+        .expect(201)
+        .then((res) => {
+          admins_id = res.body.admin.admins_id;
+          expect(res.body.admin).toEqual({
+            admins_id: res.body.admin.admins_id,
+            admins_username: "scheema2",
+            admins_firstname: "New",
+            admins_lastname: "Cheema",
+            admins_email: "csheraz@hotmail.com",
+            admins_active: true,
+            admins_image: "/tutor/tutor1.png",
+            admins_password: password,
+          });
+        });
+    });
+
+    test.skip("Missing Field. status 400 and return error message", () => {
+      return request(app)
+        .post("/api/admin")
+        .set("Authorization", validAdmin)
+        .send({
+          admins_username: "New",
+          admins_lastname: "Cheema",
+
+        })
+        .expect(400)
+        .then((res) => {
+          expect(res.body.msg).toBe("Invalid input");
+        });
+    });
+  });
+
+  describe("Test14-   GET /api/admin", () => {
+    test("status: 200 and returns an array of admins", () => {
+      return request(app)
+        .get("/api/admin")
+        .set("Authorization", validStudent)
+        .expect(200)
+        .then((res) => {
+          expect(res.body.admin).toBeInstanceOf(Array);
+         // expect(res.body.tutors).toHaveLength(res.body.tutors.length);
+         expect(res.body.admin).toHaveLength(3);
+          res.body.admin.forEach((admin) => {
+            expect(admin).toMatchObject({
+              admins_id: expect.any(Number),
+              admins_firstname: expect.any(String),
+              admins_lastname: expect.any(String),
+              admins_email: expect.any(String),
+              admins_active: expect.any(Boolean),
+              admins_image: expect.any(String),
+            });
+          });
+        });
+    });
+
+    test("QUERY: status 200 : tutors are sorted by index number", () => {
+      return request(app)
+        .get("/api/admin")
+        .set("Authorization", validStudent)
+        .expect(200)
+        .then((res) => {
+          expect(res.body.admin).toBeSortedBy("admins_id");
+        });
+    });
+
+    test("QUERY: status 200: topics are sorted by passed query", () => {
+      return request(app)
+        .get("/api/admin?sort_by=admins_firstname")
+        .set("Authorization", validStudent)
+        .expect(200)
+        .then((res) => {
+          expect(res.body.admin).toBeSortedBy("admins_firstname");
+        });
+    });
+
+    test.skip("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+      return request(app)
+        .get("/api/admin?sort_by=not_a_column")
+        .set("Authorization", validStudent)
+        .expect(400)
+        .then((res) => {
+          expect(res.body.msg).toBe("bad request");
+        });
+    });
+  });
+
+  describe("Test15- GET   /api/admin/:admins_id", () => {
+    test("status: 200 and return a admin object", () => {
+      return request(app)
+        .get(`/api/admin/${admins_id}`)
+        .set("Authorization", validStudent)
+        .expect(200)
+        .then((res) => {
+          expect(res.body.admin).toEqual({
+            admins_id: admins_id,
+            admins_username: "scheema2",
+            admins_firstname: "New",
+            admins_lastname: "Cheema",
+            admins_email: "csheraz@hotmail.com",
+            admins_active: true,
+            admins_image: "/tutor/tutor1.png",
+            admins_password: res.body.admin.admins_password,
+          });
+        });
+    });
+
+    test("Error: course_id, non existent but valid. status 404 and an error message", () => {
+      return request(app)
+        .get("/api/admin/invalid_id")
+        .set("Authorization", validStudent)
+        .expect(400)
+        .then((res) => {
+          expect(res.body.msg).toBe("Invalid input");
+        });
+    });
+
+    test("ERROR  -status: 404 and returns an error message", () => {
+      return request(app)
+        .get("/api/admin/1000")
+        .set("Authorization", validStudent)
+        .expect(404)
+        .then((res) => {
+          expect(res.body.msg).toBe("Not found");
+        });
+    });
+  });
+
+  describe("Test16- PATCH /api/admin/:admins_id", () => {
+    test("Status 200: and return a updated admin object  ", () => {
+      return request(app)
+        .patch(`/api/admin/${admins_id}`)
+        .set('Authorization', validStudent)
+        .send({
+          admins_username: "scheema1000",
+          admins_firstname: "Patched",
+          admins_lastname: "Cheema",
+          admins_email: "csheraz@hotmail.com",
+          admins_active: true,
+          admins_image: "/tutor/tutor1.png",
+          admins_password: password,
+        })
+        .expect(200)
+        .then((res) => {
+          expect(res.body.updatedAdmin).toEqual({
+            admins_id: admins_id,
+            admins_username: "scheema1000",
+            admins_firstname: "Patched",
+            admins_lastname: "Cheema",
+            admins_email: "csheraz@hotmail.com",
+            admins_active: true,
+            admins_image: "/tutor/tutor1.png",
+            admins_password: res.body.updatedAdmin.admins_password,
+          });
+        });
+    });
+  });
 //-------------------student--------------------------------------/
 
-describe("Test7- POST /api/students", () => {
+describe("Test17- POST /api/students", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/students")
@@ -401,7 +599,7 @@ describe("Test7- POST /api/students", () => {
   });
 });
 
-describe("Test8-   GET /api/students", () => {
+describe("Test18-   GET /api/students", () => {
     test("status: 200 and returns an array of tutors", () => {
       return request(app)
         .get("/api/students")
@@ -459,7 +657,7 @@ describe("Test8-   GET /api/students", () => {
     });
 });
 
-describe("Test9- GET   /api/students/:student_id", () => {
+describe("Test19- GET   /api/students/:student_id", () => {
   test("status: 200 and return a student object", () => {
     return request(app)
       .get(`/api/students/${student_id}`)
@@ -504,7 +702,7 @@ describe("Test9- GET   /api/students/:student_id", () => {
   });
 });
 
-describe("Test10- PATCH /api/students/:student_id", () => {
+describe("Test20- PATCH /api/students/:student_id", () => {
   test("Status 200: and return a updated student object  ", () => {
     return request(app)
       .patch(`/api/students/${student_id}`)
@@ -544,7 +742,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
 
 //---------------------------------Tutors-------------------------------/
 
-  describe("Test14- POST /api/tutors", () => {
+  describe("Test21- POST /api/tutors", () => {
     test("status: 201 and return the new tutors", () => {
       return request(app)
         .post("/api/tutors")
@@ -590,7 +788,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
     });
   });
 
-  describe("Test12-   GET /api/tutors", () => {
+  describe("Test22-   GET /api/tutors", () => {
     test("status: 200 and returns an array of tutors", () => {
       return request(app)
         .get("/api/tutors")
@@ -644,7 +842,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
     });
   });
 
-  describe("Test13- GET   /api/tutors/:tutor_id", () => {
+  describe("Test23- GET   /api/tutors/:tutor_id", () => {
     test("status: 200 and return a tutor object", () => {
       return request(app)
         .get(`/api/tutors/${tutor_id}`)
@@ -685,7 +883,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
     });
   });
 
-  describe("Test16- PATCH /api/tutors/:tutor_id", () => {
+  describe("Test24- PATCH /api/tutors/:tutor_id", () => {
     test("Status 200: and return a updated tutor object  ", () => {
       return request(app)
         .patch(`/api/tutors/${tutor_id}`)
@@ -717,7 +915,7 @@ describe("Test10- PATCH /api/students/:student_id", () => {
   
 //---------------------------------Courses--------------------------/
 
-describe("Test19- POST /api/courses", () => {
+describe("Test25- POST /api/courses", () => {
   test("status: 201 and return the new course", () => {
     return request(app)
       .post("/api/courses")
@@ -759,7 +957,7 @@ describe("Test19- POST /api/courses", () => {
   });
 });
 
-describe("Test17-   GET /api/courses", () => {
+describe("Test26-   GET /api/courses", () => {
   test("status: 200 and returns an array of courses", () => {
     return request(app)
       .get("/api/courses")
@@ -811,7 +1009,7 @@ describe("Test17-   GET /api/courses", () => {
   });
 });
 
-describe("Test18-   GET /api/courses/:course_id", () => {
+describe("Test27-   GET /api/courses/:course_id", () => {
   test("Query: course_id existing, status: 200 and returns a course object", () => {
     return request(app)
       .get(`/api/courses/${course_id}`)
@@ -850,7 +1048,7 @@ describe("Test18-   GET /api/courses/:course_id", () => {
   });
 });
 
-describe("Test21-   PATCH /api/courses/:course_id", () => {
+describe("Test28-   PATCH /api/courses/:course_id", () => {
   test("Status 200: and returns an updated course ", () => {
     return request(app)
       .patch(`/api/courses/${course_id}`)
@@ -878,7 +1076,7 @@ describe("Test21-   PATCH /api/courses/:course_id", () => {
 
 // //---------------------------------Topic--------------------------/
 
-describe("Test24- POST /api/topics", () => {
+describe("Test29- POST /api/topics", () => {
   test("status: 201 and return the new topic", () => {
     return request(app)
       .post("/api/topics")
@@ -919,7 +1117,7 @@ describe("Test24- POST /api/topics", () => {
   });
 });
 
-describe("Test22-   GET /api/topics", () => {
+describe("Test30-   GET /api/topics", () => {
   test("status: 200 and returns an array of topics", () => {
     return request(app)
       .get("/api/topics")
@@ -973,7 +1171,7 @@ describe("Test22-   GET /api/topics", () => {
   });
 });
 
-describe("Test23- GET   /api/topics/:topic_id", () => {
+describe("Test31- GET   /api/topics/:topic_id", () => {
   test("status: 200 and return a topic object", () => {
     return request(app)
       .get(`/api/topics/${topic_id}`)
@@ -1012,7 +1210,7 @@ describe("Test23- GET   /api/topics/:topic_id", () => {
   });
 });
 
-describe("Test26- PATCH /api/topic/:topic_id", () => {
+describe("Test32- PATCH /api/topic/:topic_id", () => {
   test("Status 200: and return a updated topic object  ", () => {
     return request(app)
       .patch(`/api/topics/${topic_id}`)
@@ -1041,7 +1239,7 @@ describe("Test26- PATCH /api/topic/:topic_id", () => {
 
 // //------------------------Lesson--------------/
 
-describe("Test29- POST /api/lessons", () => {
+describe("Test33- POST /api/lessons", () => {
   test("status: 201 and return the new lessons", () => {
     return request(app)
       .post("/api/lessons")
@@ -1084,7 +1282,7 @@ describe("Test29- POST /api/lessons", () => {
   });
 });
 
-describe("Test27-   GET /api/lessons", () => {
+describe("Test34-   GET /api/lessons", () => {
   test("status: 200 and returns an array of lessons", () => {
     return request(app)
       .get("/api/lessons")
@@ -1138,7 +1336,7 @@ describe("Test27-   GET /api/lessons", () => {
   });
 });
 
-describe("Test28- GET   /api/lessons/:lesson_id", () => {
+describe("Test35- GET   /api/lessons/:lesson_id", () => {
   test("status: 200 and return a lesson object", () => {
     return request(app)
       .get(`/api/lessons/${lesson_id}`)
@@ -1178,7 +1376,7 @@ describe("Test28- GET   /api/lessons/:lesson_id", () => {
   });
 });
 
-describe("Test31- PATCH /api/lessons/:lesson_id", () => {
+describe("Test36- PATCH /api/lessons/:lesson_id", () => {
   test("Status 200: and return a updated student object  ", () => {
     return request(app)
       .patch(`/api/lessons/${lesson_id}`)
@@ -1208,7 +1406,7 @@ describe("Test31- PATCH /api/lessons/:lesson_id", () => {
 
 // //--------------------Quiz--------------------------/
 
-describe("Test34- POST /api/quizzes", () => {
+describe("Test37- POST /api/quizzes", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/quizzes")
@@ -1245,7 +1443,7 @@ describe("Test34- POST /api/quizzes", () => {
   });
 });
 
-describe("Test32-   GET /api/quizzes", () => {
+describe("Test38-   GET /api/quizzes", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
       .get("/api/quizzes")
@@ -1296,7 +1494,7 @@ describe("Test32-   GET /api/quizzes", () => {
   });
 });
 
-describe("Test33- GET   /api/quizzes/:quiz_id", () => {
+describe("Test39- GET   /api/quizzes/:quiz_id", () => {
   test("status: 200 and return a quiz object", () => {
     return request(app)
       .get(`/api/quizzes/${quiz_id}`)
@@ -1333,7 +1531,7 @@ describe("Test33- GET   /api/quizzes/:quiz_id", () => {
   });
 });
 
-describe("Test36- PATCH /api/quizzes/:quiz_id", () => {
+describe("Test40- PATCH /api/quizzes/:quiz_id", () => {
   test("Status 200: and return a updated quiz object  ", () => {
     return request(app)
       .patch(`/api/quizzes/${quiz_id}`)
@@ -1357,7 +1555,7 @@ describe("Test36- PATCH /api/quizzes/:quiz_id", () => {
 
 // //----------------------Question--------------------------/
 
-describe("Test37- POST /api/questions", () => {
+describe("Test41- POST /api/questions", () => {
   test("status: 201 and return the new questions", () => {
     return request(app)
       .post("/api/questions")
@@ -1411,7 +1609,7 @@ describe("Test37- POST /api/questions", () => {
   });
 });
 
-describe("Test38-   GET /api/questions", () => {
+describe("Test42-   GET /api/questions", () => {
   test("status: 200 and returns an array of questions", () => {
     return request(app)
       .get("/api/questions")
@@ -1475,7 +1673,7 @@ describe("Test38-   GET /api/questions", () => {
   });
 });
 
-describe("Test39- GET   /api/questions/:question_id", () => {
+describe("Test43- GET   /api/questions/:question_id", () => {
   test("status: 200 and return a question object", () => {
     return request(app)
       .get(`/api/questions/${ques_id}`)
@@ -1525,7 +1723,7 @@ describe("Test39- GET   /api/questions/:question_id", () => {
   });
 });
   
-describe("Test40- PATCH /api/questions/:ques_id", () => {
+describe("Test44- PATCH /api/questions/:ques_id", () => {
   test("Status 200: and return a updated ques object  ", () => {
     return request(app)
       .patch(`/api/questions/${ques_id}`)
@@ -1567,7 +1765,7 @@ describe("Test40- PATCH /api/questions/:ques_id", () => {
 
 //--------------------------------- DELETE ACCODINGLY--------------------------/
 
-describe("Test11-  DELETE /api/students/:student_id", () => {
+describe("Test45-  DELETE /api/students/:student_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
     .delete(`/api/students/${initial_student_id}`)
@@ -1599,7 +1797,7 @@ describe("Test11-  DELETE /api/students/:student_id", () => {
   });
 });
 
-describe("Test15-  DELETE /api/tutor/:tutor_id", () => {
+describe("Test46-  DELETE /api/tutor/:tutor_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
     .delete(`/api/tutors/${tutor_id}`)
@@ -1624,7 +1822,7 @@ describe("Test15-  DELETE /api/tutor/:tutor_id", () => {
   });
 });
 
-describe("Test41-  DELETE /api/questions/:ques_id", () => {
+describe("Test47-  DELETE /api/questions/:ques_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
     .delete(`/api/questions/${ques_id}`)
@@ -1649,7 +1847,7 @@ describe("Test41-  DELETE /api/questions/:ques_id", () => {
   });
 });
 
-describe("Test30-  DELETE /api/lessons/:lesson_id", () => {
+describe("Test48-  DELETE /api/lessons/:lesson_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
     .delete(`/api/lessons/${lesson_id}`)
@@ -1674,7 +1872,7 @@ describe("Test30-  DELETE /api/lessons/:lesson_id", () => {
   });
 });
 
-describe("Test35-  DELETE /api/quizzes/:quiz_id", () => {
+describe("Test49-  DELETE /api/quizzes/:quiz_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
     .delete(`/api/quizzes/${quiz_id}`)
@@ -1699,7 +1897,7 @@ describe("Test35-  DELETE /api/quizzes/:quiz_id", () => {
   });
 });
 
-describe("Test25-  DELETE /api/topic/:topic_id", () => {
+describe("Test50-  DELETE /api/topic/:topic_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
       .delete(`/api/topics/${topic_id}`)
@@ -1724,7 +1922,7 @@ describe("Test25-  DELETE /api/topic/:topic_id", () => {
   });
 });
 
-describe("Test20-   DELETE /api/course/:course_id", () => {
+describe("Test51-   DELETE /api/course/:course_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
     .delete(`/api/courses/${course_id}`)

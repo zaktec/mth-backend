@@ -10,6 +10,7 @@ const {
 
 exports.getAdmin = (req, res, next) => {
   try {
+   
     const { sort_by } = req.query;
     selectAdmin(sort_by).then((admin) => {
       res.status(200).send({ admin });
@@ -81,7 +82,7 @@ exports.patchAdminById = (req, res, next) => {
     return updateAdminById (admin, admins_id)
     .then((updatedAdmin) => {
         if (updatedAdmin){
-                res.status(200).send ({ updateAdmin})
+                res.status(200).send ({ updatedAdmin})
         } else{
             return Promise.reject({ status: 404, msg: " not found "})
     }})

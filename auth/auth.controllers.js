@@ -55,7 +55,6 @@ exports.createNewStudent = async (req, res, next) => {
 exports.loginAdmin = async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    console.log(username, password);
     const isAdminExist = await checkAdminByUsername(username);
     if (!isAdminExist)
       return res
@@ -99,7 +98,6 @@ exports.createNewAdmin = (req, res, next) => {
 exports.createNewTutor = async (req, res, next) => {
   try {
     const tutor = req.body;
-    console.log(tutor)
     insertNewTutor(tutor).then((tutor) => {
       res.status(201).send({ tutor });
     });
