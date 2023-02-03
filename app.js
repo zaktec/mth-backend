@@ -45,12 +45,6 @@ app.post("/tutorsignin", body('tutor_username').isString(),handleInputErrors,cre
 //authroised user allowed on these route
 //app.use(validateStudent)
 app.use('/api', validateAdmin, apiRouter)
-
-/* app.use(validateTutor)
-app.use('/api/', apiRouter) */
-
-
-
 app.use('/student', validateStudent, studentdbRouter)
 app.use('/tutor', validateTutor, tutordbRouter)
 

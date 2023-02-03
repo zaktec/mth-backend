@@ -24,7 +24,7 @@ Lesson                           Line Code  960
 Quiz                             Line Code  1147
 Question                         Line Code   1312
  ---------------------------------------------------------*/
- 
+
 let quiz_id;
 let ques_id;
 let topic_id;
@@ -32,16 +32,17 @@ let tutor_id;
 let lesson_id;
 let course_id;
 let student_id;
-let validAdmin;
-let validTutor;
 let validStudent;
+let validTutor;
+let validAdmin;
 let initial_student_id;
 let invalidStudent = `BEARER invalidToken`;
+let invalidAdmin = `BEARER invalidToken`;
 const password = bcrypt.hashSync("password", 10);
 
 beforeAll(() => seed(testData));
 //afterAll(() => seed(testData));
- afterAll(() => db.end());
+afterAll(() => db.end());
 
 //-------------------unauthrised Link---------------------/
 
@@ -76,37 +77,36 @@ describe("Test3-  GET /api/homepage", () => {
   });
 });
 
-
 //-------------------Admin SignUp/login ----------------------/
 
-describe("Test 4 -POST /signup admin", ()=>{
-test("Post respond with and access token given correct username", ()=> {
-return request (app)
-  .post("/adminsignin")
-  .send({
-    admins_username: "scheema1",
-    admins_firstname: "New",
-    admins_lastname: "Cheema",
-    admins_email: "csheraz@hotmail.com",
-    admins_active: true,
-    admins_image: "/tutor/tutor1.png",
-    admins_password: password,
-  })
-  .expect(201)
-  .then((res) => {
-    admins_id = res.body.admin.admins_id;
-    expect(res.body.admin).toEqual({
-      admins_id: res.body.admin.admins_id,
-      admins_username: "scheema1",
-      admins_firstname: "New",
-      admins_lastname: "Cheema",
-      admins_email: "csheraz@hotmail.com",
-      admins_active: true,
-      admins_image: "/tutor/tutor1.png",
-      admins_password: password,
-    });
+describe("Test 4 -POST /signup admin", () => {
+  test("Post respond with and access token given correct username", () => {
+    return request(app)
+      .post("/adminsignin")
+      .send({
+        admins_username: "scheema1",
+        admins_firstname: "New",
+        admins_lastname: "Cheema",
+        admins_email: "csheraz@hotmail.com",
+        admins_active: true,
+        admins_image: "/tutor/tutor1.png",
+        admins_password: password,
+      })
+      .expect(201)
+      .then((res) => {
+        admins_id = res.body.admin.admins_id;
+        expect(res.body.admin).toEqual({
+          admins_id: res.body.admin.admins_id,
+          admins_username: "scheema1",
+          admins_firstname: "New",
+          admins_lastname: "Cheema",
+          admins_email: "csheraz@hotmail.com",
+          admins_active: true,
+          admins_image: "/tutor/tutor1.png",
+          admins_password: password,
+        });
+      });
   });
-});
 });
 
 describe("Test 5-  Admin login", () => {
@@ -117,7 +117,6 @@ describe("Test 5-  Admin login", () => {
       .expect(200)
       .then((res) => {
         validAdmin = `BEARER ${res.body.token}`;
-        console.log(validAdmin)
         expect(res.body.message).toBe("Success");
       });
   });
@@ -128,7 +127,7 @@ describe("Test 5-  Admin login", () => {
       .send({ username: "stundentusernamedemo1", password: "secure123" })
       .expect(401)
       .then((res) =>
-        expect(res.body.message).toBe('username and password do not exist')
+        expect(res.body.message).toBe("username and password do not exist")
       );
   });
 
@@ -137,42 +136,29 @@ describe("Test 5-  Admin login", () => {
       .post("/adminlogin")
       .send({ username: "mitch", password: "secure123" })
       .expect(401)
-      .then((res) => expect(res.body.message).toBe('username and password do not exist'));
+      .then((res) =>
+        expect(res.body.message).toBe("username and password do not exist")
+      );
   });
 
   test("ERROR: status 401 if an invalid token is provided ", () => {
     return request(app)
       .get("/api")
-      .set("Authorization", invalidStudent)
-      .expect(404)
+      .set("Authorization", invalidAdmin)
+      .expect(401)
       .then((res) => {
         expect(res.body.message).toBe("halt intruder! get outta here");
       });
   });
 });
 
-
-
 //-------------------tutor SignUp/login ----------------------/
 
-describe("Test 6 -POST /signup tutor", ()=>{
-  test("Post respond with and access token given correct username", ()=> {
-  return request (app)
-    .post("/tutorsignin")
-    .send({
-      tutor_username: "scheema1",
-      tutor_firstname: "New",
-      tutor_lastname: "Cheema",
-      tutor_email: "csheraz@hotmail.com",
-      tutor_active: true,
-      tutor_image: "/tutor/tutor1.png",
-      tutor_password: password,
-    })
-    .expect(201)
-    .then((res) => {
-      tutor_id = res.body.tutor.tutor_id;
-      expect(res.body.tutor).toEqual({
-        tutor_id: res.body.tutor.tutor_id,
+describe("Test 6 -POST /signup tutor", () => {
+  test("Post respond with and access token given correct username", () => {
+    return request(app)
+      .post("/tutorsignin")
+      .send({
         tutor_username: "scheema1",
         tutor_firstname: "New",
         tutor_lastname: "Cheema",
@@ -180,51 +166,66 @@ describe("Test 6 -POST /signup tutor", ()=>{
         tutor_active: true,
         tutor_image: "/tutor/tutor1.png",
         tutor_password: password,
+      })
+      .expect(201)
+      .then((res) => {
+        tutor_id = res.body.tutor.tutor_id;
+        expect(res.body.tutor).toEqual({
+          tutor_id: res.body.tutor.tutor_id,
+          tutor_username: "scheema1",
+          tutor_firstname: "New",
+          tutor_lastname: "Cheema",
+          tutor_email: "csheraz@hotmail.com",
+          tutor_active: true,
+          tutor_image: "/tutor/tutor1.png",
+          tutor_password: password,
+        });
       });
-    });
   });
+});
+
+describe("Test7-  Tutor login", () => {
+  test("POST responds with and access token given correct username and password", () => {
+    return request(app)
+      .post("/tutorlogin")
+      .send({ username: "scheema", password: "password" })
+      .expect(200)
+      .then((res) => {
+        validTutor = `BEARER ${res.body.token}`;
+        expect(res.body.message).toBe("Success");
+      });
   });
-  
-  describe("Test7-  Tutor login", () => {
-    test("POST responds with and access token given correct username and password", () => {
-      return request(app)
-        .post("/tutorlogin")
-        .send({ username: "scheema", password: "password" })
-        .expect(200)
-        .then((res) => {
-          validTutor = `BEARER ${res.body.token}`;
-          expect(res.body.message).toBe("Success");
-        });
-    });
-  
-    test("POST responds with status 401 for an incorrect password", () => {
-      return request(app)
-        .post("/tutorlogin")
-        .send({ username: "stundentusernamedemo1", password: "secure123" })
-        .expect(401)
-        .then((res) =>
-          expect(res.body.message).toBe('username and password do not exist')
-        );
-    });
-  
-    test("POST responds with status 401 for an incorrect username", () => {
-      return request(app)
-        .post("/tutorlogin")
-        .send({ username: "mitch", password: "secure123" })
-        .expect(401)
-        .then((res) => expect(res.body.message).toBe('username and password do not exist'));
-    });
-  
-    test("ERROR: status 401 if an invalid token is provided ", () => {
-      return request(app)
-        .get("/api")
-        .set("Authorization", invalidStudent)
-        .expect(401)
-        .then((res) => {
-          expect(res.body.message).toBe("halt intruder! get outta here");
-        });
-    });
+
+  test("POST responds with status 401 for an incorrect password", () => {
+    return request(app)
+      .post("/tutorlogin")
+      .send({ username: "stundentusernamedemo1", password: "secure123" })
+      .expect(401)
+      .then((res) =>
+        expect(res.body.message).toBe("username and password do not exist")
+      );
   });
+
+  test("POST responds with status 401 for an incorrect username", () => {
+    return request(app)
+      .post("/tutorlogin")
+      .send({ username: "mitch", password: "secure123" })
+      .expect(401)
+      .then((res) =>
+        expect(res.body.message).toBe("username and password do not exist")
+      );
+  });
+
+  test("ERROR: status 401 if an invalid token is provided ", () => {
+    return request(app)
+      .get("/api")
+      .set("Authorization", invalidStudent)
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe("halt intruder! get outta here");
+      });
+  });
+});
 //-------------------Student SignUp/login ----------------------/
 
 describe("Test8- POST /signin", () => {
@@ -283,7 +284,7 @@ describe("Test9-  login", () => {
       .send({ username: "stundentusernamedemo1", password: "secure123" })
       .expect(401)
       .then((res) =>
-        expect(res.body.message).toBe('username and password do not exist')
+        expect(res.body.message).toBe("username and password do not exist")
       );
   });
 
@@ -292,7 +293,9 @@ describe("Test9-  login", () => {
       .post("/studentlogin")
       .send({ username: "mitch", password: "secure123" })
       .expect(401)
-      .then((res) => expect(res.body.message).toBe('username and password do not exist'));
+      .then((res) =>
+        expect(res.body.message).toBe("username and password do not exist")
+      );
   });
 
   test("ERROR: status 401 if an invalid token is provided ", () => {
@@ -305,7 +308,6 @@ describe("Test9-  login", () => {
       });
   });
 });
-
 
 //-------------------Admin Dashabooard----------------------------------------/
 
@@ -337,8 +339,8 @@ describe("Test10-  GET /api/setting", () => {
       .expect(401)
       .then((res) => {
         expect(res.body.message).toBe("halt intruder! get outta here");
+      });
   });
-});
 });
 
 //-------------------Tutor Dashbaord--------------------------------/
@@ -347,7 +349,7 @@ describe("Test11-  GET /api/userhomepage", () => {
   test("status: 200 and returns a welcome message from the user homepage", () => {
     return request(app)
       .get("/tutor/tutordashboard")
-      .set('Authorization', validTutor)
+      .set("Authorization", validTutor)
       .expect(200)
       .then((res) => {
         expect(res.body.msg).toBe("Welcome to the Tutor HomePage");
@@ -355,14 +357,13 @@ describe("Test11-  GET /api/userhomepage", () => {
   });
 });
 
-
 //-------------------Student Dashbaord--------------------------------/
 
 describe("Test12-  GET /student/studentdashboard", () => {
   test("status: 200 and returns a welcome message from the admin dashboard", () => {
     return request(app)
       .get("/student/studentdashboard")
-      .set('Authorization', validStudent)
+      .set("Authorization", validStudent)
       .expect(200)
       .then((res) => {
         expect(res.body.msg).toBe("Welcome to the Student Dashboard");
@@ -370,16 +371,27 @@ describe("Test12-  GET /student/studentdashboard", () => {
   });
 });
 
-
-
 //-------------------Admin--------------------------------------/
 
-  describe("Test13- POST /api/admins", () => {
-    test("status: 201 and return the new admin", () => {
-      return request(app)
-        .post("/api/admin")
-        .set("Authorization", validAdmin)
-        .send({
+describe("Test13- POST /api/admins", () => {
+  test("status: 201 and return the new admin", () => {
+    return request(app)
+      .post("/api/admin")
+      .set("Authorization", validAdmin)
+      .send({
+        admins_username: "scheema2",
+        admins_firstname: "New",
+        admins_lastname: "Cheema",
+        admins_email: "csheraz@hotmail.com",
+        admins_active: true,
+        admins_image: "/tutor/tutor1.png",
+        admins_password: password,
+      })
+      .expect(201)
+      .then((res) => {
+        admins_id = res.body.admin.admins_id;
+        expect(res.body.admin).toEqual({
+          admins_id: res.body.admin.admins_id,
           admins_username: "scheema2",
           admins_firstname: "New",
           admins_lastname: "Cheema",
@@ -387,170 +399,156 @@ describe("Test12-  GET /student/studentdashboard", () => {
           admins_active: true,
           admins_image: "/tutor/tutor1.png",
           admins_password: password,
-        })
-        .expect(201)
-        .then((res) => {
-          admins_id = res.body.admin.admins_id;
-          expect(res.body.admin).toEqual({
-            admins_id: res.body.admin.admins_id,
-            admins_username: "scheema2",
-            admins_firstname: "New",
-            admins_lastname: "Cheema",
-            admins_email: "csheraz@hotmail.com",
-            admins_active: true,
-            admins_image: "/tutor/tutor1.png",
-            admins_password: password,
+        });
+      });
+  });
+
+  test("Missing Field. status 400 and return error message", () => {
+    return request(app)
+      .post("/api/admin")
+      .set("Authorization", validAdmin)
+      .send({
+        admins_username: "New",
+        admins_lastname: "Cheema",
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
+});
+
+describe("Test14-   GET /api/admin", () => {
+  test("status: 200 and returns an array of admins", () => {
+    return request(app)
+      .get("/api/admin")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.admin).toBeInstanceOf(Array);
+        // expect(res.body.tutors).toHaveLength(res.body.tutors.length);
+        expect(res.body.admin).toHaveLength(3);
+        res.body.admin.forEach((admin) => {
+          expect(admin).toMatchObject({
+            admins_id: expect.any(Number),
+            admins_firstname: expect.any(String),
+            admins_lastname: expect.any(String),
+            admins_email: expect.any(String),
+            admins_active: expect.any(Boolean),
+            admins_image: expect.any(String),
           });
         });
-    });
+      });
+  });
 
-    test.skip("Missing Field. status 400 and return error message", () => {
-      return request(app)
-        .post("/api/admin")
-        .set("Authorization", validAdmin)
-        .send({
-          admins_username: "New",
+  test("QUERY: status 200 : tutors are sorted by index number", () => {
+    return request(app)
+      .get("/api/admin")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.admin).toBeSortedBy("admins_id");
+      });
+  });
+
+  test("QUERY: status 200: topics are sorted by passed query", () => {
+    return request(app)
+      .get("/api/admin?sort_by=admins_firstname")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.admin).toBeSortedBy("admins_firstname");
+      });
+  });
+
+  test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+    return request(app)
+      .get("/api/admin?sort_by=not_a_column")
+      .set("Authorization", validAdmin)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+});
+
+describe("Test15- GET   /api/admin/:admins_id", () => {
+  test("status: 200 and return a admin object", () => {
+    return request(app)
+      .get(`/api/admin/${admins_id}`)
+      .set("Authorization", validStudent)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.admin).toEqual({
+          admins_id: admins_id,
+          admins_username: "scheema2",
+          admins_firstname: "New",
           admins_lastname: "Cheema",
-
-        })
-        .expect(400)
-        .then((res) => {
-          expect(res.body.msg).toBe("Invalid input");
+          admins_email: "csheraz@hotmail.com",
+          admins_active: true,
+          admins_image: "/tutor/tutor1.png",
+          admins_password: res.body.admin.admins_password,
         });
-    });
+      });
   });
 
-  describe("Test14-   GET /api/admin", () => {
-    test("status: 200 and returns an array of admins", () => {
-      return request(app)
-        .get("/api/admin")
-        .set("Authorization", validAdmin)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.admin).toBeInstanceOf(Array);
-         // expect(res.body.tutors).toHaveLength(res.body.tutors.length);
-         expect(res.body.admin).toHaveLength(3);
-          res.body.admin.forEach((admin) => {
-            expect(admin).toMatchObject({
-              admins_id: expect.any(Number),
-              admins_firstname: expect.any(String),
-              admins_lastname: expect.any(String),
-              admins_email: expect.any(String),
-              admins_active: expect.any(Boolean),
-              admins_image: expect.any(String),
-            });
-          });
-        });
-    });
-
-    test("QUERY: status 200 : tutors are sorted by index number", () => {
-      return request(app)
-        .get("/api/admin")
-        .set("Authorization", validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.admin).toBeSortedBy("admins_id");
-        });
-    });
-
-    test("QUERY: status 200: topics are sorted by passed query", () => {
-      return request(app)
-        .get("/api/admin?sort_by=admins_firstname")
-        .set("Authorization", validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.admin).toBeSortedBy("admins_firstname");
-        });
-    });
-
-    test.skip("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
-      return request(app)
-        .get("/api/admin?sort_by=not_a_column")
-        .set("Authorization", validStudent)
-        .expect(400)
-        .then((res) => {
-          expect(res.body.msg).toBe("bad request");
-        });
-    });
+  test("Error: course_id, non existent but valid. status 404 and an error message", () => {
+    return request(app)
+      .get("/api/admin/invalid_id")
+      .set("Authorization", validAdmin)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
   });
 
-  describe("Test15- GET   /api/admin/:admins_id", () => {
-    test("status: 200 and return a admin object", () => {
-      return request(app)
-        .get(`/api/admin/${admins_id}`)
-        .set("Authorization", validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.admin).toEqual({
-            admins_id: admins_id,
-            admins_username: "scheema2",
-            admins_firstname: "New",
-            admins_lastname: "Cheema",
-            admins_email: "csheraz@hotmail.com",
-            admins_active: true,
-            admins_image: "/tutor/tutor1.png",
-            admins_password: res.body.admin.admins_password,
-          });
-        });
-    });
-
-    test("Error: course_id, non existent but valid. status 404 and an error message", () => {
-      return request(app)
-        .get("/api/admin/invalid_id")
-        .set("Authorization", validStudent)
-        .expect(400)
-        .then((res) => {
-          expect(res.body.msg).toBe("Invalid input");
-        });
-    });
-
-    test("ERROR  -status: 404 and returns an error message", () => {
-      return request(app)
-        .get("/api/admin/1000")
-        .set("Authorization", validStudent)
-        .expect(404)
-        .then((res) => {
-          expect(res.body.msg).toBe("Not found");
-        });
-    });
+  test("ERROR  -status: 404 and returns an error message", () => {
+    return request(app)
+      .get("/api/admin/1000")
+      .set("Authorization", validAdmin)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Not found");
+      });
   });
+});
 
-  describe("Test16- PATCH /api/admin/:admins_id", () => {
-    test("Status 200: and return a updated admin object  ", () => {
-      return request(app)
-        .patch(`/api/admin/${admins_id}`)
-        .set('Authorization', validStudent)
-        .send({
+describe("Test16- PATCH /api/admin/:admins_id", () => {
+  test("Status 200: and return a updated admin object  ", () => {
+    return request(app)
+      .patch(`/api/admin/${admins_id}`)
+      .set("Authorization", validAdmin)
+      .send({
+        admins_username: "scheema1000",
+        admins_firstname: "Patched",
+        admins_lastname: "Cheema",
+        admins_email: "csheraz@hotmail.com",
+        admins_active: true,
+        admins_image: "/tutor/tutor1.png",
+        admins_password: password,
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.updatedAdmin).toEqual({
+          admins_id: admins_id,
           admins_username: "scheema1000",
           admins_firstname: "Patched",
           admins_lastname: "Cheema",
           admins_email: "csheraz@hotmail.com",
           admins_active: true,
           admins_image: "/tutor/tutor1.png",
-          admins_password: password,
-        })
-        .expect(200)
-        .then((res) => {
-          expect(res.body.updatedAdmin).toEqual({
-            admins_id: admins_id,
-            admins_username: "scheema1000",
-            admins_firstname: "Patched",
-            admins_lastname: "Cheema",
-            admins_email: "csheraz@hotmail.com",
-            admins_active: true,
-            admins_image: "/tutor/tutor1.png",
-            admins_password: res.body.updatedAdmin.admins_password,
-          });
+          admins_password: res.body.updatedAdmin.admins_password,
         });
-    });
+      });
   });
+});
 //-------------------student--------------------------------------/
 
 describe("Test17- POST /api/students", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/students")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         student_username: "stundentusername4",
         student_firstname: "New",
@@ -587,7 +585,7 @@ describe("Test17- POST /api/students", () => {
   test("Missing Field. status 400 and return error message", () => {
     return request(app)
       .post("/api/students")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         student_lastname: "Student1LN",
         student_email: "csheraz@hotmail.com",
@@ -600,72 +598,72 @@ describe("Test17- POST /api/students", () => {
 });
 
 describe("Test18-   GET /api/students", () => {
-    test("status: 200 and returns an array of tutors", () => {
-      return request(app)
-        .get("/api/students")
-        .set('Authorization', validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.students).toBeInstanceOf(Array);
-          expect(res.body.students).toHaveLength(5);
-          res.body.students.forEach((student) => {
-            expect(student).toMatchObject({
-              student_id: expect.any(Number),
-              student_firstname: expect.any(String),
-              student_lastname: expect.any(String),
-              student_email: expect.any(String),
-              student_password: expect.any(String),
-              student_active: expect.any(Boolean),
-              student_grade: expect.any(Number),
-              student_targetgrade: expect.any(Number),
-              student_notes: expect.any(String),
-              student_progressbar: expect.any(Number),
-              student_image: expect.any(String),
-            });
+  test("status: 200 and returns an array of tutors", () => {
+    return request(app)
+      .get("/api/students")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.students).toBeInstanceOf(Array);
+        expect(res.body.students).toHaveLength(5);
+        res.body.students.forEach((student) => {
+          expect(student).toMatchObject({
+            student_id: expect.any(Number),
+            student_firstname: expect.any(String),
+            student_lastname: expect.any(String),
+            student_email: expect.any(String),
+            student_password: expect.any(String),
+            student_active: expect.any(Boolean),
+            student_grade: expect.any(Number),
+            student_targetgrade: expect.any(Number),
+            student_notes: expect.any(String),
+            student_progressbar: expect.any(Number),
+            student_image: expect.any(String),
           });
         });
-    });
+      });
+  });
 
-    test("QUERY: status 200 : courses are sorted by student_id", () => {
-      return request(app)
-        .get("/api/students")
-        .set('Authorization', validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.students).toBeSortedBy("student_id");
-        });
-    });
+  test("QUERY: status 200 : courses are sorted by student_id", () => {
+    return request(app)
+      .get("/api/students")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.students).toBeSortedBy("student_id");
+      });
+  });
 
-    test("QUERY: status 200: topics are sorted by passed query", () => {
-      return request(app)
-        .get("/api/students?sort_by=student_firstname")
-        .set('Authorization', validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.students).toBeSortedBy("student_firstname");
-        });
-    });
+  test("QUERY: status 200: topics are sorted by passed query", () => {
+    return request(app)
+      .get("/api/students?sort_by=student_firstname")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.students).toBeSortedBy("student_firstname");
+      });
+  });
 
-    test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
-      return request(app)
-        .get("/api/students?sort_by=not_a_column")
-        .set('Authorization', validStudent)
-        .expect(400)
-        .then((res) => {
-          expect(res.body.msg).toBe("bad request");
-        });
-    });
+  test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+    return request(app)
+      .get("/api/students?sort_by=not_a_column")
+      .set("Authorization", validAdmin)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
 });
 
 describe("Test19- GET   /api/students/:student_id", () => {
   test("status: 200 and return a student object", () => {
     return request(app)
       .get(`/api/students/${student_id}`)
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.student).toEqual({
-          student_id:res.body.student.student_id,
+          student_id: res.body.student.student_id,
           student_username: "stundentusername4",
           student_firstname: "New",
           student_lastname: "Student1LN",
@@ -684,7 +682,7 @@ describe("Test19- GET   /api/students/:student_id", () => {
   test("Error: student_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
       .get("/api/students/invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Invalid input");
@@ -694,7 +692,7 @@ describe("Test19- GET   /api/students/:student_id", () => {
   test("ERROR  -status: 404 and returns an error message", () => {
     return request(app)
       .get("/api/students/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
@@ -706,7 +704,7 @@ describe("Test20- PATCH /api/students/:student_id", () => {
   test("Status 200: and return a updated student object  ", () => {
     return request(app)
       .patch(`/api/students/${student_id}`)
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         student_username: "stundentusername1000",
         student_firstname: "Patched",
@@ -742,12 +740,25 @@ describe("Test20- PATCH /api/students/:student_id", () => {
 
 //---------------------------------Tutors-------------------------------/
 
-  describe("Test21- POST /api/tutors", () => {
-    test("status: 201 and return the new tutors", () => {
-      return request(app)
-        .post("/api/tutors")
-        .set("Authorization", validStudent)
-        .send({
+describe("Test21- POST /api/tutors", () => {
+  test("status: 201 and return the new tutors", () => {
+    return request(app)
+      .post("/api/tutors")
+      .set("Authorization", validAdmin)
+      .send({
+        tutor_username: "scheema2",
+        tutor_firstname: "New",
+        tutor_lastname: "Cheema",
+        tutor_email: "csheraz@hotmail.com",
+        tutor_active: true,
+        tutor_image: "/tutor/tutor1.png",
+        tutor_password: password,
+      })
+      .expect(201)
+      .then((res) => {
+        tutor_id = res.body.tutor.tutor_id;
+        expect(res.body.tutor).toEqual({
+          tutor_id: res.body.tutor.tutor_id,
           tutor_username: "scheema2",
           tutor_firstname: "New",
           tutor_lastname: "Cheema",
@@ -755,171 +766,158 @@ describe("Test20- PATCH /api/students/:student_id", () => {
           tutor_active: true,
           tutor_image: "/tutor/tutor1.png",
           tutor_password: password,
-        })
-        .expect(201)
-        .then((res) => {
-          tutor_id = res.body.tutor.tutor_id;
-          expect(res.body.tutor).toEqual({
-            tutor_id: res.body.tutor.tutor_id,
-            tutor_username: "scheema2",
-            tutor_firstname: "New",
-            tutor_lastname: "Cheema",
-            tutor_email: "csheraz@hotmail.com",
-            tutor_active: true,
-            tutor_image: "/tutor/tutor1.png",
-            tutor_password: password,
+        });
+      });
+  });
+
+  test("Missing Field. status 400 and return error message", () => {
+    return request(app)
+      .post("/api/tutors")
+      .set("Authorization", validAdmin)
+      .send({
+        tutor_firstname: "New",
+        tutor_lastname: "Cheema",
+        topic_code: "GFA2",
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
+  });
+});
+
+describe("Test22-   GET /api/tutors", () => {
+  test("status: 200 and returns an array of tutors", () => {
+    return request(app)
+      .get("/api/tutors")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.tutors).toBeInstanceOf(Array);
+        // expect(res.body.tutors).toHaveLength(res.body.tutors.length);
+        expect(res.body.tutors).toHaveLength(3);
+        res.body.tutors.forEach((tutor) => {
+          expect(tutor).toMatchObject({
+            tutor_id: expect.any(Number),
+            tutor_firstname: expect.any(String),
+            tutor_lastname: expect.any(String),
+            tutor_email: expect.any(String),
+            tutor_active: expect.any(Boolean),
+            tutor_image: expect.any(String),
           });
         });
-    });
+      });
+  });
 
-    test("Missing Field. status 400 and return error message", () => {
-      return request(app)
-        .post("/api/tutors")
-        .set("Authorization", validStudent)
-        .send({
+  test("QUERY: status 200 : tutors are sorted by index number", () => {
+    return request(app)
+      .get("/api/tutors")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.tutors).toBeSortedBy("tutor_id");
+      });
+  });
+
+  test("QUERY: status 200: topics are sorted by passed query", () => {
+    return request(app)
+      .get("/api/tutors?sort_by=tutor_firstname")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.tutors).toBeSortedBy("tutor_firstname");
+      });
+  });
+
+  test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
+    return request(app)
+      .get("/api/tutors?sort_by=not_a_column")
+      .set("Authorization", validAdmin)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+});
+
+describe("Test23- GET   /api/tutors/:tutor_id", () => {
+  test("status: 200 and return a tutor object", () => {
+    return request(app)
+      .get(`/api/tutors/${tutor_id}`)
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.tutor).toEqual({
+          tutor_id: tutor_id,
+          tutor_username: "scheema2",
           tutor_firstname: "New",
           tutor_lastname: "Cheema",
-          topic_code: "GFA2",
-        })
-        .expect(400)
-        .then((res) => {
-          expect(res.body.msg).toBe("Invalid input");
+          tutor_email: "csheraz@hotmail.com",
+          tutor_active: true,
+          tutor_image: "/tutor/tutor1.png",
+          tutor_password: res.body.tutor.tutor_password,
         });
-    });
+      });
   });
 
-  describe("Test22-   GET /api/tutors", () => {
-    test("status: 200 and returns an array of tutors", () => {
-      return request(app)
-        .get("/api/tutors")
-        .set("Authorization", validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.tutors).toBeInstanceOf(Array);
-         // expect(res.body.tutors).toHaveLength(res.body.tutors.length);
-         expect(res.body.tutors).toHaveLength(3);
-          res.body.tutors.forEach((tutor) => {
-            expect(tutor).toMatchObject({
-              tutor_id: expect.any(Number),
-              tutor_firstname: expect.any(String),
-              tutor_lastname: expect.any(String),
-              tutor_email: expect.any(String),
-              tutor_active: expect.any(Boolean),
-              tutor_image: expect.any(String),
-            });
-          });
-        });
-    });
-
-    test("QUERY: status 200 : tutors are sorted by index number", () => {
-      return request(app)
-        .get("/api/tutors")
-        .set("Authorization", validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.tutors).toBeSortedBy("tutor_id");
-        });
-    });
-
-    test("QUERY: status 200: topics are sorted by passed query", () => {
-      return request(app)
-        .get("/api/tutors?sort_by=tutor_firstname")
-        .set("Authorization", validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.tutors).toBeSortedBy("tutor_firstname");
-        });
-    });
-
-    test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
-      return request(app)
-        .get("/api/tutors?sort_by=not_a_column")
-        .set("Authorization", validStudent)
-        .expect(400)
-        .then((res) => {
-          expect(res.body.msg).toBe("bad request");
-        });
-    });
+  test("Error: course_id, non existent but valid. status 404 and an error message", () => {
+    return request(app)
+      .get("/api/tutors/invalid_id")
+      .set("Authorization", validAdmin)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Invalid input");
+      });
   });
 
-  describe("Test23- GET   /api/tutors/:tutor_id", () => {
-    test("status: 200 and return a tutor object", () => {
-      return request(app)
-        .get(`/api/tutors/${tutor_id}`)
-        .set("Authorization", validStudent)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.tutor).toEqual({
-            tutor_id: tutor_id,
-            tutor_username: "scheema2",
-            tutor_firstname: "New",
-            tutor_lastname: "Cheema",
-            tutor_email: "csheraz@hotmail.com",
-            tutor_active: true,
-            tutor_image: "/tutor/tutor1.png",
-            tutor_password: res.body.tutor.tutor_password,
-          });
-        });
-    });
-
-    test("Error: course_id, non existent but valid. status 404 and an error message", () => {
-      return request(app)
-        .get("/api/tutors/invalid_id")
-        .set("Authorization", validStudent)
-        .expect(400)
-        .then((res) => {
-          expect(res.body.msg).toBe("Invalid input");
-        });
-    });
-
-    test("ERROR  -status: 404 and returns an error message", () => {
-      return request(app)
-        .get("/api/tutors/1000")
-        .set("Authorization", validStudent)
-        .expect(404)
-        .then((res) => {
-          expect(res.body.msg).toBe("Not found");
-        });
-    });
+  test("ERROR  -status: 404 and returns an error message", () => {
+    return request(app)
+      .get("/api/tutors/1000")
+      .set("Authorization", validAdmin)
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Not found");
+      });
   });
+});
 
-  describe("Test24- PATCH /api/tutors/:tutor_id", () => {
-    test("Status 200: and return a updated tutor object  ", () => {
-      return request(app)
-        .patch(`/api/tutors/${tutor_id}`)
-        .set('Authorization', validStudent)
-        .send({
+describe("Test24- PATCH /api/tutors/:tutor_id", () => {
+  test("Status 200: and return a updated tutor object  ", () => {
+    return request(app)
+      .patch(`/api/tutors/${tutor_id}`)
+      .set("Authorization", validAdmin)
+      .send({
+        tutor_username: "scheema1000",
+        tutor_firstname: "Patched",
+        tutor_lastname: "Cheema",
+        tutor_email: "csheraz@hotmail.com",
+        tutor_active: true,
+        tutor_image: "/tutor/tutor1.png",
+        tutor_password: password,
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body.updatedTutor).toEqual({
+          tutor_id: tutor_id,
           tutor_username: "scheema1000",
           tutor_firstname: "Patched",
           tutor_lastname: "Cheema",
           tutor_email: "csheraz@hotmail.com",
           tutor_active: true,
           tutor_image: "/tutor/tutor1.png",
-          tutor_password: password,
-        })
-        .expect(200)
-        .then((res) => {
-          expect(res.body.updatedTutor).toEqual({
-            tutor_id: tutor_id,
-            tutor_username: "scheema1000",
-            tutor_firstname: "Patched",
-            tutor_lastname: "Cheema",
-            tutor_email: "csheraz@hotmail.com",
-            tutor_active: true,
-            tutor_image: "/tutor/tutor1.png",
-            tutor_password: res.body.updatedTutor.tutor_password,
-          });
+          tutor_password: res.body.updatedTutor.tutor_password,
         });
-    });
+      });
   });
-  
+});
+
 //---------------------------------Courses--------------------------/
 
 describe("Test25- POST /api/courses", () => {
   test("status: 201 and return the new course", () => {
     return request(app)
       .post("/api/courses")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .send({
         course_code: "New- MTH-GF",
         course_desc: "MTH GCSE Maths Foundation Online Course",
@@ -944,7 +942,7 @@ describe("Test25- POST /api/courses", () => {
   test("Missing Field. status 400 and return error message", () => {
     return request(app)
       .post("/api/courses")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .send({
         course_code: "New- MTH-GF",
         course_desc: "MTH GCSE Maths Foundation Online Course",
@@ -961,7 +959,7 @@ describe("Test26-   GET /api/courses", () => {
   test("status: 200 and returns an array of courses", () => {
     return request(app)
       .get("/api/courses")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.courses).toBeInstanceOf(Array);
@@ -981,7 +979,7 @@ describe("Test26-   GET /api/courses", () => {
   test("QUERY: status 200 : courses are sorted by index number", () => {
     return request(app)
       .get("/api/courses")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.courses).toBeSortedBy("course_id");
@@ -991,7 +989,7 @@ describe("Test26-   GET /api/courses", () => {
   test("QUERY: status 200: topics are sorted by passed query", () => {
     return request(app)
       .get("/api/courses?sort_by=course_name")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.courses).toBeSortedBy("course_name");
@@ -1001,7 +999,7 @@ describe("Test26-   GET /api/courses", () => {
   test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
     return request(app)
       .get("/api/courses?sort_by=not_a_column")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("bad request");
@@ -1013,10 +1011,10 @@ describe("Test27-   GET /api/courses/:course_id", () => {
   test("Query: course_id existing, status: 200 and returns a course object", () => {
     return request(app)
       .get(`/api/courses/${course_id}`)
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.course).toEqual({          
+        expect(res.body.course).toEqual({
           course_id: res.body.course.course_id,
           course_code: "New- MTH-GF",
           course_desc: "MTH GCSE Maths Foundation Online Course",
@@ -1030,7 +1028,7 @@ describe("Test27-   GET /api/courses/:course_id", () => {
   test("Error: course_id: invalid course_id. status 404 and an error message", () => {
     return request(app)
       .get("/app/courses/invalid_id")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Invalid URL");
@@ -1040,7 +1038,7 @@ describe("Test27-   GET /api/courses/:course_id", () => {
   test("Error: course_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
       .get("/api/courses/1000")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
@@ -1052,7 +1050,7 @@ describe("Test28-   PATCH /api/courses/:course_id", () => {
   test("Status 200: and returns an updated course ", () => {
     return request(app)
       .patch(`/api/courses/${course_id}`)
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .send({
         course_code: "New Patched- MTH-GF",
         course_desc: "MTH GCSE Maths Foundation Online Course",
@@ -1080,7 +1078,7 @@ describe("Test29- POST /api/topics", () => {
   test("status: 201 and return the new topic", () => {
     return request(app)
       .post("/api/topics")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .send({
         topic_name: "New",
         topic_code: "GFA2",
@@ -1105,7 +1103,7 @@ describe("Test29- POST /api/topics", () => {
   test("Missing Field. status 400 and return error message", () => {
     return request(app)
       .post("/api/topics")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .send({
         topic_code: "GFA2",
         topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
@@ -1121,7 +1119,7 @@ describe("Test30-   GET /api/topics", () => {
   test("status: 200 and returns an array of topics", () => {
     return request(app)
       .get("/api/topics")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.topics).toBeInstanceOf(Array);
@@ -1142,7 +1140,7 @@ describe("Test30-   GET /api/topics", () => {
   test("QUERY: status 200 : topics are sorted by index number", () => {
     return request(app)
       .get("/api/topics")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.topics).toBeSortedBy("topic_index");
@@ -1152,7 +1150,7 @@ describe("Test30-   GET /api/topics", () => {
   test("QUERY: status 200: topics are sorted by passed query", () => {
     return request(app)
       .get("/api/topics?sort_by=topic_id")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.topics).toBeSortedBy("topic_id");
@@ -1162,7 +1160,7 @@ describe("Test30-   GET /api/topics", () => {
   test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
     return request(app)
       .get("/api/topics?sort_by=not_a_column")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("bad request");
@@ -1175,7 +1173,7 @@ describe("Test31- GET   /api/topics/:topic_id", () => {
   test("status: 200 and return a topic object", () => {
     return request(app)
       .get(`/api/topics/${topic_id}`)
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.topic).toEqual({
@@ -1192,7 +1190,7 @@ describe("Test31- GET   /api/topics/:topic_id", () => {
   test("Error: course_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
       .get("/api/topics/invalid_id")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Invalid input");
@@ -1202,7 +1200,7 @@ describe("Test31- GET   /api/topics/:topic_id", () => {
   test("ERROR  -status: 404 and returns an error message", () => {
     return request(app)
       .get("/api/topics/1000")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
@@ -1214,7 +1212,7 @@ describe("Test32- PATCH /api/topic/:topic_id", () => {
   test("Status 200: and return a updated topic object  ", () => {
     return request(app)
       .patch(`/api/topics/${topic_id}`)
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .send({
         topic_name: "Patched Statistics",
         topic_code: "GHS1",
@@ -1236,14 +1234,13 @@ describe("Test32- PATCH /api/topic/:topic_id", () => {
   });
 });
 
-
 // //------------------------Lesson--------------/
 
 describe("Test33- POST /api/lessons", () => {
   test("status: 201 and return the new lessons", () => {
     return request(app)
       .post("/api/lessons")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         lesson_name: "New- Addition, Subtraction and Money Problems",
         lesson_code: "GFN1LC1",
@@ -1270,7 +1267,7 @@ describe("Test33- POST /api/lessons", () => {
   test("Missing Field. status 400 and return error message", () => {
     return request(app)
       .post("/api/lessons")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         student_lastname: "Student1LN",
         student_email: "csheraz@hotmail.com",
@@ -1286,7 +1283,7 @@ describe("Test34-   GET /api/lessons", () => {
   test("status: 200 and returns an array of lessons", () => {
     return request(app)
       .get("/api/lessons")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.lessons).toBeInstanceOf(Array);
@@ -1308,7 +1305,7 @@ describe("Test34-   GET /api/lessons", () => {
   test("QUERY: status 200 : lessons are sorted by lesson id", () => {
     return request(app)
       .get("/api/lessons")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.lessons).toBeSortedBy("lesson_id");
@@ -1318,7 +1315,7 @@ describe("Test34-   GET /api/lessons", () => {
   test("QUERY: status 200: lessons are sorted by passed query", () => {
     return request(app)
       .get("/api/lessons?sort_by=lesson_name")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.lessons).toBeSortedBy("lesson_name");
@@ -1328,7 +1325,7 @@ describe("Test34-   GET /api/lessons", () => {
   test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
     return request(app)
       .get("/api/lessons?sort_by=not_a_column")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("bad request");
@@ -1340,7 +1337,7 @@ describe("Test35- GET   /api/lessons/:lesson_id", () => {
   test("status: 200 and return a lesson object", () => {
     return request(app)
       .get(`/api/lessons/${lesson_id}`)
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.lesson).toEqual({
@@ -1358,7 +1355,7 @@ describe("Test35- GET   /api/lessons/:lesson_id", () => {
   test("Error: student_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
       .get("/api/lessons/invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Invalid input");
@@ -1368,7 +1365,7 @@ describe("Test35- GET   /api/lessons/:lesson_id", () => {
   test("ERROR  -status: 404 and returns an error message", () => {
     return request(app)
       .get("/api/lessons/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
@@ -1380,7 +1377,7 @@ describe("Test36- PATCH /api/lessons/:lesson_id", () => {
   test("Status 200: and return a updated student object  ", () => {
     return request(app)
       .patch(`/api/lessons/${lesson_id}`)
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         lesson_name: "patched- Addition, Subtraction and Money Problems",
         lesson_code: "GFN1LC1",
@@ -1410,7 +1407,7 @@ describe("Test37- POST /api/quizzes", () => {
   test("status: 201 and return the new tutors", () => {
     return request(app)
       .post("/api/quizzes")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
         quiz_code: "GFN2TDQ",
@@ -1431,7 +1428,7 @@ describe("Test37- POST /api/quizzes", () => {
   test("Missing Field. status 400 and return error message", () => {
     return request(app)
       .post("/api/quizzes")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         quiz_code: "GFN2TDQ",
         quiz_type: "TopicDiagnostic",
@@ -1447,7 +1444,7 @@ describe("Test38-   GET /api/quizzes", () => {
   test("status: 200 and returns an array of tutors", () => {
     return request(app)
       .get("/api/quizzes")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.quizzes).toBeInstanceOf(Array);
@@ -1466,7 +1463,7 @@ describe("Test38-   GET /api/quizzes", () => {
   test("QUERY: status 200 : quizzes are sorted by quiz id", () => {
     return request(app)
       .get("/api/quizzes")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.quizzes).toBeSortedBy("quiz_id");
@@ -1476,7 +1473,7 @@ describe("Test38-   GET /api/quizzes", () => {
   test("QUERY: status 200: quizes are sorted by passed query", () => {
     return request(app)
       .get("/api/quizzes?sort_by=quiz_name")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.quizzes).toBeSortedBy("quiz_name");
@@ -1486,7 +1483,7 @@ describe("Test38-   GET /api/quizzes", () => {
   test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
     return request(app)
       .get("/api/quizzes?sort_by=not_a_column")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("bad request");
@@ -1498,7 +1495,7 @@ describe("Test39- GET   /api/quizzes/:quiz_id", () => {
   test("status: 200 and return a quiz object", () => {
     return request(app)
       .get(`/api/quizzes/${quiz_id}`)
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.quiz).toEqual({
@@ -1513,7 +1510,7 @@ describe("Test39- GET   /api/quizzes/:quiz_id", () => {
   test("Error: quiz_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
       .get("/api/quizzes/invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Invalid input");
@@ -1523,7 +1520,7 @@ describe("Test39- GET   /api/quizzes/:quiz_id", () => {
   test("ERROR  -status: 404 and returns an error message", () => {
     return request(app)
       .get("/api/quizzes/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
@@ -1535,7 +1532,7 @@ describe("Test40- PATCH /api/quizzes/:quiz_id", () => {
   test("Status 200: and return a updated quiz object  ", () => {
     return request(app)
       .patch(`/api/quizzes/${quiz_id}`)
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
         quiz_code: "GFN2TDQ",
@@ -1559,12 +1556,12 @@ describe("Test41- POST /api/questions", () => {
   test("status: 201 and return the new questions", () => {
     return request(app)
       .post("/api/questions")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         ques_quiz_id: quiz_id,
         ques_lesson_id: lesson_id,
-        ques_body: '4.79 - 1.2',
-        ques1_ans: '3.59',
+        ques_body: "4.79 - 1.2",
+        ques1_ans: "3.59",
         ques_mark: 1,
         ques_grade: 2,
         ques_calc: false,
@@ -1577,8 +1574,8 @@ describe("Test41- POST /api/questions", () => {
           ques_id: res.body.question.ques_id,
           ques_quiz_id: quiz_id,
           ques_lesson_id: lesson_id,
-          ques_body: '4.79 - 1.2',
-          ques1_ans: '3.59',
+          ques_body: "4.79 - 1.2",
+          ques1_ans: "3.59",
           ques_mark: 1,
           ques_grade: 2,
           ques_calc: false,
@@ -1598,7 +1595,7 @@ describe("Test41- POST /api/questions", () => {
   test("Missing Field. status 400 and return error message", () => {
     return request(app)
       .post("/api/questions")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
         ques1_ans: "3.59",
       })
@@ -1613,7 +1610,7 @@ describe("Test42-   GET /api/questions", () => {
   test("status: 200 and returns an array of questions", () => {
     return request(app)
       .get("/api/questions")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.questions).toBeInstanceOf(Array);
@@ -1645,7 +1642,7 @@ describe("Test42-   GET /api/questions", () => {
   test("QUERY: status 200 : quizzes are sorted by question id", () => {
     return request(app)
       .get("/api/questions")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.questions).toBeSortedBy("ques_id");
@@ -1655,7 +1652,7 @@ describe("Test42-   GET /api/questions", () => {
   test("QUERY: status 200: question are sorted by passed query", () => {
     return request(app)
       .get("/api/questions?sort_by=ques_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.questions).toBeSortedBy("ques_id");
@@ -1665,7 +1662,7 @@ describe("Test42-   GET /api/questions", () => {
   test("ERROR HANDLING - status 400: for an invalid sort_by column ", () => {
     return request(app)
       .get("/api/questions?sort_by=not_a_column")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("bad request");
@@ -1677,7 +1674,7 @@ describe("Test43- GET   /api/questions/:question_id", () => {
   test("status: 200 and return a question object", () => {
     return request(app)
       .get(`/api/questions/${ques_id}`)
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.question).toEqual({
@@ -1701,11 +1698,11 @@ describe("Test43- GET   /api/questions/:question_id", () => {
         });
       });
   });
-  
+
   test("Error: question_id, non existent but valid. status 404 and an error message", () => {
     return request(app)
       .get("/api/questions/invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
         expect(res.body.msg).toBe("Invalid input");
@@ -1715,28 +1712,28 @@ describe("Test43- GET   /api/questions/:question_id", () => {
   test("ERROR  -status: 404 and returns an error message", () => {
     return request(app)
       .get("/api/questions/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Not found");
       });
   });
 });
-  
+
 describe("Test44- PATCH /api/questions/:ques_id", () => {
   test("Status 200: and return a updated ques object  ", () => {
     return request(app)
       .patch(`/api/questions/${ques_id}`)
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .send({
-        ques_body: 'new 4.79 - 1.2',
-        ques1_ans: '3.59',
+        ques_body: "new 4.79 - 1.2",
+        ques1_ans: "3.59",
         ques_mark: 1,
         ques_grade: 2,
         ques_quiz_id: quiz_id,
         ques_lesson_id: lesson_id,
         ques_calc: false,
-        ques_ans_explain: 'explanation',
+        ques_ans_explain: "explanation",
       })
       .expect(200)
       .then((res) => {
@@ -1744,12 +1741,12 @@ describe("Test44- PATCH /api/questions/:ques_id", () => {
           ques_id: ques_id,
           ques_quiz_id: quiz_id,
           ques_lesson_id: lesson_id,
-          ques_body: 'new 4.79 - 1.2',
-          ques1_ans: '3.59',
+          ques_body: "new 4.79 - 1.2",
+          ques1_ans: "3.59",
           ques_mark: 1,
           ques_grade: 2,
           ques_calc: false,
-          ques_ans_explain: 'explanation',
+          ques_ans_explain: "explanation",
           ques2_ans: null,
           ques3_ans: null,
           ques_ans_correct: null,
@@ -1768,22 +1765,22 @@ describe("Test44- PATCH /api/questions/:ques_id", () => {
 describe("Test45-  DELETE /api/students/:student_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-    .delete(`/api/students/${initial_student_id}`)
-    .set('Authorization', validStudent)
-    .expect(204);
+      .delete(`/api/students/${initial_student_id}`)
+      .set("Authorization", validAdmin)
+      .expect(204);
   });
 
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-    .delete(`/api/students/${student_id}`)
-    .set('Authorization', validStudent)
-    .expect(204);
+      .delete(`/api/students/${student_id}`)
+      .set("Authorization", validAdmin)
+      .expect(204);
   });
 
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
       .delete("/api/students/Invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
@@ -1791,7 +1788,7 @@ describe("Test45-  DELETE /api/students/:student_id", () => {
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
     return request(app)
       .delete("/api/students/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
@@ -1800,15 +1797,15 @@ describe("Test45-  DELETE /api/students/:student_id", () => {
 describe("Test46-  DELETE /api/tutor/:tutor_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-    .delete(`/api/tutors/${tutor_id}`)
-    .set('Authorization', validStudent)
-    .expect(204);
+      .delete(`/api/tutors/${tutor_id}`)
+      .set("Authorization", validAdmin)
+      .expect(204);
   });
 
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
       .delete("/api/tutors/Invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
@@ -1816,7 +1813,7 @@ describe("Test46-  DELETE /api/tutor/:tutor_id", () => {
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
     return request(app)
       .delete("/api/tutors/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
@@ -1825,15 +1822,15 @@ describe("Test46-  DELETE /api/tutor/:tutor_id", () => {
 describe("Test47-  DELETE /api/questions/:ques_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-    .delete(`/api/questions/${ques_id}`)
-    .set('Authorization', validStudent)
-    .expect(204);
+      .delete(`/api/questions/${ques_id}`)
+      .set("Authorization", validAdmin)
+      .expect(204);
   });
 
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
       .delete("/api/questions/Invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
@@ -1841,7 +1838,7 @@ describe("Test47-  DELETE /api/questions/:ques_id", () => {
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
     return request(app)
       .delete("/api/questions/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
@@ -1850,15 +1847,15 @@ describe("Test47-  DELETE /api/questions/:ques_id", () => {
 describe("Test48-  DELETE /api/lessons/:lesson_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-    .delete(`/api/lessons/${lesson_id}`)
-    .set('Authorization', validStudent)
-    .expect(204);
+      .delete(`/api/lessons/${lesson_id}`)
+      .set("Authorization", validAdmin)
+      .expect(204);
   });
 
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
       .delete("/api/lessons/Invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
@@ -1866,7 +1863,7 @@ describe("Test48-  DELETE /api/lessons/:lesson_id", () => {
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
     return request(app)
       .delete("/api/lessons/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
@@ -1875,15 +1872,15 @@ describe("Test48-  DELETE /api/lessons/:lesson_id", () => {
 describe("Test49-  DELETE /api/quizzes/:quiz_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-    .delete(`/api/quizzes/${quiz_id}`)
-    .set('Authorization', validStudent)
-    .expect(204);
+      .delete(`/api/quizzes/${quiz_id}`)
+      .set("Authorization", validAdmin)
+      .expect(204);
   });
 
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
       .delete("/api/quizzes/Invalid_id")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
@@ -1891,7 +1888,7 @@ describe("Test49-  DELETE /api/quizzes/:quiz_id", () => {
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
     return request(app)
       .delete("/api/quizzes/1000")
-      .set('Authorization', validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
@@ -1901,14 +1898,14 @@ describe("Test50-  DELETE /api/topic/:topic_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
       .delete(`/api/topics/${topic_id}`)
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(204);
   });
 
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
       .delete("/api/topics/Invalid_id")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
@@ -1916,7 +1913,7 @@ describe("Test50-  DELETE /api/topic/:topic_id", () => {
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
     return request(app)
       .delete("/api/topics/1000")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
@@ -1925,15 +1922,15 @@ describe("Test50-  DELETE /api/topic/:topic_id", () => {
 describe("Test51-   DELETE /api/course/:course_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-    .delete(`/api/courses/${course_id}`)
-    .set("Authorization", validStudent)
-    .expect(204);
+      .delete(`/api/courses/${course_id}`)
+      .set("Authorization", validAdmin)
+      .expect(204);
   });
 
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
       .delete("/api/courses/Invalid_id")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
@@ -1941,7 +1938,7 @@ describe("Test51-   DELETE /api/course/:course_id", () => {
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
     return request(app)
       .delete("/api/courses/1000")
-      .set("Authorization", validStudent)
+      .set("Authorization", validAdmin)
       .expect(404)
       .then((res) => expect(res.body.msg).toBe("Not found"));
   });
