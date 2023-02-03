@@ -9,6 +9,9 @@ const {
 const { comparePasswords } = require("../utils/passwordhelper");
 const { generateStudentJWT, generateAdminJWT, generateTutorJWT } = require("../utils/jwtHelper");
 const jwt = require("jsonwebtoken");
+const { insertStudent } = require("../modules/studentpage/student.models");
+const { insertAdmin } = require("../modules/adminpage/admin.model");
+const { insertTutor } = require("../modules/tutorpage/tutor.models");
 
 exports.loginStudent = async (req, res, next) => {
   try {
@@ -41,7 +44,7 @@ exports.loginStudent = async (req, res, next) => {
 exports.createNewStudent = async (req, res, next) => {
   try {
     const student = req.body;
-    insertNewStudent(student).then((student) => {
+    insertStudent(student).then((student) => {
       res.status(201).send({ student });
     });
   } catch (error) {
@@ -83,7 +86,7 @@ exports.loginAdmin = async (req, res, next) => {
 exports.createNewAdmin = (req, res, next) => {
   try {
     const admin = req.body;
-    insertNewAdmin(admin).then((admin) => {
+    insertAdmin(admin).then((admin) => {
       res.status(201).send({ admin });
     });
   } catch (error) {
@@ -98,7 +101,7 @@ exports.createNewAdmin = (req, res, next) => {
 exports.createNewTutor = async (req, res, next) => {
   try {
     const tutor = req.body;
-    insertNewTutor(tutor).then((tutor) => {
+    insertTutor(tutor).then((tutor) => {
       res.status(201).send({ tutor });
     });
   } catch (error) {

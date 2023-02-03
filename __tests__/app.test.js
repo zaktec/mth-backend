@@ -144,7 +144,7 @@ describe("Test 5-  Admin login", () => {
     return request(app)
       .get("/api")
       .set("Authorization", invalidStudent)
-      .expect(401)
+      .expect(404)
       .then((res) => {
         expect(res.body.message).toBe("halt intruder! get outta here");
       });
@@ -185,14 +185,14 @@ describe("Test 6 -POST /signup tutor", ()=>{
   });
   });
   
-  describe("Test7-  Admin login", () => {
+  describe("Test7-  Tutor login", () => {
     test("POST responds with and access token given correct username and password", () => {
       return request(app)
         .post("/tutorlogin")
         .send({ username: "scheema", password: "password" })
         .expect(200)
         .then((res) => {
-          validAdmin = `BEARER ${res.body.token}`;
+          validTutor = `BEARER ${res.body.token}`;
           expect(res.body.message).toBe("Success");
         });
     });
@@ -322,11 +322,11 @@ describe("Test10-  GET /api/setting", () => {
 
   test("status: 200 and returns a welcome message for setting page", () => {
     return request(app)
-      .get("/api/settings/resit")
+      .get("/api/admindashboard")
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.msg).toBe("Welcome to the ResitPage");
+        expect(res.body.msg).toBe("Welcome to the Admin HomePage");
       });
   });
 
@@ -346,11 +346,11 @@ describe("Test10-  GET /api/setting", () => {
 describe("Test11-  GET /api/userhomepage", () => {
   test("status: 200 and returns a welcome message from the user homepage", () => {
     return request(app)
-      .get("/api/userhomepage")
-      .set('Authorization', validAdmin)
+      .get("/tutor/tutordashboard")
+      .set('Authorization', validTutor)
       .expect(200)
       .then((res) => {
-        expect(res.body.msg).toBe("Welcome to the User HomePage");
+        expect(res.body.msg).toBe("Welcome to the Tutor HomePage");
       });
   });
 });
@@ -358,14 +358,14 @@ describe("Test11-  GET /api/userhomepage", () => {
 
 //-------------------Student Dashbaord--------------------------------/
 
-describe("Test12-  GET /api/userhomepage", () => {
-  test("status: 200 and returns a welcome message from the user homepage", () => {
+describe("Test12-  GET /student/studentdashboard", () => {
+  test("status: 200 and returns a welcome message from the admin dashboard", () => {
     return request(app)
-      .get("/api/userhomepage")
-      .set('Authorization', validAdmin)
+      .get("/student/studentdashboard")
+      .set('Authorization', validStudent)
       .expect(200)
       .then((res) => {
-        expect(res.body.msg).toBe("Welcome to the User HomePage");
+        expect(res.body.msg).toBe("Welcome to the Student Dashboard");
       });
   });
 });
@@ -424,7 +424,7 @@ describe("Test12-  GET /api/userhomepage", () => {
     test("status: 200 and returns an array of admins", () => {
       return request(app)
         .get("/api/admin")
-        .set("Authorization", validStudent)
+        .set("Authorization", validAdmin)
         .expect(200)
         .then((res) => {
           expect(res.body.admin).toBeInstanceOf(Array);

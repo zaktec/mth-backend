@@ -11,8 +11,8 @@ const adminRouter = require("./admin.routers");
 
 
 const {
-  getUserhomepage,
-} = require("../modules/userpage/userhomepage.controllers");
+   getadmindashboard,
+} = require("../modules/dashboardadmin/admindb.controllers");
 
 
 const apiRouter = express.Router();
@@ -22,7 +22,7 @@ const apiRouter = express.Router();
 //GET /api sends back endpoint
 
 
-apiRouter.get("/userhomepage", getUserhomepage);
+apiRouter.get("/admindashboard", getadmindashboard);
 
 apiRouter.use("/topics", topicRouter);
 apiRouter.use("/admin", adminRouter)

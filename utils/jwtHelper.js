@@ -14,7 +14,7 @@ exports.generateTutorJWT = async (tutor_id) => {
 
 exports.validateAdmin = (req, res, next) => {
   try {
-    const { authorization } = req.header;
+    const { authorization } = req.headers;
     const token = authorization.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) {

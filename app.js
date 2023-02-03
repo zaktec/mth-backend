@@ -14,10 +14,12 @@ const {
   handleInputErrors,
 } = require("./errors/index");
 const { loginAdmin,  createNewStudent, loginStudent, createNewAdmin, loginTutor,createNewTutor } = require("./auth/auth.controllers");
-const {  validateStudent, validateAdmin, } = require("./utils/jwtHelper");
+const {  validateStudent, validateAdmin, validateTutor, } = require("./utils/jwtHelper");
 const dotenv = require('dotenv');
 dotenv.config();
 const { body, validationResult } =require( "express-validator");
+const studentdbRouter = require("./routers/studentdb.router");
+const tutordbRouter = require("./routers/tutordb.router");
 
 app.use(express.json());
 app.use(cors());
@@ -42,14 +44,15 @@ app.post("/tutorsignin", body('tutor_username').isString(),handleInputErrors,cre
 
 //authroised user allowed on these route
 //app.use(validateStudent)
-app.use('/api/', validateAdmin, apiRouter)
+app.use('/api', validateAdmin, apiRouter)
 
 /* app.use(validateTutor)
 app.use('/api/', apiRouter) */
 
 
 
-
+app.use('/student', validateStudent, studentdbRouter)
+app.use('/tutor', validateTutor, tutordbRouter)
 
 
 // Error Handlers
