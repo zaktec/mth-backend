@@ -14,7 +14,7 @@ const {
   handleInputErrors,
 } = require("./errors/index");
 const { loginAdmin,  createNewStudent, loginStudent, createNewAdmin, loginTutor,createNewTutor } = require("./auth/auth.controllers");
-const {  validateStudent, validateAdmin, validateTutor, } = require("./utils/jwtHelper");
+const {  verifyStudent, verifyAdmin, verifyTutor, } = require("./middlewares/verifyauth");
 const dotenv = require('dotenv');
 dotenv.config();
 const { body, validationResult } =require( "express-validator");
@@ -44,9 +44,9 @@ app.post("/tutorsignin", body('tutor_username').isString(),handleInputErrors,cre
 
 //authroised user allowed on these route
 //app.use(validateStudent)
-app.use('/api', validateAdmin, apiRouter)
-app.use('/student', validateStudent, studentdbRouter)
-app.use('/tutor', validateTutor, tutordbRouter)
+app.use('/api', verifyAdmin, apiRouter)
+app.use('/student', verifyStudent, studentdbRouter)
+app.use('/tutor', verifyTutor, tutordbRouter)
 
 
 // Error Handlers
