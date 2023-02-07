@@ -8,13 +8,11 @@ const {
   updateAdminById,
 } = require("./admin.model");
 
-exports.getAdmin = (req, res, next) => {
+exports.getAdmin = async (req, res, next) => {
   try {
-   
     const { sort_by } = req.query;
-    selectAdmin(sort_by).then((admin) => {
-      res.status(200).send({ admin });
-    });
+    const data = await selectAdmin(sort_by);
+    res.status(200).send({ data });
   } catch (error) {
     return res.status(500).json({
       status: 500,
@@ -23,18 +21,16 @@ exports.getAdmin = (req, res, next) => {
   }
 };
 
-exports.getAdminById = (req, res, next) => {
+exports.getAdminById = async (req, res, next) => {
   try {
     const { admins_id } = req.params;
-    return checkAdminExist(admins_id).then((adminExist) => {
-      if (adminExist) {
-        return selectAdminById(admins_id).then((admin) => {
-          res.status(200).send({ admin });
-        });
-      } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
-      }
-    });
+    const adminExist = await checkAdminExist(admins_id);
+    if (adminExist) {
+      const data = await selectAdminById(admins_id);
+      res.status(200).send({ data });
+    } else {
+      return Promise.reject({ status: 404, msg: "Not found" });
+    }
   } catch (error) {
     return res.status(500).json({
       status: 500,
@@ -43,12 +39,11 @@ exports.getAdminById = (req, res, next) => {
   }
 };
 
-exports.postAdmin = (req, res, next) => {
+exports.postAdmin = async (req, res, next) => {
   try {
     const admin = req.body;
-    insertAdmin(admin).then((admin) => {
-      res.status(201).send({ admin });
-    });
+    const data = await insertAdmin(admin);
+    res.status(201).send({ data });
   } catch (error) {
     return res.status(500).json({
       status: 500,
@@ -57,16 +52,16 @@ exports.postAdmin = (req, res, next) => {
   }
 };
 
-exports.removeAdminById = (req, res, next) => {
+exports.removeAdminById = async (req, res, next) => {
   try {
+    console.log(">>>>>.", req.params);
     const { admins_id } = req.params;
-    deleteAdminById(admins_id).then((deletedAdmin) => {
-      if (deletedAdmin) {
-        res.sendStatus(204);
-      } else {
-        return Promise.reject({ status: 404, msg: " Not found" });
-      }
-    });
+    const data = await deleteAdminById(admins_id);
+    if (data) {
+      res.sendStatus(204);
+    } else {
+      res.status(400).send({ msg: "Invalid Input" });
+    }
   } catch (error) {
     return res.status(500).json({
       status: 500,
@@ -75,21 +70,20 @@ exports.removeAdminById = (req, res, next) => {
   }
 };
 
-exports.patchAdminById = (req, res, next) => {
-    try{
+exports.patchAdminById = async (req, res, next) => {
+  try {
     const admin = req.body;
-    const { admins_id} = req.params;
-    return updateAdminById (admin, admins_id)
-    .then((updatedAdmin) => {
-        if (updatedAdmin){
-                res.status(200).send ({ updatedAdmin})
-        } else{
-            return Promise.reject({ status: 404, msg: " not found "})
-    }})
-    }catch (error) {
-        return res.status(500).json({
-          status: 500,
-          error: error.toString(),
-        });
-      }
-    };
+    const { admins_id } = req.params;
+    const data = await updateAdminById(admin, admins_id);
+    if (data) {
+      res.status(200).send({ data });
+    } else {
+      return Promise.reject({ status: 404, msg: " not found " });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};

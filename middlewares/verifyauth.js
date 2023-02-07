@@ -1,8 +1,13 @@
 const jwt = require("jsonwebtoken");
 
-exports.verifyAdmin = (req, res, next) => {
+exports.verifyStudent = (req, res, next) => {
   try {
     const { authorization } = req.headers;
+    if (authorization === undefined) return res.status(401).json({
+      status: 401,
+      message: "Unauthorized. Token no found",
+    });
+
     const token = authorization.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
@@ -12,43 +17,12 @@ exports.verifyAdmin = (req, res, next) => {
           message: "halt intruder! get outta here",
         });
       } else {
-        req.admins_id = payload;
-        next();
-      }
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 500,
-      error: error.toString(),
-      message: "Internal Server Error",
-    });
-  }
-};
-
-exports.verifyStudent = (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
-    const token = authorization.split(" ")[1];
-    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-      if (err) {
-        return res.status(401).json({
+        if (payload.student_id === undefined)  return res.status(401).json({
           status: 401,
-          error: err.toString(),
-          message: "halt intruder! get outta here",
+          message: "Unauthorized. Not student token",
         });
-      } 
-      console.log(typeof payload.student_id, "khjdjhdjh")
-      if (payload.admins_id)
-    {return res.status(401).json({
-        status: 401,
-        error: err.toString(),
-        message: "Not student token",
-      });}
-      
-      else {
         
-        req.student_id = payload;
-        console.log(payload, "<<<<<<<<<");
+        req.student_id = payload.student_id;
         next();
       }
     });
@@ -64,6 +38,11 @@ exports.verifyStudent = (req, res, next) => {
 exports.verifyTutor = (req, res, next) => {
   try {
     const { authorization } = req.headers;
+    if (authorization === undefined) return res.status(401).json({
+      status: 401,
+      message: "Unauthorized. Token no found",
+    });
+
     const token = authorization.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
@@ -73,7 +52,47 @@ exports.verifyTutor = (req, res, next) => {
           message: "halt intruder! get outta here",
         });
       } else {
-        req.tutor_id = payload;
+        if (payload.tutor_id === undefined)  return res.status(401).json({
+          status: 401,
+          message: "Unauthorized. Not tutor token",
+        });
+        
+        req.tutor_id = payload.tutor_id;
+        next();
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.verifyAdmin = (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    if (authorization === undefined) return res.status(401).json({
+      status: 401,
+      message: "Unauthorized. Token no found",
+    });
+
+    const token = authorization.split(" ")[1];
+    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+      if (err) {
+        return res.status(401).json({
+          status: 401,
+          error: err.toString(),
+          message: "halt intruder! get outta here",
+        });
+      } else {
+        if (payload.admins_id === undefined)  return res.status(401).json({
+          status: 401,
+          message: "Unauthorized. Not admin token",
+        });
+        
+        req.admins_id = payload.admins_id;
         next();
       }
     });
