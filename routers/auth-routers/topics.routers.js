@@ -5,7 +5,7 @@ const {
   getTopicById,
   removeTopicById,
   patchTopicById,
-} = require("../modules/topicpage/topic.controllers.js");
+} = require("../../modules/topicpage/topic.controllers.js");
 const topicRouter = express.Router();
 
 // everything starts with /api/topics/

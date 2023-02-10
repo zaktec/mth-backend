@@ -9,11 +9,9 @@ const settingRouter = require("./settings.routers");
 const questionRouter = require("./questions.routers");
 const adminRouter = require("./admin.routers");
 
-
 const {
-   getadmindashboard,
-} = require("../modules/dashboardadmin/admindb.controllers");
-
+  getadmindashboard,
+} = require("../../modules/dashboardadmin/admindb.controllers");
 
 const apiRouter = express.Router();
 
@@ -21,11 +19,10 @@ const apiRouter = express.Router();
 
 //GET /api sends back endpoint
 
-
 apiRouter.get("/admindashboard", getadmindashboard);
 
 apiRouter.use("/topics", topicRouter);
-apiRouter.use("/admin", adminRouter)
+apiRouter.use("/admin", adminRouter);
 
 apiRouter.use("/courses", courseRouter);
 

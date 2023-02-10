@@ -2,7 +2,7 @@ const express = require("express");
 const {
   getSettingPage,
   getResit,
-} = require("../modules/adminpage/setting.controllers.js");
+} = require("../../modules/dashboardadmin/setting.controllers.js");
 const settingRouter = express.Router();
 
 // everything starts with /api/articles

@@ -5,7 +5,7 @@ const {
   postQuiz,
   removeQuizById,
   patchQuizById,
-} = require("../modules/quizpage/quiz.controllers.js");
+} = require("../../modules/quizpage/quiz.controllers.js");
 const quizRouter = express.Router();
 
 // everything starts with /api/articles

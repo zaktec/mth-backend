@@ -1,6 +1,6 @@
 const db = require("../../database/connection.js");
 
-exports.selectCourses = (sort_by = "course_id") => {
+exports.selectCourses = async (sort_by = "course_id") => {
   if (sort_by) {
     const allowedSortBys = [
       "course_id",
@@ -12,58 +12,44 @@ exports.selectCourses = (sort_by = "course_id") => {
       return Promise.reject({ status: 400, msg: "bad request" });
     }
   }
-  return db
-    .query(`SELECT * FROM course ORDER BY ${sort_by} ASC;`)
-    .then((result) => {
-      //console.log(result)
-      return result.rows;
-    });
+  const InsertQuery = `SELECT * FROM course ORDER BY ${sort_by} ASC;`;
+  const data = await db.query(InsertQuery)
+      return data.rows;
 };
 
-exports.selectCourseById = (course_id) => {
+exports.selectCourseById =  async (course_id) => {
   let queryString = "SELECT * FROM course";
   const queryParams = [];
   if (course_id) {
     queryString += " where course_id =$1;";
     queryParams.push(course_id);
   }
-  //console.log(queryString, queryParams);
-  return db.query(queryString, queryParams).then(({ rows }) => {
-    return rows[0];
-  });
+  const data = await  db.query(queryString, queryParams);
+    return data.rows[0];
 };
 
-exports.insertCourse = (course) => {
+exports.insertCourse =  async (course) => {
+  const { course_code, course_desc, course_image, course_level, course_name } =
+    course;
+const InsertQuery =  `INSERT INTO course (course_code, course_desc,course_image, course_level, course_name) VALUES ($1, $2, $3, $4, $5) RETURNING *; `;
+const data = await db.query(InsertQuery,[course_code, course_desc, course_image, course_level, course_name])
+      return data.rows[0];
+};
+
+exports.deleteCourseById = async (course_id) => {
+
+    const InsertQuery ="DELETE FROM course WHERE course_id = $1 RETURNING *";
+  const data =   await db.query(InsertQuery, [course_id])
+      return data.rows[0];
+};
+
+exports.updateCourseById = async (course, course_id) => {
+
   const { course_code, course_desc, course_image, course_level, course_name } =
     course;
 
-  return db
-    .query(
-      `INSERT INTO course (course_code, course_desc,
-    course_image, course_level, course_name) VALUES ($1, $2, $3, $4, $5) RETURNING *; `,
-      [course_code, course_desc, course_image, course_level, course_name]
-    )
-    .then(({ rows }) => {
-      return rows[0];
-    });
-};
-
-exports.deleteCourseById = (course_id) => {
-  return db
-    .query("DELETE FROM course WHERE course_id = $1 RETURNING *", [course_id])
-    .then((result) => {
-      return result.rows[0];
-    });
-};
-
-exports.updateCourseById = (course, course_id) => {
-  //console.log('votes and article_id', votes, article_id);
-  const { course_code, course_desc, course_image, course_level, course_name } =
-    course;
-  return db
-    .query(
-      `UPDATE course SET course_code = $1, course_desc = $2, course_image = $3, course_level = $4, course_name = $5 WHERE course_id = $6 RETURNING *;`,
-      [
+    const InsertQuery =  `UPDATE course SET course_code = $1, course_desc = $2, course_image = $3, course_level = $4, course_name = $5 WHERE course_id = $6 RETURNING *;`
+   const data= await db.query(InsertQuery,[
         course_code,
         course_desc,
         course_image,
@@ -72,7 +58,5 @@ exports.updateCourseById = (course, course_id) => {
         course_id,
       ]
     )
-    .then(({ rows }) => {
-      return rows[0];
-    });
+      return data.rows[0];
 };

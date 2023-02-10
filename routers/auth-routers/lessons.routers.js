@@ -5,7 +5,7 @@ const {
   postLesson,
   removeLessonById,
   patchLessonById,
-} = require("../modules/lessonpage/lesson.controllers.js");
+} = require("../../modules/lessonpage/lesson.controllers.js");
 const lessonRouter = express.Router();
 
 // everything starts with /api/topics/

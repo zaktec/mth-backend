@@ -5,7 +5,7 @@ const {
   postTutor,
   removeTutorById,
   patchTutorById,
-} = require("../modules/tutorpage/tutor.controllers.js");
+} = require("../../modules/tutorpage/tutor.controllers.js");
 const tutorRouter = express.Router();
 
 // everything starts with /api/articles

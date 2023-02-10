@@ -11,7 +11,7 @@ exports.selectAdmin = async (sort_by = "admins_id") => {
       "admins_active",
       "admins_image",
     ];
-    if (!allowedSortBys.includes(sort_by)) {
+   if (!allowedSortBys.includes(sort_by)) {
       return Promise.reject({ status: 400, msg: "bad request" });
     }
   }

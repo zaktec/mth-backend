@@ -5,7 +5,7 @@ const {
   postStudent,
   removeStudentById,
   patchStudentById,
-} = require("../modules/studentpage/student.controllers.js");
+} = require("../../modules/studentpage/student.controllers.js");
 const studentRouter = express.Router();
 
 // everything starts with /api/articles

@@ -8,78 +8,84 @@ const {
 
 const { checkLessonExists } = require("../../utils/utils.js");
 
-exports.getLessons = (req, res, next) => {
+exports.getLessons = async (req, res, next) => {
+  try{
   const { sort_by } = req.query;
-  selectLessons(sort_by)
-    .then((lessons) => {
-      res.status(200).send({ lessons });
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
-
-exports.getLessonById = (req, res, next) => {
-  const { lesson_id } = req.params;
-
-  return checkLessonExists(lesson_id)
-    .then((lessonExist) => {
-      if (lessonExist) {
-        return selectLessonById(lesson_id).then((lesson) => {
-          res.status(200).send({ lesson });
+  const data = await selectLessons(sort_by)
+      res.status(200).send({ data });
+  }catch (error) {
+        return res.status(500).json({
+          status: 500,
+          error: error.toString(),
         });
-      } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
       }
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
+    };
 
-exports.postLesson = (req, res, next) => {
-  const lesson = req.body;
-  
-  insertLesson(lesson)
-    .then((lesson) => {
-      
-      res.status(201).send({ lesson });
-      
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
-
-exports.removeLessonById = (req, res, next) => {
+exports.getLessonById = async (req, res, next) => {
+  try{
   const { lesson_id } = req.params;
 
-  deleteLessonById(lesson_id)
-    .then((deletedLesson) => {
-      if (deletedLesson) {
+  const lessonExist = await checkLessonExists(lesson_id)
+      if (lessonExist) {
+        const  data = await selectLessonById(lesson_id)
+          res.status(200).send({ data });
+      } else {
+        res.status(400).send({ msg: "Invalid Input" });
+        //return Promise.reject({ status: 404, msg: "Not found" });
+      }
+    }catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
+
+exports.postLesson = async  (req, res, next) => {
+  try {
+  const lesson = req.body;
+  const data =  await insertLesson(lesson)
+      res.status(201).send({ data });
+  } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
+
+exports.removeLessonById = async (req, res, next) => {
+ try {
+  const { lesson_id } = req.params;
+ const data =  await deleteLessonById(lesson_id)
+      if (data) {
         res.sendStatus(204);
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
 
-exports.patchLessonById = (req, res, next) => {
+exports.patchLessonById = async (req, res, next) => {
+  try{
   const lesson = req.body;
   const { lesson_id } = req.params;
-  return updateLessonById(lesson, lesson_id)
-    .then((updatedLesson) => {
-      if (updatedLesson) {
-        res.status(200).send({ updatedLesson });
+  const data = await updateLessonById(lesson, lesson_id)
+      if (data) {
+        res.status(200).send({ data });
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      // console.log(err)
-      next(err);
-    });
-};
+    }
+    catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };

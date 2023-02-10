@@ -6,96 +6,104 @@ const {
   updateCourseById,
 } = require("./course.models.js");
 const { checkCourseExists } = require("../../utils/utils.js");
+const { hashSync } = require("bcrypt");
 
 /**
  * app.get("/api/courses", getCourses);
  */
 
-exports.getCourses = (req, res, next) => {
+exports.getCourses =  async (req, res, next) => {
+ try{
   const { sort_by } = req.query;
-  selectCourses(sort_by)
-    .then((courses) => {
-      res.status(200).send({ courses });
-    })
-    .catch((err) => {
-      next(err);
-    });
+  const data = await selectCourses(sort_by)
+      res.status(200).send({ data });
+} catch(error) {
+  return res.status(500).json({
+    status: 500,
+    error: error.toString(),
+  });
 };
-
+}
 /**
  * app.get("/api/courses/:course_id", getCourseById);
  */
 
-exports.getCourseById = (req, res, next) => {
+exports.getCourseById = async (req, res, next) => {
+  try{
   const { course_id } = req.params;
-
-  return checkCourseExists(course_id)
-    .then((courseExist) => {
+  const courseExist = await checkCourseExists(course_id)
       if (courseExist) {
-        return selectCourseById(course_id).then((course) => {
-          res.status(200).send({ course });
-        });
+        const data = await selectCourseById(course_id);
+          res.status(200).send({ data });
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
+        //return Promise.reject({ status: 404, msg: "Not found" });
       }
-    })
-    .catch((err) => {
-      next(err);
-    });
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
 };
+}
 
 /**
  * PATCH /api/articles/:article_id
  */
 
-exports.postCourse = (req, res, next) => {
+exports.postCourse = async (req, res, next) => {
+  try{
   const course = req.body;
-  insertCourse(course)
-    .then((course) => {
-      res.status(201).send({ course });
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
-
+  const data = await insertCourse(course)
+      res.status(201).send({ data });
+  }catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
 /**
  * PATCH /api/articles/:article_id
  */
 
-exports.removeCourseById = (req, res, next) => {
+exports.removeCourseById = async (req, res, next) => {
+  try{
   const { course_id } = req.params;
-
-  deleteCourseById(course_id)
-    .then((deletedCourse) => {
-      if (deletedCourse) {
+  const data = await deleteCourseById(course_id)
+      if (data) {
         res.sendStatus(204);
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
+  
 
 /**
  * PATCH /api/articles/:article_id
  */
 
-exports.patchCourseById = (req, res, next) => {
+exports.patchCourseById = async (req, res, next) => {
+  try {
   const course = req.body;
   const { course_id } = req.params;
-  return updateCourseById(course, course_id)
-    .then((updatedCourse) => {
-      if (updatedCourse) {
-        res.status(200).send({ updatedCourse });
+  const data = await updateCourseById(course, course_id)
+      if (data) {
+        res.status(200).send({ data });
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
+        //return Promise.reject({ status: 404, msg: "Not found" });
       }
-    })
-    .catch((err) => {
-      // console.log(err)
-      next(err);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
     });
+  }
 };

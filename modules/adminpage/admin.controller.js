@@ -1,5 +1,4 @@
 const { checkAdminExist } = require("../../utils/utils");
-const { selectCourseById } = require("../coursepage/course.models");
 const {
   selectAdmin,
   selectAdminById,
@@ -29,7 +28,8 @@ exports.getAdminById = async (req, res, next) => {
       const data = await selectAdminById(admins_id);
       res.status(200).send({ data });
     } else {
-      return Promise.reject({ status: 404, msg: "Not found" });
+      res.status(400).send({ msg: "Invalid Input" });
+      //return Promise.reject({ status: 404, msg: "Not found" });
     }
   } catch (error) {
     return res.status(500).json({
@@ -54,7 +54,6 @@ exports.postAdmin = async (req, res, next) => {
 
 exports.removeAdminById = async (req, res, next) => {
   try {
-    console.log(">>>>>.", req.params);
     const { admins_id } = req.params;
     const data = await deleteAdminById(admins_id);
     if (data) {
@@ -78,7 +77,8 @@ exports.patchAdminById = async (req, res, next) => {
     if (data) {
       res.status(200).send({ data });
     } else {
-      return Promise.reject({ status: 404, msg: " not found " });
+      res.status(400).send({ msg: "Invalid Input" });
+      //return Promise.reject({ status: 404, msg: " not found " });
     }
   } catch (error) {
     return res.status(500).json({

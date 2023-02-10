@@ -5,7 +5,7 @@ const {
   postQuestion,
   removeQuestionById,
   patchQuestionById,
-} = require("../modules/questionpage/question.controllers.js");
+} = require("../../modules/questionpage/question.controllers.js");
 const questionRouter = express.Router();
 
 // everything starts with /api/articles
