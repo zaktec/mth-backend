@@ -8,76 +8,81 @@ const {
 
 const { checkQuizExists } = require("../../utils/utils.js");
 
-exports.getQuizzes = (req, res, next) => {
+exports.getQuizzes =  async (req, res, next) => {
+  try {
   const { sort_by } = req.query;
-  selectQuizzes(sort_by)
-    .then((quizzes) => {
-      res.status(200).send({ quizzes });
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
-
-exports.getQuizById = (req, res, next) => {
-  const { quiz_id } = req.params;
-
-  return checkQuizExists(quiz_id)
-    .then((quizExist) => {
-      if (quizExist) {
-        return selectQuizById(quiz_id).then((quiz) => {
-          res.status(200).send({ quiz });
+ const data = await  selectQuizzes(sort_by)
+      res.status(200).send({ data });
+  } catch (error) {
+        return res.status(500).json({
+          status: 500,
+          error: error.toString(),
         });
-      } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
       }
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
-
-exports.postQuiz = (req, res, next) => {
+    };
+exports.getQuizById = async (req, res, next) => {
+  try {
+  const { quiz_id } = req.params;
+  const quizExist = await checkQuizExists(quiz_id)
+      if (quizExist) {
+        const data = await selectQuizById(quiz_id)
+          res.status(200).send({ data });
+      } else {
+        res.status(400).send({ msg: "Invalid Input" });
+      } 
+    }catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
+exports.postQuiz = async (req, res, next) => {
+  try {
   const quiz = req.body;
-  insertQuiz(quiz)
-    .then((quiz) => {
-      res.status(201).send({ quiz });
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
+  const data = await insertQuiz(quiz)
+      res.status(201).send({ data });
+    }
+   catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
 
-exports.removeQuizById = (req, res, next) => {
+exports.removeQuizById = async (req, res, next) => {
+  try {
   const { quiz_id } = req.params;
 
-  deleteQuizById(quiz_id)
-    .then((deletedQuiz) => {
-      if (deletedQuiz) {
+  const data = await deleteQuizById(quiz_id)
+      if (data) {
         res.sendStatus(204);
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
 
-exports.patchQuizById = (req, res, next) => {
+exports.patchQuizById = async (req, res, next) => {
+  try {
   const quiz = req.body;
   const { quiz_id } = req.params;
-  // console.log(course_id, course)
-  return updateQuizById(quiz, quiz_id)
-    .then((updatedQuiz) => {
-      if (updatedQuiz) {
-        res.status(200).send({ updatedQuiz });
+  const data = await updateQuizById(quiz, quiz_id)
+      if (data) {
+        res.status(200).send({ data });
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      // console.log(err)
-      next(err);
-    });
-};
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };

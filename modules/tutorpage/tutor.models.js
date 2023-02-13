@@ -1,6 +1,6 @@
 const db = require("../../database/connection.js");
 
-exports.selectTutors = (sort_by = "tutor_id") => {
+exports.selectTutors = async (sort_by = "tutor_id") => {
   if (sort_by) {
     const allowedSortBys = [
       "tutor_firstname",
@@ -14,26 +14,24 @@ exports.selectTutors = (sort_by = "tutor_id") => {
       return Promise.reject({ status: 400, msg: "bad request" });
     }
   }
-  return db
-    .query(`SELECT * FROM tutor ORDER BY ${sort_by} ASC;`)
-    .then((result) => {
-      return result.rows;
-    });
+  const InsertQuery =`SELECT * FROM tutor ORDER BY ${sort_by} ASC;`
+  const data = await db.query(InsertQuery)
+      return data.rows;
 };
 
-exports.selectTutorById = (tutor_id) => {
+exports.selectTutorById = async (tutor_id) => {
   let queryString = "SELECT * FROM tutor";
   const queryParams = [];
   if (tutor_id) {
     queryString += " where tutor_id=$1;";
     queryParams.push(tutor_id);
   }
-  return db.query(queryString, queryParams).then(({ rows }) => {
-    return rows[0];
-  });
+  const data =  await db.query(queryString, queryParams)
+    return data.rows[0];
+
 };
 
-exports.insertTutor = (tutor) => {
+exports.insertTutor = async (tutor) => {
   const {
     tutor_username,
     tutor_firstname,
@@ -44,10 +42,8 @@ exports.insertTutor = (tutor) => {
     tutor_password,
   } = tutor;
 
-  return db
-    .query(
-      `INSERT INTO tutor (tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *; `,
-      [
+  const InsertQuery = `INSERT INTO tutor (tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *;`
+  const data= await db.query(InsertQuery,[
         tutor_username,
         tutor_firstname,
         tutor_lastname,
@@ -55,23 +51,17 @@ exports.insertTutor = (tutor) => {
         tutor_active,
         tutor_image,
         tutor_password,
-      ]
-    )
-    .then(({ rows }) => {
-      return rows[0];
-    });
+      ])
+      return data.rows[0];
 };
 
-exports.deleteTutorById = (tutor_id) => {
-  return db
-    .query("DELETE FROM tutor WHERE tutor_id = $1 RETURNING *", [tutor_id])
-    .then((result) => {
-      //console.log(result)
-      return result.rows[0];
-    });
+exports.deleteTutorById = async (tutor_id) => {
+  const InsertQuery = "DELETE FROM tutor WHERE tutor_id = $1 RETURNING *"
+  const data = await db.query(InsertQuery, [tutor_id])
+      return data.rows[0];
 };
 
-exports.updateTutorById = (tutor, tutor_id) => {
+exports.updateTutorById = async (tutor, tutor_id) => {
   const {
     tutor_username,
     tutor_firstname,
@@ -81,10 +71,8 @@ exports.updateTutorById = (tutor, tutor_id) => {
     tutor_image,
     tutor_password,
   } = tutor;
-  return db
-    .query(
-      `UPDATE tutor SET  tutor_username=$1, tutor_firstname = $2, tutor_lastname = $3, tutor_email= $4, tutor_active= $5, tutor_image = $6, tutor_password= $7 WHERE tutor_id = $8 RETURNING *;`,
-      [
+  const InsertQuery = `UPDATE tutor SET  tutor_username=$1, tutor_firstname = $2, tutor_lastname = $3, tutor_email= $4, tutor_active= $5, tutor_image = $6, tutor_password= $7 WHERE tutor_id = $8 RETURNING *;`
+  const data = await  db.query(InsertQuery,[
         tutor_username,
         tutor_firstname,
         tutor_lastname,
@@ -93,9 +81,6 @@ exports.updateTutorById = (tutor, tutor_id) => {
         tutor_image,
         tutor_password,
         tutor_id,
-      ]
-    )
-    .then(({ rows }) => {
-      return rows[0];
-    });
+      ])
+      return data.rows[0];
 };

@@ -8,73 +8,81 @@ const {
 const { checkTopicExists } = require("../../utils/utils.js");
 
 exports.getTopics = async (req, res, next) => {
-  const { sort_by } = req.query;
   try {
+  const { sort_by } = req.query;
     const topics = await selectTopics(sort_by);
     res.status(200).send({ topics });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
   }
 };
 //app.get("/api/topics/:topic_id", getTopicById );
-exports.getTopicById = (req, res, next) => {
+exports.getTopicById = async (req, res, next) => {
+  try {
   const { topic_id } = req.params;
 
-  return checkTopicExists(topic_id)
-    .then((topicExist) => {
+  const topicExist = await checkTopicExists(topic_id)
       if (topicExist) {
-        return selectTopicById(topic_id).then((topic) => {
-          res.status(200).send({ topic });
-        });
+        const data = await  selectTopicById(topic_id)
+          res.status(200).send({ data });
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      next(err);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
     });
+  }
 };
 
-exports.postTopic = (req, res, next) => {
-  //console.log(req.body)
+exports.postTopic = async (req, res, next) => {
+  try {
   const topic = req.body;
-  insertTopic(topic)
-    .then((topic) => {
-      res.status(201).send({ topic });
-    })
-    .catch((err) => {
-      next(err);
+  const data = await insertTopic(topic)
+      res.status(201).send({ data });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
     });
+  }
 };
 
-exports.removeTopicById = (req, res, next) => {
+exports.removeTopicById = async (req, res, next) => {
+  try {
   const { topic_id } = req.params;
 
-  deleteTopicById(topic_id)
-    .then((deletedTopics) => {
-      if (deletedTopics) {
+ const data =  await deleteTopicById(topic_id)
+      if (data) {
         res.sendStatus(204);
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      next(err);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
     });
+  }
 };
-exports.patchTopicById = (req, res, next) => {
+exports.patchTopicById = async (req, res, next) => {
+  try {
   const topic = req.body;
   const { topic_id } = req.params;
-  return updateTopicById(topic, topic_id)
-    .then((updatedTopic) => {
-      if (updatedTopic) {
-        res.status(200).send({ updatedTopic });
+const data = await updateTopicById(topic, topic_id)
+      if (data) {
+        res.status(200).send({ data });
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      // console.log(err)
-      next(err);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
     });
+  }
 };

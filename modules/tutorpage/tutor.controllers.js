@@ -8,75 +8,82 @@ const {
 const { checkTutorExists } = require("../../utils/utils.js");
 
 exports.getTutors = async (req, res, next) => {
-  const { sort_by } = req.query;
   try {
+  const { sort_by } = req.query;
+
     const tutors = await selectTutors(sort_by);
     res.status(200).send({ tutors });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
   }
 };
 
-exports.getTutorById = (req, res, next) => {
+exports.getTutorById = async (req, res, next) => {
+  try {
   const { tutor_id } = req.params;
-
-  return checkTutorExists(tutor_id)
-    .then((topicExist) => {
-      if (topicExist) {
-        return selectTutorById(tutor_id).then((tutor) => {
-          res.status(200).send({ tutor });
-        });
+  const tutorExist =  await checkTutorExists(tutor_id)
+      if (tutorExist) {
+        const data = await selectTutorById(tutor_id)
+          res.status(200).send({ data });
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
 
-exports.postTutor = (req, res, next) => {
+exports.postTutor = async (req, res, next) => {
+  try {
   const tutor = req.body;
-  insertTutor(tutor)
-    .then((tutor) => {
-      // console.log(tutor)
-      res.status(201).send({ tutor });
-    })
-    .catch((err) => {
-      next(err);
+  const data = await insertTutor(tutor)
+      res.status(201).send({ data });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
     });
+  }
 };
 
-exports.removeTutorById = (req, res, next) => {
+exports.removeTutorById = async (req, res, next) => {
+  try {
   const { tutor_id } = req.params;
 
-  deleteTutorById(tutor_id)
-    .then((deletedTutor) => {
-      if (deletedTutor) {
+ const data =  await deleteTutorById(tutor_id)
+      if (data) {
         res.sendStatus(204);
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
-
-exports.patchTutorById = (req, res, next) => {
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
+exports.patchTutorById = async (req, res, next) => {
+  try {
   const tutor = req.body;
   const { tutor_id } = req.params;
-  // console.log(course_id, course)
-  return updateTutorById(tutor, tutor_id)
-    .then((updatedTutor) => {
-      if (updatedTutor) {
-        res.status(200).send({ updatedTutor });
+ 
+  const data  = await updateTutorById(tutor, tutor_id)
+      if (data) {
+        res.status(200).send({ data });
       } else {
-        return Promise.reject({ status: 404, msg: "Not found" });
+        res.status(400).send({ msg: "Invalid Input" });
       }
-    })
-    .catch((err) => {
-      // console.log(err)
-      next(err);
-    });
-};
+    } catch (error) {
+      return res.status(500).json({
+        status: 500,
+        error: error.toString(),
+      });
+    }
+  };
