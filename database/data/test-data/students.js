@@ -11,6 +11,7 @@ module.exports = [
     student_targetgrade: 5,
     student_notes: "Working well",
     student_progressbar: 1,
+    student_tutor_id: 1,
     
   },
   {
@@ -25,6 +26,7 @@ module.exports = [
     student_targetgrade: 4,
     student_notes: "Working well",
     student_progressbar: 3,
+    student_tutor_id: 1,
   
     
   },
@@ -40,6 +42,7 @@ module.exports = [
     student_targetgrade: 3,
     student_notes: "Working well",
     student_progressbar: 5,
+    student_tutor_id: 1,
     
   }
 ];

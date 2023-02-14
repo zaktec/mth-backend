@@ -47,9 +47,10 @@ exports.insertStudent = async (student) => {
     student_notes,
     student_progressbar,
     student_image,
+    student_tutor_id,
   } = student;
 
-  const InsertQuery = `INSERT INTO student (student_username,student_firstname, student_lastname, student_email, student_password, student_grade, student_active,student_targetgrade, student_notes, student_progressbar, student_image ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11  ) RETURNING *;`
+  const InsertQuery = `INSERT INTO student (student_username,student_firstname, student_lastname, student_email, student_password, student_grade, student_active,student_targetgrade, student_notes, student_progressbar, student_image, student_tutor_id ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11,$12) RETURNING *;`
   const data = await db.query(InsertQuery,[
         student_username,
         student_firstname,
@@ -62,6 +63,7 @@ exports.insertStudent = async (student) => {
         student_notes,
         student_progressbar,
         student_image,
+        student_tutor_id,
       ]);
       return data.rows[0];
 };

@@ -244,6 +244,7 @@ describe("Test8- POST /signin", () => {
         student_active: true,
         student_notes: "Working well",
         student_image: "/student/student1.png",
+        student_tutor_id: 1,
       })
       .expect(201)
       .then((res) => {
@@ -261,6 +262,7 @@ describe("Test8- POST /signin", () => {
           student_active: true,
           student_notes: "Working well",
           student_image: "/student/student1.png",
+          student_tutor_id: 1,
         });
       });
   });
@@ -565,6 +567,7 @@ describe("Test17- POST /api/students", () => {
         student_notes: "Working well",
         student_progressbar: 3,
         student_image: "/student/student1.png",
+        student_tutor_id: 1,
       })
       .expect(201)
       .then((res) => {
@@ -582,6 +585,7 @@ describe("Test17- POST /api/students", () => {
           student_notes: "Working well",
           student_progressbar: 3,
           student_image: "/student/student1.png",
+          student_tutor_id: 1,
         });
       });
   });
@@ -679,6 +683,7 @@ describe("Test19- GET   /api/students/:student_id", () => {
           student_notes: "Working well",
           student_progressbar: 3,
           student_image: "/student/student1.png",
+          student_tutor_id: 1,
         });
       });
   });
@@ -737,6 +742,7 @@ describe("Test20- PATCH /api/students/:student_id", () => {
           student_progressbar: 3,
           student_image: "/student/student1.png",
           student_id: res.body.data.student_id,
+          student_tutor_id: 1,
         });
       });
   });

@@ -41,6 +41,7 @@ exports.formatStudentData = (studentData) => {
     student.student_targetgrade,
     student.student_notes,
     student.student_progressbar,
+    student.student_tutor_id,
   ]);
   return formattedStudents;
 };

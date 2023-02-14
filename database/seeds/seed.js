@@ -123,7 +123,8 @@ const seed = (data) => {
           student_targetgrade INT DEFAULT 0,
           student_notes VARCHAR(500),
           student_progressbar INT DEFAULT 0,
-          student_image VARCHAR(200)
+          student_image VARCHAR(200),
+          student_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE
           );
         `);
     })
@@ -214,10 +215,10 @@ const seed = (data) => {
       return db.query(sql1);
     })
     .then((result) => {
-      // console.log(result);
+    
     })
     .then(() => {
-      //console.log(courseData);
+    
       const formattedTopics = formatTopicData(topicData);
       const sql2 = format(
         `INSERT INTO topic 
@@ -246,7 +247,6 @@ const seed = (data) => {
       VALUES %L RETURNING *;`,
         formattedTutors
       );
-     // console.log(sql4)
       return db.query(sql4);
     })
     .then(() => {
@@ -254,7 +254,7 @@ const seed = (data) => {
       const formattedStudents = formatStudentData(studentData);
       const sql5 = format(
         `INSERT INTO student 
-      (student_username, student_firstname, student_lastname, student_email,student_password, student_active,student_image, student_grade, student_targetgrade,student_notes, student_progressbar)
+      (student_username, student_firstname, student_lastname, student_email,student_password, student_active,student_image, student_grade, student_targetgrade,student_notes, student_progressbar, student_tutor_id)
       VALUES %L RETURNING *;`,
         formattedStudents
       );
