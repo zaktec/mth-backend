@@ -38,11 +38,11 @@ const runSeeds  = async (data) => {
   const dropCourseQuery = `DROP TABLE IF EXISTS course`;
   await db.query(dropCourseQuery);
 
-  const createCourseQuery = `CREATE TABLE course ( course_id SERIAL PRIMARY KEY, course_name VARCHAR(200) NOT NULL, course_code VARCHAR(200) NOT NULL, course_desc VARCHAR(200) NOT NULL, course_level VARCHAR(100) NOT NULL, course_image VARCHAR(200) NOT NULL )`;
+  const createCourseQuery = `CREATE TABLE course ( course_id SERIAL PRIMARY KEY, course_name VARCHAR(100) NOT NULL, course_code VARCHAR(100) NOT NULL, course_desc VARCHAR(100), course_level VARCHAR(100), course_image VARCHAR(100) )`;
   await db.query(createCourseQuery);
 
   
-  const createTopicQuery = `CREATE TABLE topic ( topic_id SERIAL PRIMARY KEY, topic_name VARCHAR(200) NOT NULL, topic_code VARCHAR(200) NOT NULL, topic_desc VARCHAR(200) NOT NULL, topic_index INT, topic_course_id INT REFERENCES course(course_id) ON DELETE CASCADE )`;
+  const createTopicQuery = `CREATE TABLE topic ( topic_id SERIAL PRIMARY KEY, topic_unit INT, topic_name VARCHAR(100) NOT NULL, topic_code VARCHAR(100), topic_desc VARCHAR(200) NOT NULL, topic_level VARCHAR(100), topic_course_id INT REFERENCES course(course_id) ON DELETE CASCADE )`;
   await db.query(createTopicQuery);
   
   const createAdminsQuery = `CREATE TABLE admins ( admins_id SERIAL PRIMARY KEY, admins_username VARCHAR(200) NOT NULL UNIQUE, admins_firstname VARCHAR(200) NOT NULL, admins_lastname VARCHAR(200), admins_email VARCHAR(200) NOT NULL, admins_password VARCHAR(100) NOT NULL, admins_active BOOLEAN, admins_image VARCHAR(200) )`;
@@ -54,7 +54,7 @@ const runSeeds  = async (data) => {
   const createStudentQuery = `CREATE TABLE student ( student_id SERIAL PRIMARY KEY, student_username VARCHAR(200) NOT NULL UNIQUE, student_firstname VARCHAR(200) NOT NULL, student_lastname VARCHAR(200) NOT NULL, student_email VARCHAR(200) NOT NULL, student_password VARCHAR(200) NOT NULL, student_active BOOLEAN DEFAULT TRUE, student_grade INT DEFAULT 0, student_targetgrade INT DEFAULT 0, student_notes VARCHAR(500), student_progressbar INT DEFAULT 0, student_image VARCHAR(200), student_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE )`;
   await db.query(createStudentQuery);
   
-  const createLessonQuery = `CREATE TABLE lesson ( lesson_id SERIAL PRIMARY KEY, lesson_name VARCHAR(200) NOT NULL, lesson_code VARCHAR(200), lesson_desc VARCHAR(200) NOT NULL, lesson_ws VARCHAR(200) NOT NULL, lesson_body VARCHAR(200), lesson_topic_id INT REFERENCES topic(topic_id) ON DELETE CASCADE )`;
+  const createLessonQuery = `CREATE TABLE lesson ( lesson_id SERIAL PRIMARY KEY, lesson_topic VARCHAR(100) NOT NULL,lesson_name VARCHAR(100) NOT NULL, lesson_code VARCHAR(100), lesson_desc VARCHAR(200) NOT NULL, lesson_grade INT DEFAULT 0, lesson_body VARCHAR(100), lesson_topic_id INT REFERENCES topic(topic_id) ON DELETE CASCADE )`;
   await db.query(createLessonQuery);
   
   const createQuizQuery = `CREATE TABLE quiz ( quiz_id SERIAL PRIMARY KEY, quiz_name VARCHAR(200) NOT NULL, quiz_code VARCHAR(200), quiz_type VARCHAR(200) NOT NULL )`;
@@ -77,7 +77,7 @@ const runSeeds  = async (data) => {
   const course = await db.query(insertCourseQuery);
 
   const formattedTopics = formatTopicData(topicData);
-  const insertTopicQuery = format( `INSERT INTO topic (topic_name, topic_code, topic_desc, topic_index, topic_course_id) VALUES %L RETURNING *;`, formattedTopics );
+  const insertTopicQuery = format( `INSERT INTO topic (topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_id) VALUES %L RETURNING *;`, formattedTopics );
   const topic = await db.query(insertTopicQuery);
 
   const formattedAdmins = formatAdminsData(adminsData);
@@ -93,7 +93,7 @@ const runSeeds  = async (data) => {
   const student = await db.query(insertStudentQuery);
 
   const formattedLessons = formatLessonData(lessonData);
-  const insertLessonQuery = format( `INSERT INTO lesson (lesson_name, lesson_code, lesson_desc, lesson_ws, lesson_body, lesson_topic_id) VALUES %L RETURNING *;`, formattedLessons );
+  const insertLessonQuery = format( `INSERT INTO lesson (lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_id) VALUES %L RETURNING *;`, formattedLessons );
   const lesson = await db.query(insertLessonQuery);
 
   const formattedQuizzes = formatQuizData(quizData);

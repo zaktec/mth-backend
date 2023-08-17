@@ -40,9 +40,15 @@ let invalidStudent = `BEARER invalidToken`;
 let invalidAdmin = `BEARER invalidToken`;
 const password = bcrypt.hashSync("password", 10);
 
+//console.log(testData)
 beforeAll(() => seed(testData));
+// beforeEach(() => {
+//   return seed(testData);
+// });``
+
 //afterAll(() => seed(testData));
 afterAll(() => db.end());
+
 
 //-------------------unauthrised Link---------------------/
 
@@ -937,6 +943,7 @@ describe("Test25- POST /api/courses", () => {
       })
       .expect(201)
       .then((res) => {
+        console.log("couese>>.",res.body)
         course_id = res.body.data.course_id;
         expect(res.body.data).toEqual({
           course_code: "New- MTH-GF",
@@ -972,6 +979,7 @@ describe("Test26-   GET /api/courses", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
+          console.log(res.body)
         expect(res.body.data).toBeInstanceOf(Array);
         expect(res.body.data).toHaveLength(res.body.data.length);
         res.body.data.forEach((course) => {
@@ -1090,20 +1098,25 @@ describe("Test29- POST /api/topics", () => {
       .post("/api/topics")
       .set("Authorization", validAdmin)
       .send({
+       
+        topic_unit:4,
         topic_name: "New",
         topic_code: "GFA2",
         topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
-        topic_index: 4,
+        topic_level: "foundation",
         topic_course_id: course_id,
+        
       })
       .expect(201)
       .then((res) => {
+       
         topic_id = res.body.data.topic_id;
         expect(res.body.data).toEqual({
+          topic_unit:4,
           topic_name: "New",
           topic_code: "GFA2",
           topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
-          topic_index: 4,
+          topic_level: "foundation",
           topic_course_id: course_id,
           topic_id: topic_id,
         });
@@ -1136,10 +1149,11 @@ describe("Test30-   GET /api/topics", () => {
         expect(res.body.topics).toHaveLength(res.body.topics.length);
         res.body.topics.forEach((topic) => {
           expect(topic).toMatchObject({
+            topic_unit: expect.any(Number),
             topic_name: expect.any(String),
             topic_code: expect.any(String),
             topic_desc: expect.any(String),
-            topic_index: expect.any(Number),
+            topic_level: expect.any(String),
             topic_course_id: expect.any(Number),
             topic_id: expect.any(Number),
           });
@@ -1153,7 +1167,7 @@ describe("Test30-   GET /api/topics", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.topics).toBeSortedBy("topic_index");
+        expect(res.body.topics).toBeSortedBy("topic_unit");
       });
   });
 
@@ -1190,7 +1204,8 @@ describe("Test31- GET   /api/topics/:topic_id", () => {
           topic_name: "New",
           topic_code: "GFA2",
           topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
-          topic_index: 4,
+          topic_unit: 4,
+          topic_level:"foundation",
           topic_course_id: course_id,
           topic_id: topic_id,
         });
@@ -1227,7 +1242,7 @@ describe("Test32- PATCH /api/topic/:topic_id", () => {
         topic_name: "Patched Statistics",
         topic_code: "GHS1",
         topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
-        topic_index: 9,
+        topic_unit: 4,
         topic_course_id: course_id,
       })
       .expect(200)
@@ -1236,7 +1251,7 @@ describe("Test32- PATCH /api/topic/:topic_id", () => {
           topic_name: "Patched Statistics",
           topic_code: "GHS1",
           topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
-          topic_index: 9,
+          topic_unit: 4,
           topic_course_id: course_id,
           topic_id: topic_id,
         });
@@ -1252,10 +1267,11 @@ describe("Test33- POST /api/lessons", () => {
       .post("/api/lessons")
       .set("Authorization", validAdmin)
       .send({
+        lesson_topic: "New- Addition, Subtraction and Money Problems",
         lesson_name: "New- Addition, Subtraction and Money Problems",
         lesson_code: "GFN1LC1",
         lesson_desc: "To be able to add, subtract, and solve money problems.",
-        lesson_ws: "GFN1WS1",
+        lesson_grade: 6,
         lesson_body: "PowerPoint",
         lesson_topic_id: topic_id,
       })
@@ -1263,10 +1279,11 @@ describe("Test33- POST /api/lessons", () => {
       .then((res) => {
         lesson_id = res.body.data.lesson_id;
         expect(res.body.data).toEqual({
+          lesson_topic: "New- Addition, Subtraction and Money Problems",
           lesson_name: "New- Addition, Subtraction and Money Problems",
           lesson_code: "GFN1LC1",
           lesson_desc: "To be able to add, subtract, and solve money problems.",
-          lesson_ws: "GFN1WS1",
+          lesson_grade: 6,
           lesson_body: "PowerPoint",
           lesson_topic_id: topic_id,
           lesson_id: lesson_id,
@@ -1304,7 +1321,7 @@ describe("Test34-   GET /api/lessons", () => {
             lesson_name: expect.any(String),
             lesson_code: expect.any(String),
             lesson_desc: expect.any(String),
-            lesson_ws: expect.any(String),
+            lesson_grade: expect.any(Number),
             lesson_body: expect.any(String),
             lesson_topic_id: expect.any(Number),
           });

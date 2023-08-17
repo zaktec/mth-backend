@@ -32,20 +32,22 @@ exports.selectLessonById = async (lesson_id) => {
 
 exports.insertLesson = async (lesson) => {
   const {
+    lesson_topic,
     lesson_name,
     lesson_code,
     lesson_desc,
-    lesson_ws,
+    lesson_grade,
     lesson_body,
     lesson_topic_id,
   } = lesson;
 
-  const InsertQuery = `INSERT INTO lesson (lesson_name, lesson_code, lesson_desc, lesson_ws, lesson_body, lesson_topic_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *; `
+  const InsertQuery = `INSERT INTO lesson (lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *; `
   const data = await db.query(InsertQuery,[
+        lesson_topic,
         lesson_name,
         lesson_code,
         lesson_desc,
-        lesson_ws,
+        lesson_grade,
         lesson_body,
         lesson_topic_id,
       ]
@@ -62,19 +64,21 @@ exports.deleteLessonById = async (lesson_id) => {
 
 exports.updateLessonById = async (lesson, lesson_id) => {
   const {
+    lesson_topic,
     lesson_name,
     lesson_code,
     lesson_desc,
-    lesson_ws,
+    lesson_grade,
     lesson_body,
     lesson_topic_id,
   } = lesson;
-  const InsertQuery = `UPDATE lesson SET lesson_name = $1, lesson_code = $2, lesson_desc = $3, lesson_ws = $4, lesson_body = $5, lesson_topic_id = $6 WHERE lesson_id = $7 RETURNING *;`
+  const InsertQuery = `UPDATE lesson SET lesson_topic = $1, lesson_name = $2, lesson_code = $3, lesson_desc = $4, lesson_grade = $5, lesson_body = $6, lesson_topic_id = $7 WHERE lesson_id = $8 RETURNING *;`
   const data= await db.query( InsertQuery,[
+        lesson_topic,
         lesson_name,
         lesson_code,
         lesson_desc,
-        lesson_ws,
+        lesson_grade,
         lesson_body,
         lesson_topic_id,
         lesson_id,

@@ -13,10 +13,11 @@ exports.formatCourseData = (courseData) => {
 
 exports.formatTopicData = (topicData) => {
   const formattedTopics = topicData.map((topic) => [
+    topic.topic_unit,
     topic.topic_name,
     topic.topic_code,
     topic.topic_desc,
-    topic.topic_index,
+    topic.topic_level,
     topic.topic_course_id,
   ]);
   return formattedTopics;
@@ -87,10 +88,11 @@ exports.formatTutorData = (tutorData) => {
 
 exports.formatLessonData = (lessonData) => {
   const formattedLessons = lessonData.map((lesson) => [
+    lesson.lesson_topic,
     lesson.lesson_name,
     lesson.lesson_code,
     lesson.lesson_desc,
-    lesson.lesson_ws,
+    lesson.lesson_grade,
     lesson.lesson_body,
     lesson.lesson_topic_id,
   ]);

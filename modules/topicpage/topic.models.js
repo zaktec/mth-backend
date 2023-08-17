@@ -1,13 +1,14 @@
 const db = require("../../database/connection.js");
 
-exports.selectTopics = async (sort_by = "topic_index") => {
+exports.selectTopics = async (sort_by = "topic_unit") => {
   // custom error handling
   if (sort_by) {
     const allowedSortBys = [
       "topic_id",
-      "topic_index",
+      "topic_unit",
       "topic_code",
       "topic_name",
+      "topic_level",
       "topic_course_id",
     ];
     if (!allowedSortBys.includes(sort_by)) {
@@ -21,10 +22,10 @@ exports.selectTopics = async (sort_by = "topic_index") => {
 
 exports.insertTopic = async (topic) => {
   
-  const { topic_name, topic_code, topic_desc, topic_index, topic_course_id } = topic;
+  const { topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_id } = topic;
     const InsertQuery =`INSERT INTO topic
-    (topic_name, topic_code, topic_desc, topic_index,  topic_course_id) VALUES ($1, $2, $3, $4, $5) RETURNING *;`
-  const data =  await db.query(InsertQuery, [topic_name, topic_code, topic_desc, topic_index, topic_course_id]
+    (topic_unit, topic_name, topic_code, topic_desc, topic_level,  topic_course_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`
+  const data =  await db.query(InsertQuery, [topic_unit,topic_name, topic_code, topic_desc, topic_level, topic_course_id]
     )
       return data.rows[0];
 };
@@ -42,22 +43,23 @@ exports.deleteTopicById = async (topic_id) => {
       return data.rows[0];
 };
 
-exports.deleteCourseById = async (course_id) => {
-  const InsertQuery= "DELETE FROM course WHERE course_id = $1 RETURNING *";
-  const data = await db.query(InsertQuery, [course_id])
-      return data.rows[0];
+// exports.deleteCourseById = async (course_id) => {
+//   const InsertQuery= "DELETE FROM course WHERE course_id = $1 RETURNING *";
+//   const data = await db.query(InsertQuery, [course_id])
+//       return data.rows[0];
 
-};
+// };
 
 exports.updateTopicById = async (topic, topic_id) => {
   
-  const { topic_name, topic_code, topic_desc, topic_index, topic_course_id } = topic;
-    const InsertQuery =`UPDATE topic SET topic_name = $1, topic_code = $2, topic_desc = $3, topic_index = $4, topic_course_id= $5 WHERE topic_id = $6 RETURNING *;`
+  const { topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_id } = topic;
+    const InsertQuery =`UPDATE topic SET topic_unit = $1, topic_name = $2, topic_code = $3, topic_desc = $4, topic_level = $5, topic_course_id= $6 WHERE topic_id = $7 RETURNING *;`
   const data = await db.query(InsertQuery,[
+        topic_unit,
         topic_name,
         topic_code,
         topic_desc,
-        topic_index,
+        topic_level,
         topic_course_id,
         topic_id,
       ]
