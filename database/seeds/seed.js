@@ -42,7 +42,7 @@ const runSeeds  = async (data) => {
   await db.query(createCourseQuery);
 
   
-  const createTopicQuery = `CREATE TABLE topic ( topic_id SERIAL PRIMARY KEY, topic_unit INT, topic_name VARCHAR(100) NOT NULL, topic_code VARCHAR(100), topic_desc VARCHAR(200) NOT NULL, topic_level VARCHAR(100), topic_course_id INT REFERENCES course(course_id) ON DELETE CASCADE )`;
+  const createTopicQuery = `CREATE TABLE topic ( topic_id SERIAL PRIMARY KEY, topic_unit INT, topic_name VARCHAR(100) NOT NULL, topic_code VARCHAR(100), topic_desc VARCHAR(200) NOT NULL, topic_level VARCHAR(100), topic_course_fk_id INT REFERENCES course(course_id) ON DELETE CASCADE )`;
   await db.query(createTopicQuery);
   
   const createAdminsQuery = `CREATE TABLE admins ( admins_id SERIAL PRIMARY KEY, admins_username VARCHAR(200) NOT NULL UNIQUE, admins_firstname VARCHAR(200) NOT NULL, admins_lastname VARCHAR(200), admins_email VARCHAR(200) NOT NULL, admins_password VARCHAR(100) NOT NULL, admins_active BOOLEAN, admins_image VARCHAR(200) )`;
@@ -57,17 +57,17 @@ const runSeeds  = async (data) => {
   const createLessonQuery = `CREATE TABLE lesson ( lesson_id SERIAL PRIMARY KEY, lesson_topic VARCHAR(100) NOT NULL,lesson_name VARCHAR(100) NOT NULL, lesson_code VARCHAR(100), lesson_desc VARCHAR(200) NOT NULL, lesson_grade INT DEFAULT 0, lesson_body VARCHAR(100), lesson_topic_id INT REFERENCES topic(topic_id) ON DELETE CASCADE )`;
   await db.query(createLessonQuery);
   
-  const createQuizQuery = `CREATE TABLE quiz ( quiz_id SERIAL PRIMARY KEY, quiz_name VARCHAR(200) NOT NULL, quiz_code VARCHAR(200), quiz_type VARCHAR(200) NOT NULL )`;
+  const createQuizQuery = `CREATE TABLE quiz ( quiz_id SERIAL PRIMARY KEY, quiz_name VARCHAR(100) NOT NULL, quiz_code VARCHAR(100), quiz_desc VARCHAR(200), quiz_type VARCHAR(100), quiz_calc BOOLEAN DEFAULT TRUE,quiz_course_fk_id INT REFERENCES course(course_id) ON DELETE CASCADE,quiz_topic_fk_id INT REFERENCES topic(topic_id) ON DELETE CASCADE,quiz_lesson_fk_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE )`;
   await db.query(createQuizQuery);
   
   const createAuthQuery = `CREATE TABLE auth ( auth_id SERIAL PRIMARY KEY, auth_student_id INT REFERENCES student(student_id) ON DELETE CASCADE, auth_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE, auth_token VARCHAR (1000) NOT NULL )`;
   await db.query(createAuthQuery);
   
-  const createDigitutorQuery = `CREATE TABLE digitutor ( digitutor_id SERIAL PRIMARY KEY, digitutor_student_id INT REFERENCES student(student_id) ON DELETE CASCADE, digitutor_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE, digitutor_msg_count INT DEFAULT 0, digitutor_input VARCHAR(200), digitutor_output VARCHAR(200) )`;
-  await db.query(createDigitutorQuery);
+  // const createDigitutorQuery = `CREATE TABLE digitutor ( digitutor_id SERIAL PRIMARY KEY, digitutor_student_id INT REFERENCES student(student_id) ON DELETE CASCADE, digitutor_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE, digitutor_msg_count INT DEFAULT 0, digitutor_input VARCHAR(200), digitutor_output VARCHAR(200) )`;
+  // await db.query(createDigitutorQuery);
   
-  const createQuizfbQuery = `CREATE TABLE quizfb ( quizfb_id SERIAL PRIMARY KEY, quizfb_digitutor_id INT REFERENCES digitutor(digitutor_id) ON DELETE CASCADE, quizfb_quiz_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE, quizfb_result INT, quizfb_notes VARCHAR(200), quizfb_percent INT )`;
-  await db.query(createQuizfbQuery);
+  // const createQuizfbQuery = `CREATE TABLE quizfb ( quizfb_id SERIAL PRIMARY KEY, quizfb_digitutor_id INT REFERENCES digitutor(digitutor_id) ON DELETE CASCADE, quizfb_quiz_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE, quizfb_result INT, quizfb_notes VARCHAR(200), quizfb_percent INT )`;
+  // await db.query(createQuizfbQuery);
   
   const createQuestionQuery = `CREATE TABLE question ( ques_id SERIAL PRIMARY KEY, ques_body VARCHAR (500) NOT NULL, ques_image VARCHAR (200), ques_grade INT DEFAULT 0, ques_calc BOOLEAN, ques_mark INT DEFAULT 1, ques1_ans VARCHAR (200), ques2_ans VARCHAR (200), ques3_ans VARCHAR (200), ques_ans_explain VARCHAR (200), ques_ans_mark INT DEFAULT 1, ques_ans_image VARCHAR (200), ques_ans_correct BOOLEAN DEFAULT FALSE, ques_ans_sym_b VARCHAR (5), ques_ans_sym_a VARCHAR (5), ques_quiz_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE, ques_lesson_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE )`;
   await db.query(createQuestionQuery);
@@ -77,7 +77,7 @@ const runSeeds  = async (data) => {
   const course = await db.query(insertCourseQuery);
 
   const formattedTopics = formatTopicData(topicData);
-  const insertTopicQuery = format( `INSERT INTO topic (topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_id) VALUES %L RETURNING *;`, formattedTopics );
+  const insertTopicQuery = format( `INSERT INTO topic (topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_fk_id) VALUES %L RETURNING *;`, formattedTopics );
   const topic = await db.query(insertTopicQuery);
 
   const formattedAdmins = formatAdminsData(adminsData);
@@ -97,7 +97,7 @@ const runSeeds  = async (data) => {
   const lesson = await db.query(insertLessonQuery);
 
   const formattedQuizzes = formatQuizData(quizData);
-  const insertQuizQuery = format( `INSERT INTO quiz (quiz_name, quiz_code, quiz_type) VALUES %L RETURNING *;`, formattedQuizzes );
+  const insertQuizQuery = format( `INSERT INTO quiz (quiz_name, quiz_code, quiz_desc, quiz_type, quiz_calc, quiz_course_fk_id, quiz_topic_fk_id,quiz_lesson_fk_id) VALUES %L RETURNING *;`, formattedQuizzes );
   const quiz = await db.query(insertQuizQuery);
 
   const formattedQuestions = formatQuestionData(questionData);

@@ -18,7 +18,7 @@ exports.formatTopicData = (topicData) => {
     topic.topic_code,
     topic.topic_desc,
     topic.topic_level,
-    topic.topic_course_id,
+    topic.topic_course_fk_id,
   ]);
   return formattedTopics;
 };
@@ -103,7 +103,12 @@ exports.formatQuizData = (quizData) => {
   const formattedQuizzes = quizData.map((quiz) => [
     quiz.quiz_name,
     quiz.quiz_code,
+    quiz.quiz_desc,
     quiz.quiz_type,
+    quiz.quiz_calc,
+    quiz.quiz_course_fk_id,
+    quiz.quiz_topic_fk_id,
+    quiz.quiz_lesson_fk_id,
   ]);
   return formattedQuizzes;
 };

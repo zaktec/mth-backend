@@ -9,7 +9,7 @@ exports.selectTopics = async (sort_by = "topic_unit") => {
       "topic_code",
       "topic_name",
       "topic_level",
-      "topic_course_id",
+      "topic_course_fk_id",
     ];
     if (!allowedSortBys.includes(sort_by)) {
       return Promise.reject({ status: 400, msg: "bad request" });
@@ -22,10 +22,10 @@ exports.selectTopics = async (sort_by = "topic_unit") => {
 
 exports.insertTopic = async (topic) => {
   
-  const { topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_id } = topic;
+  const { topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_fk_id } = topic;
     const InsertQuery =`INSERT INTO topic
-    (topic_unit, topic_name, topic_code, topic_desc, topic_level,  topic_course_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`
-  const data =  await db.query(InsertQuery, [topic_unit,topic_name, topic_code, topic_desc, topic_level, topic_course_id]
+    (topic_unit, topic_name, topic_code, topic_desc, topic_level,  topic_course_fk_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`
+  const data =  await db.query(InsertQuery, [topic_unit,topic_name, topic_code, topic_desc, topic_level, topic_course_fk_id]
     )
       return data.rows[0];
 };
@@ -52,15 +52,15 @@ exports.deleteTopicById = async (topic_id) => {
 
 exports.updateTopicById = async (topic, topic_id) => {
   
-  const { topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_id } = topic;
-    const InsertQuery =`UPDATE topic SET topic_unit = $1, topic_name = $2, topic_code = $3, topic_desc = $4, topic_level = $5, topic_course_id= $6 WHERE topic_id = $7 RETURNING *;`
+  const { topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_fk_id } = topic;
+    const InsertQuery =`UPDATE topic SET topic_unit = $1, topic_name = $2, topic_code = $3, topic_desc = $4, topic_level = $5, topic_course_fk_id= $6 WHERE topic_id = $7 RETURNING *;`
   const data = await db.query(InsertQuery,[
         topic_unit,
         topic_name,
         topic_code,
         topic_desc,
         topic_level,
-        topic_course_id,
+        topic_course_fk_id,
         topic_id,
       ]
     )

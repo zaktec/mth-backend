@@ -943,7 +943,6 @@ describe("Test25- POST /api/courses", () => {
       })
       .expect(201)
       .then((res) => {
-        console.log("couese>>.",res.body)
         course_id = res.body.data.course_id;
         expect(res.body.data).toEqual({
           course_code: "New- MTH-GF",
@@ -979,7 +978,6 @@ describe("Test26-   GET /api/courses", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-          console.log(res.body)
         expect(res.body.data).toBeInstanceOf(Array);
         expect(res.body.data).toHaveLength(res.body.data.length);
         res.body.data.forEach((course) => {
@@ -1104,7 +1102,7 @@ describe("Test29- POST /api/topics", () => {
         topic_code: "GFA2",
         topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
         topic_level: "foundation",
-        topic_course_id: course_id,
+        topic_course_fk_id: course_id,
         
       })
       .expect(201)
@@ -1117,7 +1115,7 @@ describe("Test29- POST /api/topics", () => {
           topic_code: "GFA2",
           topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
           topic_level: "foundation",
-          topic_course_id: course_id,
+          topic_course_fk_id: course_id,
           topic_id: topic_id,
         });
       });
@@ -1154,7 +1152,7 @@ describe("Test30-   GET /api/topics", () => {
             topic_code: expect.any(String),
             topic_desc: expect.any(String),
             topic_level: expect.any(String),
-            topic_course_id: expect.any(Number),
+            topic_course_fk_id: expect.any(Number),
             topic_id: expect.any(Number),
           });
         });
@@ -1206,7 +1204,7 @@ describe("Test31- GET   /api/topics/:topic_id", () => {
           topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
           topic_unit: 4,
           topic_level:"foundation",
-          topic_course_id: course_id,
+          topic_course_fk_id: course_id,
           topic_id: topic_id,
         });
       });
@@ -1243,16 +1241,20 @@ describe("Test32- PATCH /api/topic/:topic_id", () => {
         topic_code: "GHS1",
         topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
         topic_unit: 4,
-        topic_course_id: course_id,
+        topic_level: "foundation",
+        topic_course_fk_id: course_id,
+        
       })
       .expect(200)
       .then((res) => {
+        console.log(res.body.data)
         expect(res.body.data).toEqual({
           topic_name: "Patched Statistics",
           topic_code: "GHS1",
           topic_desc: "MTH GCSE Maths Online Course - Higher - Statistics",
           topic_unit: 4,
-          topic_course_id: course_id,
+          topic_level: "foundation",
+          topic_course_fk_id: course_id,
           topic_id: topic_id,
         });
       });
@@ -1370,10 +1372,11 @@ describe("Test35- GET   /api/lessons/:lesson_id", () => {
         expect(res.body.data).toEqual({
           lesson_id: lesson_id,
           lesson_topic_id: res.body.data.lesson_topic_id,
+          lesson_topic: "New- Addition, Subtraction and Money Problems",
           lesson_name: "New- Addition, Subtraction and Money Problems",
           lesson_code: "GFN1LC1",
           lesson_desc: "To be able to add, subtract, and solve money problems.",
-          lesson_ws: "GFN1WS1",
+          lesson_grade: 6,
           lesson_body: "PowerPoint",
         });
       });
@@ -1407,10 +1410,11 @@ describe("Test36- PATCH /api/lessons/:lesson_id", () => {
       .patch(`/api/lessons/${lesson_id}`)
       .set("Authorization", validAdmin)
       .send({
+        lesson_topic: "patched- Addition, Subtraction and Money Problems",
         lesson_name: "patched- Addition, Subtraction and Money Problems",
         lesson_code: "GFN1LC1",
         lesson_desc: "To be able to add, subtract, and solve money problems.",
-        lesson_ws: "GFN1WS1",
+        lesson_grade: 4,
         lesson_body: "PowerPoint",
         lesson_topic_id: topic_id,
       })
@@ -1419,10 +1423,11 @@ describe("Test36- PATCH /api/lessons/:lesson_id", () => {
         expect(res.body.data).toEqual({
           lesson_id: lesson_id,
           lesson_topic_id: res.body.data.lesson_topic_id,
+          lesson_topic: "patched- Addition, Subtraction and Money Problems",
           lesson_name: "patched- Addition, Subtraction and Money Problems",
           lesson_code: "GFN1LC1",
           lesson_desc: "To be able to add, subtract, and solve money problems.",
-          lesson_ws: "GFN1WS1",
+          lesson_grade: 4,
           lesson_body: "PowerPoint",
         });
       });
@@ -1439,16 +1444,25 @@ describe("Test37- POST /api/quizzes", () => {
       .send({
         quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
         quiz_code: "GFN2TDQ",
-        quiz_type: "TopicDiagnostic",
+        quiz_desc: "TopicDiagnostic",
+        quiz_type: "NewPost Number 2- Topic Diagnostic Quiz",
+        quiz_calc: true,
+        quiz_course_fk_id: 2,
+        
       })
       .expect(201)
       .then((res) => {
         quiz_id = res.body.data.quiz_id;
         expect(res.body.data).toEqual({
-          quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
-          quiz_code: "GFN2TDQ",
-          quiz_type: "TopicDiagnostic",
-          quiz_id: quiz_id,
+        quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
+        quiz_code: "GFN2TDQ",
+        quiz_desc: "TopicDiagnostic",
+        quiz_type: "NewPost Number 2- Topic Diagnostic Quiz",
+        quiz_calc: true,
+        quiz_course_fk_id: 2,
+        quiz_lesson_fk_id: null,
+        quiz_topic_fk_id: null,
+        quiz_id: quiz_id,
         });
       });
   });
@@ -1531,6 +1545,11 @@ describe("Test39- GET   /api/quizzes/:quiz_id", () => {
           quiz_name: expect.any(String),
           quiz_code: expect.any(String),
           quiz_type: expect.any(String),
+          quiz_calc: expect.any(Boolean),
+          quiz_desc: expect.any(String),
+          quiz_course_fk_id: expect.any(Number),
+          quiz_topic_fk_id: expect.any.toBeNull(),
+          quiz_lesson_fk_id: expect.any.toBeNull(),
         });
       });
   });
@@ -1564,14 +1583,25 @@ describe("Test40- PATCH /api/quizzes/:quiz_id", () => {
       .send({
         quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
         quiz_code: "GFN2TDQ",
-        quiz_type: "TopicDiagnostic",
+        quiz_desc: "TopicDiagnostic",  
+        quiz_type: "NewPatch Number 2- Topic Diagnostic Quiz",
+        quiz_calc: true,
+        quiz_course_fk_id: 1,
+        quiz_topic_fk_id: null,
+        quiz_lesson_fk_id:null,
+
       })
       .expect(200)
       .then((res) => {
         expect(res.body.data).toEqual({
           quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
           quiz_code: "GFN2TDQ",
-          quiz_type: "TopicDiagnostic",
+          quiz_desc: "TopicDiagnostic",  
+          quiz_type: "NewPatch Number 2- Topic Diagnostic Quiz",
+          quiz_calc: true,
+          quiz_course_fk_id: 1,
+          quiz_topic_fk_id: null,
+          quiz_lesson_fk_id:null,
           quiz_id: res.body.data.quiz_id,
         });
       });

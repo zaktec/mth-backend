@@ -7,7 +7,7 @@ exports.quizData = require('./quizzes');
 exports.questionData=require('./questions');
 exports.adminsData=require('./admins');
 
-console.log(this.courseData)
+//console.log(this.courseData)
 
 
 //console.log(this.topicData) 

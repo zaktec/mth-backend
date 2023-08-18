@@ -5,7 +5,7 @@ module.exports = [
     topic_code: "GFNT",
     topic_desc: "GCSE Maths Online Course - Foundation - Number",
     topic_level: "Foundation",
-    topic_course_id: 1,
+    topic_course_fk_id: 1,
   },
 
   {
@@ -14,7 +14,7 @@ module.exports = [
     topic_code: "GFAT",
     topic_desc: "GCSE Maths Online Course - Foundation - Algebra",
     topic_level: "Foundation",
-    topic_course_id: 2,
+    topic_course_fk_id: 2,
   },
 
   {
@@ -23,7 +23,7 @@ module.exports = [
     topic_code: "GHRPT",
     topic_desc: "GCSE Maths Online Course -Higher- Ratio and Proportion",
     topic_level: "Higher",
-    topic_course_id: 3,
+    topic_course_fk_id: 3,
   },
  
 ];
