@@ -26,7 +26,7 @@ Question                         Line Code   1312
  ---------------------------------------------------------*/
 
 let quiz_id;
-let ques_id;
+let question_id;
 let topic_id;
 let tutor_id;
 let lesson_id;
@@ -1275,7 +1275,7 @@ describe("Test33- POST /api/lessons", () => {
         lesson_desc: "To be able to add, subtract, and solve money problems.",
         lesson_grade: 6,
         lesson_body: "PowerPoint",
-        lesson_topic_id: topic_id,
+        lesson_topic_fk_id: topic_id,
       })
       .expect(201)
       .then((res) => {
@@ -1287,7 +1287,7 @@ describe("Test33- POST /api/lessons", () => {
           lesson_desc: "To be able to add, subtract, and solve money problems.",
           lesson_grade: 6,
           lesson_body: "PowerPoint",
-          lesson_topic_id: topic_id,
+          lesson_topic_fk_id: topic_id,
           lesson_id: lesson_id,
         });
       });
@@ -1325,7 +1325,7 @@ describe("Test34-   GET /api/lessons", () => {
             lesson_desc: expect.any(String),
             lesson_grade: expect.any(Number),
             lesson_body: expect.any(String),
-            lesson_topic_id: expect.any(Number),
+            lesson_topic_fk_id: expect.toBeOneOf([expect.any(Number), null]),
           });
         });
       });
@@ -1371,7 +1371,7 @@ describe("Test35- GET   /api/lessons/:lesson_id", () => {
       .then((res) => {
         expect(res.body.data).toEqual({
           lesson_id: lesson_id,
-          lesson_topic_id: res.body.data.lesson_topic_id,
+          lesson_topic_fk_id: res.body.data.lesson_topic_fk_id,
           lesson_topic: "New- Addition, Subtraction and Money Problems",
           lesson_name: "New- Addition, Subtraction and Money Problems",
           lesson_code: "GFN1LC1",
@@ -1416,13 +1416,13 @@ describe("Test36- PATCH /api/lessons/:lesson_id", () => {
         lesson_desc: "To be able to add, subtract, and solve money problems.",
         lesson_grade: 4,
         lesson_body: "PowerPoint",
-        lesson_topic_id: topic_id,
+        lesson_topic_fk_id: topic_id,
       })
       .expect(200)
       .then((res) => {
         expect(res.body.data).toEqual({
           lesson_id: lesson_id,
-          lesson_topic_id: res.body.data.lesson_topic_id,
+          lesson_topic_fk_id: res.body.data.lesson_topic_fk_id,
           lesson_topic: "patched- Addition, Subtraction and Money Problems",
           lesson_name: "patched- Addition, Subtraction and Money Problems",
           lesson_code: "GFN1LC1",
@@ -1548,8 +1548,8 @@ describe("Test39- GET   /api/quizzes/:quiz_id", () => {
           quiz_calc: expect.any(Boolean),
           quiz_desc: expect.any(String),
           quiz_course_fk_id: expect.any(Number),
-          quiz_topic_fk_id: expect.any.toBeNull(),
-          quiz_lesson_fk_id: expect.any.toBeNull(),
+          quiz_topic_fk_id:  expect.toBeOneOf([expect.any(Number), null]),
+          quiz_lesson_fk_id:  expect.toBeOneOf([expect.any(Number), null]),
         });
       });
   });
@@ -1627,9 +1627,9 @@ describe("Test41- POST /api/questions", () => {
       })
       .expect(201)
       .then((res) => {
-        ques_id = res.body.data.ques_id;
+        question_id = res.body.data.question_id;
         expect(res.body.data).toEqual({
-          ques_id: res.body.data.ques_id,
+          question_id: res.body.data.question_id,
           ques_quiz_id: quiz_id,
           ques_lesson_id: lesson_id,
           ques_body: "4.79 - 1.2",
@@ -1675,7 +1675,7 @@ describe("Test42-   GET /api/questions", () => {
         expect(res.body.data).toHaveLength(res.body.data.length);
         res.body.data.forEach((question) => {
           expect(question).toMatchObject({
-            ques_id: expect.any(Number),
+            question_id: expect.any(Number),
             ques_lesson_id: expect.any(Number),
             ques_body: expect.any(String),
             ques_grade: expect.any(Number),
@@ -1703,17 +1703,17 @@ describe("Test42-   GET /api/questions", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.data).toBeSortedBy("ques_id");
+        expect(res.body.data).toBeSortedBy("question_id");
       });
   });
 
   test("QUERY: status 200: question are sorted by passed query", () => {
     return request(app)
-      .get("/api/questions?sort_by=ques_id")
+      .get("/api/questions?sort_by=question_id")
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.data).toBeSortedBy("ques_id");
+        expect(res.body.data).toBeSortedBy("question_id");
       });
   });
 
@@ -1731,21 +1731,26 @@ describe("Test42-   GET /api/questions", () => {
 describe("Test43- GET   /api/questions/:question_id", () => {
   test("status: 200 and return a question object", () => {
     return request(app)
-      .get(`/api/questions/${ques_id}`)
+      .get(`/api/questions/${question_id}`)
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.data).toEqual({
-          ques_id: expect.any(Number),
-          ques1_ans: expect.any(String),
-          ques_body: expect.any(String),
-          ques_calc: expect.any(Boolean),
-          ques_grade: expect.any(Number),
+          question_id: expect.any(Number),
+          question_body: expect.any(String),
+          question_ans1: expect.any(String),
+          question_ans2: expect.toBeOneOf([expect.any(String), null]),
+          question_ans3: expect.toBeOneOf([expect.any(String), null]),
+          question_image: expect.toBeOneOf([expect.any(String), null]),
+          question_mark: expect.toBeOneOf([expect.any(Number), null]),
+          question_grade: expect.any(Number),
+          question_calc: expect.any(Boolean),
+          
           ques_lesson_id: expect.any(Number),
           ques_mark: expect.toBeOneOf([expect.any(Number), null]),
-          ques_image: expect.toBeOneOf([expect.any(String), null]),
-          ques2_ans: expect.toBeOneOf([expect.any(String), null]),
-          ques3_ans: expect.toBeOneOf([expect.any(String), null]),
+          
+          
+          
           ques_ans_explain: expect.toBeOneOf([expect.any(String), null]),
           ques_ans_mark: expect.toBeOneOf([expect.any(Number), null]),
           ques_ans_image: expect.toBeOneOf([expect.any(String), null]),
@@ -1778,10 +1783,10 @@ describe("Test43- GET   /api/questions/:question_id", () => {
   });
 });
 
-describe("Test44- PATCH /api/questions/:ques_id", () => {
+describe("Test44- PATCH /api/questions/:question_id", () => {
   test("Status 200: and return a updated ques object  ", () => {
     return request(app)
-      .patch(`/api/questions/${ques_id}`)
+      .patch(`/api/questions/${question_id}`)
       .set("Authorization", validAdmin)
       .send({
         ques_body: "new 4.79 - 1.2",
@@ -1796,7 +1801,7 @@ describe("Test44- PATCH /api/questions/:ques_id", () => {
       .expect(200)
       .then((res) => {
         expect(res.body.data).toEqual({
-          ques_id: ques_id,
+          question_id: question_id,
           ques_quiz_id: quiz_id,
           ques_lesson_id: lesson_id,
           ques_body: "new 4.79 - 1.2",
@@ -1879,10 +1884,10 @@ describe("Test46-  DELETE /api/tutor/:tutor_id", () => {
   });
 });
 
-describe("Test47-  DELETE /api/questions/:ques_id", () => {
+describe("Test47-  DELETE /api/questions/:question_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-      .delete(`/api/questions/${ques_id}`)
+      .delete(`/api/questions/${question_id}`)
       .set("Authorization", validAdmin)
       .expect(204);
   });

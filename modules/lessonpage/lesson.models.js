@@ -6,7 +6,7 @@ exports.selectLessons = async (sort_by = "lesson_id") => {
       "lesson_id",
       "lesson_code",
       "lesson_name",
-      "lesson_topic_id",
+      "lesson_topic_fk_id",
     ];
     if (!allowedSortBys.includes(sort_by)) {
       return Promise.reject({ status: 400, msg: "bad request" });
@@ -38,10 +38,10 @@ exports.insertLesson = async (lesson) => {
     lesson_desc,
     lesson_grade,
     lesson_body,
-    lesson_topic_id,
+    lesson_topic_fk_id,
   } = lesson;
 
-  const InsertQuery = `INSERT INTO lesson (lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *; `
+  const InsertQuery = `INSERT INTO lesson (lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *; `
   const data = await db.query(InsertQuery,[
         lesson_topic,
         lesson_name,
@@ -49,7 +49,7 @@ exports.insertLesson = async (lesson) => {
         lesson_desc,
         lesson_grade,
         lesson_body,
-        lesson_topic_id,
+        lesson_topic_fk_id,
       ]
     )
       return data.rows[0];
@@ -70,9 +70,9 @@ exports.updateLessonById = async (lesson, lesson_id) => {
     lesson_desc,
     lesson_grade,
     lesson_body,
-    lesson_topic_id,
+    lesson_topic_fk_id,
   } = lesson;
-  const InsertQuery = `UPDATE lesson SET lesson_topic = $1, lesson_name = $2, lesson_code = $3, lesson_desc = $4, lesson_grade = $5, lesson_body = $6, lesson_topic_id = $7 WHERE lesson_id = $8 RETURNING *;`
+  const InsertQuery = `UPDATE lesson SET lesson_topic = $1, lesson_name = $2, lesson_code = $3, lesson_desc = $4, lesson_grade = $5, lesson_body = $6, lesson_topic_fk_id = $7 WHERE lesson_id = $8 RETURNING *;`
   const data= await db.query( InsertQuery,[
         lesson_topic,
         lesson_name,
@@ -80,7 +80,7 @@ exports.updateLessonById = async (lesson, lesson_id) => {
         lesson_desc,
         lesson_grade,
         lesson_body,
-        lesson_topic_id,
+        lesson_topic_fk_id,
         lesson_id,
       ]);
       return data.rows[0];
