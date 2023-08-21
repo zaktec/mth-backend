@@ -49,7 +49,6 @@ beforeAll(() => seed(testData));
 //afterAll(() => seed(testData));
 afterAll(() => db.end());
 
-
 //-------------------unauthrised Link---------------------/
 
 describe("Test1-   GET /invalid_url", () => {
@@ -421,7 +420,7 @@ describe("Test13- POST /api/admins", () => {
       })
       .expect(500)
       .then((res) => {
-       // expect(res.body.msg).toBe("Invalid input");
+        // expect(res.body.msg).toBe("Invalid input");
       });
   });
 });
@@ -475,8 +474,8 @@ describe("Test14-   GET /api/admin", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-          //  console.log(res.body)
-       // expect(res.body.msg).toBe("bad request");
+        //  console.log(res.body)
+        // expect(res.body.msg).toBe("bad request");
       });
   });
 });
@@ -517,7 +516,7 @@ describe("Test15- GET   /api/admin/:admins_id", () => {
       .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => {
-       expect(res.body.msg).toBe("Invalid Input");
+        expect(res.body.msg).toBe("Invalid Input");
       });
   });
 });
@@ -551,8 +550,6 @@ describe("Test16- PATCH /api/admin/:admins_id", () => {
       });
   });
 });
-
-
 
 //-------------------student--------------------------------------/
 
@@ -606,7 +603,7 @@ describe("Test17- POST /api/students", () => {
       })
       .expect(500)
       .then((res) => {
-       // expect(res.body.msg).toBe("Invalid input");
+        // expect(res.body.msg).toBe("Invalid input");
       });
   });
 });
@@ -700,7 +697,7 @@ describe("Test19- GET   /api/students/:student_id", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-      //  expect(res.body.msg).toBe("Invalid input");
+        //  expect(res.body.msg).toBe("Invalid input");
       });
   });
 
@@ -797,7 +794,7 @@ describe("Test21- POST /api/tutors", () => {
       })
       .expect(500)
       .then((res) => {
-    //    expect(res.body.msg).toBe("Invalid input");
+        //    expect(res.body.msg).toBe("Invalid input");
       });
   });
 });
@@ -1096,21 +1093,18 @@ describe("Test29- POST /api/topics", () => {
       .post("/api/topics")
       .set("Authorization", validAdmin)
       .send({
-       
-        topic_unit:4,
+        topic_unit: 4,
         topic_name: "New",
         topic_code: "GFA2",
         topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
         topic_level: "foundation",
         topic_course_fk_id: course_id,
-        
       })
       .expect(201)
       .then((res) => {
-       
         topic_id = res.body.data.topic_id;
         expect(res.body.data).toEqual({
-          topic_unit:4,
+          topic_unit: 4,
           topic_name: "New",
           topic_code: "GFA2",
           topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
@@ -1131,7 +1125,7 @@ describe("Test29- POST /api/topics", () => {
       })
       .expect(500)
       .then((res) => {
-     //  expect(res.body.msg).toBe("Invalid input");
+        //  expect(res.body.msg).toBe("Invalid input");
       });
   });
 });
@@ -1185,7 +1179,7 @@ describe("Test30-   GET /api/topics", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-  //      expect(res.body.msg).toBe("bad request");
+        //      expect(res.body.msg).toBe("bad request");
       });
     //});
   });
@@ -1203,7 +1197,7 @@ describe("Test31- GET   /api/topics/:topic_id", () => {
           topic_code: "GFA2",
           topic_desc: "MTH GCSE Maths Online Course - Foundation - Algebra 2",
           topic_unit: 4,
-          topic_level:"foundation",
+          topic_level: "foundation",
           topic_course_fk_id: course_id,
           topic_id: topic_id,
         });
@@ -1243,11 +1237,10 @@ describe("Test32- PATCH /api/topic/:topic_id", () => {
         topic_unit: 4,
         topic_level: "foundation",
         topic_course_fk_id: course_id,
-        
       })
       .expect(200)
       .then((res) => {
-        console.log(res.body.data)
+        console.log(res.body.data);
         expect(res.body.data).toEqual({
           topic_name: "Patched Statistics",
           topic_code: "GHS1",
@@ -1388,8 +1381,8 @@ describe("Test35- GET   /api/lessons/:lesson_id", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-        console.log(res.body)
-       // expect(res.body.msg).toBe("Invalid input");
+        console.log(res.body);
+        // expect(res.body.msg).toBe("Invalid input");
       });
   });
 
@@ -1448,21 +1441,20 @@ describe("Test37- POST /api/quizzes", () => {
         quiz_type: "NewPost Number 2- Topic Diagnostic Quiz",
         quiz_calc: true,
         quiz_course_fk_id: 2,
-        
       })
       .expect(201)
       .then((res) => {
         quiz_id = res.body.data.quiz_id;
         expect(res.body.data).toEqual({
-        quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
-        quiz_code: "GFN2TDQ",
-        quiz_desc: "TopicDiagnostic",
-        quiz_type: "NewPost Number 2- Topic Diagnostic Quiz",
-        quiz_calc: true,
-        quiz_course_fk_id: 2,
-        quiz_lesson_fk_id: null,
-        quiz_topic_fk_id: null,
-        quiz_id: quiz_id,
+          quiz_name: "NewPost Number 2- Topic Diagnostic Quiz",
+          quiz_code: "GFN2TDQ",
+          quiz_desc: "TopicDiagnostic",
+          quiz_type: "NewPost Number 2- Topic Diagnostic Quiz",
+          quiz_calc: true,
+          quiz_course_fk_id: 2,
+          quiz_lesson_fk_id: null,
+          quiz_topic_fk_id: null,
+          quiz_id: quiz_id,
         });
       });
   });
@@ -1477,7 +1469,7 @@ describe("Test37- POST /api/quizzes", () => {
       })
       .expect(500)
       .then((res) => {
-      //  expect(res.body.msg).toBe("Invalid input");
+        //  expect(res.body.msg).toBe("Invalid input");
       });
   });
 });
@@ -1528,7 +1520,7 @@ describe("Test38-   GET /api/quizzes", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-       // expect(res.body.msg).toBe("bad request");
+        // expect(res.body.msg).toBe("bad request");
       });
   });
 });
@@ -1548,8 +1540,8 @@ describe("Test39- GET   /api/quizzes/:quiz_id", () => {
           quiz_calc: expect.any(Boolean),
           quiz_desc: expect.any(String),
           quiz_course_fk_id: expect.any(Number),
-          quiz_topic_fk_id:  expect.toBeOneOf([expect.any(Number), null]),
-          quiz_lesson_fk_id:  expect.toBeOneOf([expect.any(Number), null]),
+          quiz_topic_fk_id: expect.toBeOneOf([expect.any(Number), null]),
+          quiz_lesson_fk_id: expect.toBeOneOf([expect.any(Number), null]),
         });
       });
   });
@@ -1560,7 +1552,7 @@ describe("Test39- GET   /api/quizzes/:quiz_id", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-      //  expect(res.body.msg).toBe("Invalid input");
+        //  expect(res.body.msg).toBe("Invalid input");
       });
   });
 
@@ -1583,25 +1575,24 @@ describe("Test40- PATCH /api/quizzes/:quiz_id", () => {
       .send({
         quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
         quiz_code: "GFN2TDQ",
-        quiz_desc: "TopicDiagnostic",  
+        quiz_desc: "TopicDiagnostic",
         quiz_type: "NewPatch Number 2- Topic Diagnostic Quiz",
         quiz_calc: true,
         quiz_course_fk_id: 1,
         quiz_topic_fk_id: null,
-        quiz_lesson_fk_id:null,
-
+        quiz_lesson_fk_id: null,
       })
       .expect(200)
       .then((res) => {
         expect(res.body.data).toEqual({
           quiz_name: "NewPatch Number 2- Topic Diagnostic Quiz",
           quiz_code: "GFN2TDQ",
-          quiz_desc: "TopicDiagnostic",  
+          quiz_desc: "TopicDiagnostic",
           quiz_type: "NewPatch Number 2- Topic Diagnostic Quiz",
           quiz_calc: true,
           quiz_course_fk_id: 1,
           quiz_topic_fk_id: null,
-          quiz_lesson_fk_id:null,
+          quiz_lesson_fk_id: null,
           quiz_id: res.body.data.quiz_id,
         });
       });
@@ -1616,36 +1607,43 @@ describe("Test41- POST /api/questions", () => {
       .post("/api/questions")
       .set("Authorization", validAdmin)
       .send({
-        ques_quiz_id: quiz_id,
-        ques_lesson_id: lesson_id,
-        ques_body: "4.79 - 1.2",
-        ques1_ans: "3.59",
-        ques_mark: 1,
-        ques_grade: 2,
-        ques_calc: false,
-        ques_ans_explain: "explanation",
+        question_quiz_fk_id: quiz_id,
+        //  ques_lesson_id: lesson_id,
+        question_body: "4.79 - 1.2",
+        question_ans1: "3.59",
+        question_mark: 1,
+        question_grade: 2,
+        question_calc: "false",
+        question_explaination: "explanation",
       })
       .expect(201)
       .then((res) => {
         question_id = res.body.data.question_id;
         expect(res.body.data).toEqual({
           question_id: res.body.data.question_id,
-          ques_quiz_id: quiz_id,
-          ques_lesson_id: lesson_id,
-          ques_body: "4.79 - 1.2",
-          ques1_ans: "3.59",
-          ques_mark: 1,
-          ques_grade: 2,
-          ques_calc: false,
-          ques_ans_explain: "explanation",
-          ques2_ans: null,
-          ques3_ans: null,
-          ques_ans_correct: null,
-          ques_ans_image: null,
-          ques_ans_mark: null,
-          ques_ans_sym_a: null,
-          ques_ans_sym_b: null,
-          ques_image: null,
+          question_quiz_fk_id: quiz_id,
+          //ques_lesson_id: lesson_id,
+          question_body: "4.79 - 1.2",
+          question_ans1: "3.59",
+          question_mark: 1,
+          question_grade: 2,
+          question_calc: false,
+          question_explaination: "explanation",
+          question_ans2: null,
+          question_ans3: null,
+          question_correct: null,
+          question_type: null,
+          question_ans_image: null,
+          question_ans_mark: null,
+          question_ans_sym_a: null,
+          question_ans_sym_b: null,
+          question_image: null,
+          question_quiz_fk_id: 4,
+          question_response1: null,
+          question_response2: null,
+          question_response3: null,
+          question_workingout: null,
+          question_feedback: null,
         });
       });
   });
@@ -1676,27 +1674,31 @@ describe("Test42-   GET /api/questions", () => {
         res.body.data.forEach((question) => {
           expect(question).toMatchObject({
             question_id: expect.any(Number),
-            ques_lesson_id: expect.any(Number),
-            ques_body: expect.any(String),
-            ques_grade: expect.any(Number),
-            ques_calc: expect.any(Boolean),
-            ques1_ans: expect.any(String),
-            ques2_ans: expect.toBeOneOf([expect.any(String), null]),
-            ques_quiz_id: expect.toBeOneOf([expect.any(Number), null]),
-            ques_mark: expect.toBeOneOf([expect.any(Number), null]),
-            ques_image: expect.toBeOneOf([expect.any(String), null]),
-            ques3_ans: expect.toBeOneOf([expect.any(String), null]),
-            ques_ans_explain: expect.toBeOneOf([expect.any(String), null]),
-            ques_ans_mark: expect.toBeOneOf([expect.any(Number), null]),
-            ques_ans_image: expect.toBeOneOf([expect.any(String), null]),
-            ques_ans_correct: expect.toBeOneOf([expect.any(Boolean), null]),
-            ques_ans_sym_b: expect.toBeOneOf([expect.any(String), null]),
-            ques_ans_sym_a: expect.toBeOneOf([expect.any(String), null]),
+            question_body: expect.any(String),
+            question_grade: expect.any(Number),
+            question_calc: expect.any(Boolean),
+            question_ans1: expect.any(String),
+            question_type: expect.toBeOneOf([expect.any(String), null]),
+            question_ans2: expect.toBeOneOf([expect.any(String), null]),
+            question_ans3: expect.toBeOneOf([expect.any(String), null]),
+            question_quiz_fk_id: expect.toBeOneOf([expect.any(Number), null]),
+            question_mark: expect.toBeOneOf([expect.any(Number), null]),
+            question_image: expect.toBeOneOf([expect.any(String), null]),
+            question_explaination: expect.toBeOneOf([expect.any(String), null]),
+            question_ans_mark: expect.toBeOneOf([expect.any(Number), null]),
+            question_ans_image: expect.toBeOneOf([expect.any(String), null]),
+            question_correct: expect.toBeOneOf([expect.any(Boolean), null]),
+            question_ans_sym_b: expect.toBeOneOf([expect.any(String), null]),
+            question_ans_sym_a: expect.toBeOneOf([expect.any(String), null]),
+            question_response1: expect.toBeOneOf([expect.any(String), null]),
+            question_response2: expect.toBeOneOf([expect.any(String), null]),
+            question_response3: expect.toBeOneOf([expect.any(String), null]),
+            question_workingout: expect.toBeOneOf([expect.any(String), null]),
+            question_feedback: expect.toBeOneOf([expect.any(String), null]),
           });
         });
       });
   });
-
   test("QUERY: status 200 : quizzes are sorted by question id", () => {
     return request(app)
       .get("/api/questions")
@@ -1723,13 +1725,14 @@ describe("Test42-   GET /api/questions", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-      //  expect(res.body.msg).toBe("bad request");
+        //  expect(res.body.msg).toBe("bad request");
       });
   });
 });
 
 describe("Test43- GET   /api/questions/:question_id", () => {
   test("status: 200 and return a question object", () => {
+    console.log(question_id);
     return request(app)
       .get(`/api/questions/${question_id}`)
       .set("Authorization", validAdmin)
@@ -1738,26 +1741,39 @@ describe("Test43- GET   /api/questions/:question_id", () => {
         expect(res.body.data).toEqual({
           question_id: expect.any(Number),
           question_body: expect.any(String),
+          question_grade: expect.any(Number),
+          question_calc: expect.any(Boolean),
+          question_type: expect.toBeOneOf([expect.any(String), null]),
           question_ans1: expect.any(String),
           question_ans2: expect.toBeOneOf([expect.any(String), null]),
           question_ans3: expect.toBeOneOf([expect.any(String), null]),
-          question_image: expect.toBeOneOf([expect.any(String), null]),
+          question_quiz_fk_id: expect.toBeOneOf([expect.any(Number), null]),
           question_mark: expect.toBeOneOf([expect.any(Number), null]),
-          question_grade: expect.any(Number),
-          question_calc: expect.any(Boolean),
-          
-          ques_lesson_id: expect.any(Number),
-          ques_mark: expect.toBeOneOf([expect.any(Number), null]),
-          
-          
-          
-          ques_ans_explain: expect.toBeOneOf([expect.any(String), null]),
-          ques_ans_mark: expect.toBeOneOf([expect.any(Number), null]),
-          ques_ans_image: expect.toBeOneOf([expect.any(String), null]),
-          ques_ans_correct: expect.toBeOneOf([expect.any(Boolean), null]),
-          ques_ans_sym_b: expect.toBeOneOf([expect.any(String), null]),
-          ques_ans_sym_a: expect.toBeOneOf([expect.any(String), null]),
-          ques_quiz_id: expect.toBeOneOf([expect.any(Number), null]),
+          question_image: expect.toBeOneOf([expect.any(String), null]),
+          question_explaination: expect.toBeOneOf([expect.any(String), null]),
+          question_ans_mark: expect.toBeOneOf([expect.any(Number), null]),
+          question_ans_image: expect.toBeOneOf([expect.any(String), null]),
+          question_correct: expect.toBeOneOf([expect.any(Boolean), null]),
+          question_ans_sym_b: expect.toBeOneOf([expect.any(String), null]),
+          question_ans_sym_a: expect.toBeOneOf([expect.any(String), null]),
+          question_response1: expect.toBeOneOf([expect.any(String), null]),
+          question_response2: expect.toBeOneOf([expect.any(String), null]),
+          question_response3: expect.toBeOneOf([expect.any(String), null]),
+          question_workingout: expect.toBeOneOf([expect.any(String), null]),
+          question_feedback: expect.toBeOneOf([expect.any(String), null]),      question_quiz_fk_id: expect.toBeOneOf([expect.any(Number), null]),
+          question_mark: expect.toBeOneOf([expect.any(Number), null]),
+          question_image: expect.toBeOneOf([expect.any(String), null]),
+          question_explaination: expect.toBeOneOf([expect.any(String), null]),
+          question_ans_mark: expect.toBeOneOf([expect.any(Number), null]),
+          question_ans_image: expect.toBeOneOf([expect.any(String), null]),
+          question_correct: expect.toBeOneOf([expect.any(Boolean), null]),
+          question_ans_sym_b: expect.toBeOneOf([expect.any(String), null]),
+          question_ans_sym_a: expect.toBeOneOf([expect.any(String), null]),
+          question_response1: expect.toBeOneOf([expect.any(String), null]),
+          question_response2: expect.toBeOneOf([expect.any(String), null]),
+          question_response3: expect.toBeOneOf([expect.any(String), null]),
+          question_workingout: expect.toBeOneOf([expect.any(String), null]),
+          question_feedback: expect.toBeOneOf([expect.any(String), null]),
         });
       });
   });
@@ -1768,7 +1784,7 @@ describe("Test43- GET   /api/questions/:question_id", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-       // expect(res.body.msg).toBe("Invalid input");
+        // expect(res.body.msg).toBe("Invalid input");
       });
   });
 
@@ -1789,41 +1805,39 @@ describe("Test44- PATCH /api/questions/:question_id", () => {
       .patch(`/api/questions/${question_id}`)
       .set("Authorization", validAdmin)
       .send({
-        ques_body: "new 4.79 - 1.2",
-        ques1_ans: "3.59",
-        ques_mark: 1,
-        ques_grade: 2,
-        ques_quiz_id: quiz_id,
-        ques_lesson_id: lesson_id,
-        ques_calc: false,
-        ques_ans_explain: "explanation",
+        question_body: "new 4.79 - 1.2",
+        question_ans: "3.59",
+        question_mark: 1,
+        question_grade: 2,
+        question_quiz_fk_id: quiz_id,
+        //ques_lesson_id: lesson_id,
+        question_calc: false,
+        ques_explaination: "explanation",
       })
       .expect(200)
       .then((res) => {
         expect(res.body.data).toEqual({
           question_id: question_id,
-          ques_quiz_id: quiz_id,
-          ques_lesson_id: lesson_id,
-          ques_body: "new 4.79 - 1.2",
-          ques1_ans: "3.59",
-          ques_mark: 1,
-          ques_grade: 2,
-          ques_calc: false,
-          ques_ans_explain: "explanation",
-          ques2_ans: null,
-          ques3_ans: null,
-          ques_ans_correct: null,
-          ques_ans_image: null,
-          ques_ans_mark: null,
-          ques_ans_sym_a: null,
-          ques_ans_sym_b: null,
-          ques_image: null,
+          question_quiz_fk_id: quiz_id,
+          //ques_lesson_id: lesson_id,
+          question_body: "new 4.79 - 1.2",
+          question_ans1: "3.59",
+          question_mark: 1,
+          question_grade: 2,
+          question_calc: false,
+          question_explaination: "explanation",
+          question1_ans: null,
+          question2_ans: null,
+          question_correct: null,
+          question_ans_image: null,
+          question_ans_mark: null,
+          question_ans_sym_a: null,
+          question_ans_sym_b: null,
+          question_image: null,
         });
       });
   });
 });
-
-
 
 //--------------------------------- DELETE ACCODINGLY--------------------------/
 
@@ -1846,8 +1860,8 @@ describe("Test45-  DELETE /api/students/:student_id", () => {
     return request(app)
       .delete("/api/students/Invalid_id")
       .set("Authorization", validAdmin)
-      .expect(500)
-      //.then((res) => expect(res.body.msg).toBe("Invalid input"));
+      .expect(500);
+    //.then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
 
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
@@ -1871,8 +1885,8 @@ describe("Test46-  DELETE /api/tutor/:tutor_id", () => {
     return request(app)
       .delete("/api/tutors/Invalid_id")
       .set("Authorization", validAdmin)
-      .expect(500)
-     // .then((res) => expect(res.body.msg).toBe("Invalid input"));
+      .expect(500);
+    // .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
 
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
@@ -1896,8 +1910,8 @@ describe("Test47-  DELETE /api/questions/:question_id", () => {
     return request(app)
       .delete("/api/questions/Invalid_id")
       .set("Authorization", validAdmin)
-      .expect(500)
-     // .then((res) => expect(res.body.msg).toBe("Invalid input"));
+      .expect(500);
+    // .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
 
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
@@ -1921,8 +1935,8 @@ describe("Test48-  DELETE /api/lessons/:lesson_id", () => {
     return request(app)
       .delete("/api/lessons/Invalid_id")
       .set("Authorization", validAdmin)
-      .expect(500)
-     // .then((res) => expect(res.body.msg).toBe("Invalid input"));
+      .expect(500);
+    // .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
 
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
@@ -1946,8 +1960,8 @@ describe("Test49-  DELETE /api/quizzes/:quiz_id", () => {
     return request(app)
       .delete("/api/quizzes/Invalid_id")
       .set("Authorization", validAdmin)
-      .expect(500)
-     // .then((res) => expect(res.body.msg).toBe("Invalid input"));
+      .expect(500);
+    // .then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
 
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
@@ -1971,8 +1985,8 @@ describe("Test50-  DELETE /api/topic/:topic_id", () => {
     return request(app)
       .delete("/api/topics/Invalid_id")
       .set("Authorization", validAdmin)
-      .expect(500)
-      //.then((res) => expect(res.body.msg).toBe("Invalid input"));
+      .expect(500);
+    //.then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
 
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
@@ -1996,8 +2010,8 @@ describe("Test51-   DELETE /api/course/:course_id", () => {
     return request(app)
       .delete("/api/courses/Invalid_id")
       .set("Authorization", validAdmin)
-      .expect(500)
-      //.then((res) => expect(res.body.msg).toBe("Invalid input"));
+      .expect(500);
+    //.then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
 
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {
@@ -2016,13 +2030,12 @@ describe("Test45-  DELETE /api/admin/:admins_id", () => {
       .expect(204);
   });
 
-
   test("status 400 and returns an error message if it is a bad request", () => {
     return request(app)
       .delete("/api/admin/Invalid_id")
       .set("Authorization", validAdmin)
-      .expect(500)
-      //.then((res) => expect(res.body.msg).toBe("Invalid input"));
+      .expect(500);
+    //.then((res) => expect(res.body.msg).toBe("Invalid input"));
   });
 
   test("ERROR HANDLING - status 404 and returns an error message if the ID does not exist", () => {

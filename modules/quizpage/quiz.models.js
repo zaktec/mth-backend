@@ -31,7 +31,7 @@ exports.insertQuiz = async (quiz) => {
   (quiz_name, quiz_code, quiz_desc, quiz_type, quiz_calc, quiz_course_fk_id, quiz_topic_fk_id, quiz_lesson_fk_id ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;`
   console.log(InsertQuery)
   const data = await db.query(InsertQuery, [quiz_name, quiz_code, quiz_desc, quiz_type, quiz_calc, quiz_course_fk_id, quiz_topic_fk_id, quiz_lesson_fk_id]);
-  console.log(data)
+ // console.log(data)
   return data.rows[0];
 };
 

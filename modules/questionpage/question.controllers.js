@@ -23,11 +23,12 @@ exports.getQuestions = async (req, res, next) => {
 
 exports.getQuestionById = async (req, res, next) => {
   try {
-  const { ques_id } = req.params;
+  const { question_id } = req.params;
+  console.log(question_id)
 
-  const questionExist = await checkQuestionExists(ques_id)
+  const questionExist = await checkQuestionExists(question_id)
       if (questionExist) {
-        const data = await selectQuestionById(ques_id)
+        const data = await selectQuestionById(question_id)
           res.status(200).send({ data });
         } else {
           res.status(400).send({ msg: "Invalid Input" });

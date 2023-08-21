@@ -96,12 +96,12 @@ exports.checkQuizExists = (quiz_id) => {
     });
 };
 
-exports.checkQuestionExists = (ques_id) => {
+exports.checkQuestionExists = (question_id) => {
   return db
     .query(
       `SELECT * FROM question WHERE
-    ques_id=$1`,
-      [ques_id]
+    question_id=$1`,
+      [question_id]
     )
     .then(({ rows }) => {
       if (rows.length) {
