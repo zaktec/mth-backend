@@ -55,9 +55,9 @@ exports.postQuestion = async (req, res, next) => {
 
 exports.removeQuestionById = async (req, res, next) => {
   try {
-  const { ques_id } = req.params;
+  const { question_id } = req.params;
 
-  const data = await deleteQuestionById(ques_id)
+  const data = await deleteQuestionById(question_id)
       if (data) {
         res.sendStatus(204);
       } else {
@@ -74,8 +74,9 @@ exports.removeQuestionById = async (req, res, next) => {
 exports.patchQuestionById =  async (req, res, next) => {
   try {
   const question = req.body;
-  const { ques_id } = req.params;
-  const data =  await updateQuestionById(question, ques_id)
+  const { question_id } = req.params;
+  console.log(question_id)
+  const data =  await updateQuestionById(question, question_id)
       if (data) {
         res.status(200).send({ data });
       } else {

@@ -5,7 +5,7 @@ module.exports = [
    "quiz_desc": "Edexcel GCSE Paper 1-F (NC) 2017-Nov",
    "quiz_type": "Course",
    "quiz_calc": "FALSE",
-   "fk_quiz_course_id": 1,
+   "quiz_course_fk_id": 1,
   },
   {
     "quiz_name": "Number",
@@ -13,7 +13,7 @@ module.exports = [
     "quiz_desc": "Number Topic Quiz",
     "quiz_type": "Topic",
     "quiz_calc": "TRUE",
-    "fk_quiz_topic_id":  1,
+    "quiz_topic_fk_id":  1,
   },
   {
     "quiz_name": "Lesson 1 Quiz",
@@ -21,6 +21,6 @@ module.exports = [
     "quiz_desc": "Place Value Quiz",
     "quiz_type": "Lesson",
     "quiz_calc": "FALSE",
-    "fk_quiz_lesson_id": 2,
+    "quiz_lesson_fk_id": 2,
   },
  ]

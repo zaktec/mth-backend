@@ -112,12 +112,12 @@ exports.checkQuestionExists = (question_id) => {
     });
 };
 
-exports.checkAdminExist = (admins_id) => {
+exports.checkAdminExist = (admin_id) => {
   return db
     .query(
-      `SELECT * FROM admins WHERE 
-    admins_id=$1`,
-      [admins_id]
+      `SELECT * FROM admin WHERE 
+    admin_id=$1`,
+      [admin_id]
     )
     .then(({ rows }) => {
       if (rows.length) {

@@ -89,26 +89,26 @@ describe("Test 4 -POST /signup admin", () => {
     return request(app)
       .post("/adminsignin")
       .send({
-        admins_username: "scheema1",
-        admins_firstname: "New",
-        admins_lastname: "Cheema",
-        admins_email: "csheraz@hotmail.com",
-        admins_active: true,
-        admins_image: "/tutor/tutor1.png",
-        admins_password: password,
+        admin_username: "scheema1",
+        admin_firstname: "New",
+        admin_lastname: "Cheema",
+        admin_email: "csheraz@hotmail.com",
+        admin_active: true,
+        admin_image: "/tutor/tutor1.png",
+        admin_password: password,
       })
       .expect(201)
       .then((res) => {
-        admins_id = res.body.admin.admins_id;
+        admin_id = res.body.admin.admin_id;
         expect(res.body.admin).toEqual({
-          admins_id: res.body.admin.admins_id,
-          admins_username: "scheema1",
-          admins_firstname: "New",
-          admins_lastname: "Cheema",
-          admins_email: "csheraz@hotmail.com",
-          admins_active: true,
-          admins_image: "/tutor/tutor1.png",
-          admins_password: password,
+          admin_id: res.body.admin.admin_id,
+          admin_username: "scheema1",
+          admin_firstname: "New",
+          admin_lastname: "Cheema",
+          admin_email: "csheraz@hotmail.com",
+          admin_active: true,
+          admin_image: "/tutor/tutor1.png",
+          admin_password: password,
         });
       });
   });
@@ -249,7 +249,7 @@ describe("Test8- POST /signin", () => {
         student_active: true,
         student_notes: "Working well",
         student_image: "/student/student1.png",
-        student_tutor_id: 1,
+        student_tutor_fk_id: 1,
       })
       .expect(201)
       .then((res) => {
@@ -267,7 +267,11 @@ describe("Test8- POST /signin", () => {
           student_active: true,
           student_notes: "Working well",
           student_image: "/student/student1.png",
-          student_tutor_id: 1,
+          student_msg_count: null,
+          student_msg_input: null,
+          student_msg_output: null,
+          student_tutor_fk_id: 1,
+          student_course_fk_id: null,
         });
       });
   });
@@ -380,32 +384,32 @@ describe("Test12-  GET /student/studentdashboard", () => {
 
 //-------------------Admin--------------------------------------/
 
-describe("Test13- POST /api/admins", () => {
+describe("Test13- POST /api/admin", () => {
   test("status: 201 and return the new admin", () => {
     return request(app)
       .post("/api/admin")
       .set("Authorization", validAdmin)
       .send({
-        admins_username: "scheema2",
-        admins_firstname: "New",
-        admins_lastname: "Cheema",
-        admins_email: "csheraz@hotmail.com",
-        admins_active: true,
-        admins_image: "/tutor/tutor1.png",
-        admins_password: password,
+        admin_username: "scheema2",
+        admin_firstname: "New",
+        admin_lastname: "Cheema",
+        admin_email: "csheraz@hotmail.com",
+        admin_active: true,
+        admin_image: "/tutor/tutor1.png",
+        admin_password: password,
       })
       .expect(201)
       .then((res) => {
-        admins_id = res.body.data.admins_id;
+        admin_id = res.body.data.admin_id;
         expect(res.body.data).toEqual({
-          admins_id: res.body.data.admins_id,
-          admins_username: "scheema2",
-          admins_firstname: "New",
-          admins_lastname: "Cheema",
-          admins_email: "csheraz@hotmail.com",
-          admins_active: true,
-          admins_image: "/tutor/tutor1.png",
-          admins_password: password,
+          admin_id: res.body.data.admin_id,
+          admin_username: "scheema2",
+          admin_firstname: "New",
+          admin_lastname: "Cheema",
+          admin_email: "csheraz@hotmail.com",
+          admin_active: true,
+          admin_image: "/tutor/tutor1.png",
+          admin_password: password,
         });
       });
   });
@@ -415,8 +419,8 @@ describe("Test13- POST /api/admins", () => {
       .post("/api/admin")
       .set("Authorization", validAdmin)
       .send({
-        admins_username: "New",
-        admins_lastname: "Cheema",
+        admin_username: "New",
+        admin_lastname: "Cheema",
       })
       .expect(500)
       .then((res) => {
@@ -426,7 +430,7 @@ describe("Test13- POST /api/admins", () => {
 });
 
 describe("Test14-   GET /api/admin", () => {
-  test("status: 200 and returns an array of admins", () => {
+  test("status: 200 and returns an array of admin", () => {
     return request(app)
       .get("/api/admin")
       .set("Authorization", validAdmin)
@@ -437,12 +441,12 @@ describe("Test14-   GET /api/admin", () => {
         expect(res.body.data).toHaveLength(3);
         res.body.data.forEach((admin) => {
           expect(admin).toMatchObject({
-            admins_id: expect.any(Number),
-            admins_firstname: expect.any(String),
-            admins_lastname: expect.any(String),
-            admins_email: expect.any(String),
-            admins_active: expect.any(Boolean),
-            admins_image: expect.any(String),
+            admin_id: expect.any(Number),
+            admin_firstname: expect.any(String),
+            admin_lastname: expect.any(String),
+            admin_email: expect.any(String),
+            admin_active: expect.any(Boolean),
+            admin_image: expect.any(String),
           });
         });
       });
@@ -454,17 +458,17 @@ describe("Test14-   GET /api/admin", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.data).toBeSortedBy("admins_id");
+        expect(res.body.data).toBeSortedBy("admin_id");
       });
   });
 
   test("QUERY: status 200: topics are sorted by passed query", () => {
     return request(app)
-      .get("/api/admin?sort_by=admins_firstname")
+      .get("/api/admin?sort_by=admin_firstname")
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.data).toBeSortedBy("admins_firstname");
+        expect(res.body.data).toBeSortedBy("admin_firstname");
       });
   });
 
@@ -480,22 +484,22 @@ describe("Test14-   GET /api/admin", () => {
   });
 });
 
-describe("Test15- GET   /api/admin/:admins_id", () => {
+describe("Test15- GET   /api/admin/:admin_id", () => {
   test("status: 200 and return a admin object", () => {
     return request(app)
-      .get(`/api/admin/${admins_id}`)
+      .get(`/api/admin/${admin_id}`)
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
         expect(res.body.data).toEqual({
-          admins_id: admins_id,
-          admins_username: "scheema2",
-          admins_firstname: "New",
-          admins_lastname: "Cheema",
-          admins_email: "csheraz@hotmail.com",
-          admins_active: true,
-          admins_image: "/tutor/tutor1.png",
-          admins_password: res.body.data.admins_password,
+          admin_id: admin_id,
+          admin_username: "scheema2",
+          admin_firstname: "New",
+          admin_lastname: "Cheema",
+          admin_email: "csheraz@hotmail.com",
+          admin_active: true,
+          admin_image: "/tutor/tutor1.png",
+          admin_password: res.body.data.admin_password,
         });
       });
   });
@@ -521,31 +525,31 @@ describe("Test15- GET   /api/admin/:admins_id", () => {
   });
 });
 
-describe("Test16- PATCH /api/admin/:admins_id", () => {
+describe("Test16- PATCH /api/admin/:admin_id", () => {
   test("Status 200: and return a updated admin object  ", () => {
     return request(app)
-      .patch(`/api/admin/${admins_id}`)
+      .patch(`/api/admin/${admin_id}`)
       .set("Authorization", validAdmin)
       .send({
-        admins_username: "scheema1000",
-        admins_firstname: "Patched",
-        admins_lastname: "Cheema",
-        admins_email: "csheraz@hotmail.com",
-        admins_active: true,
-        admins_image: "/tutor/tutor1.png",
-        admins_password: password,
+        admin_username: "scheema1000",
+        admin_firstname: "Patched",
+        admin_lastname: "Cheema",
+        admin_email: "csheraz@hotmail.com",
+        admin_active: true,
+        admin_image: "/tutor/tutor1.png",
+        admin_password: password,
       })
       .expect(200)
       .then((res) => {
         expect(res.body.data).toEqual({
-          admins_id: admins_id,
-          admins_username: "scheema1000",
-          admins_firstname: "Patched",
-          admins_lastname: "Cheema",
-          admins_email: "csheraz@hotmail.com",
-          admins_active: true,
-          admins_image: "/tutor/tutor1.png",
-          admins_password: res.body.data.admins_password,
+          admin_id: admin_id,
+          admin_username: "scheema1000",
+          admin_firstname: "Patched",
+          admin_lastname: "Cheema",
+          admin_email: "csheraz@hotmail.com",
+          admin_active: true,
+          admin_image: "/tutor/tutor1.png",
+          admin_password: res.body.data.admin_password,
         });
       });
   });
@@ -570,7 +574,7 @@ describe("Test17- POST /api/students", () => {
         student_notes: "Working well",
         student_progressbar: 3,
         student_image: "/student/student1.png",
-        student_tutor_id: 1,
+        student_tutor_fk_id: 1,
       })
       .expect(201)
       .then((res) => {
@@ -588,7 +592,12 @@ describe("Test17- POST /api/students", () => {
           student_notes: "Working well",
           student_progressbar: 3,
           student_image: "/student/student1.png",
-          student_tutor_id: 1,
+          student_tutor_fk_id: 1,
+          student_msg_count: null,
+          student_msg_input: null,
+          student_msg_output: null,
+          student_tutor_fk_id: 1,
+          student_course_fk_id: null,
         });
       });
   });
@@ -686,7 +695,12 @@ describe("Test19- GET   /api/students/:student_id", () => {
           student_notes: "Working well",
           student_progressbar: 3,
           student_image: "/student/student1.png",
-          student_tutor_id: 1,
+          student_tutor_fk_id: 1,
+          student_msg_count: null,
+          student_msg_input: null,
+          student_msg_output: null,
+          student_tutor_fk_id: 1,
+          student_course_fk_id: null,
         });
       });
   });
@@ -729,6 +743,7 @@ describe("Test20- PATCH /api/students/:student_id", () => {
         student_notes: "Working well",
         student_progressbar: 3,
         student_image: "/student/student1.png",
+        student_tutor_fk_id: 1,
       })
       .expect(200)
       .then((res) => {
@@ -745,7 +760,11 @@ describe("Test20- PATCH /api/students/:student_id", () => {
           student_progressbar: 3,
           student_image: "/student/student1.png",
           student_id: res.body.data.student_id,
-          student_tutor_id: 1,
+          student_msg_count: null,
+          student_msg_input: null,
+          student_msg_output: null,
+          student_tutor_fk_id: null,
+          student_course_fk_id: 1,
         });
       });
   });
@@ -1240,7 +1259,7 @@ describe("Test32- PATCH /api/topic/:topic_id", () => {
       })
       .expect(200)
       .then((res) => {
-        console.log(res.body.data);
+        //console.log(res.body.data);
         expect(res.body.data).toEqual({
           topic_name: "Patched Statistics",
           topic_code: "GHS1",
@@ -1381,7 +1400,7 @@ describe("Test35- GET   /api/lessons/:lesson_id", () => {
       .set("Authorization", validAdmin)
       .expect(500)
       .then((res) => {
-        console.log(res.body);
+       // console.log(res.body);
         // expect(res.body.msg).toBe("Invalid input");
       });
   });
@@ -1806,13 +1825,13 @@ describe("Test44- PATCH /api/questions/:question_id", () => {
       .set("Authorization", validAdmin)
       .send({
         question_body: "new 4.79 - 1.2",
-        question_ans: "3.59",
+        question_ans1: "3.59",
         question_mark: 1,
         question_grade: 2,
         question_quiz_fk_id: quiz_id,
         //ques_lesson_id: lesson_id,
         question_calc: false,
-        ques_explaination: "explanation",
+        question_explaination: "explanation",
       })
       .expect(200)
       .then((res) => {
@@ -1822,18 +1841,24 @@ describe("Test44- PATCH /api/questions/:question_id", () => {
           //ques_lesson_id: lesson_id,
           question_body: "new 4.79 - 1.2",
           question_ans1: "3.59",
+          question_ans2: null,
+          question_ans3: null,
           question_mark: 1,
           question_grade: 2,
           question_calc: false,
           question_explaination: "explanation",
-          question1_ans: null,
-          question2_ans: null,
           question_correct: null,
           question_ans_image: null,
           question_ans_mark: null,
           question_ans_sym_a: null,
           question_ans_sym_b: null,
           question_image: null,
+          question_feedback: null,
+          question_response1: null,
+          question_response2: null,
+          question_response3: null,
+          question_type: null,
+          question_workingout: null,
         });
       });
   });
@@ -2022,10 +2047,10 @@ describe("Test51-   DELETE /api/course/:course_id", () => {
       .then((res) => expect(res.body.msg).toBe("Invalid Input"));
   });
 });
-describe("Test45-  DELETE /api/admin/:admins_id", () => {
+describe("Test45-  DELETE /api/admin/:admin_id", () => {
   test(" ERROR HANDLING - status 204 and return with empty reponse body", () => {
     return request(app)
-      .delete(`/api/admin/${admins_id}`)
+      .delete(`/api/admin/${admin_id}`)
       .set("Authorization", validAdmin)
       .expect(204);
   });

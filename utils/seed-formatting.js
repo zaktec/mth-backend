@@ -42,29 +42,34 @@ exports.formatStudentData = (studentData) => {
     student.student_targetgrade,
     student.student_notes,
     student.student_progressbar,
-    student.student_tutor_id,
+    student.student_msg_count,
+    student.student_msg_input,
+    student.student_msg_output,
+    student.student_course_fk_id,
+    student.student_tutor_fk_id,
   ]);
   return formattedStudents;
 };
 
-exports.formatAdminsData = (adminsData) => {
-
-  adminsData.forEach(
+exports.formatAdminsData = (adminData) => {
+  
+  adminData.forEach(
     (item) =>
-      (item.admins_password = bcrypt.hashSync(item.admins_password, 10))
+      (item.admin_password = bcrypt.hashSync(item.admin_password, 10))
   );
 
 
-  const formattedAdmins = adminsData.map((admin) => [
-    admin.admins_username,
-    admin.admins_firstname,
-    admin.admins_lastname,
-    admin.admins_email,
-    admin.admins_password,
-    admin.admins_active,
-    admin.admins_image,
+  const formattedAdmin = adminData.map((admin) => [
+    admin.admin_username,
+    admin.admin_firstname,
+    admin.admin_lastname,
+    admin.admin_email,
+    admin.admin_password,
+    admin.admin_active,
+    admin.admin_image,
   ]);
-  return formattedAdmins;
+ 
+  return formattedAdmin;
 };
 
 

@@ -87,12 +87,12 @@ exports.verifyAdmin = (req, res, next) => {
           message: "halt intruder! get outta here",
         });
       } else {
-        if (payload.admins_id === undefined)  return res.status(401).json({
+        if (payload.admin_id === undefined)  return res.status(401).json({
           status: 401,
           message: "Unauthorized. Not admin token",
         });
         
-        req.admins_id = payload.admins_id;
+        req.admin_id = payload.admin_id;
         next();
       }
     });

@@ -1,31 +1,31 @@
 const db = require("../../database/connection.js");
 
-exports.selectAdmin = async (sort_by = "admins_id") => {
+exports.selectAdmin = async (sort_by = "admin_id") => {
   if (sort_by) {
     const allowedSortBys = [
-      "admins_id",
-      "admins_username",
-      "admins_firstname",
-      "admins_lastname",
-      "admins_email",
-      "admins_active",
-      "admins_image",
+      "admin_id",
+      "admin_username",
+      "admin_firstname",
+      "admin_lastname",
+      "admin_email",
+      "admin_active",
+      "admin_image",
     ];
    if (!allowedSortBys.includes(sort_by)) {
       return Promise.reject({ status: 400, msg: "bad request" });
     }
   }
-  const InsertQuery = `SELECT * FROM admins ORDER BY ${sort_by} ASC`;
+  const InsertQuery = `SELECT * FROM admin ORDER BY ${sort_by} ASC`;
   const data = await db.query(InsertQuery);
   return data.rows;
 };
 
-exports.selectAdminById = async (admins_id) => {
-  let queryString = "SELECT * FROM admins";
+exports.selectAdminById = async (admin_id) => {
+  let queryString = "SELECT * FROM admin";
   const queryParams = [];
-  if (admins_id) {
-    queryString += " where admins_id=$1;";
-    queryParams.push(admins_id);
+  if (admin_id) {
+    queryString += " where admin_id=$1;";
+    queryParams.push(admin_id);
   }
   const data = await db.query(queryString, queryParams);
   return data.rows[0];
@@ -33,54 +33,54 @@ exports.selectAdminById = async (admins_id) => {
 
 exports.insertAdmin = async (admin) => {
   const {
-    admins_username,
-    admins_firstname,
-    admins_lastname,
-    admins_email,
-    admins_active,
-    admins_image,
-    admins_password,
+    admin_username,
+    admin_firstname,
+    admin_lastname,
+    admin_email,
+    admin_active,
+    admin_image,
+    admin_password,
   } = admin;
   const InsertQuery =
-    "INSERT INTO admins (admins_username, admins_firstname, admins_lastname, admins_email, admins_active, admins_image, admins_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *;";
+    "INSERT INTO admin (admin_username, admin_firstname, admin_lastname, admin_email, admin_active, admin_image, admin_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *;";
   const data = await db.query(InsertQuery, [
-    admins_username,
-    admins_firstname,
-    admins_lastname,
-    admins_email,
-    admins_active,
-    admins_image,
-    admins_password,
+    admin_username,
+    admin_firstname,
+    admin_lastname,
+    admin_email,
+    admin_active,
+    admin_image,
+    admin_password,
   ]);
   return data.rows[0];
 };
 
-exports.deleteAdminById = async (admins_id) => {
-  const InsertQuery = "DELETE FROM admins WHERE  admins_id = $1 RETURNING *";
-  const data = await db.query(InsertQuery, [admins_id]);
+exports.deleteAdminById = async (admin_id) => {
+  const InsertQuery = "DELETE FROM admin WHERE  admin_id = $1 RETURNING *";
+  const data = await db.query(InsertQuery, [admin_id]);
   return data.rows[0];
 };
 
-exports.updateAdminById = async (admin, admins_id) => {
+exports.updateAdminById = async (admin, admin_id) => {
   const {
-    admins_username,
-    admins_firstname,
-    admins_lastname,
-    admins_email,
-    admins_active,
-    admins_image,
-    admins_password,
+    admin_username,
+    admin_firstname,
+    admin_lastname,
+    admin_email,
+    admin_active,
+    admin_image,
+    admin_password,
   } = admin;
-  const InsertQuery = `UPDATE admins SET  admins_username=$1, admins_firstname = $2, admins_lastname = $3, admins_email= $4, admins_active= $5, admins_image = $6, admins_password= $7 WHERE admins_id = $8 RETURNING *;`;
+  const InsertQuery = `UPDATE admin SET  admin_username=$1, admin_firstname = $2, admin_lastname = $3, admin_email= $4, admin_active= $5, admin_image = $6, admin_password= $7 WHERE admin_id = $8 RETURNING *;`;
   const data = await db.query(InsertQuery, [
-    admins_username,
-    admins_firstname,
-    admins_lastname,
-    admins_email,
-    admins_active,
-    admins_image,
-    admins_password,
-    admins_id,
+    admin_username,
+    admin_firstname,
+    admin_lastname,
+    admin_email,
+    admin_active,
+    admin_image,
+    admin_password,
+    admin_id,
   ]);
   return data.rows[0];
 };

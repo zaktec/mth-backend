@@ -7,7 +7,7 @@ exports.checkStudentByUsername = async (username) => {
 };
 
 exports.checkAdminByUsername = async(username) =>{
-  const checkUserQuery = "SELECT * FROM admins WHERE admins_username=$1;";
+  const checkUserQuery = "SELECT * FROM admin WHERE admin_username=$1;";
   const data = await db.query(checkUserQuery, [username]);
   return data.rows[0];
 }
@@ -70,7 +70,7 @@ exports.checkTutorByUsername = async(username) =>{
 
 //   return db
 //     .query(
-//       `INSERT INTO admins (admins_username, admins_firstname, admins_lastname, admins_email, admins_active, admins_image, admins_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *; `,
+//       `INSERT INTO admin (admins_username, admins_firstname, admins_lastname, admins_email, admins_active, admins_image, admins_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *; `,
 //       [
 //         admins_username,
 //         admins_firstname,

@@ -62,7 +62,7 @@ app.post(
 );
 app.post(
   "/adminsignin",
-  body("admins_username").isString(),
+  body("admin_username").isString(),
   handleInputErrors,
   createNewAdmin
 );

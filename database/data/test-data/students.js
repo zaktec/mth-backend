@@ -11,8 +11,11 @@ module.exports = [
     student_targetgrade: 5,
     student_notes: "Working well",
     student_progressbar: 1,
-    student_tutor_id: 1,
-    
+    student_msg_count: 5,
+    student_msg_input: null,
+    student_msg_output: null,
+    student_course_fk_id: 1,
+    student_tutor_fk_id: 1,
   },
   {
     student_username: "stundentusername2",
@@ -26,9 +29,11 @@ module.exports = [
     student_targetgrade: 4,
     student_notes: "Working well",
     student_progressbar: 3,
-    student_tutor_id: 1,
-  
-    
+    student_msg_count: 2,
+    student_msg_input: null,
+    student_msg_output: null,
+    student_course_fk_id: 2,
+    student_tutor_fk_id: 1,
   },
   {
     student_username: "stundentusername3",
@@ -42,7 +47,10 @@ module.exports = [
     student_targetgrade: 3,
     student_notes: "Working well",
     student_progressbar: 5,
-    student_tutor_id: 1,
-    
-  }
+    student_msg_count: 1,
+    student_msg_input: null,
+    student_msg_output: null,
+    student_course_fk_id: 3,
+    student_tutor_fk_id: 1,
+  },
 ];
