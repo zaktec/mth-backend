@@ -20,10 +20,10 @@
     }
   },
 
-  "GET /api/setting": {
-    "description": "status: 200 and returns a welcome message for setting page",
+  "GET /api": {
+    "description": "Serves a error message when unauthorise user is passed",
     "msg": {
-      "msg": "Welcome to the SettingPage"
+      "msg": "halt intruder! get outta here"
     }
   },
 

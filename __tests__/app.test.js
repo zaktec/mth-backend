@@ -62,7 +62,7 @@ describe("Test1-   GET /invalid_url", () => {
   });
 });
 
-describe("Test2-  GET /api", () => {
+describe("Test2-  GET /", () => {
   test("status: 200 and json representation of all the available endpoints of the api", () => {
     return request(app)
       .get("/")
@@ -71,7 +71,7 @@ describe("Test2-  GET /api", () => {
   });
 });
 
-describe("Test3-  GET /api/homepage", () => {
+describe("Test3-  GET /homepage", () => {
   test("status: 200 and returns a welcome message", () => {
     return request(app)
       .get("/homepage")
@@ -193,7 +193,7 @@ describe("Test7-  Tutor login", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
       .post("/tutorlogin")
-      .send({ username: "scheema", password: "password" })
+      .send({ username: "scheema1", password: "password" })
       .expect(200)
       .then((res) => {
         validTutor = `BEARER ${res.body.token}`;
