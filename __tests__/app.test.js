@@ -85,7 +85,7 @@ describe("Test3-  GET /homepage", () => {
 //-------------------Admin SignUp/login ----------------------/
 
 describe("Test 4 -POST /signup admin", () => {
-  test("Post respond with and access token given correct username", () => {
+  test("Post: respond with access token  when admin details are send", () => {
     return request(app)
       .post("/adminsignin")
       .send({
@@ -115,10 +115,10 @@ describe("Test 4 -POST /signup admin", () => {
 });
 
 describe("Test 5-  Admin login", () => {
-  test("POST responds with and access token given correct username and password", () => {
+  test("POST-responds with and access token given correct username and password", () => {
     return request(app)
       .post("/adminlogin")
-      .send({ username: "scheema", password: "password" })
+      .send({ username: "scheema1", password: "password" })
       .expect(200)
       .then((res) => {
         validAdmin = `BEARER ${res.body.token}`;
@@ -126,10 +126,10 @@ describe("Test 5-  Admin login", () => {
       });
   });
 
-  test("POST responds with status 401 for an incorrect password", () => {
+  test("POST-responds with status 401 for an incorrect password", () => {
     return request(app)
       .post("/adminlogin")
-      .send({ username: "stundentusernamedemo1", password: "secure123" })
+      .send({ username: "scheema1", password: "secure123" })
       .expect(401)
       .then((res) =>
         expect(res.body.message).toBe("username and password do not exist")
@@ -160,7 +160,7 @@ describe("Test 5-  Admin login", () => {
 //-------------------tutor SignUp/login ----------------------/
 
 describe("Test 6 -POST /signup tutor", () => {
-  test("Post respond with and access token given correct username", () => {
+  test("Post- respond with and access token when tutor details are send", () => {
     return request(app)
       .post("/tutorsignin")
       .send({
@@ -234,7 +234,7 @@ describe("Test7-  Tutor login", () => {
 //-------------------Student SignUp/login ----------------------/
 
 describe("Test8- POST /signin", () => {
-  test("POST responds with and access token given correct username and password", () => {
+  test("POST- responds with and access token when student details are send", () => {
     return request(app)
       .post("/studentsignin")
       .send({

@@ -71,7 +71,7 @@ exports.loginAdmin = async (req, res, next) => {
     if (!isPasswordExist)
       return res
         .status(401)
-        .json({ status: 401, message: "usernames and password do not exist" });
+        .json({ status: 401, message: "username and password do not exist" });
 
     const token = await generateAdminJWT(isAdminExist.admin_id);
     res.status(200).json({ status: 200, message: "Success", token });

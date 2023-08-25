@@ -27,6 +27,152 @@
     }
   },
 
+  "POST /adminsignin": {
+    "description":"Post respond with access token  when admin details are send",
+    "queries": null,
+    "exampleRequestBody": {
+      "admin_username": "scheema1",
+      "admin_firstname": "New",
+      "admin_lastname": "Cheema",
+      "admin_email": "csheraz@hotmail.com",
+      "admin_active": true,
+      "admin_image": "/tutor/tutor1.png",
+      "admin_password": "password"
+    },
+    "exampleResponse": {
+      "admin": 
+        {
+          "admin_username": "scheema1",
+          "admin_firstname": "New",
+          "admin_lastname": "Cheema",
+          "admin_email": "csheraz@hotmail.com",
+          "admin_active": true,
+          "admin_image": "/tutor/tutor1.png",
+          "admin_password": "password"
+        }
+    }
+  },
+  "POST /adminlogin": {
+    "description":"POST- responds with and access token given correct username and password",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "scheema1",
+      "password": "password"
+    },
+    "exampleResponse": {
+      "json": {
+        "body": "token",
+        "status": 200,
+        "msg": "Success"
+      }
+    }
+  },
+  "POST  /adminlogin": {
+    "description":"POST-responds with status 401 for an incorrect username",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "wrongusername",
+      "password": "password"
+    },
+    "exampleResponse": {
+      "json": {
+        "status": 401,
+        "message": "username and password do not exist"
+      }
+    }
+  },
+  "POST   /adminlogin": {
+    "description":"POST-responds with status 401 for an incorrect password",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "username",
+      "password": "wrongpassword"
+    },
+    "exampleResponse": {
+      "json": {
+        "status": 401,
+        "message": "username and password do not exist"
+      }
+    }
+  },
+  "POST /tutorsignin": {
+    "description":"Post- respond with and access token when tutor details are send",
+    "queries": null,
+    "exampleRequestBody": {
+      "tutor_username": "scheema1",
+      "tutor_firstname": "New",
+      "tutor_lastname": "Cheema",
+      "tutor_email": "csheraz@hotmail.com",
+      "tutor_active": true,
+      "tutor_image": "/tutor/tutor1.png",
+      "tutor_password": "password"
+    },
+    "exampleResponse": {
+      "tutor": 
+        {
+          "tutor_username": "scheema1",
+          "tutor_firstname": "New",
+          "tutor_lastname": "Cheema",
+          "tutor_email": "csheraz@hotmail.com",
+          "tutor_active": true,
+          "tutor_image": "/tutor/tutor1.png",
+          "tutor_password": "password"
+        }
+    }
+  },
+  "POST /tutorlogin": {
+    "description":"POST- responds with and access token given correct username and password",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "scheema1",
+      "password": "password"
+    },
+    "exampleResponse": {
+      "json": {
+        "body": "token",
+        "status": 200,
+        "msg": "Success"
+      }
+    }
+  },
+  "POST   /tutorlogin": {
+    "description":"POST-responds with status 401 for an incorrect username",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "wrongusername",
+      "password": "password"
+    },
+    "exampleResponse": {
+      "json": {
+        "status": 401,
+        "message": "username and password do not exist"
+      }
+    }
+  },
+  "POST    /tutorlogin": {
+    "description":"POST-responds with status 401 for an incorrect password",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "username",
+      "password": "wrongpassword"
+    },
+    "exampleResponse": {
+      "json": {
+        "status": 401,
+        "message": "username and password do not exist"
+      }
+    }
+  },
+
+
+
+
+
+
+
+
+
+
   "GET /api/courses": {
     "description": "serves an articles array of courses objects",
     "queries": ["course_id", "course_code", "course_name", "course_level"],
