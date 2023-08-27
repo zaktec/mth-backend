@@ -24,7 +24,6 @@ exports.getQuestions = async (req, res, next) => {
 exports.getQuestionById = async (req, res, next) => {
   try {
   const { question_id } = req.params;
-  console.log(question_id)
 
   const questionExist = await checkQuestionExists(question_id)
       if (questionExist) {
@@ -75,7 +74,6 @@ exports.patchQuestionById =  async (req, res, next) => {
   try {
   const question = req.body;
   const { question_id } = req.params;
-  console.log(question_id)
   const data =  await updateQuestionById(question, question_id)
       if (data) {
         res.status(200).send({ data });

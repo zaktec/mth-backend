@@ -36,8 +36,9 @@ app.use(express.json());
 app.use(cors());
 
 //http://localhost:3009/api/homepage
-app.get("/", getEndpoints);
+
 app.get("/homepage", getHomepage);
+app.get("/", getHomepage);
 
 //student authrisation
 app.post(

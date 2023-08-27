@@ -5,7 +5,7 @@ exports.tutorData = require('./tutors');
 exports.lessonData = require('./lessons');
 exports.quizData = require('./quizzes');
 exports.questionData=require('./questions');
-exports.adminsData=require('./admin');
+exports.adminData=require('./admin');
 
 //console.log(this.courseData)
 

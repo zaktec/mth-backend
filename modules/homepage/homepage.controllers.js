@@ -1,4 +1,4 @@
-const endpoints = require("../../endpoints.json");
+
 
 //app.get("/api/homepage", getHomepage)
 exports.getHomepage = (req, res, next) => {
@@ -7,7 +7,4 @@ exports.getHomepage = (req, res, next) => {
   res.send({ msg: "Welcome to the HomePage" });
 };
 
-//app.get('/api/', getEndpoints)
-exports.getEndpoints = (req, res, next) => {
-  res.status(200).send(endpoints);
-};
+

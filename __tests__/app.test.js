@@ -62,14 +62,15 @@ describe("Test1-   GET /invalid_url", () => {
   });
 });
 
-describe("Test2-  GET /", () => {
-  test("status: 200 and json representation of all the available endpoints of the api", () => {
-    return request(app)
-      .get("/")
-      .expect(200)
-      .then((res) => {});
-  });
-});
+// describe("Test2-  GET /", () => {
+//   test("status: 200 and json representation of all the available endpoints of the api", () => {
+//     return request(app)
+//       .get("/api/admin/endpoints")
+//       .set("Authorization", validAdmin)
+//       .expect(200)
+//       .then((res) => {});
+//   });
+// });
 
 describe("Test3-  GET /homepage", () => {
   test("status: 200 and returns a welcome message", () => {
@@ -78,6 +79,15 @@ describe("Test3-  GET /homepage", () => {
       .expect(200)
       .then((res) => {
         expect(res.body.msg).toBe("Welcome to the HomePage");
+      });
+  });
+  test("ERROR: status 401 if an invalid token is provided ", () => {
+    return request(app)
+      .get("/api")
+      .set("Authorization", invalidStudent)
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe("halt intruder! get outta here");
       });
   });
 });
@@ -277,7 +287,7 @@ describe("Test8- POST /signin", () => {
   });
 });
 
-describe("Test9-  login", () => {
+describe("Test9-  studentlogin", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
       .post("/studentlogin")
@@ -309,23 +319,15 @@ describe("Test9-  login", () => {
       );
   });
 
-  test("ERROR: status 401 if an invalid token is provided ", () => {
-    return request(app)
-      .get("/api")
-      .set("Authorization", invalidStudent)
-      .expect(401)
-      .then((res) => {
-        expect(res.body.message).toBe("halt intruder! get outta here");
-      });
-  });
+
 });
 
-//-------------------Admin Dashabooard----------------------------------------/
+//--------------Admin Dashabooard-----------------/
 
 describe("Test10-  GET /api/setting", () => {
   test("status: 200 and returns a welcome message for setting page", () => {
     return request(app)
-      .get("/api/settings")
+      .get("/api/admin/settings")
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
@@ -335,17 +337,17 @@ describe("Test10-  GET /api/setting", () => {
 
   test("status: 200 and returns a welcome message for setting page", () => {
     return request(app)
-      .get("/api/admindashboard")
+      .get("/api/admin/admindashboard")
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.msg).toBe("Welcome to the Admin HomePage");
+        expect(res.body.msg).toBe("Welcome to the Admin Dashboard");
       });
   });
 
   test("status: 401 if an invalid token is privided", () => {
     return request(app)
-      .get("/api/settings/resit")
+      .get("/api/admin/settings/resit")
       .set("Authorization", invalidStudent)
       .expect(401)
       .then((res) => {
@@ -354,6 +356,18 @@ describe("Test10-  GET /api/setting", () => {
   });
 });
 
+
+describe("Test2-  GET /", () => {
+  test("status: 200 and json representation of all the available endpoints of the api", () => {
+    return request(app)
+      .get("/api/admin/endpoints")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.msg).toBe(undefined);
+      });
+  });
+});
 //-------------------Tutor Dashbaord--------------------------------/
 
 describe("Test11-  GET /api/userhomepage", () => {
@@ -1751,7 +1765,6 @@ describe("Test42-   GET /api/questions", () => {
 
 describe("Test43- GET   /api/questions/:question_id", () => {
   test("status: 200 and return a question object", () => {
-    console.log(question_id);
     return request(app)
       .get(`/api/questions/${question_id}`)
       .set("Authorization", validAdmin)

@@ -7,8 +7,6 @@ SELECT * FROM admin;
 SELECT * FROM lesson;
 SELECT * FROM quiz;
 SELECT * FROM auth;
-SELECT * FROM digitutor;
-SELECT * FROM quizfb;
 SELECT * FROM question;
 
 

@@ -84,3 +84,8 @@ exports.updateAdminById = async (admin, admin_id) => {
   ]);
   return data.rows[0];
 };
+
+exports.selectResit = async () => {
+  const result = await db.query(`psql -f database/setup-dbs.sql > example.txt`);
+  return result.rows;
+};

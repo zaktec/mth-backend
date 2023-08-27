@@ -75,7 +75,7 @@
       "password": "password"
     },
     "exampleResponse": {
-      "json": {
+      "error": {
         "status": 401,
         "message": "username and password do not exist"
       }
@@ -89,7 +89,7 @@
       "password": "wrongpassword"
     },
     "exampleResponse": {
-      "json": {
+      "error": {
         "status": 401,
         "message": "username and password do not exist"
       }
@@ -143,7 +143,7 @@
       "password": "password"
     },
     "exampleResponse": {
-      "json": {
+      "error": {
         "status": 401,
         "message": "username and password do not exist"
       }
@@ -157,7 +157,77 @@
       "password": "wrongpassword"
     },
     "exampleResponse": {
+      "error": {
+        "status": 401,
+        "message": "username and password do not exist"
+      }
+    }
+  },
+
+  "POST /studentsignin": {
+    "description":"Post- respond with and access token when tutor details are send",
+    "queries": null,
+    "exampleRequestBody": {
+      "student_grade": 100,
+      "student_targetgrade": 1,
+      "student_progressbar": 3,
+      "student_username": "stundentusernamedemo1",
+      "student_firstname": "New",
+      "student_lastname": "Student1LN",
+      "student_email": "csheraz@hotmail.com",
+      "student_password": "password",
+      "student_active": true,
+      "student_notes": "Working well",
+      "student_image": "/student/student1.png",
+      "student_tutor_fk_id": 1
+    },
+    "exampleResponse": {
+      "student": 
+        {
+          "student_grade": 100,
+          "student_targetgrade": 1,
+          "student_progressbar": 3,
+          "student_username": "stundentusernamedemo1",
+          "student_firstname": "New",
+          "student_lastname": "Student1LN",
+          "student_email": "csheraz@hotmail.com",
+          "student_password": "password",
+          "student_active": true,
+          "student_notes": "Working well",
+          "student_image": "/student/student1.png",
+          "student_msg_count": null,
+          "student_msg_input": null,
+          "student_msg_output": null,
+          "student_tutor_fk_id": 1,
+          "student_course_fk_id": null
+        }
+    }
+  },
+  "POST /studentlogin": {
+    "description":"POST- responds with and access token given correct username and password",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "scheema1",
+      "password": "password"
+    },
+    "exampleResponse": {
       "json": {
+        "body": "token",
+        "status": 200,
+        "msg": "Success"
+      }
+    }
+  },
+
+  "POST     /studentlogin": {
+    "description":"POST-responds with status 401 for an incorrect username",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "wrongusername",
+      "password": "password"
+    },
+    "exampleResponse": {
+      "error": {
         "status": 401,
         "message": "username and password do not exist"
       }
@@ -165,12 +235,20 @@
   },
 
 
-
-
-
-
-
-
+  "POST      /studentlogin": {
+    "description":"POST-responds with status 401 for an incorrect password",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "username",
+      "password": "wrongpassword"
+    },
+    "exampleResponse": {
+      "error": {
+        "status": 401,
+        "message": "username and password do not exist"
+      }
+    }
+  },
 
 
   "GET /api/courses": {
