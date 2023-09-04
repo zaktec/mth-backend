@@ -116,7 +116,7 @@ exports.updateQuestionById = async (question, question_id) => {
   //console.log("test>>>>>", question);
   const InsertQuery = `UPDATE question SET question_body = $1, question_ans1 = $2, question_ans2 = $3, question_ans3 = $4, question_image = $5, question_mark = $6, question_grade = $7, question_type = $8, question_calc = $9, question_ans_sym_b = $10, question_ans_sym_a = $11, question_correct= $12, question_explaination= $13, question_ans_mark= $14, question_ans_image= $15, question_response1 = $16, question_response2 = $17, question_response3 = $18,  question_workingout= $19,   question_feedback = $20, question_quiz_fk_id = $21 WHERE question_id = $22 RETURNING *;`;
 
- // console.log("test>>>>>", InsertQuery);
+  // console.log("test>>>>>", InsertQuery);
   const data = await db.query(InsertQuery, [
     question_body,
     question_ans1,

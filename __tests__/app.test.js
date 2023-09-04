@@ -62,15 +62,16 @@ describe("Test1-   GET /invalid_url", () => {
   });
 });
 
-// describe("Test2-  GET /", () => {
-//   test("status: 200 and json representation of all the available endpoints of the api", () => {
-//     return request(app)
-//       .get("/api/admin/endpoints")
-//       .set("Authorization", validAdmin)
-//       .expect(200)
-//       .then((res) => {});
-//   });
-// });
+ describe("Test2-  GET /", () => {
+   test("status: 200 and json representation of all the available endpoints of the api", () => {
+   return request(app)
+          .get("/")
+       .expect(200)
+       .then((res) => {
+        expect(res.body.msg).toBe("Welcome to the HomePage");
+      });
+ });
+});
 
 describe("Test3-  GET /homepage", () => {
   test("status: 200 and returns a welcome message", () => {
@@ -92,7 +93,7 @@ describe("Test3-  GET /homepage", () => {
   });
 });
 
-//-------------------Admin SignUp/login ----------------------/
+//-------------------Admin SignUp/login
 
 describe("Test 4 -POST /signup admin", () => {
   test("Post: respond with access token  when admin details are send", () => {
@@ -167,7 +168,7 @@ describe("Test 5-  Admin login", () => {
   });
 });
 
-//-------------------tutor SignUp/login ----------------------/
+//-------------------tutor SignUp/login
 
 describe("Test 6 -POST /signup tutor", () => {
   test("Post- respond with and access token when tutor details are send", () => {
@@ -241,7 +242,7 @@ describe("Test7-  Tutor login", () => {
       });
   });
 });
-//-------------------Student SignUp/login ----------------------/
+//-------------------Student SignUp/login 
 
 describe("Test8- POST /signin", () => {
   test("POST- responds with and access token when student details are send", () => {

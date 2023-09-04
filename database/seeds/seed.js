@@ -154,12 +154,12 @@ const runSeeds = async (data) => {
   const topic = await db.query(insertTopicQuery);
 
   const formattedAdmins = formatAdminsData(adminData);
-  
+
   const insertAdminQuery = format(
     `INSERT INTO admin (admin_username, admin_firstname, admin_lastname, admin_email, admin_password, admin_active, admin_image) VALUES %L RETURNING *;`,
     formattedAdmins
   );
- 
+
   const admin = await db.query(insertAdminQuery);
 
   const formattedTutors = formatTutorData(tutorData);
