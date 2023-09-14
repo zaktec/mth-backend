@@ -1,4 +1,5 @@
 const db = require("../../database/connection.js");
+const { hashPassword } = require("../../utils/passwordhelper.js");
 
 exports.selectTutors = async (sort_by = "tutor_id") => {
   if (sort_by) {
@@ -43,16 +44,17 @@ exports.insertTutor = async (tutor) => {
   } = tutor;
 
   const InsertQuery = `INSERT INTO tutor (tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *;`
+  const hashedPassword = await hashPassword(tutor_password, 10);
   const data= await db.query(InsertQuery,[
-        tutor_username,
-        tutor_firstname,
-        tutor_lastname,
-        tutor_email,
-        tutor_active,
-        tutor_image,
-        tutor_password,
-      ])
-      return data.rows[0];
+    tutor_username,
+    tutor_firstname,
+    tutor_lastname,
+    tutor_email,
+    tutor_active,
+    tutor_image,
+    hashedPassword,
+  ])
+  return data.rows[0];
 };
 
 exports.deleteTutorById = async (tutor_id) => {
@@ -72,15 +74,17 @@ exports.updateTutorById = async (tutor, tutor_id) => {
     tutor_password,
   } = tutor;
   const InsertQuery = `UPDATE tutor SET  tutor_username=$1, tutor_firstname = $2, tutor_lastname = $3, tutor_email= $4, tutor_active= $5, tutor_image = $6, tutor_password= $7 WHERE tutor_id = $8 RETURNING *;`
+  const hashedPassword = await hashPassword(tutor_password, 10);
   const data = await  db.query(InsertQuery,[
-        tutor_username,
-        tutor_firstname,
-        tutor_lastname,
-        tutor_email,
-        tutor_active,
-        tutor_image,
-        tutor_password,
-        tutor_id,
-      ])
-      return data.rows[0];
+    tutor_username,
+    tutor_firstname,
+    tutor_lastname,
+    tutor_email,
+    tutor_active,
+    tutor_image,
+    hashedPassword,
+    tutor_id,
+  ])
+  
+  return data.rows[0];
 };
