@@ -1,4 +1,5 @@
 const db = require("../../database/connection.js");
+const { hashPassword } = require("../../utils/passwordhelper.js");
 
 exports.selectTutors = async (sort_by = "tutor_id") => {
   if (sort_by) {
@@ -43,6 +44,7 @@ exports.insertTutor = async (tutor) => {
   } = tutor;
 
   const InsertQuery = `INSERT INTO tutor (tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *;`
+  const hashedPassword = await hashPassword(tutor_password, 10);
   const data= await db.query(InsertQuery,[
         tutor_username,
         tutor_firstname,
@@ -50,7 +52,7 @@ exports.insertTutor = async (tutor) => {
         tutor_email,
         tutor_active,
         tutor_image,
-        tutor_password,
+        hashedPassword,
       ])
       return data.rows[0];
 };

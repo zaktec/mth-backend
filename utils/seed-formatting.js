@@ -72,7 +72,6 @@ exports.formatAdminsData = (adminData) => {
   return formattedAdmin;
 };
 
-
 exports.formatTutorData = (tutorData) => {
 
   tutorData.forEach(

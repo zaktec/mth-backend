@@ -2,22 +2,24 @@ const { Pool } = require('pg');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const ENV = process.env.NODE_ENV  ||  "development";
-const pathToCorrectEnvFile = `${__dirname}/../.env.${ENV}`;
+const dbconfig = {
+    idleTimeoutMillis: 60000,
+    port: process.env.PGPORT,
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    password: process.env.PGPASSWORD,
+    database: process.env.PGDATABASE,
+};
 
-//console.log (ENV)
 
-require('dotenv').config({
- path: pathToCorrectEnvFile,
+const dbConnection = new Pool(dbconfig);
+
+dbConnection.on('error', (error, client) => {
+    console.error('Something wrong occured', error)
 });
 
-const dbConnection = new Pool();
+dbConnection.connect(() => {
+    console.log('DB connection success !!');
+});
 
-//console.log(">>>>>>",process.env.PGDATABASE)
-
-if (!process.env.PGDATABASE){
-    throw new Error ("No PGDATABSE configured");
-}
-
-
-module.exports = dbConnection 
+module.exports = dbConnection;

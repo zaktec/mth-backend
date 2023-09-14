@@ -1,4 +1,5 @@
 const db = require("../../database/connection.js");
+const { hashPassword } = require("../../utils/passwordhelper.js");
 
 exports.selectStudents = async (sort_by = "student_id") => {
   if (sort_by) {
@@ -55,12 +56,13 @@ exports.insertStudent = async (student) => {
   } = student;
 
   const InsertQuery = `INSERT INTO student (student_username, student_firstname, student_lastname, student_email,student_password, student_active,student_image, student_grade, student_targetgrade,student_notes, student_progressbar, student_msg_count, student_msg_input, student_msg_output, student_course_fk_id, student_tutor_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11,$12,$13,$14,$15,$16) RETURNING *;`;
+  const hashedPassword = await hashPassword(student_password, 10);
   const data = await db.query(InsertQuery, [
     student_username,
     student_firstname,
     student_lastname,
     student_email,
-    student_password,
+    hashedPassword,
     student_active,
     student_image,
     student_grade,
@@ -73,6 +75,7 @@ exports.insertStudent = async (student) => {
     student_course_fk_id,
     student_tutor_fk_id,
   ]);
+
   return data.rows[0];
 };
 
