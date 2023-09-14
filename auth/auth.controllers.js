@@ -7,19 +7,29 @@ const {
   insertNewTutor
 } = require("./auth.models");
 const { comparePasswords } = require("../utils/passwordhelper");
+const { generateStudentJWT, generateAdminJWT, generateTutorJWT } = require("../utils/jwtHelper");
+const jwt = require("jsonwebtoken");
+const { insertStudent } = require("../modules/studentpage/student.models");
 const { insertAdmin } = require("../modules/adminpage/admin.model");
 const { insertTutor } = require("../modules/tutorpage/tutor.models");
-const { insertStudent } = require("../modules/studentpage/student.models");
-const { generateStudentJWT, generateAdminJWT, generateTutorJWT } = require("../utils/jwtHelper");
 
 exports.loginStudent = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const isStudentExist = await checkStudentByUsername(username);
-    if (!isStudentExist) return res.status(401).json({ status: 401, message: "username and password do not exist" });
+    if (!isStudentExist)
+      return res
+        .status(401)
+        .json({ status: 401, message: "username and password do not exist" });
 
-    const isPasswordExist = await comparePasswords(password, isStudentExist.student_password);
-    if (!isPasswordExist)return res.status(401).json({ status: 401, message: "username and password do not exist" });
+    const isPasswordExist = await comparePasswords(
+      password,
+      isStudentExist.student_password
+    );
+    if (!isPasswordExist)
+      return res
+        .status(401)
+        .json({ status: 401, message: "username and password do not exist" });
 
     const token = await generateStudentJWT(isStudentExist.student_id);
     res.status(200).json({ status: 200, message: "Success", token });
@@ -49,10 +59,19 @@ exports.loginAdmin = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const isAdminExist = await checkAdminByUsername(username);
-    if (!isAdminExist) return res.status(401).json({ status: 401, message: "username and password do not exist" });
+    if (!isAdminExist)
+      return res
+        .status(401)
+        .json({ status: 401, message: "username and password do not exist" });
 
-    const isPasswordExist = await comparePasswords(password, isAdminExist.admin_password);
-    if (!isPasswordExist) return res.status(401).json({ status: 401, message: "username and password do not exist" });
+    const isPasswordExist = await comparePasswords(
+      password,
+      isAdminExist.admin_password
+    );
+    if (!isPasswordExist)
+      return res
+        .status(401)
+        .json({ status: 401, message: "username and password do not exist" });
 
     const token = await generateAdminJWT(isAdminExist.admin_id);
     res.status(200).json({ status: 200, message: "Success", token });
@@ -78,6 +97,7 @@ exports.createNewAdmin = (req, res, next) => {
   }
 };
 
+
 exports.createNewTutor = async (req, res, next) => {
   try {
     const tutor = req.body;
@@ -96,9 +116,19 @@ exports.loginTutor = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const isTutorExist = await checkTutorByUsername(username);
-    if (!isTutorExist) return res.status(401).json({ status: 401, message: "username and password do not exist" });
-    const isPasswordExist = await comparePasswords(password, isTutorExist.tutor_password);
-    if (!isPasswordExist) return res.status(401).json({ status: 401, message: "username and password do not exist" });
+    if (!isTutorExist)
+      return res
+        .status(401)
+        .json({ status: 401, message: "username and password do not exist" });
+
+    const isPasswordExist = await comparePasswords(
+      password,
+      isTutorExist.tutor_password
+    );
+    if (!isPasswordExist)
+      return res
+        .status(401)
+        .json({ status: 401, message: "username and password do not exist" });
 
     const token = await generateTutorJWT(isTutorExist.tutor_id);
     res.status(200).json({ status: 200, message: "Success", token });

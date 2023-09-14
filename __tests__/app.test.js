@@ -38,7 +38,7 @@ let validAdmin;
 let initial_student_id;
 let invalidStudent = `BEARER invalidToken`;
 let invalidAdmin = `BEARER invalidToken`;
-const password = bcrypt.hashSync("password", 10);
+// const password = bcrypt.hashSync("password", 10);
 
 //console.log(testData)
 beforeAll(() => seed(testData));
@@ -49,7 +49,7 @@ beforeAll(() => seed(testData));
 //afterAll(() => seed(testData));
 afterAll(() => db.end());
 
-//-------------------unauthrised Link---------------------/
+// -------------------unauthrised Link---------------------/
 
 describe("Test1-   GET /invalid_url", () => {
   test("ERROR: status 404 and returns a message when invalid url is passed ", () => {
@@ -106,7 +106,7 @@ describe("Test 4 -POST /signup admin", () => {
         admin_email: "csheraz@hotmail.com",
         admin_active: true,
         admin_image: "/tutor/tutor1.png",
-        admin_password: password,
+        admin_password: "password",
       })
       .expect(201)
       .then((res) => {
@@ -119,7 +119,7 @@ describe("Test 4 -POST /signup admin", () => {
           admin_email: "csheraz@hotmail.com",
           admin_active: true,
           admin_image: "/tutor/tutor1.png",
-          admin_password: password,
+          admin_password: res.body.admin.admin_password,
         });
       });
   });
@@ -181,7 +181,7 @@ describe("Test 6 -POST /signup tutor", () => {
         tutor_email: "csheraz@hotmail.com",
         tutor_active: true,
         tutor_image: "/tutor/tutor1.png",
-        tutor_password: password,
+        tutor_password: "password",
       })
       .expect(201)
       .then((res) => {
@@ -194,7 +194,7 @@ describe("Test 6 -POST /signup tutor", () => {
           tutor_email: "csheraz@hotmail.com",
           tutor_active: true,
           tutor_image: "/tutor/tutor1.png",
-          tutor_password: password,
+          tutor_password: res.body.tutor.tutor_password,
         });
       });
   });
@@ -242,6 +242,7 @@ describe("Test7-  Tutor login", () => {
       });
   });
 });
+
 //-------------------Student SignUp/login 
 
 describe("Test8- POST /signin", () => {
@@ -256,7 +257,7 @@ describe("Test8- POST /signin", () => {
         student_firstname: "New",
         student_lastname: "Student1LN",
         student_email: "csheraz@hotmail.com",
-        student_password: password,
+        student_password: "password",
         student_active: true,
         student_notes: "Working well",
         student_image: "/student/student1.png",
@@ -274,7 +275,7 @@ describe("Test8- POST /signin", () => {
           student_firstname: "New",
           student_lastname: "Student1LN",
           student_email: "csheraz@hotmail.com",
-          student_password: password,
+          student_password: res.body.student.student_password,
           student_active: true,
           student_notes: "Working well",
           student_image: "/student/student1.png",
@@ -411,7 +412,7 @@ describe("Test13- POST /api/admin", () => {
         admin_email: "csheraz@hotmail.com",
         admin_active: true,
         admin_image: "/tutor/tutor1.png",
-        admin_password: password,
+        admin_password: "password",
       })
       .expect(201)
       .then((res) => {
@@ -424,7 +425,7 @@ describe("Test13- POST /api/admin", () => {
           admin_email: "csheraz@hotmail.com",
           admin_active: true,
           admin_image: "/tutor/tutor1.png",
-          admin_password: password,
+          admin_password: res.body.data.admin_password,
         });
       });
   });
@@ -552,7 +553,7 @@ describe("Test16- PATCH /api/admin/:admin_id", () => {
         admin_email: "csheraz@hotmail.com",
         admin_active: true,
         admin_image: "/tutor/tutor1.png",
-        admin_password: password,
+        admin_password: "password",
       })
       .expect(200)
       .then((res) => {
@@ -582,7 +583,7 @@ describe("Test17- POST /api/students", () => {
         student_firstname: "New",
         student_lastname: "Student1LN",
         student_email: "csheraz@hotmail.com",
-        student_password: password,
+        student_password: "password",
         student_active: true,
         student_grade: 1,
         student_targetgrade: 1,
@@ -751,7 +752,7 @@ describe("Test20- PATCH /api/students/:student_id", () => {
         student_firstname: "Patched",
         student_lastname: "Student1LN",
         student_email: "csheraz@hotmail.com",
-        student_password: password,
+        student_password: "password",
         student_active: true,
         student_grade: 1,
         student_targetgrade: 1,
@@ -799,7 +800,7 @@ describe("Test21- POST /api/tutors", () => {
         tutor_email: "csheraz@hotmail.com",
         tutor_active: true,
         tutor_image: "/tutor/tutor1.png",
-        tutor_password: password,
+        tutor_password: "password",
       })
       .expect(201)
       .then((res) => {
@@ -812,7 +813,7 @@ describe("Test21- POST /api/tutors", () => {
           tutor_email: "csheraz@hotmail.com",
           tutor_active: true,
           tutor_image: "/tutor/tutor1.png",
-          tutor_password: password,
+          tutor_password: res.body.data.tutor_password,
         });
       });
   });
@@ -940,7 +941,7 @@ describe("Test24- PATCH /api/tutors/:tutor_id", () => {
         tutor_email: "csheraz@hotmail.com",
         tutor_active: true,
         tutor_image: "/tutor/tutor1.png",
-        tutor_password: password,
+        tutor_password: "password",
       })
       .expect(200)
       .then((res) => {
