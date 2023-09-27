@@ -27,5 +27,3 @@ module.exports = [
        "lesson_topic_fk_id": 3
       },
      ]
-     
-     

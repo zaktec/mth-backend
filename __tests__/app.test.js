@@ -133,6 +133,7 @@ describe("Test 5-  Admin login", () => {
       .expect(200)
       .then((res) => {
         validAdmin = `BEARER ${res.body.token}`;
+        console.log('++++++++++++>', validAdmin);
         expect(res.body.message).toBe("Success");
       });
   });
