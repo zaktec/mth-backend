@@ -129,7 +129,7 @@ describe("Test 5-  Admin login", () => {
   test("POST-responds with and access token given correct username and password", () => {
     return request(app)
       .post("/adminlogin")
-      .send({ username: "scheema1", password: "password" })
+      .send({ username: "scheema1", password: "password", deviceId: "3f9a1b2c8" })
       .expect(200)
       .then((res) => {
         validAdmin = `BEARER ${res.body.token}`;
@@ -140,7 +140,7 @@ describe("Test 5-  Admin login", () => {
   test("POST-responds with status 401 for an incorrect password", () => {
     return request(app)
       .post("/adminlogin")
-      .send({ username: "scheema1", password: "secure123" })
+      .send({ username: "scheema1", password: "secure123", deviceId: "3f9a1b2c8" })
       .expect(401)
       .then((res) =>
         expect(res.body.message).toBe("username and password do not exist")
@@ -150,7 +150,7 @@ describe("Test 5-  Admin login", () => {
   test("POST responds with status 401 for an incorrect username", () => {
     return request(app)
       .post("/adminlogin")
-      .send({ username: "mitch", password: "secure123" })
+      .send({ username: "mitch", password: "secure123", deviceId: "3f9a1b2c8" })
       .expect(401)
       .then((res) =>
         expect(res.body.message).toBe("username and password do not exist")

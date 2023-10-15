@@ -10,15 +10,6 @@ exports.formatCourseData = (courseData) => {
   return formattedCourses;
 };
 
-exports.formatAuthAdmin = (authAdminData) => {
-  const formattedAuthAdmin = authAdminData.map((authAdmin) => [
-    authAdmin.auth_admin_id,
-    authAdmin.auth_admin_token,
-  
-  ]);
-  return formattedAuthAdmin;
-};
-
 exports.formatTopicData = (topicData) => {
   const formattedTopics = topicData.map((topic) => [
     topic.topic_unit,
@@ -30,7 +21,6 @@ exports.formatTopicData = (topicData) => {
   ]);
   return formattedTopics;
 };
-
 
 exports.formatStudentData = (studentData) => {
    studentData.forEach(
@@ -80,7 +70,6 @@ exports.formatAdminsData = (adminData) => {
   return formattedAdmin;
 };
 
-
 exports.formatTutorData = (tutorData) => {
 
   tutorData.forEach(
@@ -97,6 +86,15 @@ exports.formatTutorData = (tutorData) => {
     tutor.tutor_image,
   ]);
   return formattedTutors;
+};
+
+exports.formatAuthAdminData = (authAdminData) => {
+  const formattedAuthAdmin = authAdminData.map((authAdmin) => [
+    authAdmin.admin_id,
+    authAdmin.admin_device_id,
+    authAdmin.auth_admin_token,
+  ]);
+  return formattedAuthAdmin;
 };
 
 exports.formatLessonData = (lessonData) => {
