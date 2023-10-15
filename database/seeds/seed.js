@@ -39,18 +39,18 @@ const runSeeds = async (data) => {
 
   const dropLessonQuery = `DROP TABLE IF EXISTS lesson`;
   await db.query(dropLessonQuery);
+  
+  const dropAuthAdminQuery = `DROP TABLE IF EXISTS authAdmin`;
+  await db.query(dropAuthAdminQuery);
+
+  const dropStudentQuery = `DROP TABLE IF EXISTS student`;
+  await db.query(dropStudentQuery);
 
   const dropTutorQuery = `DROP TABLE IF EXISTS tutor`;
   await db.query(dropTutorQuery);
 
   const dropAdminsQuery = `DROP TABLE IF EXISTS admin`;
   await db.query(dropAdminsQuery);
-
-  const dropStudentQuery = `DROP TABLE IF EXISTS student`;
-  await db.query(dropStudentQuery);
-  
-  const dropAuthAdminQuery = `DROP TABLE IF EXISTS authAdmin`;
-  await db.query(dropAuthAdminQuery);
 
   const dropTopicQuery = `DROP TABLE IF EXISTS topic`;
   await db.query(dropTopicQuery);

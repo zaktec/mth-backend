@@ -56,7 +56,7 @@ exports.loginAdmin = async (req, res, next) => {
 exports.logoutAdmin = async (req, res, next) => {
   try {
     await destroyAuthAdmin(req.admin.admin_id, req.admin.admin_device_id, req.admin.auth_admin_token);
-    res.status(200).json({ status: 200, message: "Logged out successfully." });
+    res.status(200).json({ status: 200, message: "Success" });
   } catch (error) {
     return res.status(500).json({
       status: 500,

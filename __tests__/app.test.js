@@ -126,7 +126,7 @@ describe("Test 4 -POST /signup admin", () => {
 });
 
 describe("Test 5-  Admin login", () => {
-  test("POST-responds with and access token given correct username and password", () => {
+  test("POST-responds with status 200 and access token when username and password are correct", () => {
     return request(app)
       .post("/adminlogin")
       .send({ username: "scheema1", password: "password", deviceId: "3f9a1b2c8" })
@@ -2084,5 +2084,38 @@ describe("Test45-  DELETE /api/admin/:admin_id", () => {
       .set("Authorization", validAdmin)
       .expect(400)
       .then((res) => expect(res.body.msg).toBe("Invalid Input"));
+  });
+});
+
+//--------------------------------- Admin Logout --------------------------/
+
+describe("Test 46-  Admin logout", () => {
+  test("DELETE - responds with status 200 and message when user logged-in and token is correct", () => {
+    return request(app)
+      .delete("/adminlogout")
+      .set("Authorization", validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.message).toBe("Success");
+      });
+  });
+  
+  test("DELETE - responds with status 401 and message when given token is incorrect", () => {
+    return request(app)
+      .delete("/adminlogout")
+      .set("Authorization", invalidAdmin)
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe("halt intruder! get outta here");
+      });
+  });
+
+  test("DELETE - responds with status 401 and message when token is not given", () => {
+    return request(app)
+      .delete("/adminlogout")
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe("Unauthorized. Token no found");
+      });
   });
 });
