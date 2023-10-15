@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const { studentData } = require("../database/data/test-data");
 exports.formatCourseData = (courseData) => {
   const formattedCourses = courseData.map((course) => [
     course.course_name,
@@ -9,6 +8,15 @@ exports.formatCourseData = (courseData) => {
     course.course_image,
   ]);
   return formattedCourses;
+};
+
+exports.formatAuthAdmin = (authAdminData) => {
+  const formattedAuthAdmin = authAdminData.map((authAdmin) => [
+    authAdmin.auth_admin_id,
+    authAdmin.auth_admin_token,
+  
+  ]);
+  return formattedAuthAdmin;
 };
 
 exports.formatTopicData = (topicData) => {

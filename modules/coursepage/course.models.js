@@ -12,8 +12,9 @@ exports.selectCourses = async (sort_by = "course_id") => {
       return Promise.reject({ status: 400, msg: "bad request" });
     }
   }
-  const InsertQuery = `SELECT * FROM course ORDER BY ${sort_by} ASC;`;
-  const data = await db.query(InsertQuery)
+ 
+  const GetQuery = `SELECT * FROM course ORDER BY ${sort_by} ASC;`;
+  const data = await db.query(GetQuery)
       return data.rows;
 };
 

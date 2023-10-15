@@ -1,14 +1,10 @@
 const {
   checkStudentByUsername,
-  insertNewStudent,
-  insertNewAdmin,
   checkAdminByUsername,
   checkTutorByUsername,
-  insertNewTutor
 } = require("./auth.models");
 const { comparePasswords } = require("../utils/passwordhelper");
 const { generateStudentJWT, generateAdminJWT, generateTutorJWT } = require("../utils/jwtHelper");
-const jwt = require("jsonwebtoken");
 const { insertStudent } = require("../modules/studentpage/student.models");
 const { insertAdmin } = require("../modules/adminpage/admin.model");
 const { insertTutor } = require("../modules/tutorpage/tutor.models");
@@ -32,7 +28,7 @@ exports.loginStudent = async (req, res, next) => {
         .json({ status: 401, message: "username and password do not exist" });
 
     const token = await generateStudentJWT(isStudentExist.student_id);
-    res.status(200).json({ status: 200, message: "Success", token });
+    res.status(200).json({ status: 200, message: "Success", id: isStudentExist.student_id, token });
   } catch (error) {
     return res.status(500).json({
       status: 500,
@@ -74,7 +70,7 @@ exports.loginAdmin = async (req, res, next) => {
         .json({ status: 401, message: "username and password do not exist" });
 
     const token = await generateAdminJWT(isAdminExist.admin_id);
-    res.status(200).json({ status: 200, message: "Success", token });
+    res.status(200).json({ status: 200, message: "Success", id: isAdminExist.admin_id, token });
   } catch (error) {
     return res.status(500).json({
       status: 500,
@@ -131,7 +127,7 @@ exports.loginTutor = async (req, res, next) => {
         .json({ status: 401, message: "username and password do not exist" });
 
     const token = await generateTutorJWT(isTutorExist.tutor_id);
-    res.status(200).json({ status: 200, message: "Success", token });
+    res.status(200).json({ status: 200, message: "Success", id: isTutorExist.tutor_id, token });
   } catch (error) {
     return res.status(500).json({
       status: 500,
