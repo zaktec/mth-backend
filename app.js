@@ -14,12 +14,13 @@ const {
   handleInputErrors,
 } = require("./errors/index");
 const {
+  createNewAdmin,
   loginAdmin,
+  logoutAdmin,
+  createNewTutor,
+  loginTutor,
   createNewStudent,
   loginStudent,
-  createNewAdmin,
-  loginTutor,
-  createNewTutor,
 } = require("./auth/auth.controllers");
 const {
   verifyStudent,
@@ -40,46 +41,51 @@ app.use(cors());
 app.get("/homepage", getHomepage);
 app.get("/", getHomepage);
 
-//student authrisation
-app.post(
-  "/studentlogin",
-  body("username").isString(),
-  handleInputErrors,
-  loginStudent
-);
-app.post(
-  "/studentsignin",
-  body("student_username").isString(),
-  handleInputErrors,
-  createNewStudent
-);
-
 //admin authrisation
-app.post(
-  "/adminlogin",
-  body("username").isString(),
-  handleInputErrors,
-  loginAdmin
-);
 app.post(
   "/adminsignin",
   body("admin_username").isString(),
   handleInputErrors,
   createNewAdmin
 );
+app.post(
+  "/adminlogin",
+  body("username").isString(),
+  handleInputErrors,
+  loginAdmin
+);
+app.delete(
+  "/adminlogout",
+  verifyAdmin,
+  logoutAdmin
+);
 
 //tutor authrisation
+app.post(
+  "/tutorsignin",
+  body("tutor_username").isString(),
+  handleInputErrors,
+  createNewTutor
+);
 app.post(
   "/tutorlogin",
   body("username").isString(),
   handleInputErrors,
   loginTutor
 );
+
+//student authrisation
 app.post(
-  "/tutorsignin",
-  body("tutor_username").isString(),
+  "/studentsignin",
+  body("student_username").isString(),
   handleInputErrors,
-  createNewTutor
+  createNewStudent
+);
+app.post(
+  "/studentlogin",
+  body("username").isString(),
+  handleInputErrors,
+  loginStudent
 );
 
 //authroised user allowed on these route

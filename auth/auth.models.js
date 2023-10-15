@@ -1,10 +1,11 @@
 const db = require("../database/connection.js");
+const { generateAdminJWT } = require("../utils/jwtHelper");
 
-exports.checkStudentByUsername = async (username) => {
-  const checkUserQuery = "SELECT * FROM student WHERE student_username=$1;";
-  const data = await db.query(checkUserQuery, [username]);
+exports.checkAdminById = async(id) =>{
+  const checkUserQuery = "SELECT * FROM admin WHERE admin_id=$1;";
+  const data = await db.query(checkUserQuery, [id]);
   return data.rows[0];
-};
+}
 
 exports.checkAdminByUsername = async(username) =>{
   const checkUserQuery = "SELECT * FROM admin WHERE admin_username=$1;";
@@ -18,99 +19,39 @@ exports.checkTutorByUsername = async(username) =>{
   return data.rows[0];
 }
 
-// exports.insertNewStudent = (student) => {
-//   const {
-//     student_username,
-//     student_firstname,
-//     student_lastname,
-//     student_email,
-//     student_active,
-//     student_password,
-//     student_grade,
-//     student_targetgrade,
-//     student_notes,
-//     student_progressbar,
-//     student_image,
-//   } = student;
+exports.checkStudentByUsername = async (username) => {
+  const checkUserQuery = "SELECT * FROM student WHERE student_username=$1;";
+  const data = await db.query(checkUserQuery, [username]);
+  return data.rows[0];
+};
 
-//   return db
-//     .query(
-//       `INSERT INTO student (student_username,student_firstname, student_lastname, student_email, student_password, student_grade, student_active,student_targetgrade, student_notes, student_progressbar, student_image ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11  ) RETURNING *; `,
-//       [
-//         student_username,
-//         student_firstname,
-//         student_lastname,
-//         student_email,
-//         student_password,
-//         student_grade,
-//         student_active,
-//         student_targetgrade,
-//         student_notes,
-//         student_progressbar,
-//         student_image,
-//       ]
-//     )
-//     .then(({ rows }) => {
-//       return rows[0];
-//     });
-// };
+exports.checkAuthAdmin = async (admin_id, auth_admin_token) => {
+  const checkAuthAdminQuery = "SELECT * FROM authAdmin WHERE admin_id=$1 AND auth_admin_token=$2;";
+  const data = await db.query(checkAuthAdminQuery, [admin_id, auth_admin_token]);
+ 
+  return data.rows[0];
+};
 
+exports.insertAuthAdmin = async (admin_id, admin_device_id) => {
+  const checkAuthAdminQuery = "SELECT * FROM authAdmin WHERE admin_id=$1 AND admin_device_id=$2;";
+  const data = await db.query(checkAuthAdminQuery, [admin_id, admin_device_id]);
 
+  if (data.rows.length === 0) {
+    const InsertQuery = `INSERT INTO authAdmin (admin_id, admin_device_id, auth_admin_token) VALUES ($1, $2, $3) RETURNING *;`;
+    const token = await generateAdminJWT(admin_id, admin_device_id);
+    const data = await db.query(InsertQuery,[
+      admin_id,
+      admin_device_id,
+      token,
+    ])
 
-// exports.insertNewAdmin = (admin) => {
-//   const {
-//     admins_username,
-//     admins_firstname,
-//     admins_lastname,
-//     admins_email,
-//     admins_active,
-//     admins_image,
-//     admins_password,
-//   } = admin;
+    return data.rows[0];
+  }
 
-//   return db
-//     .query(
-//       `INSERT INTO admin (admins_username, admins_firstname, admins_lastname, admins_email, admins_active, admins_image, admins_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *; `,
-//       [
-//         admins_username,
-//         admins_firstname,
-//         admins_lastname,
-//         admins_email,
-//         admins_active,
-//         admins_image,
-//         admins_password,
-//       ]
-//     )
-//     .then(({ rows }) => {
-//       return rows[0];
-//     });
-// };
+  return data.rows[0];
+};
 
-// exports.insertNewTutor = (tutor) => {
-//   const {
-//     tutor_username,
-//     tutor_firstname,
-//     tutor_lastname,
-//     tutor_email,
-//     tutor_active,
-//     tutor_image,
-//     tutor_password,
-//   } = tutor;
-
-//   return db
-//     .query(
-//       `INSERT INTO tutor (tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *; `,
-//       [
-//         tutor_username,
-//         tutor_firstname,
-//         tutor_lastname,
-//         tutor_email,
-//         tutor_active,
-//         tutor_image,
-//         tutor_password,
-//       ]
-//     )
-//     .then(({ rows }) => {
-//       return rows[0];
-//     });
-// };
+exports.destroyAuthAdmin = async (admin_id, admin_device_id, auth_admin_token) => {
+  const checkAuthAdminQuery = "DELETE FROM authAdmin WHERE admin_id = $1 AND admin_device_id=$2 AND auth_admin_token = $3;";
+  await db.query(checkAuthAdminQuery, [admin_id, admin_device_id, auth_admin_token]);
+};

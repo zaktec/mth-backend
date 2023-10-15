@@ -1,4 +1,5 @@
 const db = require("../../database/connection.js");
+const { hashPassword } = require("../../utils/passwordhelper.js");
 
 exports.selectAdmin = async (sort_by = "admin_id") => {
   if (sort_by) {
@@ -41,8 +42,8 @@ exports.insertAdmin = async (admin) => {
     admin_image,
     admin_password,
   } = admin;
-  const InsertQuery =
-    "INSERT INTO admin (admin_username, admin_firstname, admin_lastname, admin_email, admin_active, admin_image, admin_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *;";
+  const InsertQuery = "INSERT INTO admin (admin_username, admin_firstname, admin_lastname, admin_email, admin_active, admin_image, admin_password) VALUES ($1, $2, $3, $4, $5, $6, $7  ) RETURNING *;";
+  const hashedPassword = await hashPassword(admin_password, 10);
   const data = await db.query(InsertQuery, [
     admin_username,
     admin_firstname,
@@ -50,8 +51,9 @@ exports.insertAdmin = async (admin) => {
     admin_email,
     admin_active,
     admin_image,
-    admin_password,
+    hashedPassword,
   ]);
+
   return data.rows[0];
 };
 
@@ -72,6 +74,7 @@ exports.updateAdminById = async (admin, admin_id) => {
     admin_password,
   } = admin;
   const InsertQuery = `UPDATE admin SET  admin_username=$1, admin_firstname = $2, admin_lastname = $3, admin_email= $4, admin_active= $5, admin_image = $6, admin_password= $7 WHERE admin_id = $8 RETURNING *;`;
+  const hashedPassword = await hashPassword(admin_password, 10);
   const data = await db.query(InsertQuery, [
     admin_username,
     admin_firstname,
@@ -79,7 +82,7 @@ exports.updateAdminById = async (admin, admin_id) => {
     admin_email,
     admin_active,
     admin_image,
-    admin_password,
+    hashedPassword,
     admin_id,
   ]);
   return data.rows[0];

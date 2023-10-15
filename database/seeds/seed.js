@@ -9,6 +9,7 @@ const {
   formatQuizData,
   formatQuestionData,
   formatAdminsData,
+  formatAuthAdminData
 } = require("../../utils/seed-formatting.js");
 
 const runSeeds = async (data) => {
@@ -21,6 +22,7 @@ const runSeeds = async (data) => {
     quizData,
     questionData,
     adminData,
+    authAdminData
   } = data;
 
   const dropQuestionQuery = `DROP TABLE IF EXISTS question`;
@@ -32,14 +34,14 @@ const runSeeds = async (data) => {
   const dropDigitutorQuery = `DROP TABLE IF EXISTS digitutor`;
   await db.query(dropDigitutorQuery);
 
-  const dropAuthQuery = `DROP TABLE IF EXISTS auth`;
-  await db.query(dropAuthQuery);
-
   const dropQuizQuery = `DROP TABLE IF EXISTS quiz`;
   await db.query(dropQuizQuery);
 
   const dropLessonQuery = `DROP TABLE IF EXISTS lesson`;
   await db.query(dropLessonQuery);
+  
+  const dropAuthAdminQuery = `DROP TABLE IF EXISTS authAdmin`;
+  await db.query(dropAuthAdminQuery);
 
   const dropStudentQuery = `DROP TABLE IF EXISTS student`;
   await db.query(dropStudentQuery);
@@ -105,14 +107,14 @@ const runSeeds = async (data) => {
     student_tutor_fk_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE )`;
   await db.query(createStudentQuery);
 
+  const createAuthAdminQuery = `CREATE TABLE authAdmin ( auth_id SERIAL PRIMARY KEY, admin_id INT REFERENCES admin(admin_id) ON DELETE CASCADE, admin_device_id VARCHAR (1000) NOT NULL, auth_admin_token VARCHAR (1000) NOT NULL )`;
+  await db.query(createAuthAdminQuery);
+
   const createLessonQuery = `CREATE TABLE lesson ( lesson_id SERIAL PRIMARY KEY, lesson_topic VARCHAR(100) NOT NULL,lesson_name VARCHAR(100) NOT NULL, lesson_code VARCHAR(100), lesson_desc VARCHAR(200) NOT NULL, lesson_grade INT DEFAULT 0, lesson_body VARCHAR(100), lesson_topic_fk_id INT REFERENCES topic(topic_id) ON DELETE CASCADE )`;
   await db.query(createLessonQuery);
 
   const createQuizQuery = `CREATE TABLE quiz ( quiz_id SERIAL PRIMARY KEY, quiz_name VARCHAR(100) NOT NULL, quiz_code VARCHAR(100), quiz_desc VARCHAR(200), quiz_type VARCHAR(100), quiz_calc BOOLEAN DEFAULT TRUE,quiz_course_fk_id INT REFERENCES course(course_id) ON DELETE CASCADE,quiz_topic_fk_id INT REFERENCES topic(topic_id) ON DELETE CASCADE,quiz_lesson_fk_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE )`;
   await db.query(createQuizQuery);
-
-  const createAuthQuery = `CREATE TABLE auth ( auth_id SERIAL PRIMARY KEY, auth_student_id INT REFERENCES student(student_id) ON DELETE CASCADE, auth_tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE, auth_token VARCHAR (1000) NOT NULL )`;
-  await db.query(createAuthQuery);
 
   const createQuestionQuery = `CREATE TABLE question ( 
     question_id SERIAL PRIMARY KEY, 
@@ -154,12 +156,10 @@ const runSeeds = async (data) => {
   const topic = await db.query(insertTopicQuery);
 
   const formattedAdmins = formatAdminsData(adminData);
-
   const insertAdminQuery = format(
     `INSERT INTO admin (admin_username, admin_firstname, admin_lastname, admin_email, admin_password, admin_active, admin_image) VALUES %L RETURNING *;`,
     formattedAdmins
   );
-
   const admin = await db.query(insertAdminQuery);
 
   const formattedTutors = formatTutorData(tutorData);
@@ -175,6 +175,13 @@ const runSeeds = async (data) => {
     formattedStudents
   );
   const student = await db.query(insertStudentQuery);
+
+  const formattedAuthAdmin = formatAuthAdminData(authAdminData);
+  const insertAuthAdminQuery = format(
+    `INSERT INTO authAdmin (admin_id, admin_device_id, auth_admin_token) VALUES %L RETURNING *;`,
+    formattedAuthAdmin
+  );
+  const authAdmin = await db.query(insertAuthAdminQuery);
 
   const formattedLessons = formatLessonData(lessonData);
   const insertLessonQuery = format(
@@ -197,29 +204,7 @@ const runSeeds = async (data) => {
   );
   const question = await db.query(insertQuestionQuery);
 
-  return { course, topic, admin, tutor, student, lesson, quiz, question };
+  return { course, topic, admin, tutor, student, lesson, quiz, question, authAdmin };
 };
 
 module.exports = runSeeds;
-
-// question_body,
-//   question_ans1,
-//   question_ans2,
-//   question_ans3,
-//   question_image,
-//   question_mark,
-//   question_grade,
-//   question_type,
-//   question_calc,
-//   question_ans_sym_b,
-//   question_ans_sym_a,
-//   question_correct,
-//   question_explaination,
-//   question_ans_mark,
-//   question_ans_image,
-//   question_response1,
-//   question_response2,
-//   question_response3,
-//   question_workingout,
-//   question_feedback,
-//   question_quiz_fk_id;

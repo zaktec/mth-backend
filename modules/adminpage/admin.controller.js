@@ -91,7 +91,7 @@ exports.patchAdminById = async (req, res, next) => {
 };
 
 exports.getadmindashboard = (req, res, next) => {
-  console.log('I am admin, this is my admin_id =>', req.admin_id);
+  console.log('I am admin, this is my admin_id =>', req.admin.admin_id);
   res.status(200);
   res.send({ msg: "Welcome to the Admin Dashboard" })
   //getAdminById 

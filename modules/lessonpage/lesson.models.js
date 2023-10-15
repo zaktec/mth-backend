@@ -8,6 +8,7 @@ exports.selectLessons = async (sort_by = "lesson_id") => {
       "lesson_name",
       "lesson_topic_fk_id",
     ];
+    console.log(sort_by)
     if (!allowedSortBys.includes(sort_by)) {
       return Promise.reject({ status: 400, msg: "bad request" });
     }

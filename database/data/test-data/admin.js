@@ -7,6 +7,5 @@ module.exports = [
     admin_password: "password",
     admin_active: "TRUE",
     admin_image: "/tutor/tutor1.png",
-   
   }
 ];

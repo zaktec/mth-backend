@@ -6,7 +6,7 @@ const {
   updateCourseById,
 } = require("./course.models.js");
 const { checkCourseExists } = require("../../utils/utils.js");
-const { hashSync } = require("bcrypt");
+
 
 /**
  * app.get("/api/courses", getCourses);

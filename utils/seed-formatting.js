@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const { studentData } = require("../database/data/test-data");
 exports.formatCourseData = (courseData) => {
   const formattedCourses = courseData.map((course) => [
     course.course_name,
@@ -22,7 +21,6 @@ exports.formatTopicData = (topicData) => {
   ]);
   return formattedTopics;
 };
-
 
 exports.formatStudentData = (studentData) => {
    studentData.forEach(
@@ -72,7 +70,6 @@ exports.formatAdminsData = (adminData) => {
   return formattedAdmin;
 };
 
-
 exports.formatTutorData = (tutorData) => {
 
   tutorData.forEach(
@@ -89,6 +86,15 @@ exports.formatTutorData = (tutorData) => {
     tutor.tutor_image,
   ]);
   return formattedTutors;
+};
+
+exports.formatAuthAdminData = (authAdminData) => {
+  const formattedAuthAdmin = authAdminData.map((authAdmin) => [
+    authAdmin.admin_id,
+    authAdmin.admin_device_id,
+    authAdmin.auth_admin_token,
+  ]);
+  return formattedAuthAdmin;
 };
 
 exports.formatLessonData = (lessonData) => {
