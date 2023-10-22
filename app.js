@@ -20,7 +20,9 @@ const {
   createNewTutor,
   loginTutor,
   createNewStudent,
+  logoutTutor,
   loginStudent,
+  logoutStudent,
 } = require("./auth/auth.controllers");
 const {
   verifyStudent,
@@ -74,6 +76,12 @@ app.post(
   loginTutor
 );
 
+app.delete(
+  "/tutorlogout",
+  verifyTutor,
+  logoutTutor
+);
+
 //student authrisation
 app.post(
   "/studentsignin",
@@ -86,6 +94,13 @@ app.post(
   body("username").isString(),
   handleInputErrors,
   loginStudent
+);
+
+
+app.delete(
+  "/studentlogout",
+  verifyStudent,
+  logoutStudent
 );
 
 //authroised user allowed on these route

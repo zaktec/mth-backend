@@ -97,6 +97,25 @@ exports.formatAuthAdminData = (authAdminData) => {
   return formattedAuthAdmin;
 };
 
+exports.formatAuthTutorData = (authTutorData) => {
+  const formattedAuthTutor = authTutorData.map((authTutor) => [
+    authTutor.tutor_id,
+    authTutor.tutor_device_id,
+    authTutor.auth_tutor_token,
+  ]);
+  return formattedAuthTutor;
+};
+
+
+exports.formatAuthStudentData = (authStudentData) => {
+  const formattedAuthStudent = authStudentData.map((authStudent) => [
+    authStudent.student_id,
+    authStudent.student_device_id,
+    authStudent.auth_student_token,
+  ]);
+  return formattedAuthStudent;
+};
+
 exports.formatLessonData = (lessonData) => {
   const formattedLessons = lessonData.map((lesson) => [
     lesson.lesson_topic,

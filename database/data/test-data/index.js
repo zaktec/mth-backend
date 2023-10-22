@@ -7,3 +7,5 @@ exports.quizData = require('./quizzes');
 exports.questionData = require('./questions');
 exports.adminData = require('./admin');
 exports.authAdminData = require('./authAdmin')
+exports.authTutorData = require('./authTutor')
+exports.authStudentData = require('./authStudent')

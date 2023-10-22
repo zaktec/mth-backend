@@ -9,7 +9,9 @@ const {
   formatQuizData,
   formatQuestionData,
   formatAdminsData,
-  formatAuthAdminData
+  formatAuthAdminData,
+  formatAuthTutorData,
+  formatAuthStudentData
 } = require("../../utils/seed-formatting.js");
 
 const runSeeds = async (data) => {
@@ -22,26 +24,34 @@ const runSeeds = async (data) => {
     quizData,
     questionData,
     adminData,
-    authAdminData
+    authAdminData,
+    authTutorData, 
+    authStudentData 
   } = data;
 
   const dropQuestionQuery = `DROP TABLE IF EXISTS question`;
   await db.query(dropQuestionQuery);
 
-  const dropQuizfbQuery = `DROP TABLE IF EXISTS quizfb`;
-  await db.query(dropQuizfbQuery);
+  // const dropQuizfbQuery = `DROP TABLE IF EXISTS quizfb`;
+  // await db.query(dropQuizfbQuery);
 
-  const dropDigitutorQuery = `DROP TABLE IF EXISTS digitutor`;
-  await db.query(dropDigitutorQuery);
+  // const dropDigitutorQuery = `DROP TABLE IF EXISTS digitutor`;
+  // await db.query(dropDigitutorQuery);
 
   const dropQuizQuery = `DROP TABLE IF EXISTS quiz`;
   await db.query(dropQuizQuery);
 
   const dropLessonQuery = `DROP TABLE IF EXISTS lesson`;
   await db.query(dropLessonQuery);
-  
+
   const dropAuthAdminQuery = `DROP TABLE IF EXISTS authAdmin`;
   await db.query(dropAuthAdminQuery);
+
+  const dropAuthTutorQuery = `DROP TABLE IF EXISTS authTutor`;
+  await db.query(dropAuthTutorQuery);
+
+  const dropAuthStudentQuery = `DROP TABLE IF EXISTS authStudent`;
+  await db.query(dropAuthStudentQuery);
 
   const dropStudentQuery = `DROP TABLE IF EXISTS student`;
   await db.query(dropStudentQuery);
@@ -85,7 +95,15 @@ const runSeeds = async (data) => {
     admin_image VARCHAR(200) )`;
   await db.query(createAdminsQuery);
 
-  const createTutorQuery = `CREATE TABLE tutor ( tutor_id SERIAL PRIMARY KEY, tutor_username VARCHAR(200) NOT NULL UNIQUE, tutor_firstname VARCHAR(200) NOT NULL, tutor_lastname VARCHAR(200), tutor_email VARCHAR(200) NOT NULL, tutor_password VARCHAR(100) NOT NULL, tutor_active BOOLEAN, tutor_image VARCHAR(200) )`;
+  const createTutorQuery = `CREATE TABLE tutor (
+     tutor_id SERIAL PRIMARY KEY,
+      tutor_username VARCHAR(200) NOT NULL UNIQUE, 
+      tutor_firstname VARCHAR(200) NOT NULL,
+       tutor_lastname VARCHAR(200), 
+       tutor_email VARCHAR(200) NOT NULL,
+      tutor_password VARCHAR(100) NOT NULL,
+      tutor_active BOOLEAN,
+      tutor_image VARCHAR(200) )`;
   await db.query(createTutorQuery);
 
   const createStudentQuery = `CREATE TABLE student ( 
@@ -109,6 +127,12 @@ const runSeeds = async (data) => {
 
   const createAuthAdminQuery = `CREATE TABLE authAdmin ( auth_id SERIAL PRIMARY KEY, admin_id INT REFERENCES admin(admin_id) ON DELETE CASCADE, admin_device_id VARCHAR (1000) NOT NULL, auth_admin_token VARCHAR (1000) NOT NULL )`;
   await db.query(createAuthAdminQuery);
+
+  const createAuthTutorQuery = `CREATE TABLE authTutor ( auth_id SERIAL PRIMARY KEY, tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE, tutor_device_id VARCHAR (1000) NOT NULL, auth_tutor_token VARCHAR (1000) NOT NULL )`;
+  await db.query(createAuthTutorQuery);
+
+  const createAuthStudentQuery = `CREATE TABLE authStudent ( auth_id SERIAL PRIMARY KEY, student_id INT REFERENCES student(student_id) ON DELETE CASCADE, student_device_id VARCHAR (1000) NOT NULL, auth_student_token VARCHAR (1000) NOT NULL )`;
+  await db.query(createAuthStudentQuery);
 
   const createLessonQuery = `CREATE TABLE lesson ( lesson_id SERIAL PRIMARY KEY, lesson_topic VARCHAR(100) NOT NULL,lesson_name VARCHAR(100) NOT NULL, lesson_code VARCHAR(100), lesson_desc VARCHAR(200) NOT NULL, lesson_grade INT DEFAULT 0, lesson_body VARCHAR(100), lesson_topic_fk_id INT REFERENCES topic(topic_id) ON DELETE CASCADE )`;
   await db.query(createLessonQuery);
@@ -183,6 +207,23 @@ const runSeeds = async (data) => {
   );
   const authAdmin = await db.query(insertAuthAdminQuery);
 
+  const formattedAuthTutor = formatAuthTutorData(authTutorData);
+  const insertAuthTutorQuery = format(
+    `INSERT INTO authTutor (tutor_id, tutor_device_id, auth_tutor_token) VALUES %L RETURNING *;`,
+    formattedAuthTutor
+  );
+  const authTutor = await db.query(insertAuthTutorQuery);
+
+  const formattedAuthStudent = formatAuthStudentData(authStudentData);
+  const insertAuthStudentQuery = format(
+    `INSERT INTO authStudent (student_id, student_device_id, auth_student_token) VALUES %L RETURNING *;`,
+    formattedAuthStudent
+  );
+  const authStudent = await db.query(insertAuthStudentQuery);
+
+
+
+
   const formattedLessons = formatLessonData(lessonData);
   const insertLessonQuery = format(
     `INSERT INTO lesson (lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_fk_id) VALUES %L RETURNING *;`,
@@ -204,7 +245,19 @@ const runSeeds = async (data) => {
   );
   const question = await db.query(insertQuestionQuery);
 
-  return { course, topic, admin, tutor, student, lesson, quiz, question, authAdmin };
+  return {
+    course,
+    topic,
+    admin,
+    tutor,
+    student,
+    lesson,
+    quiz,
+    question,
+    authAdmin,
+    authTutor,
+    authStudent
+  };
 };
 
 module.exports = runSeeds;
