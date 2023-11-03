@@ -204,7 +204,7 @@ describe("Test7-  Tutor login", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
       .post("/tutorlogin")
-      .send({ username: "scheema1", password: "password" })
+      .send({ username: "scheema", password: "password", deviceId: "3f9a1b2c8" })
       .expect(200)
       .then((res) => {
         validTutor = `BEARER ${res.body.token}`;
@@ -293,7 +293,7 @@ describe("Test9-  studentlogin", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
       .post("/studentlogin")
-      .send({ username: "stundentusernamedemo1", password: "password" })
+      .send({ username: "stundentusernamedemo1", password: "password", deviceId: "3f9a1b2c8"})
       .expect(200)
       .then((res) => {
         validStudent = `BEARER ${res.body.token}`;
@@ -841,10 +841,10 @@ describe("Test22-   GET /api/tutors", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.tutors).toBeInstanceOf(Array);
+        expect(res.body.data).toBeInstanceOf(Array);
         // expect(res.body.tutors).toHaveLength(res.body.tutors.length);
-        expect(res.body.tutors).toHaveLength(3);
-        res.body.tutors.forEach((tutor) => {
+        expect(res.body.data).toHaveLength(3);
+        res.body.data.forEach((tutor) => {
           expect(tutor).toMatchObject({
             tutor_id: expect.any(Number),
             tutor_firstname: expect.any(String),
@@ -863,7 +863,7 @@ describe("Test22-   GET /api/tutors", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.tutors).toBeSortedBy("tutor_id");
+        expect(res.body.data).toBeSortedBy("tutor_id");
       });
   });
 
@@ -873,7 +873,7 @@ describe("Test22-   GET /api/tutors", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.tutors).toBeSortedBy("tutor_firstname");
+        expect(res.body.data).toBeSortedBy("tutor_firstname");
       });
   });
 

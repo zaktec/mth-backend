@@ -11,8 +11,8 @@ exports.getTutors = async (req, res, next) => {
   try {
   const { sort_by } = req.query;
 
-    const tutors = await selectTutors(sort_by);
-    res.status(200).send({ tutors });
+    const data = await selectTutors(sort_by);
+    res.status(200).send({ data });
   } catch (error) {
     return res.status(500).json({
       status: 500,
