@@ -204,7 +204,7 @@ describe("Test7-  Tutor login", () => {
   test("POST responds with and access token given correct username and password", () => {
     return request(app)
       .post("/tutorlogin")
-      .send({ username: "scheema", password: "password", deviceId: "3f9a1b2c8" })
+      .send({ username: "scheema1", password: "password", deviceId: "3f9a1b2c8" })
       .expect(200)
       .then((res) => {
         validTutor = `BEARER ${res.body.token}`;
@@ -1172,9 +1172,10 @@ describe("Test30-   GET /api/topics", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.topics).toBeInstanceOf(Array);
-        expect(res.body.topics).toHaveLength(res.body.topics.length);
-        res.body.topics.forEach((topic) => {
+        console.log(res.body.data)
+        expect(res.body.data).toBeInstanceOf(Array);
+        expect(res.body.data).toHaveLength(res.body.data.length);
+        res.body.data.forEach((topic) => {
           expect(topic).toMatchObject({
             topic_unit: expect.any(Number),
             topic_name: expect.any(String),
@@ -1194,7 +1195,7 @@ describe("Test30-   GET /api/topics", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.topics).toBeSortedBy("topic_unit");
+        expect(res.body.data).toBeSortedBy("topic_unit");
       });
   });
 
@@ -1204,7 +1205,7 @@ describe("Test30-   GET /api/topics", () => {
       .set("Authorization", validAdmin)
       .expect(200)
       .then((res) => {
-        expect(res.body.topics).toBeSortedBy("topic_id");
+        expect(res.body.data).toBeSortedBy("topic_id");
       });
   });
 
@@ -1879,6 +1880,75 @@ describe("Test44- PATCH /api/questions/:question_id", () => {
   });
 });
 
+
+//--------------------------------- Student Logout --------------------------/
+
+describe("Test 46-  Student  logout", () => {
+  test("DELETE - responds with status 200 and message when user logged-in and token is correct", () => {
+    console.log(validStudent)
+    return request(app)
+      .delete("/studentlogout")
+      .set("Authorization", validStudent)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.message).toBe("Success");
+      });
+  });
+  
+  test("DELETE - responds with status 401 and message when given token is incorrect", () => {
+    return request(app)
+      .delete("/studentlogout")
+      .set("Authorization", invalidStudent)
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe("halt intruder! get outta here");
+      });
+  });
+
+  test("DELETE - responds with status 401 and message when token is not given", () => {
+    return request(app)
+      .delete("/studentlogout")
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe("Unauthorized. Token no found");
+      });
+  });
+});
+
+
+//--------------------------------- Tutor Logout --------------------------/
+
+describe("Test 46-  Tutor logout", () => {
+  test("DELETE - responds with status 200 and message when user logged-in and token is correct", () => {
+    return request(app)
+      .delete("/tutorlogout")
+      .set("Authorization", validTutor)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.message).toBe("Success");
+      });
+  });
+  
+  test("DELETE - responds with status 401 and message when given token is incorrect", () => {
+    return request(app)
+      .delete("/tutorlogout")
+      .set("Authorization", invalidAdmin)
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe("halt intruder! get outta here");
+      });
+  });
+
+  test("DELETE - responds with status 401 and message when token is not given", () => {
+    return request(app)
+      .delete("/tutorlogout")
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe("Unauthorized. Token no found");
+      });
+  });
+});
+
 //--------------------------------- DELETE ACCODINGLY--------------------------/
 
 describe("Test45-  DELETE /api/students/:student_id", () => {
@@ -2109,6 +2179,7 @@ describe("Test 46-  Admin logout", () => {
         expect(res.body.message).toBe("halt intruder! get outta here");
       });
   });
+  });
 
   test("DELETE - responds with status 401 and message when token is not given", () => {
     return request(app)
@@ -2118,4 +2189,6 @@ describe("Test 46-  Admin logout", () => {
         expect(res.body.message).toBe("Unauthorized. Token no found");
       });
   });
-});
+
+
+

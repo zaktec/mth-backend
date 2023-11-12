@@ -191,6 +191,7 @@ exports.loginStudent = async (req, res, next) => {
 };
 
 exports.logoutStudent = async (req, res, next) => {
+  console.log("test")
   try {
     await destroyAuthStudent(
       req.student.student_id,
