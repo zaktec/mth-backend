@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "setup-db": "psql -f database/setup-dbs.sql > database/example.txt",
+    "setup-db": "psql -U postgres -f database/setup-dbs.sql > database/example.txt",
     "start": "nodemon listen.js",
     "seed": "node  ./database/seeds/run-seed.js",
-    "viewdb": "psql -f database/view-db.sql > database/view-bd.txt",
-    "viewtestdb": "psql -f database/view-dbtest.sql > database/viewtest-bd.txt",
+    "viewdb": "psql -U postgres -f database/view-db.sql > database/view-bd.txt",
+    "viewtestdb": "psql -U postgres -f database/view-dbtest.sql > database/viewtest-bd.txt",
     "kill": "sudo kill $(sudo lsof -t -i:3009)"
   },
   "repository": {

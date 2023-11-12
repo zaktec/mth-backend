@@ -406,13 +406,13 @@ describe("Test13- POST /api/admin", () => {
       .post("/api/admin")
       .set("Authorization", validAdmin)
       .send({
-        admin_username: "scheema2",
+        admin_active: true,
         admin_firstname: "New",
         admin_lastname: "Cheema",
-        admin_email: "csheraz@hotmail.com",
-        admin_active: true,
-        admin_image: "/tutor/tutor1.png",
         admin_password: "password",
+        admin_username: "scheema2",
+        admin_image: "/tutor/tutor1.png",
+        admin_email: "csheraz@hotmail.com",
       })
       .expect(201)
       .then((res) => {

@@ -2,7 +2,6 @@ const { comparePasswords } = require("../utils/passwordhelper");
 const { insertAdmin } = require("../modules/adminpage/admin.model");
 const { insertTutor } = require("../modules/tutorpage/tutor.models");
 const { insertStudent } = require("../modules/studentpage/student.models");
-const { generateStudentJWT } = require("../utils/jwtHelper");
 const {
   checkStudentByUsername,
   checkAdminByUsername,
@@ -42,6 +41,7 @@ exports.loginAdmin = async (req, res, next) => {
       password,
       isAdminExist.admin_password
     );
+
     if (!isPasswordExist)
       return res
         .status(401)
@@ -51,9 +51,9 @@ exports.loginAdmin = async (req, res, next) => {
     res.status(200).json({
       status: 200,
       message: "Success",
-      id: isAdminExist.admin_id,
       deviceId: authAdmin.admin_device_id,
       token: authAdmin.auth_admin_token,
+      user: isAdminExist,
     });
   } catch (error) {
     return res.status(500).json({
@@ -62,6 +62,7 @@ exports.loginAdmin = async (req, res, next) => {
     });
   }
 };
+
 exports.logoutAdmin = async (req, res, next) => {
   try {
     await destroyAuthAdmin(
@@ -105,6 +106,7 @@ exports.loginTutor = async (req, res, next) => {
       password,
       isTutorExist.tutor_password
     );
+
     if (!isPasswordExist)
       return res
         .status(401)
@@ -114,9 +116,9 @@ exports.loginTutor = async (req, res, next) => {
     res.status(200).json({
       status: 200,
       message: "Success",
-      id: isTutorExist.tutor_id,
       deviceId: authTutor.tutor_device_id,
       token: authTutor.auth_tutor_token,
+      user: isTutorExist,
     });
   } catch (error) {
     return res.status(500).json({
@@ -169,6 +171,7 @@ exports.loginStudent = async (req, res, next) => {
       password,
       isStudentExist.student_password
     );
+
     if (!isPasswordExist)
       return res
         .status(401)
@@ -178,9 +181,9 @@ exports.loginStudent = async (req, res, next) => {
         res.status(200).json({
           status: 200,
           message: "Success",
-          id: isStudentExist.student_id,
           deviceId: authStudent.student_device_id,
           token: authStudent.auth_student_token,
+          user: isStudentExist,
         });
   } catch (error) {
     return res.status(500).json({
