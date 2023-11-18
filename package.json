@@ -2,15 +2,18 @@
   "name": "mth-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "jest",
-    "setup-db": "psql -U postgres -f database/setup-dbs.sql > database/example.txt",
     "start": "nodemon listen.js",
+    "Linux-kill": "killall -9 node",
+    "start-v1": "nodemon ./server/v1/app.js",
+    "window-kill": "Taskkill /IM node.exe /F",
+    "kill": "sudo kill $(sudo lsof -t -i:3009)",
     "seed": "node  ./database/seeds/run-seed.js",
     "viewdb": "psql -U postgres -f database/view-db.sql > database/view-bd.txt",
-    "viewtestdb": "psql -U postgres -f database/view-dbtest.sql > database/viewtest-bd.txt",
-    "kill": "sudo kill $(sudo lsof -t -i:3009)"
+    "setup-db": "psql -U postgres -f database/setup-dbs.sql > database/example.txt",
+    "viewtestdb": "psql -U postgres -f database/view-dbtest.sql > database/viewtest-bd.txt"
   },
   "repository": {
     "type": "git",

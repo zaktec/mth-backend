@@ -4,7 +4,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Invalid URL"
+        "message": "Invalid URL"
       }
     }
   },
@@ -15,15 +15,15 @@
 
   "GET /homepage": {
     "description": "serves up a welcome message to my user",
-    "msg": {
-      "msg": "Welcome to the HomePage"
+    "message": {
+      "message": "Welcome to the HomePage"
     }
   },
 
   "GET /api": {
     "description": "Serves a error message when unauthorise user is passed",
-    "msg": {
-      "msg": "halt intruder! get outta here"
+    "message": {
+      "message": "halt intruder! get outta here"
     }
   },
 
@@ -63,7 +63,7 @@
       "json": {
         "body": "token",
         "status": 200,
-        "msg": "Success"
+        "message": "Success"
       }
     }
   },
@@ -131,7 +131,7 @@
       "json": {
         "body": "token",
         "status": 200,
-        "msg": "Success"
+        "message": "Success"
       }
     }
   },
@@ -195,9 +195,9 @@
           "student_active": true,
           "student_notes": "Working well",
           "student_image": "/student/student1.png",
-          "student_msg_count": null,
-          "student_msg_input": null,
-          "student_msg_output": null,
+          "student_message_count": null,
+          "student_message_input": null,
+          "student_message_output": null,
           "student_tutor_fk_id": 1,
           "student_course_fk_id": null
         }
@@ -214,7 +214,7 @@
       "json": {
         "body": "token",
         "status": 200,
-        "msg": "Success"
+        "message": "Success"
       }
     }
   },
@@ -283,7 +283,7 @@
     "exampleResponse": {
       "error": {
         "status": 400,
-        "msg": "bad request"
+        "message": "bad request"
       }
     }
   },
@@ -309,7 +309,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -319,7 +319,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Invalid URL"
+        "message": "Invalid URL"
       }
     }
   },
@@ -352,7 +352,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -369,7 +369,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -379,7 +379,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -445,7 +445,7 @@
     "exampleResponse": {
       "error": {
         "status": 400,
-        "msg": "bad request"
+        "message": "bad request"
       }
     }
   },
@@ -469,7 +469,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -479,7 +479,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Invalid URL"
+        "message": "Invalid URL"
       }
     }
   },
@@ -512,7 +512,7 @@
       "exampleResponse": {
         "error": {
           "status": "400",
-          "msg": "Invalid input"
+          "message": "Invalid input"
         }
       }
     },
@@ -529,7 +529,7 @@
       "exampleResponse": {
         "error": {
           "status": "400",
-          "msg": "Invalid input"
+          "message": "Invalid input"
         }
       }
     },
@@ -539,7 +539,7 @@
       "exampleResponse": {
         "error": {
           "status": "404",
-          "msg": "Not found"
+          "message": "Not found"
         }
       }
     },
@@ -607,7 +607,7 @@
     "exampleResponse": {
       "error": {
         "status": 400,
-        "msg": "bad request"
+        "message": "bad request"
       }
     }
   },
@@ -617,7 +617,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -627,7 +627,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Invalid URL"
+        "message": "Invalid URL"
       }
     }
   },
@@ -660,7 +660,7 @@
       "exampleResponse": {
         "error": {
           "status": "400",
-          "msg": "Invalid input"
+          "message": "Invalid input"
         }
       }
     }
@@ -678,7 +678,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -688,7 +688,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -761,7 +761,7 @@
     "exampleResponse": {
       "error": {
         "status": 400,
-        "msg": "bad request"
+        "message": "bad request"
       }
     }
   },
@@ -791,7 +791,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -801,7 +801,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Invalid URL"
+        "message": "Invalid URL"
       }
     }
   },
@@ -842,7 +842,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -859,7 +859,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -869,7 +869,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -935,7 +935,7 @@
     "exampleResponse": {
       "error": {
         "status": 400,
-        "msg": "bad request"
+        "message": "bad request"
       }
     }
   },
@@ -961,7 +961,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -971,7 +971,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Invalid URL"
+        "message": "Invalid URL"
       }
     }
   },
@@ -1006,7 +1006,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -1023,7 +1023,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -1033,7 +1033,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -1091,7 +1091,7 @@
     "exampleResponse": {
       "error": {
         "status": 400,
-        "msg": "bad request"
+        "message": "bad request"
       }
     }
   },
@@ -1115,7 +1115,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -1125,7 +1125,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Invalid URL"
+        "message": "Invalid URL"
       }
     }
   },
@@ -1155,7 +1155,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -1172,7 +1172,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -1182,7 +1182,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -1244,7 +1244,7 @@
     "exampleResponse": {
       "error": {
         "status": 400,
-        "msg": "bad request"
+        "message": "bad request"
       }
     }
   },
@@ -1273,7 +1273,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
@@ -1283,7 +1283,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Invalid URL"
+        "message": "Invalid URL"
       }
     }
   },
@@ -1317,7 +1317,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -1334,7 +1334,7 @@
     "exampleResponse": {
       "error": {
         "status": "400",
-        "msg": "Invalid input"
+        "message": "Invalid input"
       }
     }
   },
@@ -1344,7 +1344,7 @@
     "exampleResponse": {
       "error": {
         "status": "404",
-        "msg": "Not found"
+        "message": "Not found"
       }
     }
   },
