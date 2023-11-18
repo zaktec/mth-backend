@@ -5,9 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon listen.js",
     "Linux-kill": "killall -9 node",
-    "start-v1": "nodemon ./server/v1/app.js",
+    "start": "nodemon ./server/v1/app.js",
     "window-kill": "Taskkill /IM node.exe /F",
     "kill": "sudo kill $(sudo lsof -t -i:3009)",
     "seed": "node  ./database/seeds/run-seed.js",
