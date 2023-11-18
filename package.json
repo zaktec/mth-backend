@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "Linux-kill": "killall -9 node",
-    "start": "nodemon ./server/v1/app.js",
+    "start": "nodemon ./server/app.js",
     "window-kill": "Taskkill /IM node.exe /F",
     "kill": "sudo kill $(sudo lsof -t -i:3009)",
     "seed": "node  ./database/seeds/run-seed.js",
