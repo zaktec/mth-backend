@@ -11,7 +11,7 @@ const {
   formatAdminsData,
   formatAuthAdminData,
   formatAuthTutorData,
-  formatAuthStudentData
+  formatAuthStudentData,
 } = require("./seed-formatting.js");
 
 const runSeeds = async (data) => {
@@ -25,18 +25,12 @@ const runSeeds = async (data) => {
     questionData,
     adminData,
     authAdminData,
-    authTutorData, 
-    authStudentData 
+    authTutorData,
+    authStudentData,
   } = data;
 
   const dropQuestionQuery = `DROP TABLE IF EXISTS question`;
   await db.query(dropQuestionQuery);
-
-  // const dropQuizfbQuery = `DROP TABLE IF EXISTS quizfb`;
-  // await db.query(dropQuizfbQuery);
-
-  // const dropDigitutorQuery = `DROP TABLE IF EXISTS digitutor`;
-  // await db.query(dropDigitutorQuery);
 
   const dropQuizQuery = `DROP TABLE IF EXISTS quiz`;
   await db.query(dropQuizQuery);
@@ -125,20 +119,58 @@ const runSeeds = async (data) => {
     student_tutor_fk_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE )`;
   await db.query(createStudentQuery);
 
-  const createAuthAdminQuery = `CREATE TABLE authAdmin ( auth_id SERIAL PRIMARY KEY, admin_id INT REFERENCES admin(admin_id) ON DELETE CASCADE, admin_device_id VARCHAR (1000) NOT NULL, auth_admin_token VARCHAR (1000) NOT NULL )`;
+  const createAuthAdminQuery = `CREATE TABLE authAdmin ( 
+    auth_id SERIAL PRIMARY KEY, 
+    admin_id INT REFERENCES admin(admin_id) ON DELETE CASCADE, 
+    admin_device_id VARCHAR (1000) NOT NULL, 
+    auth_admin_token VARCHAR (1000) NOT NULL )`;
   await db.query(createAuthAdminQuery);
 
-  const createAuthTutorQuery = `CREATE TABLE authTutor ( auth_id SERIAL PRIMARY KEY, tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE, tutor_device_id VARCHAR (1000) NOT NULL, auth_tutor_token VARCHAR (1000) NOT NULL )`;
+  const createAuthTutorQuery = `CREATE TABLE authTutor (
+     auth_id SERIAL PRIMARY KEY, 
+     tutor_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
+      tutor_device_id VARCHAR (1000) NOT NULL,
+       auth_tutor_token VARCHAR (1000) NOT NULL )`;
   await db.query(createAuthTutorQuery);
 
-  const createAuthStudentQuery = `CREATE TABLE authStudent ( auth_id SERIAL PRIMARY KEY, student_id INT REFERENCES student(student_id) ON DELETE CASCADE, student_device_id VARCHAR (1000) NOT NULL, auth_student_token VARCHAR (1000) NOT NULL )`;
+  const createAuthStudentQuery = `CREATE TABLE authStudent ( 
+    auth_id SERIAL PRIMARY KEY, 
+    student_id INT REFERENCES student(student_id) ON DELETE CASCADE,
+     student_device_id VARCHAR (1000) NOT NULL, 
+     auth_student_token VARCHAR (1000) NOT NULL )`;
   await db.query(createAuthStudentQuery);
 
-  const createLessonQuery = `CREATE TABLE lesson ( lesson_id SERIAL PRIMARY KEY, lesson_topic VARCHAR(100) NOT NULL,lesson_name VARCHAR(100) NOT NULL, lesson_code VARCHAR(100), lesson_desc VARCHAR(200) NOT NULL, lesson_grade INT DEFAULT 0, lesson_body VARCHAR(100), lesson_topic_fk_id INT REFERENCES topic(topic_id) ON DELETE CASCADE )`;
+  const createLessonQuery = `CREATE TABLE lesson ( 
+    lesson_id SERIAL PRIMARY KEY, 
+    lesson_topic VARCHAR(100) NOT NULL,
+    lesson_name VARCHAR(100) NOT NULL, lesson_code VARCHAR(100), 
+    lesson_desc VARCHAR(200) NOT NULL, 
+    lesson_grade INT DEFAULT 0,
+     lesson_body VARCHAR(100), 
+     lesson_topic_fk_id INT REFERENCES topic(topic_id) ON DELETE CASCADE )`;
   await db.query(createLessonQuery);
 
-  const createQuizQuery = `CREATE TABLE quiz ( quiz_id SERIAL PRIMARY KEY, quiz_name VARCHAR(100) NOT NULL, quiz_code VARCHAR(100), quiz_desc VARCHAR(200), quiz_type VARCHAR(100), quiz_calc BOOLEAN DEFAULT TRUE,quiz_course_fk_id INT REFERENCES course(course_id) ON DELETE CASCADE,quiz_topic_fk_id INT REFERENCES topic(topic_id) ON DELETE CASCADE,quiz_lesson_fk_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE )`;
+  const createQuizQuery = `CREATE TABLE quiz 
+  ( quiz_id SERIAL PRIMARY KEY,
+     quiz_name VARCHAR(100) NOT NULL, 
+     quiz_code VARCHAR(100),
+      quiz_desc VARCHAR(200), 
+      quiz_type VARCHAR(100), 
+      quiz_calc BOOLEAN DEFAULT TRUE,
+      quiz_course_fk_id INT REFERENCES course(course_id) ON DELETE CASCADE,
+      quiz_topic_fk_id INT REFERENCES topic(topic_id) ON DELETE CASCADE,
+      quiz_lesson_fk_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE )`;
   await db.query(createQuizQuery);
+
+  const createStudentQuizQuery = `CREATE TABLE studentquiz 
+  ( studentquiz_id SERIAL PRIMARY KEY,
+     studentquiz_result INT DEFAULT 0,
+     studentquiz_percent INT DEFAULT 0,
+     studentquiz_feedback VARCHAR(100),
+     studentquiz_student_fk_id INT REFERENCES student(student_id) ON DELETE CASCADE, 
+     studentquiz_quiz_fk_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE
+     )`;
+  await db.query(createStudentQuizQuery);
 
   const createQuestionQuery = `CREATE TABLE question ( 
     question_id SERIAL PRIMARY KEY, 
@@ -221,9 +253,6 @@ const runSeeds = async (data) => {
   );
   const authStudent = await db.query(insertAuthStudentQuery);
 
-
-
-
   const formattedLessons = formatLessonData(lessonData);
   const insertLessonQuery = format(
     `INSERT INTO lesson (lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_fk_id) VALUES %L RETURNING *;`,
@@ -256,7 +285,7 @@ const runSeeds = async (data) => {
     question,
     authAdmin,
     authTutor,
-    authStudent
+    authStudent,
   };
 };
 
