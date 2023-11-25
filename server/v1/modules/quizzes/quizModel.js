@@ -17,12 +17,6 @@ exports.checkQuizExists = (quiz_id) => {
 };
 
 exports.selectQuizzes = async (sort_by = 'quiz_id') => {
-  if (sort_by) {
-    const allowedSortBys = ['quiz_id', 'quiz_code', 'quiz_name', 'quiz_type'];
-    if (!allowedSortBys.includes(sort_by)) {
-      return Promise.reject({ status: 400, message: 'bad request' });
-    }
-  }
   const InsertQuery = `SELECT * FROM quiz ORDER BY ${sort_by} ASC;`;
   const data = await db.query(InsertQuery);
   return data.rows;

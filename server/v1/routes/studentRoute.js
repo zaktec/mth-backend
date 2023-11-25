@@ -5,6 +5,8 @@ const {
     getStudents,
     postStudent,
     getStudentById,
+    postStudentQuiz,
+    getTutorStudents,
     updateStudentById,
     deleteStudentById,
     getStudentDashboard,
@@ -14,9 +16,12 @@ const router = Router();
 router
     .get('/get-students', userAuthorization(['admin']), getStudents)
     .post('/post-student', userAuthorization(['admin']), postStudent)
-    .get('/get-students/:student_id', userAuthorization(['admin']), getStudentById)
     .get('/get-student-dashboard', userAuthorization(['student']), getStudentDashboard)
-    .patch('/update-students/:student_id', userAuthorization(['admin']), updateStudentById)
-    .delete('/delete-students/:student_id', userAuthorization(['admin']), deleteStudentById);
+    .get('/get-students/:student_id', userAuthorization(['admin', 'student']), getStudentById)
+    .patch('/update-students/:student_id', userAuthorization(['admin', 'student']), updateStudentById)
+    .delete('/delete-students/:student_id', userAuthorization(['admin', 'student']), deleteStudentById)
+    
+    .get('/get-tutor-students', userAuthorization(['tutor']), getTutorStudents)
+    .post('/post-student-quizzes/:student_id/:quiz_id', userAuthorization(['tutor']), postStudentQuiz);
 
 module.exports = router;

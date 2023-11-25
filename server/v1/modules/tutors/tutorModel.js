@@ -18,22 +18,9 @@ exports.checkTutorExists = (tutor_id) => {
 };
 
 exports.selectTutors = async (sort_by = 'tutor_id') => {
-  if (sort_by) {
-    const allowedSortBys = [
-      'tutor_firstname',
-      'tutor_lastname',
-      'tutor_email',
-      'tutor_active',
-      'tutor_image',
-      'tutor_id',
-    ];
-    if (!allowedSortBys.includes(sort_by)) {
-      return Promise.reject({ status: 400, message: 'bad request' });
-    }
-  }
   const InsertQuery =`SELECT * FROM tutor ORDER BY ${sort_by} ASC;`
   const data = await db.query(InsertQuery)
-      return data.rows;
+  return data.rows;
 };
 
 exports.selectTutorById = async (tutor_id) => {

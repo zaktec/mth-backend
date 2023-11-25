@@ -19,20 +19,6 @@ exports.checkAdminExist = (admin_id) => {
 };
 
 exports.selectAdmin = async (sort_by = 'admin_id') => {
-  if (sort_by) {
-    const allowedSortBys = [
-      'admin_id',
-      'admin_username',
-      'admin_firstname',
-      'admin_lastname',
-      'admin_email',
-      'admin_active',
-      'admin_image',
-    ];
-   if (!allowedSortBys.includes(sort_by)) {
-      return Promise.reject({ status: 400, message: 'bad request' });
-    }
-  }
   const InsertQuery = `SELECT * FROM admin ORDER BY ${sort_by} ASC`;
   const data = await db.query(InsertQuery);
   return data.rows;

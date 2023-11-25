@@ -1,10 +1,11 @@
 const {
   insertStudent,
+  getStudentById,
   selectStudents,
+  postStudentQuiz,
+  getTutorStudents,
   deleteStudentById,
   updateStudentById,
-  selectStudentById,
-  checkStudentExists,
 } = require('./studentModel');
 
 exports.getStudentDashboard = (req, res, next) => {
@@ -26,14 +27,21 @@ exports.getStudents = async (req, res, next) => {
 
 exports.getStudentById = async (req, res, next) => {
   try {
-    const { student_id } = req.params;
-    const studentExist = await checkStudentExists(student_id);
-    if (studentExist) {
-      const data = await selectStudentById(student_id);
-      res.status(200).send({ data });
-    } else {
-      res.status(400).send({ message: 'Invalid Input' });
-    }
+    const student_id = req?.student?.student_id || req?.params.student_id;
+    const data = await getStudentById(student_id);
+
+    if (!data)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data
+      });
+    
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data
+    });
   } catch (error) {
     return res.status(500).json({
       status: 500,
@@ -57,7 +65,7 @@ exports.postStudent = async (req, res, next) => {
 
 exports.deleteStudentById = async (req, res, next) => {
   try {
-    const { student_id } = req.params;
+    const student_id = req?.student?.student_id || req?.params.student_id;
     const data = await deleteStudentById(student_id);
     if (data) {
       res.sendStatus(204);
@@ -74,10 +82,8 @@ exports.deleteStudentById = async (req, res, next) => {
 
 exports.updateStudentById = async (req, res, next) => {
   try {
-    const student = req.body;
-    const { student_id } = req.params;
-
-    const data = await updateStudentById(student, student_id);
+    const student_id = req?.student?.student_id || req?.params.student_id;
+    const data = await updateStudentById(req.body, student_id);
     if (data) {
       res.status(200).send({ data });
     } else {
@@ -88,5 +94,48 @@ exports.updateStudentById = async (req, res, next) => {
       status: 500,
       error: error.toString(),
     });
+  }
+};
+
+exports.getTutorStudents = async (req, res) => {
+  try {
+    const data = await getTutorStudents(req?.tutor?.tutor_id);
+
+    if (data.length === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data
+      });
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data
+    });
+  } catch (error) {
+    return res.status(500).json({ status: 500, error: error.toString() });
+  }
+};
+
+exports.postStudentQuiz = async (req, res) => {
+  try {
+    const student_id = req?.student?.student_id || req?.params.student_id;
+    let data = await getStudentById(req?.params.student_id);
+    if (!data === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data
+      });
+
+    data = await postStudentQuiz(req.body, req?.params.quiz_id, student_id);
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data
+    });
+  } catch (error) {
+    return res.status(500).json({ status: 500, error: error.toString() });
   }
 };

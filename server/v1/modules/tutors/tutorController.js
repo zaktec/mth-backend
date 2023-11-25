@@ -27,7 +27,7 @@ exports.getTutors = async (req, res, next) => {
 
 exports.getTutorById = async (req, res, next) => {
   try {
-    const { tutor_id } = req.params;
+    const tutor_id = req?.tutor?.tutor_id || req?.params.tutor_id;
     const tutorExist = await checkTutorExists(tutor_id);
     if (tutorExist) {
       const data = await selectTutorById(tutor_id);
@@ -58,8 +58,7 @@ exports.postTutor = async (req, res, next) => {
 
 exports.deleteTutorById = async (req, res, next) => {
   try {
-    const { tutor_id } = req.params;
-
+    const tutor_id = req?.tutor?.tutor_id || req?.params.tutor_id;
     const data = await deleteTutorById(tutor_id);
     if (data) {
       res.sendStatus(204);
@@ -76,10 +75,8 @@ exports.deleteTutorById = async (req, res, next) => {
 
 exports.updateTutorById = async (req, res, next) => {
   try {
-    const tutor = req.body;
-    const { tutor_id } = req.params;
-
-    const data = await updateTutorById(tutor, tutor_id);
+    const tutor_id = req?.tutor?.tutor_id || req?.params.tutor_id;
+    const data = await updateTutorById(req.body, tutor_id);
     if (data) {
       res.status(200).send({ data });
     } else {

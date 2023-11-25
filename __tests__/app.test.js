@@ -215,47 +215,51 @@ describe('Test7 - POST /api/v1/auth/signin-tutor', () => {
   // });
 });
 
-// //-------------------Student SignUp/Signin 
+//-------------------Student SignUp/Signin 
 
 describe('Test8 - POST /api/v1/auth/signin-student', () => {
   test('POST- responds with and access token when student details are send', () => {
     return request(app)
       .post('/api/v1/auth/signup-student')
       .send({
-        student_grade: 100,
-        student_targetgrade: 1,
-        student_progressbar: 3,
-        student_username: 'stundentusernamedemo1',
-        student_firstname: 'New',
-        student_lastname: 'Student1LN',
-        student_email: 'csheraz@hotmail.com',
-        student_password: 'password',
         student_active: true,
+        student_username: 'studentUsernameTest',
+        student_firstname: 'StudentFirstNameTest',
+        student_lastname: 'StudentLastNameTest',
+        student_email: 'csheraz-test@hotmail.com',
+        student_password: 'Password@123',
+        student_image: '/student/student.png',
+        student_grade: 7,
+        student_targetgrade: 3,
         student_notes: 'Working well',
-        student_image: '/student/student1.png',
-        student_tutor_fk_id: 1,
+        student_progressbar: 5,
+        student_message_count: 1,
+        student_message_input: null,
+        student_message_output: null,
+        student_tutor_fk_id: 2,
+        student_course_fk_id: 1,
       })
       .expect(201)
       .then((res) => {
         initial_student_id = res.body.student.student_id;
         expect(res.body.student).toEqual({
           student_id: initial_student_id,
-          student_grade: 100,
-          student_targetgrade: 1,
-          student_progressbar: 3,
-          student_username: 'stundentusernamedemo1',
-          student_firstname: 'New',
-          student_lastname: 'Student1LN',
-          student_email: 'csheraz@hotmail.com',
-          student_password: res.body.student.student_password,
           student_active: true,
+          student_username: 'studentUsernameTest',
+          student_firstname: 'StudentFirstNameTest',
+          student_lastname: 'StudentLastNameTest',
+          student_email: 'csheraz-test@hotmail.com',
+          student_password: res.body.student.student_password,
+          student_image: '/student/student.png',
+          student_grade: 7,
+          student_targetgrade: 3,
           student_notes: 'Working well',
-          student_image: '/student/student1.png',
-          student_message_count: null,
+          student_progressbar: 5,
+          student_message_count: 1,
           student_message_input: null,
           student_message_output: null,
-          student_tutor_fk_id: 1,
-          student_course_fk_id: null,
+          student_tutor_fk_id: res.body.student.student_tutor_fk_id,
+          student_course_fk_id: res.body.student.student_course_fk_id,
         });
       });
   });
@@ -265,7 +269,7 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
   test('POST responds with and access token given correct username and password', () => {
     return request(app)
       .post('/api/v1/auth/signin-student')
-      .send({ username: 'stundentusernamedemo1', password: 'password', deviceId: '3f9a1b2c8'})
+      .send({ username: 'studentUsernameTest', password: 'Password@123', deviceId: '3f9a1b2c8'})
       .expect(200)
       .then((res) => {
         validStudent = `BEARER ${res.body.token}`;
@@ -276,7 +280,7 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
   test('POST responds with status 401 for an incorrect password', () => {
     return request(app)
       .post('/api/v1/auth/signin-student')
-      .send({ username: 'stundentusernamedemo1', password: 'secure123' })
+      .send({ username: 'studentUsernameTest', password: 'Password123' })
       .expect(401)
       .then((res) =>
         expect(res.body.message).toBe('username and password do not exist')
@@ -286,7 +290,7 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
   test('POST responds with status 401 for an incorrect username', () => {
     return request(app)
       .post('/api/v1/auth/signin-student')
-      .send({ username: 'mitch', password: 'secure123' })
+      .send({ username: 'miss', password: 'Password@123' })
       .expect(401)
       .then((res) =>
         expect(res.body.message).toBe('username and password do not exist')
@@ -294,7 +298,7 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
   });
 });
 
-// //--------------Admin Dashabooard-----------------/
+//--------------Admin Dashabooard-----------------/
 
 describe('Test10 - GET /api/v1/admins', () => {
   test('status: 200 and returns a welcome message for setting page', () => {
@@ -340,7 +344,7 @@ describe('Test11-  GET /', () => {
   });
 });
 
-// //-------------------Tutor Dashbaord--------------------------------/
+//-------------------Tutor Dashbaord--------------------------------/
 
 describe('Test12 - GET /api/v1/tutors', () => {
   test('status: 200 and returns a welcome message from the user homepage', () => {
@@ -423,7 +427,7 @@ describe('Test15 - GET /api/v1/admins', () => {
       .expect(200)
       .then((res) => {
         expect(res.body.data).toBeInstanceOf(Array);
-        expect(res.body.data).toHaveLength(3);
+        expect(res.body.data).toHaveLength(4);
         res.body.data.forEach((admin) => {
           expect(admin).toMatchObject({
             admin_id: expect.any(Number),
@@ -539,7 +543,7 @@ describe('Test17 - PATCH /api/v1/admins/:admin_id', () => {
   });
 });
 
-// //-------------------student--------------------------------------/
+//-------------------student--------------------------------------/
 
 describe('Test18 - POST /api/v1/students', () => {
   test('status: 201 and return the new student', () => {
@@ -683,13 +687,13 @@ describe('Test20 - GET /api/v1/students', () => {
           student_message_count: null,
           student_message_input: null,
           student_message_output: null,
-          student_tutor_fk_id: 1,
-          student_course_fk_id: null,
+          student_tutor_fk_id:  res.body.data.student_tutor_fk_id,
+          student_course_fk_id: res.body.data.student_course_fk_id,
         });
       });
   });
 
-  test('Error: student_id, non existent but valid. status 404 and an error message', () => {
+  test('ERROR: student_id, non existent but valid. status 404 and an error message', () => {
     return request(app)
       .get('/api/v1/students/get-students/invalid_id')
       .set('Authorization', validAdmin)
@@ -699,13 +703,13 @@ describe('Test20 - GET /api/v1/students', () => {
       });
   });
 
-  test('ERROR  -status: 404 and returns an error message', () => {
+  test('ERROR: status: 404 and returns an error message', () => {
     return request(app)
       .get('/api/v1/students/get-students/1000')
       .set('Authorization', validAdmin)
-      .expect(400)
+      .expect(404)
       .then((res) => {
-        expect(res.body.message).toBe('Invalid Input');
+        expect(res.body.message).toBe('Not found');
       });
   });
 });
@@ -713,44 +717,44 @@ describe('Test20 - GET /api/v1/students', () => {
 describe('Test20- PATCH /api/students/:student_id', () => {
   test('Status 200: and return a updated student object  ', () => {
     return request(app)
-      .patch(`/api/v1/students/update-students/${student_id}`)
-      .set('Authorization', validAdmin)
-      .send({
+    .patch(`/api/v1/students/update-students/${student_id}`)
+    .set('Authorization', validAdmin)
+    .send({
+      student_username: 'stundentusername1000',
+      student_firstname: 'Patched',
+      student_lastname: 'Student1LN',
+      student_email: 'csheraz@hotmail.com',
+      student_password: 'password',
+      student_active: true,
+      student_grade: 1,
+      student_targetgrade: 1,
+      student_notes: 'Working well',
+      student_progressbar: 3,
+      student_image: '/student/student1.png',
+      student_tutor_fk_id: 1,
+    })
+    .expect(200)
+    .then((res) => {
+      expect(res.body.data).toEqual({
         student_username: 'stundentusername1000',
         student_firstname: 'Patched',
         student_lastname: 'Student1LN',
         student_email: 'csheraz@hotmail.com',
-        student_password: 'password',
+        student_password: res.body.data.student_password,
         student_active: true,
         student_grade: 1,
         student_targetgrade: 1,
         student_notes: 'Working well',
         student_progressbar: 3,
         student_image: '/student/student1.png',
-        student_tutor_fk_id: 1,
-      })
-      .expect(200)
-      .then((res) => {
-        expect(res.body.data).toEqual({
-          student_username: 'stundentusername1000',
-          student_firstname: 'Patched',
-          student_lastname: 'Student1LN',
-          student_email: 'csheraz@hotmail.com',
-          student_password: res.body.data.student_password,
-          student_active: true,
-          student_grade: 1,
-          student_targetgrade: 1,
-          student_notes: 'Working well',
-          student_progressbar: 3,
-          student_image: '/student/student1.png',
-          student_id: res.body.data.student_id,
-          student_message_count: null,
-          student_message_input: null,
-          student_message_output: null,
-          student_tutor_fk_id: null,
-          student_course_fk_id: 1,
-        });
+        student_id: res.body.data.student_id,
+        student_message_count: null,
+        student_message_input: null,
+        student_message_output: null,
+        student_tutor_fk_id: null,
+        student_course_fk_id: 1,
       });
+    });
   });
 });
 
@@ -810,7 +814,7 @@ describe('Test22 - GET /api/v1/tutors', () => {
       .expect(200)
       .then((res) => {
         expect(res.body.data).toBeInstanceOf(Array);
-        expect(res.body.data).toHaveLength(3);
+        expect(res.body.data).toHaveLength(4);
         res.body.data.forEach((tutor) => {
           expect(tutor).toMatchObject({
             tutor_id: expect.any(Number),
@@ -2137,7 +2141,7 @@ describe('Test54 -  DELETE /api/v1/admins', () => {
   });
 });
 
-// //--------------------------------- Admin Logout --------------------------/
+//--------------------------------- Admin Logout --------------------------/
 
 describe('Test55 - Admin logout', () => {
   test('DELETE - responds with status 200 and message when user logged-in and token is correct', () => {

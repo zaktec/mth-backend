@@ -48,6 +48,7 @@ exports.loginAdmin = async (req, res, next) => {
         .json({ status: 401, message: 'username and password do not exist' });
 
     const authAdmin = await insertAuthAdmin(isAdminExist.admin_id, deviceId);
+    delete isAdminExist.admin_password;
     res.status(200).json({
       status: 200,
       message: 'Success',
@@ -113,6 +114,7 @@ exports.loginTutor = async (req, res, next) => {
         .json({ status: 401, message: 'username and password do not exist' });
 
     const authTutor = await insertAuthTutor(isTutorExist.tutor_id, deviceId);
+    delete isTutorExist.tutor_password;
     res.status(200).json({
       status: 200,
       message: 'Success',
@@ -178,6 +180,7 @@ exports.loginStudent = async (req, res, next) => {
         .json({ status: 401, message: 'username and password do not exist' });
 
         const authStudent = await insertAuthStudent(isStudentExist.student_id, deviceId);
+        delete isStudentExist.student_password;
         res.status(200).json({
           status: 200,
           message: 'Success',
@@ -200,6 +203,17 @@ exports.logoutStudent = async (req, res, next) => {
       req.student.student_device_id,
       req.student.auth_student_token
     );
+    res.status(200).json({ status: 200, message: 'Success' });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};
+
+exports.verifyToken = async (req, res, next) => {
+  try {
     res.status(200).json({ status: 200, message: 'Success' });
   } catch (error) {
     return res.status(500).json({

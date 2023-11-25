@@ -17,17 +17,6 @@ exports.checkQuestionExists = (question_id) => {
 };
 
 exports.selectQuestions = async (sort_by = 'question_id') => {
-  if (sort_by) {
-    const allowedSortBys = [
-      'question_id',
-      'question_grade',
-      'question_quiz_fk_id',
-      'question_calc',
-    ];
-    if (!allowedSortBys.includes(sort_by)) {
-      return Promise.reject({ status: 400, message: 'bad request' });
-    }
-  }
   const InsertQuery = `SELECT * FROM question ORDER BY ${sort_by} ASC;`;
   const data = await db.query(InsertQuery);
   return data.rows;
