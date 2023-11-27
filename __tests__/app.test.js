@@ -1849,7 +1849,22 @@ describe('Test44 - PATCH /api/v1/questions', () => {
 });
 
 
-//--------------------------------- Student Logout --------------------------/
+//Tutor Dashboard  ---------------------------- 
+describe('Test 45- Tutor Dahsboard ', () =>{
+  test('GET - responds with status 200 and returns with tutor students ', ()=>{
+    return request(app)
+    .get('/api/v1/students/get-tutor-students')
+    .set('Authorization', validTutor)
+    .expect(404)
+    .then((res)=>{
+      expect(res.body.message).toBe('Not found')
+    })
+  })
+
+})
+
+
+//Student Logout ---------------------------- 
 
 describe('Test45 - Student  logout', () => {
   test('DELETE - responds with status 200 and message when user logged-in and token is correct', () => {

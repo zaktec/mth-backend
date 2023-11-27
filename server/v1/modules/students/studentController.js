@@ -100,7 +100,7 @@ exports.updateStudentById = async (req, res, next) => {
 exports.getTutorStudents = async (req, res) => {
   try {
     const data = await getTutorStudents(req?.tutor?.tutor_id);
-
+     
     if (data.length === 0)
       return res.status(404).json({
         status: 404,
