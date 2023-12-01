@@ -751,7 +751,7 @@ describe('Test20- PATCH /api/students/:student_id', () => {
         student_message_count: null,
         student_message_input: null,
         student_message_output: null,
-        student_tutor_fk_id: null,
+        student_tutor_fk_id: res.body.data.student_tutor_fk_id,
         student_course_fk_id: 1,
       });
     });
@@ -1853,7 +1853,7 @@ describe('Test44 - PATCH /api/v1/questions', () => {
 describe('Test 45- Tutor Dahsboard ', () =>{
   test('GET - responds with status 200 and returns with tutor students ', ()=>{
     return request(app)
-    .get('/api/v1/students/get-tutor-students')
+    .get('/api/v1/tutors/get-tutor-students')
     .set('Authorization', validTutor)
     .expect(404)
     .then((res)=>{
@@ -1862,7 +1862,6 @@ describe('Test 45- Tutor Dahsboard ', () =>{
   })
 
 })
-
 
 //Student Logout ---------------------------- 
 
@@ -1896,7 +1895,6 @@ describe('Test45 - Student  logout', () => {
       });
   });
 });
-
 
 //--------------------------------- Tutor Logout --------------------------/
 

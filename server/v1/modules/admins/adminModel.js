@@ -67,27 +67,13 @@ exports.deleteAdminById = async (admin_id) => {
 };
 
 exports.updateAdminById = async (admin, admin_id) => {
-  const {
-    admin_username,
-    admin_firstname,
-    admin_lastname,
-    admin_email,
-    admin_active,
-    admin_image,
-    admin_password,
-  } = admin;
-  const InsertQuery = `UPDATE admin SET  admin_username=$1, admin_firstname = $2, admin_lastname = $3, admin_email= $4, admin_active= $5, admin_image = $6, admin_password= $7 WHERE admin_id = $8 RETURNING *;`;
-  const hashedPassword = await hashPassword(admin_password, 10);
-  const data = await db.query(InsertQuery, [
-    admin_username,
-    admin_firstname,
-    admin_lastname,
-    admin_email,
-    admin_active,
-    admin_image,
-    hashedPassword,
-    admin_id,
-  ]);
+  if(admin?.admin_password) admin.admin_password = await hashPassword(admin?.admin_password, 10);
+  const parameters = [...Object.values(admin)];
+
+  const keys = Object.keys(admin).map((key, index) => `${key} = $${index + 1}`).join(", ");
+  const queryString = `UPDATE admin SET ${keys} WHERE admin_id='${admin_id}' RETURNING *;`;
+
+  const data = await db.query(queryString, parameters);
   return data.rows[0];
 };
 

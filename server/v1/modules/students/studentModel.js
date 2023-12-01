@@ -80,65 +80,12 @@ exports.deleteStudentById = async (student_id) => {
 };
 
 exports.updateStudentById = async (student, student_id) => {
-  const {
-    student_username,
-    student_firstname,
-    student_lastname,
-    student_email,
-    student_password,
-    student_active,
-    student_image,
-    student_grade,
-    student_targetgrade,
-    student_notes,
-    student_progressbar,
-    student_message_count,
-    student_message_input,
-    student_message_output,
-    student_tutor_fk_id,
-    student_course_fk_id,
-  } = student;
+  if(student?.student_password) student.student_password = await hashPassword(student?.student_password, 10);
+  const parameters = [...Object.values(student)];
 
-  const InsertQuery = `UPDATE student SET student_username =$1, student_firstname = $2, student_lastname = $3, student_email= $4, student_password= $5, student_active = $6, student_image = $7, student_grade = $8, student_targetgrade = $9, student_notes = $10, student_progressbar= $11, student_message_count= $12, student_message_input = $13, student_message_output = $14, student_tutor_fk_id = $15, student_course_fk_id = $16   WHERE student_id = $17 RETURNING *;`;
-  const hashedPassword = await hashPassword(student_password, 10);
-  const data = await db.query(InsertQuery, [
-    student_username,
-    student_firstname,
-    student_lastname,
-    student_email,
-    hashedPassword,
-    student_active,
-    student_image,
-    student_grade,
-    student_targetgrade,
-    student_notes,
-    student_progressbar,
-    student_message_count,
-    student_message_input,
-    student_message_output,
-    student_course_fk_id,
-    student_tutor_fk_id,
-    student_id,
-  ]);
+  const keys = Object.keys(student).map((key, index) => `${key} = $${index + 1}`).join(", ");
+  const queryString = `UPDATE student SET ${keys} WHERE student_id='${student_id}' RETURNING *;`;
 
-  return data.rows[0];
-};
-
-exports.getTutorStudents = async (student_tutor_fk_id) => {
-  const queryString = `SELECT * FROM student WHERE student_tutor_fk_id = $1`;
-  const data = await db.query(queryString, [student_tutor_fk_id]);
-  return data.rows;
-};
-
-exports.postStudentQuiz = async (body, quiz_id, student_id) => {
-  const queryString = `INSERT INTO studentQuiz (studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
-  const data = await db.query(queryString, [
-    body.studentQuiz_result || 0,
-    body.studentQuiz_percent || 0,
-    body.studentQuiz_feedback || null,
-    quiz_id,
-    student_id,
-  ]);
-
+  const data = await db.query(queryString, parameters);
   return data.rows[0];
 };

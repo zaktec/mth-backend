@@ -12,7 +12,7 @@ const {
 const router = Router();
 router
     .post('/post-quiz', userAuthorization(['admin']), postQuiz)
-    .get('/get-quizzes', userAuthorization(['admin']), getQuizzes)
+    .get('/get-quizzes', userAuthorization(['admin', 'tutor']), getQuizzes)
     .get('/get-quizzes/:quiz_id', userAuthorization(['admin']), getQuizById)
     .patch('/update-quizzes/:quiz_id', userAuthorization(['admin']), updateQuizById)
     .delete('/delete-quizzes/:quiz_id', userAuthorization(['admin']), deleteQuizById);

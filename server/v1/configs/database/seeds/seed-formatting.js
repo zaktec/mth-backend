@@ -135,6 +135,7 @@ exports.formatStudentQuizData = (studentQuizData) => {
     studentQuiz.studentQuiz_percent,
     studentQuiz.studentQuiz_feedback,
     studentQuiz.studentQuiz_quiz_fk_id,
+    studentQuiz.studentQuiz_tutor_fk_id,
     studentQuiz.studentQuiz_student_fk_id
   ]);
 
