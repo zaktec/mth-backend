@@ -7,14 +7,18 @@ const {
     getQuizById,
     updateQuizById,
     deleteQuizById,
+    postStudentQuiz,
+    getStudentQuizzes,
 } = require('../modules/quizzes/quizController');
 
 const router = Router();
 router
     .post('/post-quiz', userAuthorization(['admin']), postQuiz)
-    .get('/get-quizzes', userAuthorization(['admin', 'tutor']), getQuizzes)
     .get('/get-quizzes/:quiz_id', userAuthorization(['admin']), getQuizById)
     .patch('/update-quizzes/:quiz_id', userAuthorization(['admin']), updateQuizById)
-    .delete('/delete-quizzes/:quiz_id', userAuthorization(['admin']), deleteQuizById);
+    .delete('/delete-quizzes/:quiz_id', userAuthorization(['admin']), deleteQuizById)
+    .get('/get-quizzes', userAuthorization(['admin', 'tutor', 'student']), getQuizzes)
+    .post('/post-student-quizzes/:student_id/:quiz_id', userAuthorization(['tutor']), postStudentQuiz)
+    .get('/get-student-quizzes/:student_id', userAuthorization(['tutor', 'student']), getStudentQuizzes);
 
 module.exports = router;

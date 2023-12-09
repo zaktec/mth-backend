@@ -64,3 +64,29 @@ exports.updateQuizById = async (quiz, quiz_id) => {
   ]);
   return data.rows[0];
 };
+
+exports.getStudentQuiz = async (student_id, quiz_id) => {
+  const queryString = `SELECT * FROM studentQuiz WHERE studentQuiz_student_fk_id=$1 AND studentQuiz_quiz_fk_id=$2;`;
+  const data = await db.query(queryString, [student_id, quiz_id]);
+  return data.rows[0];
+};
+
+exports.postStudentQuiz = async (body, tutor_id, student_id, quiz_id) => {
+  const queryString = `INSERT INTO studentQuiz (studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`;
+  const data = await db.query(queryString, [
+    body.studentQuiz_result || 0,
+    body.studentQuiz_percent || 0,
+    body.studentQuiz_feedback || null,
+    quiz_id,
+    tutor_id,
+    student_id,
+  ]);
+
+  return data.rows[0];
+};
+
+exports.getStudentQuizzes = async (student_id) => {
+  const queryString = `SELECT * FROM studentQuiz INNER JOIN quiz ON studentQuiz.studentQuiz_quiz_fk_id = quiz.quiz_id WHERE studentQuiz_student_fk_id = $1;`
+  const data = await db.query(queryString, [student_id]);
+  return data.rows;
+};

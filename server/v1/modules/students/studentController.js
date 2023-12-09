@@ -25,7 +25,7 @@ exports.getStudents = async (req, res, next) => {
 
 exports.getStudentById = async (req, res, next) => {
   try {
-    const student_id = req?.student?.student_id || req?.params.student_id;
+    const student_id = req?.student?.student_id || req?.params?.student_id;
     const data = await getStudentById(student_id);
 
     if (!data)
@@ -63,7 +63,7 @@ exports.postStudent = async (req, res, next) => {
 
 exports.deleteStudentById = async (req, res, next) => {
   try {
-    const student_id = req?.student?.student_id || req?.params.student_id;
+    const student_id = req?.student?.student_id || req?.params?.student_id;
     const data = await deleteStudentById(student_id);
     if (data) {
       res.sendStatus(204);
@@ -80,7 +80,7 @@ exports.deleteStudentById = async (req, res, next) => {
 
 exports.updateStudentById = async (req, res, next) => {
   try {
-    const student_id = req?.student?.student_id || req?.params.student_id;
+    const student_id = req?.student?.student_id || req?.params?.student_id;
     const data = await updateStudentById(req.body, student_id);
     if (data) {
       res.status(200).send({ data });

@@ -145,3 +145,9 @@ exports.updateQuestionById = async (question, question_id) => {
   ]);
   return data.rows[0];
 };
+
+exports.getQuizQuestions = async (quiz_id) => {
+  const queryString = `SELECT * FROM question WHERE question_quiz_fk_id = $1;`
+  const data = await db.query(queryString, [quiz_id]);
+  return data.rows;
+};

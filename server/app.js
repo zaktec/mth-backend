@@ -19,7 +19,7 @@ appV1.use('/api/v1', routes);
 appV1.get('*', (req, res) => {
   res.status(200).json({
     status: 200,
-    message: 'Welcome To MTH Backend V1',
+    message: 'Welcome To MTH Version 1',
   });
 });
 
