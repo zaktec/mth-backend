@@ -173,6 +173,7 @@ const runSeeds = async (data) => {
     studentQuiz_result INT DEFAULT 0,
     studentQuiz_percent INT DEFAULT 0,
     studentQuiz_feedback VARCHAR(100),
+    studentQuiz_status BOOLEAN DEFAULT FALSE, 
     studentQuiz_quiz_fk_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE,
     studentQuiz_tutor_fk_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
     studentQuiz_student_fk_id INT REFERENCES student(student_id) ON DELETE CASCADE)`;
