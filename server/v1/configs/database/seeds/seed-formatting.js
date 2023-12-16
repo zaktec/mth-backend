@@ -158,11 +158,12 @@ exports.formatQuizData = (quizData) => {
 
 exports.formatQuestionData = (questionData) => {
   const formattedQuestions = questionData.map((question) => [
-    question.question_body,
-    question.question_ans1,
-    question.question_ans2,
-    question.question_ans3,
     question.question_image,
+    question.question_body,
+    question.question_answer1,
+    question.question_answer2,
+    question.question_answer3,
+    question.question_answer4,
     question.question_mark,
     question.question_grade,
     question.question_type,

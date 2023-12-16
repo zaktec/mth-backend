@@ -173,26 +173,27 @@ const runSeeds = async (data) => {
     studentQuiz_result INT DEFAULT 0,
     studentQuiz_percent INT DEFAULT 0,
     studentQuiz_feedback VARCHAR(100),
-    studentQuiz_status BOOLEAN DEFAULT FALSE, 
+    studentQuiz_status BOOLEAN DEFAULT false, 
     studentQuiz_quiz_fk_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE,
     studentQuiz_tutor_fk_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
     studentQuiz_student_fk_id INT REFERENCES student(student_id) ON DELETE CASCADE)`;
   await db.query(createStudentQuizQuery);
 
   const createQuestionQuery = `CREATE TABLE question ( 
-    question_id SERIAL PRIMARY KEY, 
-    question_body VARCHAR (200) NOT NULL, 
-    question_ans1 VARCHAR (100), 
-    question_ans2 VARCHAR (100), 
-    question_ans3 VARCHAR (100),
-    question_image VARCHAR (100), 
+    question_id SERIAL PRIMARY KEY,
+    question_image VARCHAR (1000),
+    question_body VARCHAR (200) NOT NULL,
+    question_answer1 VARCHAR (100),
+    question_answer2 VARCHAR (100),
+    question_answer3 VARCHAR (100),
+    question_answer4 VARCHAR (100),
     question_mark INT DEFAULT 1, 
     question_grade INT DEFAULT 0, 
     question_type VARCHAR (100), 
     question_calc BOOLEAN,  
     question_ans_sym_b VARCHAR (5), 
     question_ans_sym_a VARCHAR (5),
-    question_correct BOOLEAN DEFAULT FALSE,  
+    question_correct BOOLEAN DEFAULT false,  
     question_explaination VARCHAR (200), 
     question_ans_mark INT DEFAULT 1, 
     question_ans_image VARCHAR (100),  
@@ -283,7 +284,7 @@ const runSeeds = async (data) => {
 
   const formattedQuestions = formatQuestionData(questionData);
   const insertQuestionQuery = format(
-    `INSERT INTO question (question_body, question_ans1, question_ans2, question_ans3, question_image, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback,question_quiz_fk_id) VALUES %L RETURNING *;`,
+    `INSERT INTO question (question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback,question_quiz_fk_id) VALUES %L RETURNING *;`,
     formattedQuestions
   );
   const question = await db.query(insertQuestionQuery);

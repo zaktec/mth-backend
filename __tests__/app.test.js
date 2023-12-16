@@ -49,7 +49,7 @@ describe('Test1 - GET /api/v1/invalid-url', () => {
       .get('/api/v1/invalid-url')
       .expect(200)
       .then((res) => {
-        expect(res.body.message).toBe('Welcome To MTH Backend V1');
+        expect(res.body.message).toBe('Welcome To MTH Version 1');
       });
   });
 });
@@ -1612,12 +1612,14 @@ describe('Test41 - POST /api/v1/questions', () => {
       .set('Authorization', validAdmin)
       .send({
         question_quiz_fk_id: quiz_id,
-        //  ques_lesson_id: lesson_id,
         question_body: '4.79 - 1.2',
-        question_ans1: '3.59',
+        question_answer1: '3.52',
+        question_answer2: '3.54',
+        question_answer3: '3.56',
+        question_answer4: '3.59',
         question_mark: 1,
         question_grade: 2,
-        question_calc: 'false',
+        question_calc: false,
         question_explaination: 'explanation',
       })
       .expect(201)
@@ -1626,15 +1628,15 @@ describe('Test41 - POST /api/v1/questions', () => {
         expect(res.body.data).toEqual({
           question_id: res.body.data.question_id,
           question_quiz_fk_id: quiz_id,
-          //ques_lesson_id: lesson_id,
           question_body: '4.79 - 1.2',
-          question_ans1: '3.59',
+          question_answer1: '3.52',
+          question_answer2: '3.54',
+          question_answer3: '3.56',
+          question_answer4: '3.59',
           question_mark: 1,
           question_grade: 2,
           question_calc: false,
           question_explaination: 'explanation',
-          question_ans2: null,
-          question_ans3: null,
           question_correct: null,
           question_type: null,
           question_ans_image: null,
@@ -1652,6 +1654,7 @@ describe('Test41 - POST /api/v1/questions', () => {
       });
   });
 
+  
   test('Missing Field. status 400 and return error message', () => {
     return request(app)
       .post('/api/v1/questions/post-question')
@@ -1681,10 +1684,11 @@ describe('Test42 - GET /api/v1/questions', () => {
             question_body: expect.any(String),
             question_grade: expect.any(Number),
             question_calc: expect.any(Boolean),
-            question_ans1: expect.any(String),
             question_type: expect.toBeOneOf([expect.any(String), null]),
-            question_ans2: expect.toBeOneOf([expect.any(String), null]),
-            question_ans3: expect.toBeOneOf([expect.any(String), null]),
+            question_answer1: expect.toBeOneOf([expect.any(String), null]),
+            question_answer2: expect.toBeOneOf([expect.any(String), null]),
+            question_answer3: expect.toBeOneOf([expect.any(String), null]),
+            question_answer4: expect.toBeOneOf([expect.any(String), null]),
             question_quiz_fk_id: expect.toBeOneOf([expect.any(Number), null]),
             question_mark: expect.toBeOneOf([expect.any(Number), null]),
             question_image: expect.toBeOneOf([expect.any(String), null]),
@@ -1703,6 +1707,7 @@ describe('Test42 - GET /api/v1/questions', () => {
         });
       });
   });
+
   test('QUERY: status 200 : quizzes are sorted by question id', () => {
     return request(app)
       .get('/api/v1/questions/get-questions')
@@ -1747,9 +1752,10 @@ describe('Test43 - GET /api/v1/questions', () => {
           question_grade: expect.any(Number),
           question_calc: expect.any(Boolean),
           question_type: expect.toBeOneOf([expect.any(String), null]),
-          question_ans1: expect.any(String),
-          question_ans2: expect.toBeOneOf([expect.any(String), null]),
-          question_ans3: expect.toBeOneOf([expect.any(String), null]),
+          question_answer1: expect.toBeOneOf([expect.any(String), null]),
+          question_answer2: expect.toBeOneOf([expect.any(String), null]),
+          question_answer3: expect.toBeOneOf([expect.any(String), null]),
+          question_answer4: expect.toBeOneOf([expect.any(String), null]),
           question_quiz_fk_id: expect.toBeOneOf([expect.any(Number), null]),
           question_mark: expect.toBeOneOf([expect.any(Number), null]),
           question_image: expect.toBeOneOf([expect.any(String), null]),
@@ -1809,12 +1815,10 @@ describe('Test44 - PATCH /api/v1/questions', () => {
       .set('Authorization', validAdmin)
       .send({
         question_body: 'new 4.79 - 1.2',
-        question_ans1: '3.59',
         question_mark: 1,
         question_grade: 2,
-        question_quiz_fk_id: quiz_id,
-        //ques_lesson_id: lesson_id,
         question_calc: false,
+        question_quiz_fk_id: quiz_id,
         question_explaination: 'explanation',
       })
       .expect(200)
@@ -1822,11 +1826,11 @@ describe('Test44 - PATCH /api/v1/questions', () => {
         expect(res.body.data).toEqual({
           question_id: question_id,
           question_quiz_fk_id: quiz_id,
-          //ques_lesson_id: lesson_id,
           question_body: 'new 4.79 - 1.2',
-          question_ans1: '3.59',
-          question_ans2: null,
-          question_ans3: null,
+          question_answer1: '3.52',
+          question_answer2: '3.54',
+          question_answer3: '3.56',
+          question_answer4: '3.59',
           question_mark: 1,
           question_grade: 2,
           question_calc: false,

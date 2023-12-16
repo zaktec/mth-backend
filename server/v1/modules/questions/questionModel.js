@@ -36,11 +36,12 @@ exports.selectQuestionById = async (question_id) => {
 
 exports.insertQuestion = async (question) => {
   const {
-    question_body,
-    question_ans1,
-    question_ans2,
-    question_ans3,
     question_image,
+    question_body,
+    question_answer1,
+    question_answer2,
+    question_answer3,
+    question_answer4,
     question_mark,
     question_grade,
     question_type,
@@ -58,14 +59,15 @@ exports.insertQuestion = async (question) => {
     question_feedback,
     question_quiz_fk_id,
   } = question;
-  const InsertQuery = `INSERT INTO question (question_body, question_ans1, question_ans2, question_ans3, question_image, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination,question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_quiz_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19,  $20, $21) RETURNING *;`;
 
+  const InsertQuery = `INSERT INTO question (question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_quiz_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22) RETURNING *;`;
   const data = await db.query(InsertQuery, [
-    question_body,
-    question_ans1,
-    question_ans2,
-    question_ans3,
     question_image,
+    question_body,
+    question_answer1,
+    question_answer2,
+    question_answer3,
+    question_answer4,
     question_mark,
     question_grade,
     question_type,
@@ -94,55 +96,12 @@ exports.deleteQuestionById = async (question_id) => {
 };
 
 exports.updateQuestionById = async (question, question_id) => {
-  const {
-    question_body,
-    question_ans1,
-    question_ans2,
-    question_ans3,
-    question_image,
-    question_mark,
-    question_grade,
-    question_type,
-    question_calc,
-    question_ans_sym_b,
-    question_ans_sym_a,
-    question_correct,
-    question_explaination,
-    question_ans_mark,
-    question_ans_image,
-    question_response1,
-    question_response2,
-    question_response3,
-    question_workingout,
-    question_feedback,
-    question_quiz_fk_id,
-  } = question;
-  const InsertQuery = `UPDATE question SET question_body = $1, question_ans1 = $2, question_ans2 = $3, question_ans3 = $4, question_image = $5, question_mark = $6, question_grade = $7, question_type = $8, question_calc = $9, question_ans_sym_b = $10, question_ans_sym_a = $11, question_correct= $12, question_explaination= $13, question_ans_mark= $14, question_ans_image= $15, question_response1 = $16, question_response2 = $17, question_response3 = $18,  question_workingout= $19,   question_feedback = $20, question_quiz_fk_id = $21 WHERE question_id = $22 RETURNING *;`;
+  const parameters = [...Object.values(question)];
+  
+  const keys = Object.keys(question).map((key, index) => `${key} = $${index + 1}`).join(", ");
+  const queryString = `UPDATE question SET ${keys} WHERE question_id='${question_id}' RETURNING *;`;
 
-  const data = await db.query(InsertQuery, [
-    question_body,
-    question_ans1,
-    question_ans2,
-    question_ans3,
-    question_image,
-    question_mark,
-    question_grade,
-    question_type,
-    question_calc,
-    question_ans_sym_b,
-    question_ans_sym_a,
-    question_correct,
-    question_explaination,
-    question_ans_mark,
-    question_ans_image,
-    question_response1,
-    question_response2,
-    question_response3,
-    question_workingout,
-    question_feedback,
-    question_quiz_fk_id,
-    question_id,
-  ]);
+  const data = await db.query(queryString, parameters);
   return data.rows[0];
 };
 
