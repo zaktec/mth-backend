@@ -17,23 +17,9 @@ exports.checkTopicExists = (topic_id) => {
 };
 
 exports.selectTopics = async (sort_by = 'topic_unit') => {
-  // custom error handling
-  if (sort_by) {
-    const allowedSortBys = [
-      'topic_id',
-      'topic_unit',
-      'topic_code',
-      'topic_name',
-      'topic_level',
-      'topic_course_fk_id',
-    ];
-    if (!allowedSortBys.includes(sort_by)) {
-      return Promise.reject({ status: 400, message: 'bad request' });
-    }
-  }
   const InsertQuery =`SELECT * FROM topic ORDER BY ${sort_by} ASC;`
   const data = await db.query(InsertQuery)
-      return data.rows;
+  return data.rows;
 };
 
 exports.insertTopic = async (topic) => {

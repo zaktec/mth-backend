@@ -5,6 +5,7 @@ const {
   deleteTutorById,
   updateTutorById,
   checkTutorExists,
+  getTutorStudents,
 } = require('./tutorModel.js');
 
 exports.getTutorDashboard = (req, res, next) => {
@@ -27,7 +28,7 @@ exports.getTutors = async (req, res, next) => {
 
 exports.getTutorById = async (req, res, next) => {
   try {
-    const { tutor_id } = req.params;
+    const tutor_id = req?.tutor?.tutor_id || req?.params?.tutor_id;
     const tutorExist = await checkTutorExists(tutor_id);
     if (tutorExist) {
       const data = await selectTutorById(tutor_id);
@@ -58,8 +59,7 @@ exports.postTutor = async (req, res, next) => {
 
 exports.deleteTutorById = async (req, res, next) => {
   try {
-    const { tutor_id } = req.params;
-
+    const tutor_id = req?.tutor?.tutor_id || req?.params?.tutor_id;
     const data = await deleteTutorById(tutor_id);
     if (data) {
       res.sendStatus(204);
@@ -76,10 +76,8 @@ exports.deleteTutorById = async (req, res, next) => {
 
 exports.updateTutorById = async (req, res, next) => {
   try {
-    const tutor = req.body;
-    const { tutor_id } = req.params;
-
-    const data = await updateTutorById(tutor, tutor_id);
+    const tutor_id = req?.tutor?.tutor_id || req?.params?.tutor_id;
+    const data = await updateTutorById(req.body, tutor_id);
     if (data) {
       res.status(200).send({ data });
     } else {
@@ -90,5 +88,26 @@ exports.updateTutorById = async (req, res, next) => {
       status: 500,
       error: error.toString(),
     });
+  }
+};
+
+exports.getTutorStudents = async (req, res) => {
+  try {
+    const data = await getTutorStudents(req?.tutor?.tutor_id);
+     
+    if (data.length === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data
+      });
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data
+    });
+  } catch (error) {
+    return res.status(500).json({ status: 500, error: error.toString() });
   }
 };

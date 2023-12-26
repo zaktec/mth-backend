@@ -14,9 +14,9 @@ const router = Router();
 router
     .get('/get-students', userAuthorization(['admin']), getStudents)
     .post('/post-student', userAuthorization(['admin']), postStudent)
-    .get('/get-students/:student_id', userAuthorization(['admin']), getStudentById)
     .get('/get-student-dashboard', userAuthorization(['student']), getStudentDashboard)
-    .patch('/update-students/:student_id', userAuthorization(['admin']), updateStudentById)
-    .delete('/delete-students/:student_id', userAuthorization(['admin']), deleteStudentById);
+    .delete('/delete-students/:student_id', userAuthorization(['admin', 'student']), deleteStudentById)
+    .get('/get-students/:student_id', userAuthorization(['admin', 'tutor', 'student']), getStudentById)
+    .patch('/update-students/:student_id', userAuthorization(['admin', 'tutor', 'student']), updateStudentById);
 
 module.exports = router;

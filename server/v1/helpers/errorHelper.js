@@ -1,6 +1,6 @@
-const { body, validationResult } =require( "express-validator");
+const { validationResult } =require( "express-validator");
 
-exports.handle404s = (req, res) => {
+exports.handle404 = (req, res) => {
   res.status(404).send({ message: "Invalid URL" });
 };
 

@@ -17,20 +17,9 @@ exports.checkLessonExists = (lesson_id) => {
 };
 
 exports.selectLessons = async (sort_by = 'lesson_id') => {
-  if (sort_by) {
-    const allowedSortBys = [
-      'lesson_id',
-      'lesson_code',
-      'lesson_name',
-      'lesson_topic_fk_id',
-    ];
-    if (!allowedSortBys.includes(sort_by)) {
-      return Promise.reject({ status: 400, message: 'bad request' });
-    }
-  }
   const InsertQuery = `SELECT * FROM lesson ORDER BY ${sort_by} ASC;`
-const data = await  db.query(InsertQuery)
-      return data.rows;
+  const data = await  db.query(InsertQuery)
+  return data.rows;
 };
 
 exports.selectLessonById = async (lesson_id) => {

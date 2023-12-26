@@ -5,14 +5,14 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "Linux-kill": "killall -9 node",
+    "kill-Linux": "killall -9 node",
     "start": "nodemon ./server/app.js",
-    "window-kill": "Taskkill /IM node.exe /F",
+    "kill-window": "Taskkill /IM node.exe /F",
     "kill": "sudo kill $(sudo lsof -t -i:3009)",
-    "seed": "node  ./server/v1/configs/database/seeds/run-seed.js",
-    "viewdb": "psql -f ./server/v1/configs/database/view-db.sql > ./server/v1/configs/database/view-bd.txt",
-    "setup-db": "psql -f ./server/v1/configs/database/setup-dbs.sql > ./server/v1/configs/database/example.txt",
-    "viewtestdb": "psql -f ./server/v1/configs/database/view-dbtest.sql > ./server/v1/configs/database/viewtest-bd.txt"
+    "seed": "node  ./server/v1/configs/database/seeds/run-dev-seed.js",
+    "viewdb": "psql -U postgres -f ./server/v1/configs/database/view-db.sql > ./server/v1/configs/database/view-bd.txt",
+    "setup-db": "psql -U postgres -f ./server/v1/configs/database/setup-dbs.sql > ./server/v1/configs/database/example.txt",
+    "viewtestdb": "psql -U postgres -f ./server/v1/configs/database/view-dbtest.sql > ./server/v1/configs/database/viewtest-bd.txt"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+
 exports.formatCourseData = (courseData) => {
   const formattedCourses = courseData.map((course) => [
     course.course_name,
@@ -23,11 +24,10 @@ exports.formatTopicData = (topicData) => {
 };
 
 exports.formatStudentData = (studentData) => {
-   studentData.forEach(
-     (item) =>
-       (item.student_password = bcrypt.hashSync(item.student_password, 10))
+   studentData.forEach((item) =>
+      (item.student_password = bcrypt.hashSync(item.student_password, 10))
    );
- 
+
   const formattedStudents = studentData.map((student) => [
     student.student_username,
     student.student_firstname,
@@ -44,8 +44,9 @@ exports.formatStudentData = (studentData) => {
     student.student_message_input,
     student.student_message_output,
     student.student_course_fk_id,
-    student.student_tutor_fk_id,
+    student.student_tutor_fk_id
   ]);
+
   return formattedStudents;
 };
 
@@ -128,6 +129,20 @@ exports.formatLessonData = (lessonData) => {
   return formattedLessons;
 };
 
+exports.formatStudentQuizData = (studentQuizData) => {
+  const formattedStudentQuizzes = studentQuizData.map((studentQuiz) => [
+    studentQuiz.studentQuiz_status,
+    studentQuiz.studentQuiz_result,
+    studentQuiz.studentQuiz_percent,
+    studentQuiz.studentQuiz_feedback,
+    studentQuiz.studentQuiz_quiz_fk_id,
+    studentQuiz.studentQuiz_tutor_fk_id,
+    studentQuiz.studentQuiz_student_fk_id
+  ]);
+
+  return formattedStudentQuizzes;
+};
+
 exports.formatQuizData = (quizData) => {
   const formattedQuizzes = quizData.map((quiz) => [
     quiz.quiz_name,
@@ -144,11 +159,12 @@ exports.formatQuizData = (quizData) => {
 
 exports.formatQuestionData = (questionData) => {
   const formattedQuestions = questionData.map((question) => [
-    question.question_body,
-    question.question_ans1,
-    question.question_ans2,
-    question.question_ans3,
     question.question_image,
+    question.question_body,
+    question.question_answer1,
+    question.question_answer2,
+    question.question_answer3,
+    question.question_answer4,
     question.question_mark,
     question.question_grade,
     question.question_type,
