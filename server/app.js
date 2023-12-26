@@ -4,7 +4,7 @@ const express = require('express');
 const routes = require('./v1/routes');
 
 const {
-  handle404s,
+  handle404,
   handlePsqlErrors,
   handleCustomErrors,
   handleServerErrors,
@@ -23,14 +23,14 @@ appV1.get('*', (req, res) => {
   });
 });
 
-appV1.all('*', handle404s);
-appV1.use(handleCustomErrors);
+appV1.all("*", handle404);
 appV1.use(handlePsqlErrors);
+appV1.use(handleCustomErrors);
 appV1.use(handleServerErrors);
 
-appV1.listen(process.env.PORT || 9000, (error) => {
+const server = appV1.listen(process.env.PORT || 9000, (error) => {
   if (error) console.log('Server Error', error);
   else console.log('Server Started & Listening on', process.env.PORT || 9000);
 });
 
-module.exports = appV1;
+module.exports = server;

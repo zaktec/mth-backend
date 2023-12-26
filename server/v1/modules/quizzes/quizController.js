@@ -8,9 +8,26 @@ const {
   getStudentQuiz,
   postStudentQuiz,
   getStudentQuizzes,
+  postStudentQuizResult,
 } = require('./quizModel');
 const { getStudentById } = require('../students/studentModel.js');
+const { isSolutionCorrect } = require('../../helpers/commonHelper.js');
 
+/**
+* This quizController contains 7 functions required to handle
+* getQuizzes function.
+* getQuizById function.
+* postQuiz function.
+* deleteQuizById function.
+*/
+
+
+/**
+ * Handle getQuizzes.
+ * @param {} req request.
+ * @param {object} res data response, quiz_id, quiz_desc, etc...
+ * @returns {object} response.
+ */
 exports.getQuizzes = async (req, res, next) => {
   try {
     const { sort_by } = req.query;
@@ -42,6 +59,12 @@ exports.getQuizById = async (req, res, next) => {
   }
 };
 
+/**
+ * Handle postQuiz.
+ * @param {object} req request, quiz_name, quiz_dec, quiz_mark.
+ * @param {object} res data response, quiz_id, quiz_desc, etc...
+ * @returns {object} response.
+ */
 exports.postQuiz = async (req, res, next) => {
   try {
     const quiz = req.body;
@@ -122,6 +145,42 @@ exports.getStudentQuizzes = async (req, res) => {
   try {
     const student_id = req?.student?.student_id || req?.params?.student_id;
     const data = await getStudentQuizzes(student_id);
+    if (data.length === 0)
+    return res.status(404).json({
+      status: 404,
+      message: 'Not found',
+      data
+    });
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};
+
+exports.postStudentQuizResult = async (req, res) => {
+  try {
+    const correction = {};
+    let correctAnswersCount = 0;
+    req.body.forEach((question) => {
+      const result = isSolutionCorrect(question);
+      if (result) correctAnswersCount++;
+      correction[`Question ${question.question_id}`] = result ? `The result is correct (${result})` : `The result is incorrect (${result})`;
+    });
+
+    // Save Quiz Result Logic
+
+    const data = await postStudentQuizResult(req?.params?.studentquiz_id);
+    correction.marks = `${correctAnswersCount}/${req.body.length}`;
+    data.correction = correction;
+
     if (data.length === 0)
     return res.status(404).json({
       status: 404,

@@ -105,8 +105,11 @@ exports.updateQuestionById = async (question, question_id) => {
   return data.rows[0];
 };
 
-exports.getQuizQuestions = async (quiz_id) => {
-  const queryString = `SELECT * FROM question WHERE question_quiz_fk_id = $1;`
-  const data = await db.query(queryString, [quiz_id]);
+exports.getQuizQuestions = async (studentquiz_id) => {
+  let queryString = `SELECT * FROM studentQuiz WHERE studentQuiz_id = $1;`;
+  let data = await db.query(queryString, [studentquiz_id]);
+
+  queryString = `SELECT * FROM question WHERE question_quiz_fk_id = $1 ORDER BY RANDOM();`;
+  data = await db.query(queryString, [data.rows[0].studentquiz_quiz_fk_id]);
   return data.rows;
 };

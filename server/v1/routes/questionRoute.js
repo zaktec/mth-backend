@@ -17,6 +17,6 @@ router
   .get('/get-questions/:question_id', userAuthorization(['admin']), getQuestionById)
   .patch('/update-questions/:question_id', userAuthorization(['admin']), updateQuestionById)
   .delete('/delete-questions/:question_id', userAuthorization(['admin']), deleteQuestionById)
-  .get('/get-quiz-questions/:quiz_id', userAuthorization(['tutor', 'student']), getQuizQuestions);
+  .get('/get-quiz-questions/:studentquiz_id', userAuthorization(['tutor', 'student']), getQuizQuestions);
 
 module.exports = router;

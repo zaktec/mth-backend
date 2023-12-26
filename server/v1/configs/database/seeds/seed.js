@@ -170,10 +170,10 @@ const runSeeds = async (data) => {
 
   const createStudentQuizQuery = `CREATE TABLE studentQuiz (
     studentQuiz_id SERIAL PRIMARY KEY,
+    studentQuiz_status VARCHAR(100),
     studentQuiz_result INT DEFAULT 0,
     studentQuiz_percent INT DEFAULT 0,
     studentQuiz_feedback VARCHAR(100),
-    studentQuiz_status BOOLEAN DEFAULT false, 
     studentQuiz_quiz_fk_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE,
     studentQuiz_tutor_fk_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
     studentQuiz_student_fk_id INT REFERENCES student(student_id) ON DELETE CASCADE)`;
@@ -277,7 +277,7 @@ const runSeeds = async (data) => {
 
   const formattedStudentQuizzes = formatStudentQuizData(studentQuizData);
   const insertStudentQuizQuery = format(
-    `INSERT INTO studentQuiz (studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES %L RETURNING *;`,
+    `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES %L RETURNING *;`,
     formattedStudentQuizzes
   );
   const studentQuiz = await db.query(insertStudentQuizQuery);

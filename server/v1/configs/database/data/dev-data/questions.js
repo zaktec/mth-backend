@@ -59,7 +59,7 @@ module.exports = [
     question_ans_sym_b: '£',
     question_ans_sym_a: 'p',
     question_ans_image: null,
-    question_response1: null,
+    question_response1: '18.16',
     question_response2: null,
     question_response3: null,
     question_feedback: null,

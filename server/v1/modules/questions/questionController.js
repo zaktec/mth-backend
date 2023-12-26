@@ -91,7 +91,7 @@ exports.updateQuestionById = async (req, res, next) => {
 
 exports.getQuizQuestions = async (req, res) => {
   try {
-    const data = await getQuizQuestions(req?.params?.quiz_id);
+    const data = await getQuizQuestions(req?.params?.studentquiz_id);
     if (data.length === 0)
     return res.status(404).json({
       status: 404,
