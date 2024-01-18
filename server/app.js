@@ -15,6 +15,7 @@ appV1.use(express.json());
 appV1.use(cors());
 dotenv.config();
 
+
 appV1.use('/api/v1', routes);
 appV1.get('*', (req, res) => {
   res.status(200).json({

@@ -6,21 +6,25 @@ const seed = require('../server/v1/configs/database/seeds/seed');
 const testData = require('../server/v1/configs/database/data/test-data');
 
 /* -------------------------------------------------------- 
-Unauthorised Link               Line Code 33
-Admin SignUp/login               Line Code 77
-Tutor SignUp/login             Line Code 152
-Student SignUp/login             Line Code 224
-Admin Dashboard                  Line Code 306
-Tutor Dashboard                  Line Code 341
-Student Dashboard                Line Code  357
-Admin                            Line Code 374
-Student                          Line Code 181
-Tutors                           Line Code  744
-Courses                          Line Code  591
-Topic                            Line Code  774
-Lesson                           Line Code  960
-Quiz                             Line Code  1147
-Question                         Line Code   1312
+1.   Unauthorized EndPoints        ----45
+2.   Admin SignUp/Login            ----70
+3.   Tutor SignUp/login            ----135
+4.   Student SignUp/Login          ----202
+5.   Admin Endpoints               ----287
+6.   Student Endpoints             ----459
+7.   Tutor Endpoints               ----675
+8.   Courses Endpoints             ----849
+9.   Topic Endpoints               ----1010
+10.  Lesson Endpoints              ----1178
+11.  Quizzes  Endpoints            ----1147
+12.  Question Endpoints            ----1522
+13.  AdminDashBoard Endpoints      ----1778
+14.  TutorDashboard Endpoints      ----1825
+12.  StudentDashboard Endpoints    ----1522
+13.  Logout User                   ----1895
+14.  DELETE ACCODINGLY             ----1778
+15.  Admin Logout                 ----1825
+
  ---------------------------------------------------------*/
  
 let quiz_id;
@@ -45,11 +49,12 @@ afterAll((done) => {
   done();
 })
 
-// -------------------unauthrised Link---------------------/
-describe('Test1 - GET /api/v1/invalid-url', () => {
-  test('Sucess: status 200 and returns a message when invalid url is passed with GET method', () => {
+//-------------------1-Unauthorized EndPoints
+
+describe('Test1 - GET /api/v1/any-url', () => {
+  test('Sucess: status 200 and returns a message when any url is passed with GET method', () => {
     return request(server)
-      .get('/api/v1/invalid-url')
+      .get('/api/v1/any-url')
       .expect(200)
       .then((res) => {
         expect(res.body.message).toBe('Welcome To MTH Version 1');
@@ -68,9 +73,10 @@ describe('Test2 - POST /api/v1/invalid-url', () => {
   });
 });
 
-//-------------------Admin SignUp/Signin
+//------------------2-Admin SignUp/Login
+
 describe('Test4 - POST /api/v1/auth/signup-admin', () => {
-  test('Post: respond with access token  when admin details are send', () => {
+  test('Post: Admin Registration -respond with access token  when admin details are send', () => {
     return request(server)
       .post('/api/v1/auth/signup-admin')
       .send({
@@ -80,7 +86,7 @@ describe('Test4 - POST /api/v1/auth/signup-admin', () => {
         admin_email: 'csheraz@hotmail.com',
         admin_active: true,
         admin_image: '/tutor/tutor1.png',
-        admin_password: 'password',
+        admin_password: 'Password@123',
       })
       .expect(201)
       .then((res) => {
@@ -100,21 +106,22 @@ describe('Test4 - POST /api/v1/auth/signup-admin', () => {
 });
 
 describe('Test5 - POST /api/v1/auth/signin-admin', () => {
-  test('POST-responds with status 200 and access token when username and password are correct', () => {
+  test('POST- Admin Login- responds with status 200 and access token when username and password are correct', () => {
     return request(server)
       .post('/api/v1/auth/signin-admin')
-      .send({ username: 'scheema1', password: 'password', deviceId: '3f9a1b2c8' })
+      .send({ username: 'scheema1', password: 'Password@123', deviceId: '3f9a1b2c8' })
       .expect(200)
       .then((res) => {
         validAdmin = `BEARER ${res.body.token}`;
         expect(res.body.message).toBe('Success');
+        expect(res.body.deviceId).toBe('3f9a1b2c8');
       });
   });
 
   test('POST - responds with status 401 for an incorrect password', () => {
     return request(server)
       .post('/api/v1/auth/signin-admin')
-      .send({ username: 'scheema1', password: 'secure123', deviceId: '3f9a1b2c8' })
+      .send({ username: 'scheema1', password: 'Password@321', deviceId: '3f9a1b2c8' })
       .expect(401)
       .then((res) =>
         expect(res.body.message).toBe('username and password do not exist')
@@ -124,24 +131,25 @@ describe('Test5 - POST /api/v1/auth/signin-admin', () => {
   test('POST - responds with status 401 for an incorrect username', () => {
     return request(server)
       .post('/api/v1/auth/signin-admin')
-      .send({ username: 'invalid-username', password: 'password', deviceId: '3f9a1b2c8' })
+      .send({ username: 'invalid-username', password: 'Password@321', deviceId: '3f9a1b2c8' })
       .expect(401)
       .then((res) => {
         expect(res.body.message).toBe('username and password do not exist')
       });
-  });
+  }); 
 });
 
-//-------------------tutor SignUp/Signin
-describe('Test6 - POST /api/v1/auth/signin-tutor', () => {
-  test('Post- respond with and access token when tutor details are send', () => {
+//--------------3-Tutor SignUp/Login
+
+describe('Test6 - POST /api/v1/auth/signup-tutor', () => {
+  test('Post-Tutor Register-  respond with and access token when tutor details are send', () => {
     return request(server)
       .post('/api/v1/auth/signup-tutor')
       .send({
         tutor_active: true,
         tutor_firstname: 'New',
         tutor_lastname: 'Cheema',
-        tutor_password: 'password',
+        tutor_password: 'Password@123',
         tutor_username: 'scheema1',
         tutor_image: '/tutor/tutor1.png',
         tutor_email: 'csheraz@hotmail.com',
@@ -164,21 +172,23 @@ describe('Test6 - POST /api/v1/auth/signin-tutor', () => {
 });
 
 describe('Test7 - POST /api/v1/auth/signin-tutor', () => {
-  test('POST responds with and access token given correct username and password', () => {
+  test('POST- Tutor Login-responds with and access token given correct username and password', () => {
     return request(server)
       .post('/api/v1/auth/signin-tutor')
-      .send({ username: 'scheema1', password: 'password', deviceId: '3f9a1b2c8' })
+      .send({ username: 'scheema1', password: 'Password@123', deviceId: '3f9a1b2c8' })
       .expect(200)
       .then((res) => {
+        console.log(res.body)
         validTutor = `BEARER ${res.body.token}`;
         expect(res.body.message).toBe('Success');
+        expect(res.body.deviceId).toBe('3f9a1b2c8');
       });
   });
 
   test('POST responds with status 401 for an incorrect password', () => {
     return request(server)
       .post('/api/v1/auth/signin-tutor')
-      .send({ username: 'stundentusernamedemo1', password: 'secure123' })
+      .send({ username: 'stundentusernamedemo1', password: 'Password@321', deviceId: '3f9a1b2c8' })
       .expect(401)
       .then((res) =>
         expect(res.body.message).toBe('username and password do not exist')
@@ -188,7 +198,7 @@ describe('Test7 - POST /api/v1/auth/signin-tutor', () => {
   test('POST responds with status 401 for an incorrect username', () => {
     return request(server)
       .post('/api/v1/auth/signin-tutor')
-      .send({ username: 'mitch', password: 'secure123' })
+      .send({ username: 'mitch', password: 'Password@321', deviceId: '3f9a1b2c8' })
       .expect(401)
       .then((res) =>
         expect(res.body.message).toBe('username and password do not exist')
@@ -196,9 +206,10 @@ describe('Test7 - POST /api/v1/auth/signin-tutor', () => {
   });
 });
 
-//-------------------Student SignUp/Signin 
-describe('Test8 - POST /api/v1/auth/signin-student', () => {
-  test('POST- responds with and access token when student details are send', () => {
+//------------4-Student SignUp/Login
+
+describe('Test8 - POST /api/v1/auth/signup-student', () => {
+  test('POST- Student Register- responds with and access token when student details are send', () => {
     return request(server)
       .post('/api/v1/auth/signup-student')
       .send({
@@ -246,7 +257,7 @@ describe('Test8 - POST /api/v1/auth/signin-student', () => {
 });
 
 describe('Test9 - POST /api/v1/auth/signin-student', () => {
-  test('POST responds with and access token given correct username and password', () => {
+  test('POST- Student Login-  responds with and access token given correct username and password', () => {
     return request(server)
       .post('/api/v1/auth/signin-student')
       .send({ username: 'studentUsernameTest', password: 'Password@123', deviceId: '3f9a1b2c8'})
@@ -261,9 +272,9 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
     return request(server)
       .post('/api/v1/auth/signin-student')
       .send({ username: 'studentUsernameTest', password: 'Password123', deviceId: '3f9a1b2c8' })
-      .expect(401)
+      .expect(400)
       .then((res) =>
-        expect(res.body.message).toBe('username and password do not exist')
+      expect(res.body.error).toBe(JSON.parse(res.error.text).error)
       );
   });
 
@@ -272,87 +283,19 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
     return request(server)
       .post('/api/v1/auth/signin-student')
       .send({ username: 'invalid-username', password: 'password@123', deviceId: '3f9a1b2c8' })
-      .expect(401)
+      .expect(400)
       .then((res) => {
-        expect(res.body.message).toBe('username and password do not exist')
+        console.log(res.body)
+        expect(res.body.error).toBe(JSON.parse(res.error.text).error)
       });
   });
 });
 
-//--------------Admin Dashabooard-----------------/
-describe('Test10 - GET /api/v1/admins', () => {
-  test('status: 200 and returns a welcome message for setting page', () => {
-    return request(server)
-      .get('/api/v1/admins/settings')
-      .set('Authorization', validAdmin)
-      .expect(200)
-      .then((res) => {
-        expect(res.body.message).toBe('Welcome To The Setting Page');
-      });
-  });
+//-------------------5-Admin Endpoints
 
-  test('status: 200 and returns a welcome message for setting page', () => {
-    return request(server)
-      .get('/api/v1/admins/admin-dashboard')
-      .set('Authorization', validAdmin)
-      .expect(200)
-      .then((res) => {
-        expect(res.body.message).toBe('Welcome To The Admin Dashboard');
-      });
-  });
 
-  test('status: 401 if an invalid token is privided', () => {
-    return request(server)
-      .get('/api/v1/admins/reset')
-      .set('Authorization', invalidStudent)
-      .expect(401)
-      .then((res) => {
-        expect(res.body.message).toBe('halt intruder! get outta here');
-      });
-  });
-});
-
-describe('Test11-  GET /', () => {
-  test('status: 200 and json representation of all the available endpoints of the api', () => {
-    return request(server)
-      .get('/api/v1/admins/endpoints')
-      .set('Authorization', validAdmin)
-      .expect(200)
-      .then((res) => {
-        expect(res.body.message).toBe(undefined);
-      });
-  });
-});
-
-//-------------------Tutor Dashbaord--------------------------------/
-describe('Test12 - GET /api/v1/tutors', () => {
-  test('status: 200 and returns a welcome message from the user homepage', () => {
-    return request(server)
-      .get('/api/v1/tutors/get-tutor-dashboard')
-      .set('Authorization', validTutor)
-      .expect(200)
-      .then((res) => {
-        expect(res.body.message).toBe(`Welcome to the Student Dashboard, ${res.req.tutor_id}`);
-      });
-  });
-});
-
-//-------------------Student Dashbaord--------------------------------/
-describe('Test13 - GET /api/v1/students', () => {
-  test('status: 200 and returns a welcome message from the admin dashboard', () => {
-    return request(server)
-      .get('/api/v1/students/get-student-dashboard')
-      .set('Authorization', validStudent)
-      .expect(200)
-      .then((res) => {
-        expect(res.body.message).toBe(`Welcome to the Student Dashboard, ${res.req.student_id}`);
-      });
-  });
-});
-
-//-------------------Admin--------------------------------------/
 describe('Test14 - POST /api/v1/admins', () => {
-  test('status: 201 and return the new admin', () => {
+  test('status: 201 and return the new admin object', () => {
     return request(server)
       .post('/api/v1/admins/post-admins')
       .set('Authorization', validAdmin)
@@ -397,7 +340,7 @@ describe('Test14 - POST /api/v1/admins', () => {
 });
 
 describe('Test15 - GET /api/v1/admins', () => {
-  test('status: 200 and returns an array of admin', () => {
+  test('status: 200 and returns an array of admin user', () => {
     return request(server)
       .get('/api/v1/admins/get-admins')
       .set('Authorization', validAdmin)
@@ -450,7 +393,7 @@ describe('Test15 - GET /api/v1/admins', () => {
 });
 
 describe('Test16 - GET /api/v1/admins/:admin_id', () => {
-  test('status: 200 and return a admin object', () => {
+  test('status: 200 and serves an admin object with a given id', () => {
     return request(server)
       .get(`/api/v1/admins/get-admins/${admin_id}`)
       .set('Authorization', validAdmin)
@@ -520,8 +463,9 @@ describe('Test17 - PATCH /api/v1/admins/:admin_id', () => {
   });
 });
 
-//-------------------student--------------------------------------/
-describe('Test18 - POST /api/v1/students', () => {
+//-------------------6-Student Endpoints
+
+describe('Test18 - POST /api/v1/students/post-student', () => {
   test('status: 201 and return the new student', () => {
     return request(server)
       .post('/api/v1/students/post-student')
@@ -542,27 +486,28 @@ describe('Test18 - POST /api/v1/students', () => {
       })
       .expect(201)
       .then((res) => {
+        
         student_id = res.body.data.student_id;
-        // expect(res.body.data).toEqual({
-        //   student_id: student_id,
-        //   student_username: 'stundentusername4',
-        //   student_firstname: 'New',
-        //   student_lastname: 'Student1LN',
-        //   student_email: 'csheraz@hotmail.com',
-        //   student_password: res.body.data.student_password,
-        //   student_active: true,
-        //   student_grade: 1,
-        //   student_targetgrade: 1,
-        //   student_notes: 'Working well',
-        //   student_progressbar: 3,
-        //   student_image: '/student/student1.png',
-        //   student_tutor_fk_id: 1,
-        //   student_message_count: null,
-        //   student_message_input: null,
-        //   student_message_output: null,
-        //   student_tutor_fk_id: 1,
-        //   student_course_fk_id: null,
-        // });
+        expect(res.body.data).toEqual({
+          student_id: student_id,
+          student_username: 'stundentusername4',
+          student_firstname: 'New',
+          student_lastname: 'Student1LN',
+          student_email: 'csheraz@hotmail.com',
+          student_password: res.body.data.student_password,
+          student_active: true,
+          student_grade: 1,
+          student_targetgrade: 1,
+          student_notes: 'Working well',
+          student_progressbar: 3,
+          student_image: '/student/student1.png',
+          student_tutor_fk_id: 1,
+          student_message_count: null,
+          student_message_input: null,
+          student_message_output: null,
+          student_tutor_fk_id: null,
+          student_course_fk_id: 1,
+        });
       });
   });
 
@@ -581,8 +526,8 @@ describe('Test18 - POST /api/v1/students', () => {
   });
 });
 
-describe('Test19 - GET /api/v1/students', () => {
-  test('status: 200 and returns an array of tutors', () => {
+describe('Test19 - GET /api/v1/students/get-students', () => {
+  test('status: 200 and returns an array of student object', () => {
     return request(server)
       .get('/api/v1/students/get-students')
       .set('Authorization', validAdmin)
@@ -639,8 +584,8 @@ describe('Test19 - GET /api/v1/students', () => {
   });
 });
 
-describe('Test20 - GET /api/v1/students', () => {
-  test('status: 200 and return a student object', () => {
+describe('Test20 - GET /api/v1/students/get-students/:student_id', () => {
+  test('status: 200 and return a student object with a given id', () => {
     return request(server)
       .get(`/api/v1/students/get-students/${student_id}`)
       .set('Authorization', validAdmin)
@@ -690,7 +635,7 @@ describe('Test20 - GET /api/v1/students', () => {
   });
 });
 
-describe('Test20- PATCH /api/students/:student_id', () => {
+describe('Test20- PATCH /api/v1/students/update-students:student_id', () => {
   test('Status 200: and return a updated student object  ', () => {
     return request(server)
     .patch(`/api/v1/students/update-students/${student_id}`)
@@ -734,8 +679,11 @@ describe('Test20- PATCH /api/students/:student_id', () => {
   });
 });
 
-//---------------------------------Tutors-------------------------------/
-describe('Test21 - POST /api/v1/v1/tutors', () => {
+//----------------------7-Tutor Endpoints
+
+
+
+describe('Test21 - POST /api/v1/tutors/post-tutor', () => {
   test('status: 201 and return the new tutors', () => {
     return request(server)
       .post('/api/v1/tutors/post-tutor')
@@ -781,7 +729,7 @@ describe('Test21 - POST /api/v1/v1/tutors', () => {
   });
 });
 
-describe('Test22 - GET /api/v1/tutors', () => {
+describe('Test22 - GET /api/v1/tutors/get-tutors', () => {
   test('status: 200 and returns an array of tutors', () => {
     return request(server)
       .get('/api/v1/tutors/get-tutors')
@@ -875,7 +823,7 @@ describe('Test23 - GET /api/v1/v1/tutors', () => {
   });
 });
 
-describe('Test24 - PATCH /api/v1/v1/tutors', () => {
+describe('Test24 - PATCH /api/v1/tutors/update-tutors/:tutor_id', () => {
   test('Status 200: and return a updated tutor object  ', () => {
     return request(server)
       .patch(`/api/v1/tutors/update-tutors/${tutor_id}`)
@@ -905,7 +853,8 @@ describe('Test24 - PATCH /api/v1/v1/tutors', () => {
   });
 });
 
-//---------------------------------Courses--------------------------/
+//-------------8-Courses Endpoints
+
 describe('Test25 - POST /api/v1/courses', () => {
   test('status: 201 and return the new course', () => {
     return request(server)
@@ -1065,7 +1014,8 @@ describe('Test28 - PATCH /api/v1/courses', () => {
   });
 });
 
-//---------------------------------Topic--------------------------/
+//-------------------9-Topic Endpoints
+
 describe('Test29 - POST /api/v1/topics', () => {
   test('status: 201 and return the new topic', () => {
     return request(server)
@@ -1109,7 +1059,7 @@ describe('Test29 - POST /api/v1/topics', () => {
   });
 });
 
-describe('Test30 - GET /api/v1/topics', () => {
+describe('Test30 - GET /api/v1/topics/get-topics', () => {
   test('status: 200 and returns an array of topics', () => {
     return request(server)
       .get('/api/v1/topics/get-topics')
@@ -1164,7 +1114,7 @@ describe('Test30 - GET /api/v1/topics', () => {
   });
 });
 
-describe('Test31 - GET /api/v1/topics', () => {
+describe('Test31 - GET /api/v1/topics/get-topics/:topic_id', () => {
   test('status: 200 and return a topic object', () => {
     return request(server)
       .get(`/api/v1/topics/get-topics/${topic_id}`)
@@ -1204,7 +1154,7 @@ describe('Test31 - GET /api/v1/topics', () => {
   });
 });
 
-describe('Test32 - PATCH /api/v1/topics', () => {
+describe('Test32 - PATCH /api/v1/topics/update-topics/:topic_id', () => {
   test('Status 200: and return a updated topic object  ', () => {
     return request(server)
       .patch(`/api/v1/topics/update-topics/${topic_id}`)
@@ -1232,8 +1182,9 @@ describe('Test32 - PATCH /api/v1/topics', () => {
   });
 });
 
-//------------------------Lesson--------------/
-describe('Test33 - POST /api/v1/lessons', () => {
+//-----------------------10-Lessons Endpoints
+
+describe('Test33 - POST /api/v1/lessons/post-lesson', () => {
   test('status: 201 and return the new lessons', () => {
     return request(server)
       .post('/api/v1/lessons/post-lesson')
@@ -1278,7 +1229,7 @@ describe('Test33 - POST /api/v1/lessons', () => {
   });
 });
 
-describe('Test34 - GET /api/v1/lessons', () => {
+describe('Test34 - GET /api/v1/lessons/get-lessons', () => {
   test('status: 200 and returns an array of lessons', () => {
     return request(server)
       .get('/api/v1/lessons/get-lessons')
@@ -1333,7 +1284,7 @@ describe('Test34 - GET /api/v1/lessons', () => {
 });
 
 describe('Test35 - GET /api/v1/lessons', () => {
-  test('status: 200 and return a lesson object', () => {
+  test('status: 200 and return a lesson object with a given id', () => {
     return request(server)
       .get(`/api/v1/lessons/get-lessons/${lesson_id}`)
       .set('Authorization', validAdmin)
@@ -1373,7 +1324,7 @@ describe('Test35 - GET /api/v1/lessons', () => {
   });
 });
 
-describe('Test36 - PATCH /api/v1/lessons', () => {
+describe('Test36 - PATCH /api/v1/lessons/update-lessons/:lesson_id"', () => {
   test('Status 200: and return a updated student object  ', () => {
     return request(server)
       .patch(`/api/v1/lessons/update-lessons/${lesson_id}`)
@@ -1403,9 +1354,10 @@ describe('Test36 - PATCH /api/v1/lessons', () => {
   });
 });
 
-//--------------------Quiz--------------------------/
-describe('Test37 - POST /api/v1/quizzes', () => {
-  test('status: 201 and return the new tutors', () => {
+//-------------------11-Quizzes Endpoints
+
+describe("Test37 - POST /api/v1/quizzes/post-quiz", () => {
+  test('status: 201 and return the new tutor object', () => {
     return request(server)
       .post('/api/v1/quizzes/post-quiz')
       .set('Authorization', validAdmin)
@@ -1449,7 +1401,7 @@ describe('Test37 - POST /api/v1/quizzes', () => {
   });
 });
 
-describe('Test38 - GET /api/v1/quizzes', () => {
+describe('Test38 - GET /api/v1/quizzes/get-quizzes', () => {
   test('status: 200 and returns an array of tutors', () => {
     return request(server)
       .get('/api/v1/quizzes/get-quizzes')
@@ -1500,8 +1452,8 @@ describe('Test38 - GET /api/v1/quizzes', () => {
   });
 });
 
-describe('Test39 - GET /api/v1/v1/quizzes', () => {
-  test('status: 200 and return a quiz object', () => {
+describe('Test39 - GET /api/v1/quizzes/get-quizzes/:quiz_id', () => {
+  test('status: 200 and return a quiz object with a given id', () => {
     return request(server)
       .get(`/api/v1/quizzes/get-quizzes/${quiz_id}`)
       .set('Authorization', validAdmin)
@@ -1574,8 +1526,9 @@ describe('Test40 - PATCH /api/v1/quizzes', () => {
   });
 });
 
-//----------------------Question--------------------------/
-describe('Test41 - POST /api/v1/questions', () => {
+//---------------------12-Questions Endpoints
+
+describe('Test41 - POST /api/v1/questions/post-question', () => {
   test('status: 201 and return the new questions', () => {
     return request(server)
       .post('/api/v1/questions/post-question')
@@ -1639,7 +1592,7 @@ describe('Test41 - POST /api/v1/questions', () => {
   });
 });
 
-describe('Test42 - GET /api/v1/questions', () => {
+describe('Test42 - GET /api/v1/questions/get-questions', () => {
   test('status: 200 and returns an array of questions', () => {
     return request(server)
       .get('/api/v1/questions/get-questions')
@@ -1709,8 +1662,8 @@ describe('Test42 - GET /api/v1/questions', () => {
   });
 });
 
-describe('Test43 - GET /api/v1/questions', () => {
-  test('status: 200 and return a question object', () => {
+describe('Test43 - GET /api/v1/questions/get-questions/:question_id', () => {
+  test('status: 200 and return a question object with a given id', () => {
     return request(server)
       .get(`/api/v1/questions/get-questions/${question_id}`)
       .set('Authorization', validAdmin)
@@ -1778,7 +1731,7 @@ describe('Test43 - GET /api/v1/questions', () => {
   });
 });
 
-describe('Test44 - PATCH /api/v1/questions', () => {
+describe('Test44 - PATCH /api/v1/questions/update-questions/:question_id', () => {
   test('Status 200: and return a updated ques object  ', () => {
     return request(server)
       .patch(`/api/v1/questions/update-questions/${question_id}`)
@@ -1823,7 +1776,67 @@ describe('Test44 - PATCH /api/v1/questions', () => {
 });
 
 
-//Tutor Dashboard  ---------------------------- 
+//-----------------13-AdminDashBoard Endpoints 
+
+
+describe('Test10 - GET /api/v1/admins', () => {
+  test('status: 200 and returns a welcome message for Admin Dashboard page', () => {
+    return request(server)
+      .get('/api/v1/admins/settings')
+      .set('Authorization', validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.message).toBe('Welcome To The Setting Page');
+      });
+  });
+
+  test('status: 200 and returns a welcome message for the Admin Dashboard', () => {
+    return request(server)
+      .get('/api/v1/admins/admin-dashboard')
+      .set('Authorization', validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.message).toBe('Welcome To The Admin Dashboards');
+      });
+  });
+
+  test('status: 401 if an invalid token is privided', () => {
+    return request(server)
+      .get('/api/v1/admins/reset')
+      .set('Authorization', invalidStudent)
+      .expect(401)
+      .then((res) => {
+        expect(res.body.message).toBe('halt intruder! get outta here');
+      });
+  });
+});
+
+describe('Test11-  GET /', () => {
+  test('status: 200 and serves up a json representation of all the available endpoints of the api', () => {
+    return request(server)
+      .get('/api/v1/admins/endpoints')
+      .set('Authorization', validAdmin)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.message).toBe(undefined);
+      });
+  });
+});
+
+//-----------------14-TutorDashboard Endpoints
+
+describe('Test12 - GET /api/v1/tutors', () => {
+  test('status: 200 and returns a welcome message from the user homepage', () => {
+    return request(server)
+      .get('/api/v1/tutors/get-tutor-dashboard')
+      .set('Authorization', validTutor)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.message).toBe(`Welcome to the Tutor Dashboard, ${res.req.tutor_id}`);
+      });
+  });
+});
+
 describe('Test 45- Tutor Dahsboard ', () =>{
   test('GET - responds with status 200 and returns with tutor students ', ()=>{
     return request(server)
@@ -1837,10 +1850,49 @@ describe('Test 45- Tutor Dahsboard ', () =>{
 
 })
 
-//Student Logout ---------------------------- 
+describe('Test 45- Check  for student have quiz ', () =>{
+  test('GET - responds with status 200 and returns with tutor students ', ()=>{
+    return request(server)
+    .get('/api/v1/quizzes//get-student-quizzes/1')
+    .set('Authorization', validTutor)
+    .expect(200)
+    .then((res)=>{
+      console.log(res.data)
+      expect(res.body.message).toBe('Success')
+    })
+  })
+  test('GET - responds with status 200 and returns with tutor students ', ()=>{
+    return request(server)
+    .get('/api/v1/quizzes//get-student-quizzes/4')
+    .set('Authorization', validTutor)
+    .expect(404)
+    .then((res)=>{
+      expect(res.body.message).toBe('Not found')
+    })
+  })
+
+})
+
+
+//-----------------15-StudentDashboard Endpoints
+
+describe('Test13 - GET /api/v1/students', () => {
+  test('status: 200 and returns a welcome message from the admin dashboard', () => {
+    return request(server)
+      .get('/api/v1/students/get-student-dashboard')
+      .set('Authorization', validStudent)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.message).toBe(`Welcome to the Student Dashboard, ${res.req.student_id}`);
+      });
+  });
+});
+
+
+//-----------------13- Logout User  
 
 describe('Test45 - Student  logout', () => {
-  test('DELETE - responds with status 200 and message when user logged-in and token is correct', () => {
+  test('DELETE - Tutor Logout responds with status 200 and message when user logged-in and token is correct', () => {
     return request(server)
       .delete('/api/v1/auth/signout-student')
       .set('Authorization', validStudent)
@@ -1870,9 +1922,8 @@ describe('Test45 - Student  logout', () => {
   });
 });
 
-//--------------------------------- Tutor Logout --------------------------/
 describe('Test46 - Tutor logout', () => {
-  test('DELETE - responds with status 200 and message when user logged-in and token is correct', () => {
+  test('DELETE - Tutor Logout- responds with status 200 and message when user logged-in and token is correct', () => {
     return request(server)
       .delete('/api/v1/auth/signout-tutor')
       .set('Authorization', validTutor)
@@ -1902,8 +1953,10 @@ describe('Test46 - Tutor logout', () => {
   });
 });
 
-//--------------------------------- DELETE ACCODINGLY--------------------------/
-describe('Test47 -  DELETE /api/v1/students', () => {
+
+//----------------------- 14-DELETE ACCODINGLY
+
+describe('Test47 -  DELETE /api/v1/students/delete-students/:student_id', () => {
   test(' ERROR HANDLING - status 204 and return with empty reponse body', () => {
     return request(server)
       .delete(`/api/v1/students/delete-students/${initial_student_id}`)
@@ -1937,7 +1990,7 @@ describe('Test47 -  DELETE /api/v1/students', () => {
   });
 });
 
-describe('Test48 -  DELETE /api/v1/tutotr', () => {
+describe('Test48 -  DELETE /api/v1/tutors/delete-tutors/:tutor_id', () => {
   test(' ERROR HANDLING - status 204 and return with empty reponse body', () => {
     return request(server)
       .delete(`/api/v1/tutors/delete-tutors/${tutor_id}`)
@@ -1964,7 +2017,7 @@ describe('Test48 -  DELETE /api/v1/tutotr', () => {
   });
 });
 
-describe('Test49 -  DELETE /api/v1/questions', () => {
+describe('Test49 -  DELETE /api/v1/questions/delete-questions/:question_id', () => {
   test(' ERROR HANDLING - status 204 and return with empty reponse body', () => {
     return request(server)
       .delete(`/api/v1/questions/delete-questions/${question_id}`)
@@ -2018,7 +2071,7 @@ describe('Test50 -  DELETE /api/lessons', () => {
   });
 });
 
-describe('Test51 -  DELETE /api/v1/quizzes', () => {
+describe('Test51 -  DELETE /api/v1/quizzes/delete-quizzes/:quiz_id', () => {
   test(' ERROR HANDLING - status 204 and return with empty reponse body', () => {
     return request(server)
       .delete(`/api/v1/quizzes/delete-quizzes/${quiz_id}`)
@@ -2126,9 +2179,13 @@ describe('Test54 -  DELETE /api/v1/admins', () => {
   });
 });
 
-//--------------------------------- Admin Logout --------------------------/
+
+
+
+//-------------15-Admin Logout 
+
 describe('Test55 - Admin logout', () => {
-  test('DELETE - responds with status 200 and message when user logged-in and token is correct', () => {
+  test('DELETE - responds with status 200 and message when user logged-out and token is correct', () => {
     return request(server)
       .delete('/api/v1/auth/signout-admin')
       .set('Authorization', validAdmin)

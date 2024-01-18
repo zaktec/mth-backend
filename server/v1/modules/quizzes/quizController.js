@@ -40,7 +40,11 @@ exports.getQuizzes = async (req, res, next) => {
     });
   }
 };
-
+/**
+ * serves a quiz  object when an id is given
+ * @param {int} req quiz_id request
+ * @param {object} res data response -quiz_name, quiz_code, quiz_desc, quiz_type, quiz_calc, quiz_course_fk_id, quiz_topic_fk_id, quiz_lesson_fk_id
+ */
 exports.getQuizById = async (req, res, next) => {
   try {
     const { quiz_id } = req.params;
@@ -164,6 +168,13 @@ exports.getStudentQuizzes = async (req, res) => {
     });
   }
 };
+
+/**
+ * save student result
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 
 exports.postStudentQuizResult = async (req, res) => {
   try {

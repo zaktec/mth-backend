@@ -1,5 +1,5 @@
-const format = require('pg-format');
-const db = require('../connection.js');
+const format = require("pg-format");
+const db = require("../connection.js");
 
 const {
   formatQuizData,
@@ -14,7 +14,7 @@ const {
   formatAuthTutorData,
   formatStudentQuizData,
   formatAuthStudentData,
-} = require('./seed-formatting.js');
+} = require("./seed-formatting.js");
 
 const runSeeds = async (data) => {
   const {
@@ -79,8 +79,10 @@ const runSeeds = async (data) => {
 
   const createTopicQuery = `CREATE TABLE topic ( 
     topic_id SERIAL PRIMARY KEY, 
-    topic_unit INT, topic_name VARCHAR(100) NOT NULL, topic_code VARCHAR(100), 
-    topic_desc VARCHAR(200) NOT NULL,
+    topic_unit INT, 
+    topic_name VARCHAR(100) NOT NULL, 
+    topic_code VARCHAR(100), 
+    topic_desc VARCHAR(200),
     topic_level VARCHAR(100),
     topic_course_fk_id INT REFERENCES course(course_id) ON DELETE CASCADE)`;
   await db.query(createTopicQuery);
@@ -88,7 +90,8 @@ const runSeeds = async (data) => {
   const createLessonQuery = `CREATE TABLE lesson ( 
     lesson_id SERIAL PRIMARY KEY, 
     lesson_topic VARCHAR(100) NOT NULL,
-    lesson_name VARCHAR(100) NOT NULL, lesson_code VARCHAR(100), 
+    lesson_name VARCHAR(100) NOT NULL, 
+    lesson_code VARCHAR(100), 
     lesson_desc VARCHAR(200) NOT NULL, 
     lesson_grade INT DEFAULT 0,
      lesson_body VARCHAR(100), 
@@ -118,13 +121,13 @@ const runSeeds = async (data) => {
   await db.query(createAdminsQuery);
 
   const createTutorQuery = `CREATE TABLE tutor (
-     tutor_id SERIAL PRIMARY KEY,
-      tutor_username VARCHAR(200) NOT NULL UNIQUE, 
-      tutor_firstname VARCHAR(200) NOT NULL,
-       tutor_lastname VARCHAR(200), 
-       tutor_email VARCHAR(200) NOT NULL,
-      tutor_password VARCHAR(100) NOT NULL,
-      tutor_active BOOLEAN,
+    tutor_id SERIAL PRIMARY KEY,
+    tutor_username VARCHAR(200) NOT NULL UNIQUE, 
+    tutor_firstname VARCHAR(200) NOT NULL,
+    tutor_lastname VARCHAR(200), 
+    tutor_email VARCHAR(200) NOT NULL,
+    tutor_password VARCHAR(100) NOT NULL,
+    tutor_active BOOLEAN,
     tutor_image VARCHAR(1000))`;
   await db.query(createTutorQuery);
 

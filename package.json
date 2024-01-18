@@ -5,14 +5,14 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "kill-Linux": "killall -9 node",
+    "kill-linux": "killall -9 node",
     "start": "nodemon ./server/app.js",
     "kill-window": "Taskkill /IM node.exe /F",
     "kill": "sudo kill $(sudo lsof -t -i:3009)",
     "seed": "node  ./server/v1/configs/database/seeds/run-dev-seed.js",
-    "viewdb": "psql -U postgres -f ./server/v1/configs/database/view-db.sql > ./server/v1/configs/database/view-bd.txt",
-    "setup-db": "psql -U postgres -f ./server/v1/configs/database/setup-dbs.sql > ./server/v1/configs/database/example.txt",
-    "viewtestdb": "psql -U postgres -f ./server/v1/configs/database/view-dbtest.sql > ./server/v1/configs/database/viewtest-bd.txt"
+    "viewdb": "psql  -f ./server/v1/configs/database/view-db.sql > ./server/v1/configs/database/view-bd.txt",
+    "setup-db": "psql -f ./server/v1/configs/database/setup-dbs.sql > ./server/v1/configs/database/example.txt",
+    "viewtestdb": "psql -f ./server/v1/configs/database/view-dbtest.sql > ./server/v1/configs/database/viewtest-bd.txt"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
     "express": "^4.18.1",
     "express-validator": "^6.14.3",
     "jest-sorted": "^1.0.14",
+    "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.7.3",
     "pg-format": "^1.0.4"

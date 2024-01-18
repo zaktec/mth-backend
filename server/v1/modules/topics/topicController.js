@@ -1,3 +1,12 @@
+/**
+ * This topicController contains 5 functions required to handle
+ * getTopics
+ * getTopicById
+ * postTopic
+ * deleteTopicById
+ * updateTopicById
+ */
+
 const {
   insertTopic,
   selectTopics,
@@ -6,6 +15,15 @@ const {
   updateTopicById,
   checkTopicExists,
 } = require('./topicModel');
+
+
+
+/**
+ * Get list of topics
+ * @param {string} req sort_by request
+ * @param {object} res data response - topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_fk_id 
+ * 
+ */
 
 exports.getTopics = async (req, res, next) => {
   try {
@@ -19,6 +37,12 @@ exports.getTopics = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * serves a topic object when an id is given
+ * @param {int} req course_id request
+ * @param {object} res data response - topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_fk_id 
+ */
 
 exports.getTopicById = async (req, res, next) => {
   try {
@@ -39,6 +63,12 @@ exports.getTopicById = async (req, res, next) => {
   }
 };
 
+/**
+ * Register new topic
+ * @param {object} req body request
+ * @param {object} res data response - topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_fk_id 
+ */
+
 exports.postTopic = async (req, res, next) => {
   try {
   const topic = req.body;
@@ -51,6 +81,13 @@ exports.postTopic = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Delete the Course with id given
+ * @param {int} req course_id request
+ * @param {object} res message response 
+ * 
+ */
 
 exports.deleteTopicById = async (req, res, next) => {
   try {
@@ -69,6 +106,13 @@ exports.deleteTopicById = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Update the topic with id given
+ * @param {int} req course_id request
+ * @param {object} res data response - topic_unit, topic_name, topic_code, topic_desc, topic_level, topic_course_fk_id 
+ * 
+ */
 
 exports.updateTopicById = async (req, res, next) => {
   try {

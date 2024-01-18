@@ -1,3 +1,13 @@
+/**
+ * This questionController contains 10 functions required to handle
+ * getQuestions 
+ * getQuestionById
+ * postQuestion
+ * deleteQuestionById
+ * updateQuestionById
+ * getQuizQuestion
+ */
+
 const {
   insertQuestion,
   selectQuestions,
@@ -7,6 +17,13 @@ const {
   updateQuestionById,
   checkQuestionExists,
 } = require('./questionModel');
+
+/**
+ * Get list of questions
+ * @param {string} req sort_by request
+ * @param {object} res data response - admin_username admin_firstname,  admin_lastname, admin_email, admin_active, admin_image, admin_password
+ * 
+ */
 
 exports.getQuestions = async (req, res, next) => {
   try {
@@ -20,6 +37,12 @@ exports.getQuestions = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * serves an question object when an id is given
+ * @param {int} req admin_id request
+ * @param {object} res data response -question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_quiz_fk_id
+ */
 
 exports.getQuestionById = async (req, res, next) => {
   try {
@@ -40,6 +63,12 @@ exports.getQuestionById = async (req, res, next) => {
   }
 };
 
+/**
+ * Register new Admin User
+ * @param {object} req body request
+ * @param {object} res admin response - question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_quiz_fk_id
+ * @returns {object} response.
+ */
 exports.postQuestion = async (req, res, next) => {
   try {
     const question = req.body;
@@ -53,6 +82,12 @@ exports.postQuestion = async (req, res, next) => {
   }
 };
 
+/**
+ * Delete the Admin with id given
+ * @param {int} req admin_id request
+ * @param {object} res message response 
+ * 
+ */
 exports.deleteQuestionById = async (req, res, next) => {
   try {
     const { question_id } = req.params;
@@ -70,6 +105,12 @@ exports.deleteQuestionById = async (req, res, next) => {
     });
   }
 };
+/**
+ * Update the Admin User with id given
+ * @param {int} req admin_id request
+ * @param {object} res admin response - question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_quiz_fk_id
+ * 
+ */
 
 exports.updateQuestionById = async (req, res, next) => {
   try {
@@ -89,6 +130,12 @@ exports.updateQuestionById = async (req, res, next) => {
   }
 };
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.getQuizQuestions = async (req, res) => {
   try {
     const data = await getQuizQuestions(req?.params?.studentquiz_id);

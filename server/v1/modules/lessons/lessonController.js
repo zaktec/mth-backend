@@ -1,3 +1,12 @@
+/**
+ * This lessonController contains 10 functions required to handle
+ * getLessons
+ * getLessonById
+ * postLesson 
+ * deleteLessonById 
+ * updateLessonById
+ */
+
 const {
   insertLesson,
   selectLessons,
@@ -6,6 +15,13 @@ const {
   updateLessonById,
   checkLessonExists,
 } = require('./lessonModel');
+
+/**
+ * Get list of lessons
+ * @param {string} req sort_by request
+ * @param {object} res data response - lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_fk_id
+ * 
+ */
 
 exports.getLessons = async (req, res, next) => {
   try {
@@ -19,6 +35,12 @@ exports.getLessons = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * serves a lesson object when an id is given
+ * @param {int} req admin_id request
+ * @param {object} res data response -lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_fk_id
+ */
 
 exports.getLessonById = async (req, res, next) => {
   try {
@@ -40,6 +62,13 @@ exports.getLessonById = async (req, res, next) => {
   }
 };
 
+/**
+ * Register new lesson User
+ * @param {object} req body request
+ * @param {object} res admin response - lesson_topic,lesson_name, lesson_code, lesson_desc, lesson_grade, lesson_body, lesson_topic_fk_id
+ * 
+ */
+
 exports.postLesson = async (req, res, next) => {
   try {
     const lesson = req.body;
@@ -52,6 +81,13 @@ exports.postLesson = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Delete the lesson with id given
+ * @param {int} req admin_id request
+ * @param {object} res message response 
+ * 
+ */
 
 exports.deleteLessonById = async (req, res, next) => {
   try {
@@ -69,6 +105,13 @@ exports.deleteLessonById = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Update the lesson with id given
+ * @param {int} req admin_id request
+ * @param {object} res admin response - admin_username admin_firstname,  admin_lastname, admin_email, admin_active, admin_image, admin_password
+ * 
+ */
 
 exports.updateLessonById = async (req, res, next) => {
   try {

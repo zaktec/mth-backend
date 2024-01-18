@@ -1,3 +1,14 @@
+/**
+ * This topicController contains 5 functions required to handle
+ * getTutorDashboard
+ * getTutors
+ * selectTutorById
+ * postTutor 
+ * deleteTutorById
+ * updateTutorById 
+ * getTutorStudents
+ */
+
 const {
   insertTutor,
   selectTutors,
@@ -8,9 +19,23 @@ const {
   getTutorStudents,
 } = require('./tutorModel.js');
 
+/**
+ * serves a message for admin dashboard
+ * @param {*} req 
+ * @param {object} res json
+ * @returns 
+ */
+
 exports.getTutorDashboard = (req, res, next) => {
-  res.status(200).send({ message: `Welcome to the Student Dashboard, ${req.tutor_id}` });
+  res.status(200).send({ message: `Welcome to the Tutor Dashboard, ${req.tutor_id}` });
 };
+
+/**
+ * Get list of tutors
+ * @param {string} req sort_by request
+ * @param {object} res data response - tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password
+ * 
+ */
 
 exports.getTutors = async (req, res, next) => {
   try {
@@ -25,6 +50,12 @@ exports.getTutors = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * serves a tutor object when an id is given
+ * @param {int} req tutor_id request
+ * @param {object} res data response - tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password
+ */
 
 exports.getTutorById = async (req, res, next) => {
   try {
@@ -44,6 +75,13 @@ exports.getTutorById = async (req, res, next) => {
   }
 };
 
+/**
+ * Register new tutor
+ * @param {object} req body request
+ * @param {object} res data response - tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password
+ */
+
+
 exports.postTutor = async (req, res, next) => {
   try {
     const tutor = req.body;
@@ -56,6 +94,13 @@ exports.postTutor = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Delete the tutor with id given
+ * @param {int} req course_id request
+ * @param {object} res message response 
+ * 
+ */
 
 exports.deleteTutorById = async (req, res, next) => {
   try {
@@ -74,6 +119,13 @@ exports.deleteTutorById = async (req, res, next) => {
   }
 };
 
+/**
+ * Update the tutor with id given
+ * @param {int} req tutor_id request
+ * @param {object} res data response - tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password
+ * 
+ */
+
 exports.updateTutorById = async (req, res, next) => {
   try {
     const tutor_id = req?.tutor?.tutor_id || req?.params?.tutor_id;
@@ -90,6 +142,13 @@ exports.updateTutorById = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 
 exports.getTutorStudents = async (req, res) => {
   try {

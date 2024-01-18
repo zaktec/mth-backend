@@ -1,3 +1,12 @@
+/**
+ * This courseController contains 5 functions required to handle
+ * getCourses
+ * getCourseById
+ * postCourse
+ * deleteCourseById
+ * updateCourseById
+ */
+
 const {
     insertCourse,
     selectCourses,
@@ -7,6 +16,13 @@ const {
     checkCourseExists,
 } = require('./courseModel');
 
+
+/**
+ * Get list of courses
+ * @param {string} req sort_by request
+ * @param {object} res data response - course_code, course_desc,course_image, course_level, course_name
+ * 
+ */
 exports.getCourses = async (req, res, next) => {
   try {
     const { sort_by } = req.query;
@@ -19,6 +35,12 @@ exports.getCourses = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * serves a course object when an id is given
+ * @param {int} req course_id request
+ * @param {object} res data response - course_code, course_desc,course_image, course_level, course_name
+ */
 
 exports.getCourseById = async (req, res, next) => {
   try {
@@ -38,6 +60,12 @@ exports.getCourseById = async (req, res, next) => {
   }
 };
 
+/**
+ * Register new course
+ * @param {object} req body request
+ * @param {object} res data response - course_code, course_desc,course_image, course_level, course_name
+ */
+
 exports.postCourse = async (req, res, next) => {
   try {
     const course = req.body;
@@ -50,6 +78,13 @@ exports.postCourse = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Delete the Course with id given
+ * @param {int} req course_id request
+ * @param {object} res message response 
+ * 
+ */
 
 exports.deleteCourseById = async (req, res, next) => {
   try {
@@ -67,6 +102,13 @@ exports.deleteCourseById = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Update the Course with id given
+ * @param {int} req course_id request
+ * @param {object} res data response - course_code, course_desc,course_image, course_level, course_name
+ * 
+ */
 
 exports.updateCourseById = async (req, res, next) => {
   try {

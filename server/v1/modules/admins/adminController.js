@@ -1,3 +1,16 @@
+/**
+ * This adminController contains 10 functions required to handle
+ * getAdmins
+ * getAdminById
+ * postAdmin
+ * deleteAdminById
+ * updateAdminById
+ * getEndpoints
+ * getadmindashboard
+ * getSettingPage
+ * getResit
+ */
+
 const {
   insertAdmin,
   selectAdmin,
@@ -8,6 +21,12 @@ const {
 } = require('./adminModel');
 const endpoints = require('../../../../endpoints.json');
 
+/**
+ * Get list of admin users
+ * @param {string} req sort_by request
+ * @param {object} res data response - admin_username admin_firstname,  admin_lastname, admin_email, admin_active, admin_image, admin_password
+ * 
+ */
 exports.getAdmins = async (req, res, next) => {
   try {
     const { sort_by } = req.query;
@@ -20,6 +39,13 @@ exports.getAdmins = async (req, res, next) => {
     });
   }
 };
+
+
+/**
+ * serves an admin object when an id is given
+ * @param {int} req admin_id request
+ * @param {object} res data response -admin_username admin_firstname,  admin_lastname, admin_email, admin_active, admin_image, admin_password
+ */
 
 exports.getAdminById = async (req, res, next) => {
   try {
@@ -40,6 +66,12 @@ exports.getAdminById = async (req, res, next) => {
   }
 };
 
+/**
+ * Register new Admin User
+ * @param {object} req body request
+ * @param {object} res admin response - admin_username admin_firstname,  admin_lastname, admin_email, admin_active, admin_image, admin_password
+ * @returns {object} response.
+ */
 exports.postAdmin = async (req, res, next) => {
   try {
     const admin = req.body;
@@ -52,6 +84,13 @@ exports.postAdmin = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Delete the Admin with id given
+ * @param {int} req admin_id request
+ * @param {object} res message response 
+ * 
+ */
 
 exports.deleteAdminById = async (req, res, next) => {
   try {
@@ -69,6 +108,13 @@ exports.deleteAdminById = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Update the Admin User with id given
+ * @param {int} req admin_id request
+ * @param {object} res admin response - admin_username admin_firstname,  admin_lastname, admin_email, admin_active, admin_image, admin_password
+ * 
+ */
 
 exports.updateAdminById = async (req, res, next) => {
   try {
@@ -88,7 +134,12 @@ exports.updateAdminById = async (req, res, next) => {
     });
   }
 };
-
+/**
+ * serves a json file of endpoint
+ * @param {*} req 
+ * @param {object} res json
+ * @returns 
+ */
 exports.getEndpoints = (req, res, next) => {
   try {
     res.status(200).send(endpoints);
@@ -100,11 +151,23 @@ exports.getEndpoints = (req, res, next) => {
   }
 };
 
+/**
+ * serves a message for admin dashboard
+ * @param {*} req 
+ * @param {object} res json
+ * @returns 
+ */
 exports.getadmindashboard = (req, res, next) => {
   res.status(200);
-  res.send({ message: 'Welcome To The Admin Dashboard' });
+  res.send({ message: 'Welcome To The Admin Dashboards' });
 };
 
+/**
+ * serves a message for the setting page 
+ * @param {*} req 
+ * @param {object} res json
+ * @returns 
+ */
 exports.getSettingPage = async (req, res, next) => {
   try {
     res.status(200).send({ message: 'Welcome To The Setting Page' });
@@ -113,6 +176,12 @@ exports.getSettingPage = async (req, res, next) => {
   }
 };
 
+/**
+ * serves a message for the reset  page 
+ * @param {*} req 
+ * @param {object} res json
+ * @returns 
+ */
 exports.getResit = (req, res, next) => {
   try {
     res.status(200).send({ message: 'Welcome To The Reset Page' });

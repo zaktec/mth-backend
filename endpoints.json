@@ -1,34 +1,41 @@
 {
-  "GET /invalid_url": {
-    "description": "Serves a error message when invalid url is passed",
+  "info": {
+    "title": "endpoint.json"
+  },
+  "_Endpoint Number 1": "Unauthorized EndPoints",
+  "GET /api/v1/any-url": {
+    "Authentication": "No Authetication",
+    "Files": "app.js",
+    "description": "Sucess: status 200 and returns a message when any url is passed with GET method",
     "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Invalid URL"
+      "json": {
+        "status": "200",
+        "message": "Welcome To MTH Version 1"
       }
     }
   },
-
-  "GET /": {
-    "description": "serves up a json representation of all the available endpoints of the api"
-  },
-
-  "GET /homepage": {
-    "description": "serves up a welcome message to my user",
-    "message": {
-      "message": "Welcome to the HomePage"
+  "POST /api/v1/invalid-url": {
+    "Authentication": "No Authetication",
+    "Files": "app.js",
+    "description": "Sucess: status 200 and returns a message when any url is passed with GET method",
+    "exampleResponse": {
+      "json": {
+        "status": "200",
+        "message": "Welcome To MTH Version 1"
+      }
     }
   },
-
   "GET /api": {
     "description": "Serves a error message when unauthorise user is passed",
     "message": {
       "message": "halt intruder! get outta here"
     }
   },
-
-  "POST /adminsignin": {
-    "description":"Post respond with access token  when admin details are send",
+  "_Endpoint Number 2": "Admin SignUp/Login",
+  "POST /api/v1/auth/signup-admin": {
+    "Authentication": "admin",
+    "Files": "authRoute.js authController.js",
+    "description": "Post: Admin Registration -respond with access token  when admin details are send",
     "queries": null,
     "exampleRequestBody": {
       "admin_username": "scheema1",
@@ -40,8 +47,34 @@
       "admin_password": "password"
     },
     "exampleResponse": {
-      "admin": 
-        {
+      "admin": {
+        "admin_username": "scheema1",
+        "admin_firstname": "New",
+        "admin_lastname": "Cheema",
+        "admin_email": "csheraz@hotmail.com",
+        "admin_active": true,
+        "admin_image": "/tutor/tutor1.png",
+        "admin_password": "password"
+      }
+    }
+  },
+  "POST /api/v1/auth/signin-admin": {
+    "Authentication": "admin",
+    "Files": "authRoute.js authController.js",
+    "description": "POST- Admin Login- responds with status 200 and access token when username and password are correct",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "scheema1",
+      "password": "password",
+      "deviceId": "3f9a1b2c8"
+    },
+    "exampleResponse": {
+      "json": {
+        "body": "token",
+        "status": 200,
+        "message": "Success",
+        "deviceId": "3f9a1b2c8",
+        "user": {
           "admin_username": "scheema1",
           "admin_firstname": "New",
           "admin_lastname": "Cheema",
@@ -50,53 +83,39 @@
           "admin_image": "/tutor/tutor1.png",
           "admin_password": "password"
         }
-    }
-  },
-  "POST /adminlogin": {
-    "description":"POST- responds with and access token given correct username and password",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "scheema1",
-      "password": "password"
-    },
-    "exampleResponse": {
-      "json": {
-        "body": "token",
-        "status": 200,
-        "message": "Success"
       }
-    }
-  },
-  "POST  /adminlogin": {
-    "description":"POST-responds with status 401 for an incorrect username",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "wrongusername",
-      "password": "password"
     },
-    "exampleResponse": {
-      "error": {
-        "status": 401,
-        "message": "username and password do not exist"
-      }
+    "401": {
+      "description": "username and password do not exist"
     }
   },
-  "POST   /adminlogin": {
-    "description":"POST-responds with status 401 for an incorrect password",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "username",
-      "password": "wrongpassword"
+  "DELETE /api/v1/auth/signout-admin": {
+    "Authentication": "admin",
+    "Files": "authRoute.js authController.js",
+    "description": "DELETE - responds with status 200 and message when user logged-out and token is correct'",
+    "message": {
+      "message": "Success"
     },
-    "exampleResponse": {
-      "error": {
-        "status": 401,
-        "message": "username and password do not exist"
-      }
+    "500": {
+      "description": "error to string"
+    },
+    "401": {
+      "description": "halt intruder! get outta here"
     }
   },
-  "POST /tutorsignin": {
-    "description":"Post- respond with and access token when tutor details are send",
+  "GET /api/v1/admins": {
+    "Authentication": "admin",
+    "Files": "adminRoute.js,  adminController.js",
+    "description": "status: 200 and returns a welcome message for the Admin Dashboard",
+    "message": {
+      "message": "Welcome To The Admin Dashboards"
+    }
+  },
+  "_Endpoint Number 3": "Tutor SignUp/Login",
+  "POST /api/v1/auth/signup-tutor": {
+    "Authentication": "tutor",
+    "Files": "authRoute.js authController.js",
+    "description": "Post-Tutor Register-  respond with and access token when tutor details are send",
     "queries": null,
     "exampleRequestBody": {
       "tutor_username": "scheema1",
@@ -108,8 +127,36 @@
       "tutor_password": "password"
     },
     "exampleResponse": {
-      "tutor": 
-        {
+      "tutor": {
+        "tutor_username": "scheema1",
+        "tutor_firstname": "New",
+        "tutor_lastname": "Cheema",
+        "tutor_email": "csheraz@hotmail.com",
+        "tutor_active": true,
+        "tutor_image": "/tutor/tutor1.png",
+        "tutor_password": "password"
+      }
+    },
+    "401": {
+      "description": "username and password do not exist"
+    }
+  },
+  "POST /api/v1/auth/signin-tutor": {
+    "Authentication": "tutor",
+    "Files": "authRoute.js authController.js",
+    "description": "POST- Tutor Login-responds with and access token given correct username and password",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "scheema1",
+      "password": "password",
+      "deviceId": "3f9a1b2c8"
+    },
+    "exampleResponse": {
+      "json": {
+        "body": "token",
+        "status": 200,
+        "message": "Success",
+        "user": {
           "tutor_username": "scheema1",
           "tutor_firstname": "New",
           "tutor_lastname": "Cheema",
@@ -118,54 +165,38 @@
           "tutor_image": "/tutor/tutor1.png",
           "tutor_password": "password"
         }
-    }
-  },
-  "POST /tutorlogin": {
-    "description":"POST- responds with and access token given correct username and password",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "scheema1",
-      "password": "password"
-    },
-    "exampleResponse": {
-      "json": {
-        "body": "token",
-        "status": 200,
-        "message": "Success"
       }
-    }
-  },
-  "POST   /tutorlogin": {
-    "description":"POST-responds with status 401 for an incorrect username",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "wrongusername",
-      "password": "password"
     },
-    "exampleResponse": {
-      "error": {
-        "status": 401,
-        "message": "username and password do not exist"
-      }
+    "401": {
+      "description": "username and password do not exist"
     }
   },
-  "POST    /tutorlogin": {
-    "description":"POST-responds with status 401 for an incorrect password",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "username",
-      "password": "wrongpassword"
+  "DELETE /api/v1/auth/signout-tutor": {
+    "Authentication": "tutor",
+    "Files": "authRoute.js authController.js",
+    "description": "DELETE - Tutor Logout- responds with status 200 and message when user logged-in and token is correct',",
+    "message": {
+      "message": "Success"
     },
-    "exampleResponse": {
-      "error": {
-        "status": 401,
-        "message": "username and password do not exist"
-      }
+    "500": {
+      "description": "error to string"
     }
   },
-
-  "POST /studentsignin": {
-    "description":"Post- respond with and access token when tutor details are send",
+  "/api/v1/tutors/get-tutor-dashboard": {
+    "Authentication": "Tutor",
+    "Endpoint Number": 1,
+    "Files": "tutorRoute.js,  tutorController.js",
+    "description": "status: 200 and returns a welcome message for the Tutor Dashboard",
+    "message": {
+      "message": "Welcome To The Tutor Dashboards tutor_id"
+    }
+  },
+  "_Endpoint Number 4": "Student SignUp/Login",
+  "/api/v1/auth/signup-student": {
+    "Authentication": "No Authetication",
+    "Endpoint Number": 1,
+    "Files": "authRoute.js authController.js",
+    "description": "POST- Student Register- responds with and access token when student details are send'",
     "queries": null,
     "exampleRequestBody": {
       "student_grade": 100,
@@ -182,8 +213,41 @@
       "student_tutor_fk_id": 1
     },
     "exampleResponse": {
-      "student": 
-        {
+      "student": {
+        "student_grade": 100,
+        "student_targetgrade": 1,
+        "student_progressbar": 3,
+        "student_username": "stundentusernamedemo1",
+        "student_firstname": "New",
+        "student_lastname": "Student1LN",
+        "student_email": "csheraz@hotmail.com",
+        "student_password": "password",
+        "student_active": true,
+        "student_notes": "Working well",
+        "student_image": "/student/student1.png",
+        "student_message_count": null,
+        "student_message_input": null,
+        "student_message_output": null,
+        "student_tutor_fk_id": 1,
+        "student_course_fk_id": null
+      }
+    }
+  },
+  "POST /api/v1/auth/signin-student": {
+    "Authentication": "student",
+    "description": "POST- Student Login-  responds with and access token given correct username and password",
+    "queries": null,
+    "exampleRequestBody": {
+      "username": "scheema1",
+      "password": "password",
+      "deviceId": "3f9a1b2c8"
+    },
+    "exampleResponse": {
+      "json": {
+        "body": "token",
+        "status": 200,
+        "message": "Success",
+        "student": {
           "student_grade": 100,
           "student_targetgrade": 1,
           "student_progressbar": 3,
@@ -201,351 +265,364 @@
           "student_tutor_fk_id": 1,
           "student_course_fk_id": null
         }
+      }
     }
   },
-  "POST /studentlogin": {
-    "description":"POST- responds with and access token given correct username and password",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "scheema1",
-      "password": "password"
+  "DELETE /api/v1/auth/signout-student": {
+    "Authentication": "student",
+    "Files": "authRoute.js authController.js",
+    "description": "DELETE - Student Logout- responds with status 200 and message when user logged-in and token is correct',",
+    "message": {
+      "message": "Success"
     },
-    "exampleResponse": {
-      "json": {
-        "body": "token",
-        "status": 200,
-        "message": "Success"
-      }
-    }
-  },
-
-  "POST     /studentlogin": {
-    "description":"POST-responds with status 401 for an incorrect username",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "wrongusername",
-      "password": "password"
+    "500": {
+      "description": "error to string"
     },
-    "exampleResponse": {
-      "error": {
-        "status": 401,
-        "message": "username and password do not exist"
-      }
-    }
-  },
-
-
-  "POST      /studentlogin": {
-    "description":"POST-responds with status 401 for an incorrect password",
-    "queries": null,
-    "exampleRequestBody": {
-      "username": "username",
-      "password": "wrongpassword"
+    "401": {
+      "description": "halt intruder! get outta here"
     },
-    "exampleResponse": {
-      "error": {
-        "status": 401,
-        "message": "username and password do not exist"
-      }
-    }
-  },
-
-
-  "GET /api/courses": {
-    "description": "serves an articles array of courses objects",
-    "queries": ["course_id", "course_code", "course_name", "course_level"],
-    "exampleResponse": {
-      "courses": [
-        {
-          "course_name": "MTH GCSE Maths Foundation",
-          "course_id": 1,
-          "course_code": "MTH-GF",
-          "course_desc": "MTH GCSE Maths Foundation Online Course",
-          "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png"
-        }
-      ]
-    }
-  },
-
-  "query1": {
-    "course_id": "column name to sort_by"
-  },
-  "query2": {
-    "course_code": "column name to sort_by"
-  },
-  "query3": {
-    "course_name": "column name to sort_by"
-  },
-
-  "GET /api/courses?sort_by=not_a_column": {
-    "description": "Serves an error message for an invalid sort_by column",
-    "exampleResponse": {
-      "error": {
-        "status": 400,
-        "message": "bad request"
-      }
-    }
-  },
-
-  "GET /api/courses/:course_id": {
-    "description": "serves a course object with a given id",
-    "exampleResponse": {
-      "course": [
-        {
-          "course_name": "MTH GCSE Maths Foundation",
-          "course_id": 1,
-          "course_code": "MTH-GF",
-          "course_desc": "MTH GCSE Maths Foundation Online Course",
-          "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png"
-        }
-      ]
-    }
-  },
-
-  "GET /api/courses/1000": {
-    "description": "Serves a error message when invalid course id is non existent is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Not found"
-      }
-    }
-  },
-
-  "GET /app/courses/a": {
-    "description": "Serves a error message when invalid course id is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Invalid URL"
-      }
-    }
-  },
-
-  "POST /api/courses": {
-    "description":"creates a new course and responds with the new course object, including course_id",
-    "queries": null,
-    "exampleRequestBody": {
-      "course_name": "MTH GCSE Maths Foundation",
-      "course_code": "MTH-GF",
-      "course_desc": "MTH GCSE Maths Foundation Online Course",
-      "course_level": "Foundation",
-      "course_image": "/course/mth_gcse_foundation.png"
+    "400": {
+      "description": "Unauthorized. Token no found"
     },
-    "exampleResponse": {
-      "course": 
-        {
-          "course_name": "MTH GCSE Maths Foundation",
-          "course_id": 1,
-          "course_code": "MTH-GF",
-          "course_desc": "MTH GCSE Maths Foundation Online Course",
-          "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png"
-        }
-    }
-  },
-
-  "POST /api/courses/missingfield": {
-    "description": "Serves a error message when a missing field is passed",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
-        "message": "Invalid input"
+    "/api/v1/students/get-student-dashboard": {
+      "Authentication": "student",
+      "Files": "studentRoute.js,  studentController.js",
+      "description": "status: 200 and returns a welcome message for the student Dashboard",
+      "message": {
+        "message": "Welcome To The Student Dashboards student_id"
       }
-    }
-  },
-
-  "DELETE /api/courses/:course_id": {
-    "description": "serves an empty response",
-    "exampleResponse": {
-      "courses": {}
-    }
-  },
-
-  "DELETE /api/courses/Invalid_id": {
-    "description": "status 400 and returns an error message if it is a bad request",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
-        "message": "Invalid input"
-      }
-    }
-  },
-
-  "DELETE /api/courses/1000": {
-    "description": "status 404 and returns an error message if the ID does not exist",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Not found"
-      }
-    }
-  },
-
-  "PATCH /api/courses/:course_id": {
-    "description": "creates an updated course object",
-    "exampleRequest": {
-      "course_name": "MTH GCSE Maths Foundation",
-      "course_id": 1,
-      "course_code": "MTH-GF",
-      "course_desc": "MTH GCSE Maths Foundation Online Course",
-      "course_level": "Foundation",
-      "course_image": "/course/mth_gcse_foundation.png"
     },
-    "exampleResponse": {
-      "updatedCourse": [
-        {
-          "course_name": "MTH GCSE Maths Foundation",
-          "course_id": 1,
-          "course_code": "MTH-GF",
-          "course_desc": "MTH GCSE Maths Foundation Online Course",
-          "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png"
-        }
-      ]
-    }
-  },
-
-  "GET /api/topics": {
-    "description": "serves an articles array of topics objects",
-    "queries": [
-      "topic_id",
-      "topic_index",
-      "topic_code",
-      "topic_name",
-      "topic_course_id"
-    ],
-    "exampleResponse": {
-      "topic": [
-        {
-          "topic_name": "Number 1",
-          "topic_id": 1,
-          "topic_code": "GFN1",
-          "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
-          "topic_index": 1,
-          "topic_course_id": 1
-        }
-      ]
-    }
-  },
-
-  "query 1": {
-    "topic_id": "column name to sort_by"
-  },
-  "query 2": {
-    "topic_index": "column name to sort_by"
-  },
-  "query 3": {
-    "topic_code": "column name to sort_by"
-  },
-  "GET /api/topics?sort_by=not_a_column": {
-    "description": "Serves an error message for an invalid sort_by column",
-    "exampleResponse": {
-      "error": {
-        "status": 400,
-        "message": "bad request"
-      }
-    }
-  },
-
-  "GET /api/topics/:topic_id": {
-    "description": "serves a topic object with a given id",
-    "exampleResponse": {
-      "topic": {
-        "topic_name": "Number 1",
-        "topic_id": 1,
-        "topic_code": "GFN1",
-        "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
-        "topic_index": 1,
-        "topic_course_id": 1
-      }
-    }
-  },
-
-  "GET /api/topics/1000": {
-    "description": "Serves a error message when invalid course id is non existent is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Not found"
-      }
-    }
-  },
-
-  "GET /app/topics/a": {
-    "description": "Serves a error message when invalid course id is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Invalid URL"
-      }
-    }
-  },
-
-  "POST /api/topics": {
-    "description":"creates a new topic and responds with the new topic object, including course_id",
-    "queries": null,
-    "exampleRequest": {
-      "topic_name": "Number 1",
-      "topic_id": 1,
-      "topic_code": "GFN1",
-      "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
-      "topic_index": 1,
-      "topic_course_id": 1
+    "_Endpoint Number 4": "Admin Endpoints",
+    "/api/v1/admins/endpoints": {
+      "Authentication": "admin",
+      "Files": "adminRoute.js adminController.js",
+      "description": "status: 200 and serves up a json representation of all the available endpoints of the api'"
     },
-    "exampleResponse": {
-      "updatedTopic": 
-        {
-          "topic_name": "Number 1",
-          "topic_id": 1,
-          "topic_code": "GFN1",
-          "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
-          "topic_index": 1,
-          "topic_course_id": 1
-        }
-    },
-
-    "POST /app/topics": {
-      "description": "Creates a error message when a missing field is passed",
+    "GET /api/v1/admins": {
+      "Authentication": "admin",
+      "Files": "adminRoute.js,  adminController.js",
+      "description": "serves an articles array of courses objects",
+      "queries": [
+        "admin_id"
+      ],
       "exampleResponse": {
-        "error": {
-          "status": "400",
-          "message": "Invalid input"
-        }
+        "data": [
+          {
+            "admin_username": "scheema1",
+            "admin_firstname": "New",
+            "admin_lastname": "Cheema",
+            "admin_email": "csheraz@hotmail.com",
+            "admin_active": true,
+            "admin_image": "/tutor/tutor1.png",
+            "admin_password": "password"
+          }
+        ]
+      },
+      "query1": {
+        "admin_id": "column name to sort_by"
+      },
+      "400": {
+        "description": "bad request"
       }
     },
-
-    "DELETE /api/topics/:topic_id": {
+    "GET /api/v1/admins/:admin_id": {
+      "Authentication": "admin",
+      "Files": "adminRoute.js,  adminController.js",
+      "description": "status: 200 and serves an admin object with a given id",
+      "exampleResponse": {
+        "data": [
+          {
+            "admin_username": "scheema1",
+            "admin_firstname": "New",
+            "admin_lastname": "Cheema",
+            "admin_email": "csheraz@hotmail.com",
+            "admin_active": true,
+            "admin_image": "/tutor/tutor1.png",
+            "admin_password": "password"
+          }
+        ]
+      },
+      "404": {
+        "description": "Serves a error message when invalid course id is non existent is  passed",
+        "message": "Not found"
+      }
+    }
+  },
+  "POST /api/v1/admins": {
+    "Authentication": "admin",
+    "Files": "adminRoute.js,  adminController.js",
+    "description": "status: 201 and return the new admin object",
+    "queries": null,
+    "exampleRequestBody": {
+      "admin_username": "scheema1",
+      "admin_firstname": "New",
+      "admin_lastname": "Cheema",
+      "admin_email": "csheraz@hotmail.com",
+      "admin_active": true,
+      "admin_image": "/tutor/tutor1.png",
+      "admin_password": "password"
+    },
+    "exampleResponse": {
+      "data": {
+        "admin_id": 1,
+        "admin_username": "scheema1",
+        "admin_firstname": "New",
+        "admin_lastname": "Cheema",
+        "admin_email": "csheraz@hotmail.com",
+        "admin_active": true,
+        "admin_image": "/tutor/tutor1.png",
+        "admin_password": "password"
+      }
+    },
+    "400": {
+      "description": "Serves a error message when a missing field is passed",
+      "message": "Invalid input"
+    },
+    "DELETE /api/v1/admins/delete-admins/${admin_id}": {
+      "Authentication": "admin",
+      "Files": "adminRoute.js,  adminController.js",
       "description": "serves an empty response",
       "exampleResponse": {
-        "topic": {}
+        "courses": {}
+      },
+      "400": {
+        "description": "status 400 and returns an error message if it is a bad request",
+        "message": "Invalid input"
+      },
+      "404": {
+        "description": "status 404 and returns an error message if the ID does not exist",
+        "message": "Not found"
       }
     },
-
-    "DELETE /api/topics/Invalid_id": {
-      "description": "status 400 and returns an error message if it is a bad request",
+    "/api/v1/admins/update-admins/admin_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "adminRoute.js,  adminController.js",
+      "description": "creates an updated course object",
+      "exampleRequest": {
+        "admin_username": "scheema1update",
+        "admin_firstname": "New",
+        "admin_lastname": "Cheema",
+        "admin_email": "csheraz@hotmail.com",
+        "admin_active": true,
+        "admin_image": "/tutor/tutor1.png",
+        "admin_password": "password"
+      },
       "exampleResponse": {
-        "error": {
-          "status": "400",
-          "message": "Invalid input"
-        }
+        "data": [
+          {
+            "admin_username": "scheema1update",
+            "admin_firstname": "New",
+            "admin_lastname": "Cheema",
+            "admin_email": "csheraz@hotmail.com",
+            "admin_active": true,
+            "admin_image": "/tutor/tutor1.png",
+            "admin_password": "password"
+          }
+        ]
       }
     },
-
-    "DELETE /api/topics/1000": {
-      "description": "status 404 and returns an error message if the ID does not exist",
+    "_Endpoint Number 4": "Courses Endpoints",
+    "GET /api/v1/courses/get-courses": {
+      "Authentication": "admin",
+      "Files": "courseRoute.js,  courseController.js",
+      "description": "serves an articles array of courses objects",
+      "queries": [
+        "course_id",
+        "course_code",
+        "course_name",
+        "course_level"
+      ],
       "exampleResponse": {
-        "error": {
-          "status": "404",
-          "message": "Not found"
-        }
+        "courses": [
+          {
+            "course_name": "MTH GCSE Maths Foundation",
+            "course_id": 1,
+            "course_code": "MTH-GF",
+            "course_desc": "MTH GCSE Maths Foundation Online Course",
+            "course_level": "Foundation",
+            "course_image": "/course/mth_gcse_foundation.png"
+          }
+        ]
+      },
+      "query1": {
+        "course_id": "column name to sort_by"
+      },
+      "query2": {
+        "course_code": "column name to sort_by"
+      },
+      "query3": {
+        "course_name": "column name to sort_by"
+      },
+      "400": {
+        "description": "Serves an error message for an invalid sort_by column",
+        "message": "bad request"
       }
     },
-
-    "PATCH /api/topic/:topic_id": {
-      "description": "Creates an updated topic object ",
+    "GET /api/courses/:course_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "courseRoute.js,  courseController.js",
+      "description": "serves a course object with a given id",
+      "exampleResponse": {
+        "course": [
+          {
+            "course_name": "MTH GCSE Maths Foundation",
+            "course_id": 1,
+            "course_code": "MTH-GF",
+            "course_desc": "MTH GCSE Maths Foundation Online Course",
+            "course_level": "Foundation",
+            "course_image": "/course/mth_gcse_foundation.png"
+          }
+        ]
+      },
+      "404": {
+        "description": "Serves a error message when invalid course id is non existent is  passed",
+        "message": "Not found"
+      }
+    },
+    "POST /api/v1/courses/post-course": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "courseRoute.js,  courseController.js",
+      "description": "creates a new course and responds with the new course object, including course_id",
+      "queries": null,
+      "exampleRequestBody": {
+        "course_name": "MTH GCSE Maths Foundation",
+        "course_code": "MTH-GF",
+        "course_desc": "MTH GCSE Maths Foundation Online Course",
+        "course_level": "Foundation",
+        "course_image": "/course/mth_gcse_foundation.png"
+      },
+      "exampleResponse": {
+        "course": {
+          "course_name": "MTH GCSE Maths Foundation",
+          "course_id": 1,
+          "course_code": "MTH-GF",
+          "course_desc": "MTH GCSE Maths Foundation Online Course",
+          "course_level": "Foundation",
+          "course_image": "/course/mth_gcse_foundation.png"
+        }
+      },
+      "404": {
+        "description": "Serves a error message when invalid course id is non existent is  passed",
+        "message": "Not found"
+      },
+      "400": {
+        "description": "Serves a error message when a missing field is passed",
+        "message": "Invalid input"
+      }
+    },
+    "DELETE /api/v1/courses/delete-courses:course_id": {
+      "Authentication": "admin",
+      "Files": "courseRoute.js,  courseController.js",
+      "description": "serves an empty response",
+      "exampleResponse": {
+        "courses": {}
+      },
+      "400": {
+        "description": "status 400 and returns an error message if it is a bad request",
+        "message": "Invalid input"
+      },
+      "404": {
+        "description": "status 404 and returns an error message if the ID does not exist",
+        "message": "Not found"
+      }
+    },
+    "PATCH /api/v1/courses/update-courses/:course_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "courseRoute.js,  courseController.js",
+      "description": "creates an updated course object",
+      "exampleRequest": {
+        "course_name": "MTH GCSE Maths Foundation",
+        "course_id": 1,
+        "course_code": "MTH-GF",
+        "course_desc": "MTH GCSE Maths Foundation Online Course",
+        "course_level": "Foundation",
+        "course_image": "/course/mth_gcse_foundation.png"
+      },
+      "exampleResponse": {
+        "updatedCourse": [
+          {
+            "course_name": "MTH GCSE Maths Foundation",
+            "course_id": 1,
+            "course_code": "MTH-GF",
+            "course_desc": "MTH GCSE Maths Foundation Online Course",
+            "course_level": "Foundation",
+            "course_image": "/course/mth_gcse_foundation.png"
+          }
+        ]
+      }
+    },
+    "_Endpoint Number 5": "Topics Endpoints",
+    "GET /api/v1/topics/get-topics": {
+      "Authentication": "admin",
+      "Files": "topicRoute.js, topicController.js",
+      "description": "serves an articles array of topics objects",
+      "queries": [
+        "topic_id",
+        "topic_index",
+        "topic_code",
+        "topic_name",
+        "topic_course_id"
+      ],
+      "exampleResponse": {
+        "topic": [
+          {
+            "topic_name": "Number 1",
+            "topic_id": 1,
+            "topic_code": "GFN1",
+            "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+            "topic_index": 1,
+            "topic_course_id": 1
+          }
+        ]
+      },
+      "query 1": {
+        "topic_id": "column name to sort_by"
+      },
+      "query 2": {
+        "topic_index": "column name to sort_by"
+      },
+      "query 3": {
+        "topic_code": "column name to sort_by"
+      },
+      "400": {
+        "description": "Serves an error message for an invalid sort_by column",
+        "message": "bad request"
+      }
+    },
+    "GET /api/v1/topics/get-topics/:topic_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "topicRoute.js, topicController.js",
+      "description": "serves a topic object with a given id",
+      "exampleResponse": {
+        "topic": {
+          "topic_name": "Number 1",
+          "topic_id": 1,
+          "topic_code": "GFN1",
+          "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+          "topic_index": 1,
+          "topic_course_id": 1
+        }
+      },
+      "404": {
+        "description": "Serves a error message when invalid course id is non existent is  passed",
+        "message": "Not found"
+      },
+      "500": {
+        "description": "Serves a error message when invalid course id is non existent is  passed",
+        "message": "Not found"
+      }
+    },
+    "POST /api/v1/topics/post-topic'": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "topicRoute.js, topicController.js",
+      "description": "creates a new topic and responds with the new topic object, including course_id",
+      "queries": null,
       "exampleRequest": {
         "topic_name": "Number 1",
         "topic_id": 1,
@@ -562,90 +639,111 @@
           "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
           "topic_index": 1,
           "topic_course_id": 1
+        },
+        "400": {
+          "description": "Creates a error message when a missing field is passed",
+          "message": "Invalid input"
+        }
+      },
+      "DELETE /api/v1/topics/delete-topics/:topic_id": {
+        "description": "- status 204 and return with empty reponse body",
+        "exampleResponse": {
+          "topic": {}
+        },
+        "400": {
+          "description": "status 400 and returns an error message if it is a bad request",
+          "message": "Invalid input"
+        },
+        "404": {
+          "description": "status 404 and returns an error message if the ID does not exist",
+          "message": "Not found"
+        }
+      },
+      "PATCH /api/v1/topics/update-topics/:topic_id": {
+        "Authentication": "admin",
+        "Files": "topicRoute.js, topicController.js",
+        "description": "Creates an updated topic object ",
+        "exampleRequest": {
+          "topic_name": "Number 1",
+          "topic_id": 1,
+          "topic_code": "GFN1",
+          "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+          "topic_index": 1,
+          "topic_course_id": 1
+        },
+        "exampleResponse": {
+          "updatedTopic": {
+            "topic_name": "Number 1",
+            "topic_id": 1,
+            "topic_code": "GFN1",
+            "topic_desc": "MTH GCSE Maths Online Course - Foundation - Number 1",
+            "topic_index": 1,
+            "topic_course_id": 1
+          }
         }
       }
-    }
-  },
-
-  "GET /api/tutors": {
-    "description": "serves an articles array of tutors objects",
-    "queries": [
-      "tutor_firstname",
-      "tutor_lastname",
-      "tutor_email",
-      "tutor_active",
-      "tutor_image",
-      "tutor_id"
-    ],
-    "exampleResponse": {
-      "tutors": [
-        {
-          "tutor_id": 1,
-          "tutor_firstname": "Sheraz",
-          "tutor_lastname": "Cheema",
-          "tutor_email": "csheraz@hotmail.com",
-          "tutor_active": true,
-          "tutor_image": "/tutor/tutor1.png",
-          "tutor_password": "password"
-        }
-      ]
-    }
-  },
-
-  "queryT1": {
-    "tutor_id": "column name to sort_by"
-  },
-  "queryT2": {
-    "tutor_firstname": "column name to sort_by"
-  },
-  "queryT3": {
-    "tutor_lastname": "column name to sort_by"
-  },
-
-  "GET /api/tutors?sort_by=not_a_column": {
-    "description": "Serves an error message for an invalid sort_by column",
-    "exampleResponse": {
-      "error": {
-        "status": 400,
+    },
+    "_Endpoint Number 6": "Tutors Endpoints",
+    "GET /api/v1/tutors/get-tutors": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "tutorRoute.js, tutorController.js",
+      "description": "serves an articles array of tutors objects",
+      "queries": [
+        "tutor_firstname",
+        "tutor_lastname",
+        "tutor_email",
+        "tutor_active",
+        "tutor_image",
+        "tutor_id"
+      ],
+      "exampleResponse": {
+        "tutors": [
+          {
+            "tutor_id": 1,
+            "tutor_firstname": "Sheraz",
+            "tutor_lastname": "Cheema",
+            "tutor_email": "csheraz@hotmail.com",
+            "tutor_active": true,
+            "tutor_image": "/tutor/tutor1.png",
+            "tutor_password": "password"
+          }
+        ]
+      },
+      "queryT1": {
+        "tutor_id": "column name to sort_by"
+      },
+      "queryT2": {
+        "tutor_firstname": "column name to sort_by"
+      },
+      "queryT3": {
+        "tutor_lastname": "column name to sort_by"
+      },
+      "404": {
+        "description": "Serves a error message when invalid course id is non existent is  passed",
+        "message": "Not found"
+      },
+      "400": {
+        "description": "Serves an error message for an invalid sort_by column",
         "message": "bad request"
       }
-    }
-  },
-
-  "GET /api/tutors/1000": {
-    "description": "Serves a error message when invalid course id is non existent is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Not found"
-      }
-    }
-  },
-
-  "GET /app/tutors/a": {
-    "description": "Serves a error message when invalid course id is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Invalid URL"
-      }
-    }
-  },
-
-  "POST /api/tutors": {
-    "description": "creates a new tutors and responds with the new tutor object, including tutor_id",
-    "queries": null,
-    "exampleRequest": {
-      "tutor_firstname": "New",
-      "tutor_lastname": "Cheema",
-      "tutor_email": "csheraz@hotmail.com",
-      "tutor_active": true,
-      "tutor_image": "/tutor/tutor1.png",
-      "tutor_password": "password"
     },
-    "exampleResponse": {
-      "tutor": 
-        {
+    "POST  /api/v1/tutors/post-tutor": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "tutorRoute.js, tutorController.js",
+      "description": "creates a new tutors and responds with the new tutor object, including tutor_id",
+      "queries": null,
+      "exampleRequest": {
+        "tutor_firstname": "New",
+        "tutor_lastname": "Cheema",
+        "tutor_email": "csheraz@hotmail.com",
+        "tutor_active": true,
+        "tutor_image": "/tutor/tutor1.png",
+        "tutor_password": "password"
+      },
+      "exampleResponse": {
+        "tutor": {
           "tutor_firstname": "New",
           "tutor_lastname": "Cheema",
           "tutor_email": "csheraz@hotmail.com",
@@ -653,176 +751,149 @@
           "tutor_image": "/tutor/tutor1.png",
           "tutor_password": "password"
         }
-    },
-
-    "POST /app/tutors": {
-      "description": "Creates a error message when a missing field is passed",
-      "exampleResponse": {
-        "error": {
-          "status": "400",
-          "message": "Invalid input"
-        }
-      }
-    }
-  },
-
-  "DELETE /api/tutors/:tutor_id": {
-    "description": "serves an empty response",
-    "exampleResponse": {
-      "topic": {}
-    }
-  },
-
-  "DELETE /api/tutors/Invalid_id": {
-    "description": "status 400 and returns an error message if it is a bad request",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+      },
+      "400": {
+        "description": "Creates a error message when a missing field is passed",
         "message": "Invalid input"
       }
-    }
-  },
-
-  "DELETE /api/tutors/1000": {
-    "description": "status 404 and returns an error message if the ID does not exist",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+    },
+    "DELETE /api/v1/tutors/delete-tutors/:tutor_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "tutorRoute.js, tutorController.js",
+      "description": "serves an empty response",
+      "exampleResponse": {
+        "topic": {}
+      },
+      "400": {
+        "description": "status 400 and returns an error message if it is a bad request",
+        "message": "Invalid input"
+      },
+      "404": {
+        "description": "status 404 and returns an error message if the ID does not exist",
         "message": "Not found"
       }
-    }
-  },
-  "PATCH /api/tutors/:tutor_id": {
-    "description": "Creates an updated tutor object ",
-    "exampleRequest": {
-      "tutor_firstname": "Patched",
-      "tutor_lastname": "Cheema",
-      "tutor_email": "csheraz@hotmail.com",
-      "tutor_active": true,
-      "tutor_image": "/tutor/tutor1.png",
-      "tutor_password": "password"
     },
-    "exampleResponse": {
-      "updatedTutor": {
+    "PATCH /api/v1/tutors/update-tutors:tutor_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "tutorRoute.js, tutorController.js",
+      "description": "Creates an updated tutor object ",
+      "exampleRequest": {
         "tutor_firstname": "Patched",
         "tutor_lastname": "Cheema",
         "tutor_email": "csheraz@hotmail.com",
         "tutor_active": true,
         "tutor_image": "/tutor/tutor1.png",
         "tutor_password": "password"
-      }
-    }
-  },
-
-  "GET /api/students": {
-    "description": "serves an  array of student objects",
-    "queries": [
-      "student_id",
-      "student_firstname",
-      "student_lastname",
-      "student_email",
-      "student_active",
-      "student_grade",
-      "student_targetgrade",
-      "student_notes",
-      "student_progressbar",
-      "student_image"
-    ],
-    "exampleResponse": {
-      "students": [
-        {
-          "student_firstname": "Student1FN",
-          "student_lastname": "Student1LN",
-          "student_email": "csheraz@hotmail.com",
-          "student_password": "password",
-          "student_active": "TRUE",
-          "student_image": "/student/student1.png",
-          "student_grade": 2,
-          "student_targetgrade": 5,
-          "student_notes": "Working well",
-          "student_progressbar": 3
+      },
+      "exampleResponse": {
+        "updatedTutor": {
+          "tutor_firstname": "Patched",
+          "tutor_lastname": "Cheema",
+          "tutor_email": "csheraz@hotmail.com",
+          "tutor_active": true,
+          "tutor_image": "/tutor/tutor1.png",
+          "tutor_password": "password"
         }
-      ]
-    }
-  },
-
-  "querys1": {
-    "student_id": "column name to sort_by"
-  },
-  "querys2": {
-    "student_firstname": "column name to sort_by"
-  },
-  "querys3": {
-    "student_lastname": "column name to sort_by"
-  },
-
-  "GET /api/students?sort_by=not_a_column": {
-    "description": "Serves an error message for an invalid sort_by column",
-    "exampleResponse": {
-      "error": {
-        "status": 400,
+      }
+    },
+    "_Endpoint Number 7": "Student Endpoints",
+    "GET /api/v1/students/get-students": {
+      "Authentication": "admin",
+      "Files": "studentRoute.js, studentController.js",
+      "description": "status: 200 and returns an array of student object",
+      "queries": [
+        "student_id",
+        "student_firstname",
+        "student_lastname",
+        "student_email",
+        "student_active",
+        "student_grade",
+        "student_targetgrade",
+        "student_notes",
+        "student_progressbar",
+        "student_image"
+      ],
+      "exampleResponse": {
+        "students": [
+          {
+            "student_firstname": "Student1FN",
+            "student_lastname": "Student1LN",
+            "student_email": "csheraz@hotmail.com",
+            "student_password": "password",
+            "student_active": "TRUE",
+            "student_image": "/student/student1.png",
+            "student_grade": 2,
+            "student_targetgrade": 5,
+            "student_notes": "Working well",
+            "student_progressbar": 3
+          }
+        ]
+      },
+      "querys1": {
+        "student_id": "column name to sort_by"
+      },
+      "querys2": {
+        "student_firstname": "column name to sort_by"
+      },
+      "querys3": {
+        "student_lastname": "column name to sort_by"
+      },
+      "400": {
+        "description": "Serves an error message for an invalid sort_by column",
         "message": "bad request"
       }
-    }
-  },
-
-  "GET /api/students/:student_id": {
-    "description": "serves a student object with a given id",
-    "exampleResponse": {
-      "student": [
-        {
-          "student_firstname": "Student1FN",
-          "student_lastname": "Student1LN",
-          "student_email": "csheraz@hotmail.com",
-          "student_password": "password",
-          "student_active": "TRUE",
-          "student_image": "/student/student1.png",
-          "student_grade": 2,
-          "student_targetgrade": 5,
-          "student_notes": "Working well",
-          "student_progressbar": 3
-        }
-      ]
-    }
-  },
-
-  "GET /api/students/1000": {
-    "description": "Serves a error message when invalid student id is non existent is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+    },
+    "GET /api/v1/students/get-students/:student_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "studentRoute.js, studentController.js",
+      "description": "serves a student object with a given id",
+      "exampleResponse": {
+        "student": [
+          {
+            "student_firstname": "Student1FN",
+            "student_lastname": "Student1LN",
+            "student_email": "csheraz@hotmail.com",
+            "student_password": "password",
+            "student_active": "TRUE",
+            "student_image": "/student/student1.png",
+            "student_grade": 2,
+            "student_targetgrade": 5,
+            "student_notes": "Working well",
+            "student_progressbar": 3
+          }
+        ]
+      },
+      "400": {
+        "description": "Serves a error message when invalid student id is non existent is  passed",
         "message": "Not found"
-      }
-    }
-  },
-
-  "GET /app/students/a": {
-    "description": "Serves a error message when invalid student id is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+      },
+      "404": {
+        "description": "Serves a error message when invalid student id is  passed",
         "message": "Invalid URL"
       }
-    }
-  },
-
-  "POST /api/students": {
-    "description": "creates a new student and responds with the new student object, including student_id",
-    "queries": null,
-    "exampleRequest": {
-      "student_firstname": "Student1FN",
-      "student_lastname": "Student1LN",
-      "student_email": "csheraz@hotmail.com",
-      "student_password": "password",
-      "student_active": "TRUE",
-      "student_image": "/student/student1.png",
-      "student_grade": 2,
-      "student_targetgrade": 5,
-      "student_notes": "Working well",
-      "student_progressbar": 3
     },
-    "exampleResponse": {
-      "student": {
+    "POST  /api/v1/students/post-student": {
+      "Authentication": "admin",
+      "Files": "studentRoute.js, studentController.js",
+      "description": "creates a new student and responds with the new student object, including student_id",
+      "queries": null,
+      "exampleRequest": {
+        "student_firstname": "Student1FN",
+        "student_lastname": "Student1LN",
+        "student_email": "csheraz@hotmail.com",
+        "student_password": "password",
+        "student_active": "TRUE",
+        "student_image": "/student/student1.png",
+        "student_grade": 2,
+        "student_targetgrade": 5,
+        "student_notes": "Working well",
+        "student_progressbar": 3
+      },
+      "exampleResponse": {
+        "student": {
           "student_firstname": "Student1FN",
           "student_lastname": "Student1LN",
           "student_email": "csheraz@hotmail.com",
@@ -834,48 +905,33 @@
           "student_notes": "Working well",
           "student_progressbar": 3
         }
-    }
-  },
-
-  "POST /api/students/missingfield": {
-    "description": "Creates a error message when a missing field is passed",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+      },
+      "400": {
+        "description": "Creates a error message when a missing field is passed",
         "message": "Invalid input"
       }
-    }
-  },
-
-  "DELETE /api/students/:student_id": {
-    "description": "serves an empty response",
-    "exampleResponse": {
-      "students": {}
-    }
-  },
-
-  "DELETE /api/students/Invalid_id": {
-    "description": "status 400 and returns an error message if it is a bad request",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+    },
+    "DELETE /api/v1/students/delete-students/:student_id": {
+      "Authentication": "admin",
+      "Files": "studentRoute.js, studentController.js",
+      "description": "serves an empty response",
+      "exampleResponse": {
+        "students": {}
+      },
+      "400": {
+        "description": "status 400 and returns an error message if it is a bad request",
         "message": "Invalid input"
-      }
-    }
-  },
-
-  "DELETE /api/students/1000": {
-    "description": "status 404 and returns an error message if the ID does not exist",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+      },
+      "404": {
+        "description": "status 404 and returns an error message if the ID does not exist",
         "message": "Not found"
       }
-    }
-  },
-
-  "PATCH /api/students/:student_id": {
-    "description": "Creates an updated topic object ",
+    },
+    "PATCH /api/v1/students/update-students:student_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "studentRoute.js, studentController.js",
+      "description": "Creates an updated topic object ",
       "student_lastname": "Student1LN",
       "student_email": "csheraz@hotmail.com",
       "student_password": "password",
@@ -901,478 +957,406 @@
           }
         ]
       }
-  },
-
-  "GET /api/lessons": {
-    "description": "serves an articles array of lessons objects",
-    "queries": ["lesson_id", "lesson_code", "lesson_name, lesson_topic_id"],
-    "exampleResponse": {
-      "lessons": [
-        {
-          "lesson_name": "Addition, Subtraction and Money Problems",
-          "lesson_code": "GFN1LC1",
-          "lesson_desc": "To be able to add, subtract, and solve money problems.",
-          "lesson_ws": "GFN1WS1",
-          "lesson_body": "PowerPoint",
-          "lesson_topic_id": 1
-        }
-      ]
-    }
-  },
-
-  "queryL1": {
-    "lesson_name": "column name to sort_by"
-  },
-  "queryL2": {
-    "lesson_code": "column name to sort_by"
-  },
-  "queryL3": {
-    "lesson_topic_id": "column name to sort_by"
-  },
-
-  "GET /api/lessons?sort_by=not_a_column": {
-    "description": "Serves an error message for an invalid sort_by column",
-    "exampleResponse": {
-      "error": {
-        "status": 400,
+    },
+    "_Endpoint Number 5=8": "Lessons Endpoints",
+    "GET GET /api/v1/lessons/get-lessons'": {
+      "Authentication": "admin",
+      "Files": "lessonRoute.js, lessonController.js",
+      "description": "serves an articles array of lessons objects",
+      "queries": [
+        "lesson_id",
+        "lesson_code",
+        "lesson_name, lesson_topic_id"
+      ],
+      "exampleResponse": {
+        "lessons": [
+          {
+            "lesson_name": "Addition, Subtraction and Money Problems",
+            "lesson_code": "GFN1LC1",
+            "lesson_desc": "To be able to add, subtract, and solve money problems.",
+            "lesson_ws": "GFN1WS1",
+            "lesson_body": "PowerPoint",
+            "lesson_topic_id": 1
+          }
+        ]
+      },
+      "queryL1": {
+        "lesson_name": "column name to sort_by"
+      },
+      "queryL2": {
+        "lesson_code": "column name to sort_by"
+      },
+      "queryL3": {
+        "lesson_topic_id": "column name to sort_by"
+      },
+      "400": {
+        "description": "Serves an error message for an invalid sort_by column",
         "message": "bad request"
       }
-    }
-  },
-
-  "GET /api/lessons/:lesson_id": {
-    "description": "serves a lesson object with a given id",
-    "exampleResponse": {
-      "lesson": [
-        {
-          "lesson_name": "Addition, Subtraction and Money Problems",
-          "lesson_code": "GFN1LC1",
-          "lesson_desc": "To be able to add, subtract, and solve money problems.",
-          "lesson_ws": "GFN1WS1",
-          "lesson_body": "PowerPoint",
-          "lesson_topic_id": 1
-        }
-      ]
-    }
-  },
-
-  "GET /api/lessons/1000": {
-    "description": "Serves a error message when invalid course id is non existent is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+    },
+    "GET /api/v1/lessons/get-lessons/:lesson_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "lessonRoute.js, lessonController.js",
+      "description": "status: 200 and return a lesson object with a given id",
+      "exampleResponse": {
+        "lesson": [
+          {
+            "lesson_name": "Addition, Subtraction and Money Problems",
+            "lesson_code": "GFN1LC1",
+            "lesson_desc": "To be able to add, subtract, and solve money problems.",
+            "lesson_ws": "GFN1WS1",
+            "lesson_body": "PowerPoint",
+            "lesson_topic_id": 1
+          }
+        ]
+      },
+      "404": {
+        "description": "Serves a error message when invalid course id is non existent is  passed",
         "message": "Not found"
       }
-    }
-  },
-
-  "GET /app/lessons/a": {
-    "description": "Serves a error message when invalid lesson id is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Invalid URL"
-      }
-    }
-  },
-
-  "POST /api/lessons": {
-    "description":"creates a new lesson and responds with the new lesson object, including lessson_id",
-    "queries": null,
-    "exampleRequest": {
-      "lesson_name": "Addition, Subtraction and Money Problems",
-      "lesson_code": "GFN1LC1",
-      "lesson_desc": "To be able to add, subtract, and solve money problems.",
-      "lesson_ws": "GFN1WS1",
-      "lesson_body": "PowerPoint",
-      "lesson_topic_id": 1
     },
-    "exampleResponse": {
-      "lesson": [
-        {
-          "lesson_name": "Addition, Subtraction and Money Problems",
-          "lesson_code": "GFN1LC1",
-          "lesson_desc": "To be able to add, subtract, and solve money problems.",
-          "lesson_ws": "GFN1WS1",
-          "lesson_body": "PowerPoint",
-          "lesson_topic_id": 1
-        }
-      ]
-    }
-  },
-
-  "POST /api/lessons/missingfield": {
-    "description": "Serves a error message when a missing field is passed",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+    "POST /api/v1/lessons/post-lesson'": {
+      "Authentication": "admin",
+      "Files": "lessonRoute.js, lessonController.js",
+      "description": "creates a new lesson and responds with the new lesson object, including lessson_id",
+      "queries": null,
+      "exampleRequest": {
+        "lesson_name": "Addition, Subtraction and Money Problems",
+        "lesson_code": "GFN1LC1",
+        "lesson_desc": "To be able to add, subtract, and solve money problems.",
+        "lesson_ws": "GFN1WS1",
+        "lesson_body": "PowerPoint",
+        "lesson_topic_id": 1
+      },
+      "exampleResponse": {
+        "lesson": [
+          {
+            "lesson_name": "Addition, Subtraction and Money Problems",
+            "lesson_code": "GFN1LC1",
+            "lesson_desc": "To be able to add, subtract, and solve money problems.",
+            "lesson_ws": "GFN1WS1",
+            "lesson_body": "PowerPoint",
+            "lesson_topic_id": 1
+          }
+        ]
+      },
+      "400": {
+        "description": "Serves a error message when a missing field is passed",
         "message": "Invalid input"
       }
-    }
-  },
-
-  "DELETE /api/lessons/:lesson_id": {
-    "description": "serves an empty response",
-    "exampleResponse": {
-      "courses": {}
-    }
-  },
-
-  "DELETE /api/lessons/Invalid_id": {
-    "description": "status 400 and returns an error message if it is a bad request",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+    },
+    "DELETE /api/v1/lessons/delete-lessons/:lesson_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "lessonRoute.js, lessonController.js",
+      "description": "serves an empty response",
+      "exampleResponse": {
+        "courses": {}
+      },
+      "400": {
+        "description": "status 400 and returns an error message if it is a bad request",
         "message": "Invalid input"
-      }
-    }
-  },
-
-  "DELETE /api/lessons/1000": {
-    "description": "status 404 and returns an error message if the ID does not exist",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+      },
+      "404": {
+        "description": "status 404 and returns an error message if the ID does not exist",
         "message": "Not found"
       }
-    }
-  },
-
-  "PATCH /api/lesson/:lesson_id": {
-    "description": " serves an updated course object ",
-    "exampleRequest": {
-      "lesson_name": "Addition, Subtraction and Money Problems",
-      "lesson_code": "GFN1LC1",
-      "lesson_desc": "To be able to add, subtract, and solve money problems.",
-      "lesson_ws": "GFN1WS1",
-      "lesson_body": "PowerPoint",
-      "lesson_topic_id": 1
     },
-    "exampleResponse": {
-      "updatedLesson": [
-        {
-          "lesson_name": "Addition, Subtraction and Money Problems",
-          "lesson_code": "GFN1LC1",
-          "lesson_desc": "To be able to add, subtract, and solve money problems.",
-          "lesson_ws": "GFN1WS1",
-          "lesson_body": "PowerPoint",
-          "lesson_topic_id": 1
-        }
-      ]
-    }
-  },
-
-  "GET /api/quizzes": {
-    "description": "serves an articles array of lessons objects",
-    "queries": ["quiz_name", "quiz_code", "quiz_type"],
-    "exampleResponse": {
-      "quizzes": [
-        {
-          "quiz_name": "Number 1 Topic Diagnostic Quiz",
-          "quiz_code": "GFN1TDQ",
-          "quiz_type": "TopicDiagnostic"
-        }
-      ]
-    }
-  },
-
-  "queryq1": {
-    "quiz_name": "column name to sort_by"
-  },
-  "queryq2": {
-    "quiz_code": "column name to sort_by"
-  },
-  "queryq3": {
-    "quiz_type": "column name to sort_by"
-  },
-
-  "GET /api/quizzes?sort_by=not_a_column": {
-    "description": "Serves an error message for an invalid sort_by column",
-    "exampleResponse": {
-      "error": {
-        "status": 400,
+    "PATCH /api/v1/lessons/update-lessons/:lesson_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "lessonRoute.js, lessonController.js",
+      "description": " serves an updated course object ",
+      "exampleRequest": {
+        "lesson_name": "Addition, Subtraction and Money Problems",
+        "lesson_code": "GFN1LC1",
+        "lesson_desc": "To be able to add, subtract, and solve money problems.",
+        "lesson_ws": "GFN1WS1",
+        "lesson_body": "PowerPoint",
+        "lesson_topic_id": 1
+      },
+      "exampleResponse": {
+        "updatedLesson": [
+          {
+            "lesson_name": "Addition, Subtraction and Money Problems",
+            "lesson_code": "GFN1LC1",
+            "lesson_desc": "To be able to add, subtract, and solve money problems.",
+            "lesson_ws": "GFN1WS1",
+            "lesson_body": "PowerPoint",
+            "lesson_topic_id": 1
+          }
+        ]
+      }
+    },
+    "_Endpoint Number 9": "Quizzes Endpoints",
+    "GET /api/v1/quizzes/get-quizzes": {
+      "Authentication": "admin",
+      "Files": "quizzeRoute.js, quizController.js",
+      "description": "serves an articles array of lessons objects",
+      "queries": [
+        "quiz_name",
+        "quiz_code",
+        "quiz_type"
+      ],
+      "exampleResponse": {
+        "quizzes": [
+          {
+            "quiz_name": "Number 1 Topic Diagnostic Quiz",
+            "quiz_code": "GFN1TDQ",
+            "quiz_type": "TopicDiagnostic"
+          }
+        ]
+      },
+      "query1": {
+        "quiz_name": "column name to sort_by"
+      },
+      "query2": {
+        "quiz_code": "column name to sort_by"
+      },
+      "query3": {
+        "quiz_type": "column name to sort_by"
+      },
+      "400": {
+        "description": "Serves an error message for an invalid sort_by column",
         "message": "bad request"
       }
-    }
-  },
-
-  "GET /api/quizzes/:quiz_id": {
-    "description": "serves a quiz object with a given id",
-    "exampleResponse": {
-      "quiz": [
-        {
-          "quiz_name": "Number 2 Topic Diagnostic Quiz",
-          "quiz_code": "GFN2TDQ",
-          "quiz_type": "TopicDiagnostic",
-          "quiz_id": 1
-        }
-      ]
-    }
-  },
-
-  "GET /api/quizzes/1000": {
-    "description": "Serves a error message when invalid quiz id is non existent is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+    },
+    "GET /api/v1/quizzes/get-quizzes/:quiz_id": {
+      "Authentication": "admin",
+      "Files": "quizzeRoute.js, quizController.js",
+      "description": "status: 200 and return a quiz object with a given id",
+      "exampleResponse": {
+        "quiz": [
+          {
+            "quiz_name": "Number 2 Topic Diagnostic Quiz",
+            "quiz_code": "GFN2TDQ",
+            "quiz_type": "TopicDiagnostic",
+            "quiz_id": 1
+          }
+        ]
+      },
+      "404": {
+        "description": "Serves a error message when invalid quiz id is non existent is  passed",
         "message": "Not found"
       }
-    }
-  },
-
-  "GET /app/quizzes/a": {
-    "description": "Serves a error message when invalid quiz id is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
-        "message": "Invalid URL"
-      }
-    }
-  },
-
-  "POST /api/quizzes": {
-    "description": "creates a new quiz and responds with the new quiz object, including quiz_id",
-    "queries": null,
-    "exampleRequest": {
-      "quiz_name": "Number 2 Topic Diagnostic Quiz",
-      "quiz_code": "GFN2TDQ",
-      "quiz_type": "TopicDiagnostic"
     },
-    "exampleResponse": {
-      "quiz": [
-        {
-          "quiz_name": "Number 2 Topic Diagnostic Quiz",
-          "quiz_code": "GFN2TDQ",
-          "quiz_type": "TopicDiagnostic",
-          "quiz_id": 1
-        }
-      ]
-    }
-  },
-
-  "POST /api/quizzes/missingfield": {
-    "description": "Serves a error message when a missing field is passed",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+    "POST POST /api/v1/quizzes/post-quiz": {
+      "Authentication": "admin",
+      "Files": "quizzeRoute.js, quizController.js",
+      "description": "creates a new quiz and responds with the new quiz object, including quiz_id",
+      "queries": null,
+      "exampleRequest": {
+        "quiz_name": "Number 2 Topic Diagnostic Quiz",
+        "quiz_code": "GFN2TDQ",
+        "quiz_type": "TopicDiagnostic"
+      },
+      "exampleResponse": {
+        "quiz": [
+          {
+            "quiz_name": "Number 2 Topic Diagnostic Quiz",
+            "quiz_code": "GFN2TDQ",
+            "quiz_type": "TopicDiagnostic",
+            "quiz_id": 1
+          }
+        ]
+      },
+      "400": {
+        "description": "Serves a error message when a missing field is passed",
         "message": "Invalid input"
       }
-    }
-  },
-
-  "DELETE /api/quizzes/:quiz_id": {
-    "description": "serves an empty response",
-    "exampleResponse": {
-      "courses": {}
-    }
-  },
-
-  "DELETE /api/quizzes/Invalid_id": {
-    "description": "status 400 and returns an error message if it is a bad request",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+    },
+    "DELETE /api/v1/quizzes/delete-quizzes/:quiz_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "quizzeRoute.js, quizController.js",
+      "description": "serves an empty response",
+      "exampleResponse": {
+        "courses": {}
+      },
+      "400": {
+        "description": "status 400 and returns an error message if it is a bad request",
         "message": "Invalid input"
-      }
-    }
-  },
-
-  "DELETE /api/quizzes/1000": {
-    "description": "status 404 and returns an error message if the ID does not exist",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+      },
+      "404": {
+        "description": "status 404 and returns an error message if the ID does not exist",
         "message": "Not found"
       }
-    }
-  },
-
-  "PATCH /api/quizzes/:quiz_id": {
-    "description": " serves an updated quiz object ",
-    "exampleRequest": {
-      "quiz_name": "Number 2 Topic Diagnostic Quiz",
-      "quiz_code": "GFN2TDQ",
-      "quiz_type": "TopicDiagnostic"
     },
-    "exampleResponse": {
-      "updatedQuiz": [
-        {
-          "quiz_name": "Number 2 Topic Diagnostic Quiz",
-          "quiz_code": "GFN2TDQ",
-          "quiz_type": "TopicDiagnostic",
-          "quiz_id": 1
-        }
-      ]
-    }
-  },
-
-  "GET /api/questions": {
-    "description": "serves an articles array of question objects",
-    "queries": ["ques_body","ques_image","ques_grade","ques_calc","ques_mark","ques1_ans","ques2_ans",
-    "ques3_ans","ques_ans_explain","ques_ans_mark",
-    "ques_ans_image","ques_ans_correct","ques_ans_sym_b","ques_ans_sym_a","ques_quiz_id",
-    "ques_lesson_id","ques_id,"],
-    "exampleResponse": {
-      "questions": [
-        {
-          "ques_id": 5,
-          "ques_body": "4.79 - 1.2",
-          "ques1_ans": 3.59,
-          "ques_mark": 1,
-          "ques_grade": 2,
-          "ques_lesson_id": 1,
-          "ques_quiz_id": 2,
-          "ques_calc": false,
-          "ques_ans_explain": "explanation"
-        }
-      ]
-    }
-  },
-
-  "queryqu1": {
-    "ques_grade": "column name to sort_by"
-  },
-  "queryqu2": {
-    "ques_id": "column name to sort_by"
-  },
-  "queryqu3": {
-    "ques_lesson_id": "column name to sort_by"
-  },
-
-  "GET /api/questions?sort_by=not_a_column": {
-    "description": "Serves an error message for an invalid sort_by column",
-    "exampleResponse": {
-      "error": {
-        "status": 400,
+    "PATCH /api/quizzes/:quiz_id": {
+      "Authentication": "admin",
+      "Endpoint Number": 1,
+      "Files": "quizzeRoute.js, quizController.js",
+      "description": " serves an updated quiz object ",
+      "exampleRequest": {
+        "quiz_name": "Number 2 Topic Diagnostic Quiz",
+        "quiz_code": "GFN2TDQ",
+        "quiz_type": "TopicDiagnostic"
+      },
+      "exampleResponse": {
+        "updatedQuiz": [
+          {
+            "quiz_name": "Number 2 Topic Diagnostic Quiz",
+            "quiz_code": "GFN2TDQ",
+            "quiz_type": "TopicDiagnostic",
+            "quiz_id": 1
+          }
+        ]
+      }
+    },
+    "_Endpoint Number 10": "Questions Endpoints",
+    "GET /api/v1/questions/get-questions": {
+      "Authentication": "admin",
+      "Files": "questionRoute.js, questionController.js",
+      "description": "serves an articles array of question objects",
+      "queries": [
+        "ques_body",
+        "ques_image",
+        "ques_grade",
+        "ques_calc",
+        "ques_mark",
+        "ques1_ans",
+        "ques2_ans",
+        "ques3_ans",
+        "ques_ans_explain",
+        "ques_ans_mark",
+        "ques_ans_image",
+        "ques_ans_correct",
+        "ques_ans_sym_b",
+        "ques_ans_sym_a",
+        "ques_quiz_id",
+        "ques_lesson_id",
+        "ques_id,"
+      ],
+      "exampleResponse": {
+        "questions": [
+          {
+            "ques_id": 5,
+            "ques_body": "4.79 - 1.2",
+            "ques1_ans": 3.59,
+            "ques_mark": 1,
+            "ques_grade": 2,
+            "ques_lesson_id": 1,
+            "ques_quiz_id": 2,
+            "ques_calc": false,
+            "ques_ans_explain": "explanation"
+          }
+        ]
+      },
+      "query1": {
+        "ques_grade": "column name to sort_by"
+      },
+      "query2": {
+        "ques_id": "column name to sort_by"
+      },
+      "query3": {
+        "ques_lesson_id": "column name to sort_by"
+      },
+      "400": {
+        "description": "Serves an error message for an invalid sort_by column",
         "message": "bad request"
       }
-    }
-  },
-
-  "GET /api/questions/:question_id": {
-    "description": "serves a question object with a given id",
-    "exampleResponse": {
-      "question": [
-        {
-          "ques_id": 5,
-          "ques_body": "4.79 - 1.2",
-          "ques1_ans": 3.59,
-          "ques_mark": 1,
-          "ques_grade": 2,
-          "ques_lesson_id": 1,
-          "ques_quiz_id": 2,
-          "ques_calc": false,
-          "ques_ans_explain": "explanation"
-        }
-      ]
-    }
-  },
-
-  "GET /api/questions/1000": {
-    "description": "Serves a error message when invalid course id is non existent is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+    },
+    "GET /api/v1/questions/get-questions/:question_id": {
+      "Authentication": "admin",
+      "Files": "questionRoute.js, questionController.js",
+      "description": "status: 200 and return a question object with a given id'",
+      "exampleResponse": {
+        "question": [
+          {
+            "ques_id": 5,
+            "ques_body": "4.79 - 1.2",
+            "ques1_ans": 3.59,
+            "ques_mark": 1,
+            "ques_grade": 2,
+            "ques_lesson_id": 1,
+            "ques_quiz_id": 2,
+            "ques_calc": false,
+            "ques_ans_explain": "explanation"
+          }
+        ]
+      },
+      "400": {
+        "description": "Serves a error message when invalid course id is non existent is  passed",
         "message": "Not found"
-      }
-    }
-  },
-
-  "GET /app/questions/a": {
-    "description": "Serves a error message when invalid course id is  passed",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+      },
+      "404": {
+        "description": "Serves a error message when invalid course id is  passed",
         "message": "Invalid URL"
       }
-    }
-  },
-
-  "POST /api/questions": {
-    "description":"creates a new questions and responds with the new question object, including question_id",
-    "queries": null,
-    "exampleRequest": {
-      "course_name": "MTH GCSE Maths Foundation",
-      "course_code": "MTH-GF",
-      "course_desc": "MTH GCSE Maths Foundation Online Course",
-      "course_level": "Foundation",
-      "course_image": "/course/mth_gcse_foundation.png"
     },
-    "exampleResponse": {
-      "question": [
-        {
-          "course_name": "MTH GCSE Maths Foundation",
-          "course_id": 1,
-          "course_code": "MTH-GF",
-          "course_desc": "MTH GCSE Maths Foundation Online Course",
-          "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png"
-        }
-      ]
-    }
-  },
-
-  "POST /api/questions/missingfield": {
-    "description": "Serves a error message when a missing field is passed",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+    "POST /api/v1/questions/post-question": {
+      "Authentication": "admin",
+      "Files": "questionRoute.js, questionController.js",
+      "description": "creates a new questions and responds with the new question object, including question_id",
+      "queries": null,
+      "exampleRequest": {
+        "course_name": "MTH GCSE Maths Foundation",
+        "course_code": "MTH-GF",
+        "course_desc": "MTH GCSE Maths Foundation Online Course",
+        "course_level": "Foundation",
+        "course_image": "/course/mth_gcse_foundation.png"
+      },
+      "exampleResponse": {
+        "question": [
+          {
+            "course_name": "MTH GCSE Maths Foundation",
+            "course_id": 1,
+            "course_code": "MTH-GF",
+            "course_desc": "MTH GCSE Maths Foundation Online Course",
+            "course_level": "Foundation",
+            "course_image": "/course/mth_gcse_foundation.png"
+          }
+        ]
+      },
+      "400": {
+        "description": "Serves a error message when a missing field is passed",
         "message": "Invalid input"
       }
-    }
-  },
-
-  "DELETE /api/questions/:course_id": {
-    "description": "serves an empty response",
-    "exampleResponse": {
-      "courses": {}
-    }
-  },
-
-  "DELETE /api/questions/Invalid_id": {
-    "description": "status 400 and returns an error message if it is a bad request",
-    "exampleResponse": {
-      "error": {
-        "status": "400",
+    },
+    "DELETE /api/questions/:course_id": {
+      "Authentication": "admin",
+      "Files": "questionRoute.js, questionController.js",
+      "description": "serves an empty response",
+      "exampleResponse": {
+        "courses": {}
+      },
+      "400": {
+        "description": "status 404 and returns an error message if the ID does not exist",
         "message": "Invalid input"
-      }
-    }
-  },
-
-  "DELETE /api/questions/1000": {
-    "description": "status 404 and returns an error message if the ID does not exist",
-    "exampleResponse": {
-      "error": {
-        "status": "404",
+      },
+      "404": {
+        "description": "status 400 and returns an error message if it is a bad request",
         "message": "Not found"
       }
-    }
-  },
-
-  "PATCH /api/questions/:question_id": {
-    "description": " serves an updated course object ",
-    "exampleRequest": {
-      "ques_id": 5,
-      "ques_body": "4.79 - 1.2",
-      "ques1_ans": 3.59,
-      "ques_mark": 1,
-      "ques_grade": 2,
-      "ques_lesson_id": 1,
-      "ques_quiz_id": 2,
-      "ques_calc": false,
-      "ques_ans_explain": "explanation"
     },
-    "exampleResponse": {
-      "updatedQuestion": [
-        {
-          "course_name": "MTH GCSE Maths Foundation",
-          "course_id": 1,
-          "course_code": "MTH-GF",
-          "course_desc": "MTH GCSE Maths Foundation Online Course",
-          "course_level": "Foundation",
-          "course_image": "/course/mth_gcse_foundation.png"
-        }
-      ]
+    "PATCH /api/v1/questions/update-questions/:question_id": {
+      "Authentication": "admin",
+      "Files": "questionRoute.js, questionController.js",
+      "description": " serves an updated course object ",
+      "exampleRequest": {
+        "ques_id": 5,
+        "ques_body": "4.79 - 1.2",
+        "ques1_ans": 3.59,
+        "ques_mark": 1,
+        "ques_grade": 2,
+        "ques_lesson_id": 1,
+        "ques_quiz_id": 2,
+        "ques_calc": false,
+        "ques_ans_explain": "explanation"
+      },
+      "exampleResponse": {
+        "updatedQuestion": [
+          {
+            "course_name": "MTH GCSE Maths Foundation",
+            "course_id": 1,
+            "course_code": "MTH-GF",
+            "course_desc": "MTH GCSE Maths Foundation Online Course",
+            "course_level": "Foundation",
+            "course_image": "/course/mth_gcse_foundation.png"
+          }
+        ]
+      }
     }
   }
 }
