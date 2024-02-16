@@ -7,8 +7,8 @@
  * updateQuestionById
  * getQuizQuestion
  */
-
 const {
+  getStudentQuiz,
   insertQuestion,
   selectQuestions,
   getQuizQuestions,
@@ -24,7 +24,6 @@ const {
  * @param {object} res data response - admin_username admin_firstname,  admin_lastname, admin_email, admin_active, admin_image, admin_password
  * 
  */
-
 exports.getQuestions = async (req, res, next) => {
   try {
     const { sort_by } = req.query;
@@ -43,7 +42,6 @@ exports.getQuestions = async (req, res, next) => {
  * @param {int} req admin_id request
  * @param {object} res data response -question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_quiz_fk_id
  */
-
 exports.getQuestionById = async (req, res, next) => {
   try {
     const { question_id } = req.params;
@@ -105,13 +103,13 @@ exports.deleteQuestionById = async (req, res, next) => {
     });
   }
 };
+
 /**
  * Update the Admin User with id given
  * @param {int} req admin_id request
  * @param {object} res admin response - question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_quiz_fk_id
  * 
  */
-
 exports.updateQuestionById = async (req, res, next) => {
   try {
     const question = req.body;
@@ -138,18 +136,36 @@ exports.updateQuestionById = async (req, res, next) => {
  */
 exports.getQuizQuestions = async (req, res) => {
   try {
-    const data = await getQuizQuestions(req?.params?.studentquiz_id);
-    if (data.length === 0)
-    return res.status(404).json({
-      status: 404,
-      message: 'Not found',
-      data
+    const student_id = req?.student?.student_id || req?.params?.student_id;
+    const quizResult = await getStudentQuiz(student_id, req?.params?.studentquiz_id);
+    if (!quizResult)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data: quizResult
+      });
+    
+    const quizQuestions = await getQuizQuestions(req?.params?.studentquiz_id);
+    if (quizQuestions.length === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data: quizQuestions
+      });
+
+    const studentQuizResult = quizResult.studentquiz_result !== null ? JSON.parse(quizResult.studentquiz_result) : [];
+    const joinedQuizQuestionResult = quizQuestions.map(obj1 => {
+      const obj2 = studentQuizResult.find(obj2 => obj2.question_id === obj1.question_id);
+      return { ...obj1, ...obj2 };
     });
 
     return res.status(200).json({
       status: 200,
       message: 'Success',
-      data
+      data: {
+        quizResults: joinedQuizQuestionResult,
+        correction: quizResult.studentquiz_percent
+      }
     });
   } catch (error) {
     return res.status(500).json({

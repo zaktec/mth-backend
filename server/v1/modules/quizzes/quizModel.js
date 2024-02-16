@@ -92,8 +92,16 @@ exports.getStudentQuizzes = async (student_id) => {
   return data.rows;
 };
 
-exports.postStudentQuizResult = async (studentquiz_id) => {
-  const queryString = `SELECT * FROM studentQuiz WHERE studentQuiz_id = $1;`;
-  const data = await db.query(queryString, [studentquiz_id]);
+exports.getStudentQuizByStudentQuizId = async (student_id, studentquiz_id) => {
+  const queryString = `SELECT * FROM studentQuiz WHERE studentQuiz_student_fk_id = $1 AND studentQuiz_id = $2;`;
+  const data = await db.query(queryString, [student_id, studentquiz_id]);
+  return data.rows[0];
+};
+
+exports.postStudentQuizResult = async (student_id, studentquiz_id, quizResult) => {  
+  const parameters = [...Object.values(quizResult)];
+  const keys = Object.keys(quizResult).map((key, index) => `${key} = $${index + 1}`).join(", ");
+  const queryString = `UPDATE studentQuiz SET ${keys} WHERE studentQuiz_student_fk_id ='${student_id}' AND studentQuiz_id ='${studentquiz_id}' RETURNING *;`;
+  const data = await db.query(queryString, parameters);
   return data.rows[0];
 };

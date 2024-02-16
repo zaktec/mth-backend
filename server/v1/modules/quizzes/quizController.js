@@ -1,3 +1,10 @@
+/**
+* This quizController contains 7 functions required to handle
+* getQuizzes function.
+* getQuizById function.
+* postQuiz function.
+* deleteQuizById function.
+*/
 const {
   insertQuiz,
   selectQuizzes,
@@ -9,18 +16,9 @@ const {
   postStudentQuiz,
   getStudentQuizzes,
   postStudentQuizResult,
+  getStudentQuizByStudentQuizId,
 } = require('./quizModel');
 const { getStudentById } = require('../students/studentModel.js');
-const { isSolutionCorrect } = require('../../helpers/commonHelper.js');
-
-/**
-* This quizController contains 7 functions required to handle
-* getQuizzes function.
-* getQuizById function.
-* postQuiz function.
-* deleteQuizById function.
-*/
-
 
 /**
  * Handle getQuizzes.
@@ -40,6 +38,7 @@ exports.getQuizzes = async (req, res, next) => {
     });
   }
 };
+
 /**
  * serves a quiz  object when an id is given
  * @param {int} req quiz_id request
@@ -175,30 +174,35 @@ exports.getStudentQuizzes = async (req, res) => {
  * @param {*} res 
  * @returns 
  */
-
 exports.postStudentQuizResult = async (req, res) => {
   try {
-    const correction = {};
-    let correctAnswersCount = 0;
-    req.body.forEach((question) => {
-      const result = isSolutionCorrect(question);
-      if (result) correctAnswersCount++;
-      correction[`Question ${question.question_id}`] = result ? `The result is correct (${result})` : `The result is incorrect (${result})`;
-    });
-
-    // Save Quiz Result Logic
-
-    const data = await postStudentQuizResult(req?.params?.studentquiz_id);
-    correction.marks = `${correctAnswersCount}/${req.body.length}`;
-    data.correction = correction;
-
+    const questionResutls = [];
+    const student_id = req?.student?.student_id || req?.params?.student_id;
+    let data = await getStudentQuizByStudentQuizId(student_id, req?.params?.studentquiz_id);
     if (data.length === 0)
-    return res.status(404).json({
-      status: 404,
-      message: 'Not found',
-      data
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data
+      });
+
+    req.body.data.forEach((element) => {
+      questionResutls.push({
+        question_id: element.question_id,
+        question_help: element.question_help,
+        question_choice_class: element.question_choice_class,
+        question_choice_answer: element.question_choice_answer,
+        question_choice_answer_correct: element.question_choice_answer_correct
+      })
     });
 
+    const quizResult = {
+      studentQuiz_status: 'completed',
+      studentQuiz_percent: req.body.correction,
+      studentQuiz_result: JSON.stringify(questionResutls),
+    }
+
+    data = await postStudentQuizResult(student_id, req?.params?.studentquiz_id, quizResult);
     return res.status(200).json({
       status: 200,
       message: 'Success',

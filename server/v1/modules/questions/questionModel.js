@@ -105,6 +105,12 @@ exports.updateQuestionById = async (question, question_id) => {
   return data.rows[0];
 };
 
+exports.getStudentQuiz = async (student_id, quiz_id) => {
+  const queryString = `SELECT * FROM studentQuiz WHERE studentQuiz_student_fk_id=$1 AND studentQuiz_quiz_fk_id=$2;`;
+  const data = await db.query(queryString, [student_id, quiz_id]);
+  return data.rows[0];
+};
+
 exports.getQuizQuestions = async (studentquiz_id) => {
   let queryString = `SELECT * FROM studentQuiz WHERE studentQuiz_id = $1;`;
   let data = await db.query(queryString, [studentquiz_id]);

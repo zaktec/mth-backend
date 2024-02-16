@@ -40,7 +40,6 @@ exports.getAdmins = async (req, res, next) => {
   }
 };
 
-
 /**
  * serves an admin object when an id is given
  * @param {int} req admin_id request
