@@ -137,15 +137,15 @@ exports.updateQuestionById = async (req, res, next) => {
 exports.getQuizQuestions = async (req, res) => {
   try {
     const student_id = req?.student?.student_id || req?.params?.student_id;
-    const quizResult = await getStudentQuiz(student_id, req?.params?.studentquiz_id);
-    if (!quizResult)
+    const studentQuiz = await getStudentQuiz(student_id, req?.params?.studentquiz_id);
+    if (!studentQuiz)
       return res.status(404).json({
         status: 404,
         message: 'Not found',
-        data: quizResult
+        data: studentQuiz
       });
-    
-    const quizQuestions = await getQuizQuestions(req?.params?.studentquiz_id);
+      
+    const quizQuestions = await getQuizQuestions(studentQuiz?.studentquiz_quiz_fk_id);
     if (quizQuestions.length === 0)
       return res.status(404).json({
         status: 404,
@@ -153,7 +153,7 @@ exports.getQuizQuestions = async (req, res) => {
         data: quizQuestions
       });
 
-    const studentQuizResult = quizResult.studentquiz_result !== null ? JSON.parse(quizResult.studentquiz_result) : [];
+    const studentQuizResult = studentQuiz?.studentquiz_result !== null ? JSON.parse(studentQuiz?.studentquiz_result) : [];
     const joinedQuizQuestionResult = quizQuestions.map(obj1 => {
       const obj2 = studentQuizResult.find(obj2 => obj2.question_id === obj1.question_id);
       return { ...obj1, ...obj2 };
@@ -163,8 +163,9 @@ exports.getQuizQuestions = async (req, res) => {
       status: 200,
       message: 'Success',
       data: {
+        quizCorrection: studentQuiz?.studentquiz_percent,
+        quizFeedback: studentQuiz.studentquiz_feedback,
         quizResults: joinedQuizQuestionResult,
-        correction: quizResult.studentquiz_percent
       }
     });
   } catch (error) {

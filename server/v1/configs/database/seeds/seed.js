@@ -176,7 +176,7 @@ const runSeeds = async (data) => {
     studentQuiz_status VARCHAR(100),
     studentQuiz_result VARCHAR,
     studentQuiz_percent VARCHAR(100),
-    studentQuiz_feedback VARCHAR(100),
+    studentQuiz_feedback VARCHAR,
     studentQuiz_quiz_fk_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE,
     studentQuiz_tutor_fk_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
     studentQuiz_student_fk_id INT REFERENCES student(student_id) ON DELETE CASCADE)`;

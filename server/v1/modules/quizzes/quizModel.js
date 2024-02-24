@@ -75,8 +75,8 @@ exports.postStudentQuiz = async (body, tutor_id, student_id, quiz_id) => {
   const queryString = `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;`;
   const data = await db.query(queryString, [
     'pending',
-    body.studentQuiz_result || 0,
-    body.studentQuiz_percent || 0,
+    body.studentQuiz_result || null,
+    body.studentQuiz_percent || null,
     body.studentQuiz_feedback || null,
     quiz_id,
     tutor_id,
