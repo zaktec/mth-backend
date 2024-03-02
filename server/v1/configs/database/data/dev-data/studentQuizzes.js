@@ -1,6 +1,7 @@
 module.exports = [
   {
     'studentQuiz_status': 'pending',
+    'studentQuiz_toggle': 'hide',
     'studentQuiz_result': null,
     'studentQuiz_percent': null,
     'studentQuiz_feedback': null,
@@ -10,6 +11,7 @@ module.exports = [
   },
   {
     'studentQuiz_status': 'pending',
+    'studentQuiz_toggle': 'hide',
     'studentQuiz_result': null,
     'studentQuiz_percent': null,
     'studentQuiz_feedback': null,

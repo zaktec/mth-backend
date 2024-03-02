@@ -174,6 +174,7 @@ const runSeeds = async (data) => {
   const createStudentQuizQuery = `CREATE TABLE studentQuiz (
     studentQuiz_id SERIAL PRIMARY KEY,
     studentQuiz_status VARCHAR(100),
+    studentQuiz_toggle VARCHAR(25),
     studentQuiz_result VARCHAR,
     studentQuiz_percent VARCHAR(100),
     studentQuiz_feedback VARCHAR,
@@ -280,7 +281,7 @@ const runSeeds = async (data) => {
 
   const formattedStudentQuizzes = formatStudentQuizData(studentQuizData);
   const insertStudentQuizQuery = format(
-    `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES %L RETURNING *;`,
+    `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_toggle, studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES %L RETURNING *;`,
     formattedStudentQuizzes
   );
   const studentQuiz = await db.query(insertStudentQuizQuery);

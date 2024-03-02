@@ -17,6 +17,8 @@ const {
   getStudentQuizzes,
   postStudentQuizResult,
   getStudentQuizByStudentQuizId,
+  updateStudentQuizResultFeedback,
+  selectStudentQuizByStudentQuizId,
 } = require('./quizModel');
 const { getStudentById } = require('../students/studentModel.js');
 
@@ -169,7 +171,7 @@ exports.getStudentQuizzes = async (req, res) => {
 };
 
 /**
- * save student result
+ * save student quiz result
  * @param {*} req 
  * @param {*} res 
  * @returns 
@@ -203,6 +205,30 @@ exports.postStudentQuizResult = async (req, res) => {
     }
 
     data = await postStudentQuizResult(student_id, req?.params?.studentquiz_id, quizResult);
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};
+
+exports.postStudentQuizResultFeedback = async (req, res) => {
+  try {
+    let data = await selectStudentQuizByStudentQuizId(req?.params?.studentquiz_id);
+    if (data.length === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data
+      });
+
+    data = await updateStudentQuizResultFeedback(req?.params?.studentquiz_id, req?.body);
     return res.status(200).json({
       status: 200,
       message: 'Success',

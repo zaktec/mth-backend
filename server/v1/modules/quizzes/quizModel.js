@@ -72,9 +72,10 @@ exports.getStudentQuiz = async (student_id, quiz_id) => {
 };
 
 exports.postStudentQuiz = async (body, tutor_id, student_id, quiz_id) => {
-  const queryString = `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;`;
+  const queryString = `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_toggle, studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;`;
   const data = await db.query(queryString, [
     'pending',
+    'hide',
     body.studentQuiz_result || null,
     body.studentQuiz_percent || null,
     body.studentQuiz_feedback || null,
@@ -92,6 +93,12 @@ exports.getStudentQuizzes = async (student_id) => {
   return data.rows;
 };
 
+exports.selectStudentQuizByStudentQuizId = async (studentquiz_id) => {
+  const queryString = `SELECT * FROM studentQuiz WHERE studentQuiz_id = $1;`;
+  const data = await db.query(queryString, [studentquiz_id]);
+  return data.rows[0];
+};
+
 exports.getStudentQuizByStudentQuizId = async (student_id, studentquiz_id) => {
   const queryString = `SELECT * FROM studentQuiz WHERE studentQuiz_student_fk_id = $1 AND studentQuiz_id = $2;`;
   const data = await db.query(queryString, [student_id, studentquiz_id]);
@@ -102,6 +109,16 @@ exports.postStudentQuizResult = async (student_id, studentquiz_id, quizResult) =
   const parameters = [...Object.values(quizResult)];
   const keys = Object.keys(quizResult).map((key, index) => `${key} = $${index + 1}`).join(", ");
   const queryString = `UPDATE studentQuiz SET ${keys} WHERE studentQuiz_student_fk_id ='${student_id}' AND studentQuiz_id ='${studentquiz_id}' RETURNING *;`;
+  const data = await db.query(queryString, parameters);
+  return data.rows[0];
+};
+
+exports.updateStudentQuizResultFeedback = async (studentquiz_id, body) => {
+  const parameters = [...Object.values(body)];
+
+  const keys = Object.keys(body).map((key, index) => `${key} = $${index + 1}`).join(", ");
+  const queryString = `UPDATE studentQuiz SET ${keys} WHERE studentQuiz_id='${studentquiz_id}' RETURNING *;`;
+
   const data = await db.query(queryString, parameters);
   return data.rows[0];
 };

@@ -132,6 +132,7 @@ exports.formatLessonData = (lessonData) => {
 exports.formatStudentQuizData = (studentQuizData) => {
   const formattedStudentQuizzes = studentQuizData.map((studentQuiz) => [
     studentQuiz.studentQuiz_status,
+    studentQuiz.studentQuiz_toggle,
     studentQuiz.studentQuiz_result,
     studentQuiz.studentQuiz_percent,
     studentQuiz.studentQuiz_feedback,
