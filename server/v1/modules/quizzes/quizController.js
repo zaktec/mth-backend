@@ -16,8 +16,8 @@ const {
   postStudentQuiz,
   getStudentQuizzes,
   postStudentQuizResult,
+  updateStudentQuizResult,
   getStudentQuizByStudentQuizId,
-  updateStudentQuizResultFeedback,
   selectStudentQuizByStudentQuizId,
 } = require('./quizModel');
 const { getStudentById } = require('../students/studentModel.js');
@@ -228,11 +228,34 @@ exports.postStudentQuizResultFeedback = async (req, res) => {
         data
       });
 
-    data = await updateStudentQuizResultFeedback(req?.params?.studentquiz_id, req?.body);
+    data = await updateStudentQuizResult(req?.params?.studentquiz_id, req?.body);
     return res.status(200).json({
       status: 200,
       message: 'Success',
       data
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};
+
+exports.postStudentQuizToggle = async (req, res) => {
+  try {
+    let data = await selectStudentQuizByStudentQuizId(req?.params?.studentquiz_id);
+    if (data.length === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data
+      });
+
+    data = await updateStudentQuizResult(req?.params?.studentquiz_id, req?.body);
+    return res.status(200).json({
+      status: 200,
+      message: `Quiz ${req.body.studentQuiz_toggle} successfully`
     });
   } catch (error) {
     return res.status(500).json({

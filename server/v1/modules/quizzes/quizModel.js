@@ -113,7 +113,7 @@ exports.postStudentQuizResult = async (student_id, studentquiz_id, quizResult) =
   return data.rows[0];
 };
 
-exports.updateStudentQuizResultFeedback = async (studentquiz_id, body) => {
+exports.updateStudentQuizResult = async (studentquiz_id, body) => {
   const parameters = [...Object.values(body)];
 
   const keys = Object.keys(body).map((key, index) => `${key} = $${index + 1}`).join(", ");

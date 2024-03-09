@@ -19,4 +19,4 @@ module.exports = [
     'studentQuiz_tutor_fk_id': 1,
     'studentQuiz_student_fk_id': 2,
   }
- ]
+]

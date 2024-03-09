@@ -17,6 +17,7 @@ const {
   updateQuestionById,
   checkQuestionExists,
 } = require('./questionModel');
+const { selectQuizById } = require('../quizzes/quizModel')
 
 /**
  * Get list of questions
@@ -145,6 +146,14 @@ exports.getQuizQuestions = async (req, res) => {
         data: studentQuiz
       });
       
+    const quizDetails = await selectQuizById(studentQuiz?.studentquiz_quiz_fk_id);
+    if (quizDetails.length === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data: quizDetails
+      });
+      
     const quizQuestions = await getQuizQuestions(studentQuiz?.studentquiz_quiz_fk_id);
     if (quizQuestions.length === 0)
       return res.status(404).json({
@@ -167,6 +176,7 @@ exports.getQuizQuestions = async (req, res) => {
         quizFeedback: studentQuiz.studentquiz_feedback,
         quizToggle: studentQuiz.studentquiz_toggle,
         quizResults: joinedQuizQuestionResult,
+        quizDetails: quizDetails,
       }
     });
   } catch (error) {
