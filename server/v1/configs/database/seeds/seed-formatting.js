@@ -132,13 +132,15 @@ exports.formatLessonData = (lessonData) => {
 exports.formatStudentQuizData = (studentQuizData) => {
   const formattedStudentQuizzes = studentQuizData.map((studentQuiz) => [
     studentQuiz.studentQuiz_status,
-    studentQuiz.studentQuiz_toggle,
     studentQuiz.studentQuiz_result,
     studentQuiz.studentQuiz_percent,
-    studentQuiz.studentQuiz_feedback,
+    studentQuiz.studentQuiz_tutor_feedback,
+    studentQuiz.studentQuiz_student_feedback,
+    studentQuiz.studentQuiz_tutor_feedback_toggle,
+    studentQuiz.studentQuiz_student_feedback_toggle,
     studentQuiz.studentQuiz_quiz_fk_id,
     studentQuiz.studentQuiz_tutor_fk_id,
-    studentQuiz.studentQuiz_student_fk_id
+    studentQuiz.studentQuiz_student_fk_id,
   ]);
 
   return formattedStudentQuizzes;

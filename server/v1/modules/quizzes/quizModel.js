@@ -72,13 +72,15 @@ exports.getStudentQuiz = async (student_id, quiz_id) => {
 };
 
 exports.postStudentQuiz = async (body, tutor_id, student_id, quiz_id) => {
-  const queryString = `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_toggle, studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;`;
+  const queryString = `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_tutor_feedback, studentQuiz_student_feedback, studentQuiz_tutor_feedback_toggle, studentQuiz_student_feedback_toggle, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;`;
   const data = await db.query(queryString, [
     'pending',
-    'hide',
     body.studentQuiz_result || null,
     body.studentQuiz_percent || null,
-    body.studentQuiz_feedback || null,
+    body.studentQuiz_tutor_feedback || null,
+    body.studentQuiz_student_feedback || null,
+    'hide',
+    'hide',
     quiz_id,
     tutor_id,
     student_id,

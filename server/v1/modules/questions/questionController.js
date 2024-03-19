@@ -173,8 +173,10 @@ exports.getQuizQuestions = async (req, res) => {
       message: 'Success',
       data: {
         quizCorrection: studentQuiz?.studentquiz_percent,
-        quizFeedback: studentQuiz.studentquiz_feedback,
-        quizToggle: studentQuiz.studentquiz_toggle,
+        quizTutorFeedback: studentQuiz.studentquiz_tutor_feedback,
+        quizStudentFeedback: studentQuiz.studentquiz_student_feedback,
+        quizTutorToggle: studentQuiz.studentquiz_tutor_feedback_toggle,
+        quizStudentToggle: studentQuiz.studentquiz_student_feedback_toggle,
         quizResults: joinedQuizQuestionResult,
         quizDetails: quizDetails,
       }
