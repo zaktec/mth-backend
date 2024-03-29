@@ -1,8 +1,9 @@
 module.exports = [
   {
-    'studentQuiz_status': 'pending',
     'studentQuiz_result': null,
     'studentQuiz_percent': null,
+    'studentQuiz_status': 'pending',
+    'studentQuiz_shareable_link': null,
     'studentQuiz_tutor_feedback': null,
     'studentQuiz_student_feedback': null,
     'studentQuiz_tutor_feedback_toggle': 'hide',
@@ -12,9 +13,10 @@ module.exports = [
     'studentQuiz_student_fk_id': 1,
   },
   {
-    'studentQuiz_status': 'pending',
     'studentQuiz_result': null,
     'studentQuiz_percent': null,
+    'studentQuiz_status': 'pending',
+    'studentQuiz_shareable_link': null,
     'studentQuiz_tutor_feedback': null,
     'studentQuiz_student_feedback': null,
     'studentQuiz_tutor_feedback_toggle': 'hide',

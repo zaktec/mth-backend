@@ -15,12 +15,4 @@ module.exports = [
     "quiz_calc": "TRUE",
     "quiz_topic_fk_id":  1,
   },
-  {
-    "quiz_name": "Lesson 1 Quiz",
-    "quiz_code": "GL1Q",
-    "quiz_desc": "Place Value Quiz",
-    "quiz_type": "Lesson",
-    "quiz_calc": "FALSE",
-    "quiz_lesson_fk_id": 2,
-  },
  ]

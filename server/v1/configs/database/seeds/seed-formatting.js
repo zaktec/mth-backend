@@ -134,6 +134,7 @@ exports.formatStudentQuizData = (studentQuizData) => {
     studentQuiz.studentQuiz_status,
     studentQuiz.studentQuiz_result,
     studentQuiz.studentQuiz_percent,
+    studentQuiz.studentQuiz_shareable_link,
     studentQuiz.studentQuiz_tutor_feedback,
     studentQuiz.studentQuiz_student_feedback,
     studentQuiz.studentQuiz_tutor_feedback_toggle,
