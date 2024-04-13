@@ -11,6 +11,7 @@ const {
     getStudentQuizzes,
     postStudentQuizResult,
     updateStudentQuizResult,
+    postStudentQuizShareableLink,
 } = require('../modules/quizzes/quizController');
 
 const router = Router();
@@ -26,6 +27,6 @@ router
     .post('/post-tutor-feedback/:studentquiz_id', userAuthorization(['tutor']), updateStudentQuizResult)
     .post('/post-student-feedback/:studentquiz_id', userAuthorization(['student']), updateStudentQuizResult)
     .post('/post-student-quiz-result/:studentquiz_id', userAuthorization(['student']), postStudentQuizResult)
-    .post('/post_student-shareable-link/:studentquiz_id', userAuthorization(['tutor']), updateStudentQuizResult);
+    .post('/post_student-shareable-link/:studentquiz_id', userAuthorization(['tutor']), postStudentQuizShareableLink);
 
 module.exports = router;

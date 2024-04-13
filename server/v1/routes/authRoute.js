@@ -15,6 +15,7 @@ const {
   createNewAdmin,
   createNewTutor,
   createNewStudent,
+  verifyShareableLink,
 } = require('../modules/auths/authController');
 
 /**
@@ -24,6 +25,7 @@ const {
 
 const router = Router();
 router
+  .get('/verify-shareable-link', userAuthorization(['student']), verifyShareableLink)
   .get('/verify-token', userAuthorization(['admin', 'tutor', 'student']), verifyToken)
 
   .delete('/signout-admin', userAuthorization(['admin']), logoutAdmin)

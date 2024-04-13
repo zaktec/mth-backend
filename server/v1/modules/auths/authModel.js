@@ -111,12 +111,8 @@ exports.insertAuthTutor = async (tutor_id, tutor_device_id) => {
 };
 
 exports.insertAuthStudent = async (student_id, student_device_id) => {
-  const checkAuthStudentQuery =
-    'SELECT * FROM authStudent WHERE student_id=$1 AND student_device_id=$2;';
-  const data = await db.query(checkAuthStudentQuery, [
-    student_id,
-    student_device_id,
-  ]);
+  const checkAuthStudentQuery ='SELECT * FROM authStudent WHERE student_id=$1 AND student_device_id=$2;';
+  const data = await db.query(checkAuthStudentQuery, [student_id, student_device_id]);
 
   if (data.rows.length === 0) {
     const InsertQuery = `INSERT INTO authStudent (student_id, student_device_id, auth_student_token) VALUES ($1, $2, $3) RETURNING *;`;
@@ -161,16 +157,7 @@ exports.destroyAuthTutor = async (
   ]);
 };
 
-exports.destroyAuthStudent = async (
-  student_id,
-  student_device_id,
-  auth_student_token
-) => {
-  const checkAuthStudentQuery =
-    'DELETE FROM authStudent WHERE student_id = $1 AND student_device_id=$2 AND auth_student_token = $3;';
-  await db.query(checkAuthStudentQuery, [
-    student_id,
-    student_device_id,
-    auth_student_token,
-  ]);
+exports.destroyAuthStudent = async (student_id, student_device_id, auth_student_token) => {
+  const checkAuthStudentQuery = 'DELETE FROM authStudent WHERE student_id = $1 AND student_device_id=$2 AND auth_student_token = $3;';
+  await db.query(checkAuthStudentQuery, [student_id, student_device_id, auth_student_token]);
 };

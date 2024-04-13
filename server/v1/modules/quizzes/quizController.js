@@ -17,9 +17,12 @@ const {
   getStudentQuizzes,
   postStudentQuizResult,
   updateStudentQuizResult,
+  postStudentQuizShareableLink,
   getStudentQuizByStudentQuizId,
   selectStudentQuizByStudentQuizId,
 } = require('./quizModel');
+
+const { insertAuthStudent } = require('../auths/authModel.js');
 const { getStudentById } = require('../students/studentModel.js');
 
 /**
@@ -229,6 +232,37 @@ exports.updateStudentQuizResult = async (req, res) => {
       });
 
     data = await updateStudentQuizResult(req?.params?.studentquiz_id, req?.body);
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};
+
+exports.postStudentQuizShareableLink = async (req, res) => {
+  try {
+    let data = await selectStudentQuizByStudentQuizId(req?.params?.studentquiz_id);
+    const authData = await insertAuthStudent(data?.studentquiz_student_fk_id, req?.params?.studentquiz_id);
+
+    if (!data)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data
+      });
+
+    const body = {
+      studentQuiz_shareable_link: req?.body?.studentQuiz_shareable_link,
+      studentQuiz_verify_shareable_link: `${req?.body?.studentQuiz_verify_shareable_link}/${authData?.auth_student_token}`,
+    }
+
+    data = await postStudentQuizShareableLink(req?.params?.studentquiz_id, { studentQuiz_shareable_details : JSON.stringify(body)});
     return res.status(200).json({
       status: 200,
       message: 'Success',
