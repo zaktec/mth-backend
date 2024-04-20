@@ -209,7 +209,10 @@ const runSeeds = async (data) => {
     question_response3 VARCHAR (100),  
     question_workingout VARCHAR (100),  
     question_feedback VARCHAR (100),  
+    question_number INT,
+    question_lesson_fk_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE),
     question_quiz_fk_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE)`;
+
   await db.query(createQuestionQuery);
 
   const formattedCourses = formatCourseData(courseData);
@@ -291,7 +294,7 @@ const runSeeds = async (data) => {
 
   const formattedQuestions = formatQuestionData(questionData);
   const insertQuestionQuery = format(
-    `INSERT INTO question (question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback,question_quiz_fk_id) VALUES %L RETURNING *;`,
+    `INSERT INTO question (question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_number, question_lesson_fk_id, question_quiz_fk_id ) VALUES %L RETURNING *;`,
     formattedQuestions
   );
   const question = await db.query(insertQuestionQuery);

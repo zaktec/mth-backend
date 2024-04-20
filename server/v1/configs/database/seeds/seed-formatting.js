@@ -184,7 +184,9 @@ exports.formatQuestionData = (questionData) => {
     question.question_response3,
     question.question_workingout,
     question.question_feedback,
-    question.question_quiz_fk_id,
+    question_number,
+    question.question_lesson_fk_id,
+    question.question_quiz_fk_id
   ]);
   return formattedQuestions;
 };

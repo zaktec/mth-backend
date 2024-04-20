@@ -21,6 +21,8 @@ module.exports = [
     question_calc: true,
     question_grade: 2,
     question_mark: 2,
+    question_number: 2,
+    question_lesson_fk_id: 1,
   },
   {
     question_image: 'https://bucket-mth.s3.eu-north-1.amazonaws.com/q2.PNG',
@@ -44,6 +46,8 @@ module.exports = [
     question_calc: true,
     question_grade: 2,
     question_mark: 2,
+    question_number: 2,
+    question_lesson_fk_id: 1,
   },
   {
     question_image: 'https://m.media-amazon.com/images/I/71hSAIENHkL._AC_SX425_.jpg',
@@ -67,6 +71,8 @@ module.exports = [
     question_calc: true,
     question_grade: 2,
     question_mark: 2,
+    question_number: 2,
+    question_lesson_fk_id: 1,
   },
   {
     question_image: 'https://s3.eu-west-2.amazonaws.com/maths-kitchen-content-images/images/our_creations/angles/reflex_angle.png',
@@ -91,6 +97,8 @@ module.exports = [
     question_calc: false,
     question_grade: 2,
     question_mark: 2,
+    question_number: 2,
+    question_lesson_fk_id: 1,
   },
   {
     question_image: 'https://bucket-mth.s3.eu-north-1.amazonaws.com/q3.PNG',
@@ -114,6 +122,8 @@ module.exports = [
     question_calc: true,
     question_grade: 2,
     question_mark: 2,
+    question_number: 2,
+    question_lesson_fk_id: 1,
   },
   {
     question_image: 'https://s3.eu-west-2.amazonaws.com/maths-kitchen-content-images/images/our_creations/angles/acute_angle.png',
@@ -138,6 +148,9 @@ module.exports = [
     question_calc: false,
     question_grade: 2,
     question_mark: 2,
+    question_number: 2,
+    question_lesson_fk_id: 1,
+
   },
   {
     question_image: 'https://s3.eu-west-2.amazonaws.com/maths-kitchen-content-images/images/our_creations/angles/obtuse_angle.png',
@@ -162,6 +175,8 @@ module.exports = [
     question_calc: false,
     question_grade: 2,
     question_mark: 2,
+    question_number: 2,
+    question_lesson_fk_id: 1,
   },
   {
     question_image: 'https://bucket-mth.s3.eu-north-1.amazonaws.com/q11a.PNG',
@@ -185,5 +200,7 @@ module.exports = [
     question_calc: true,
     question_grade: 2,
     question_mark: 2,
+    question_number: 2,
+    question_lesson_fk_id: 1,
   },
 ];
