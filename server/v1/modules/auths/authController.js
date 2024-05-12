@@ -263,13 +263,15 @@ exports.loginStudent = async (req, res, next) => {
  */
 exports.logoutStudent = async (req, res, next) => {
   try {
-    const studentQuiz = await getStudentQuizByStudentQuizId(req.student.student_id, req.student.student_device_id);
-    const shareableDetails = JSON.parse(studentQuiz?.studentquiz_shareable_details);
-    const shareableLink = shareableDetails?.studentQuiz_verify_shareable_link;
-    const shareableAuthStudentToken = shareableLink.split('/').pop();
+    if (typeof req.student.student_device_id !== 'string') {
+      const studentQuiz = await getStudentQuizByStudentQuizId(req.student.student_id, req.student.student_device_id);
+      const shareableDetails = JSON.parse(studentQuiz?.studentquiz_shareable_details);
+      const shareableLink = shareableDetails?.studentQuiz_verify_shareable_link;
+      const shareableAuthStudentToken = shareableLink.split('/').pop();
 
-    if (shareableAuthStudentToken === req.student.auth_student_token)
-      return res.status(200).json({ status: 200, message: "Success" });
+      if (shareableAuthStudentToken === req.student.auth_student_token)
+        return res.status(200).json({ status: 200, message: "Success" });
+    }
 
     await destroyAuthStudent(req.student.student_id, req.student.student_device_id, req.student.auth_student_token);
     return res.status(200).json({ status: 200, message: "Success" });

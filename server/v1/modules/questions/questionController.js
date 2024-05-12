@@ -12,6 +12,7 @@ const {
   insertQuestion,
   selectQuestions,
   getQuizQuestions,
+  viewQuizQuestions,
   selectQuestionById,
   deleteQuestionById,
   updateQuestionById,
@@ -177,8 +178,57 @@ exports.getQuizQuestions = async (req, res) => {
         quizStudentFeedback: studentQuiz.studentquiz_student_feedback,
         quizTutorToggle: studentQuiz.studentquiz_tutor_feedback_toggle,
         quizStudentToggle: studentQuiz.studentquiz_student_feedback_toggle,
-        quizResults: joinedQuizQuestionResult,
         quizDetails: quizDetails,
+        quizResults: joinedQuizQuestionResult,
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.viewQuizQuestions = async (req, res) => {
+  try {
+    const student_id = req?.student?.student_id || req?.params?.student_id;
+    const studentQuiz = await getStudentQuiz(student_id, req?.params?.studentquiz_id);
+    if (!studentQuiz)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data: studentQuiz
+      });
+      
+    const quiz = await selectQuizById(studentQuiz?.studentquiz_quiz_fk_id);
+    if (quiz.length === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data: quiz
+      });
+      
+    const questions = await viewQuizQuestions(studentQuiz?.studentquiz_quiz_fk_id);
+    if (questions.length === 0)
+      return res.status(404).json({
+        status: 404,
+        message: 'Not found',
+        data: quizQuestions
+      });
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data: {
+        quiz,
+        questions
       }
     });
   } catch (error) {

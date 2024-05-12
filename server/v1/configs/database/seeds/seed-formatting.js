@@ -24,9 +24,10 @@ exports.formatTopicData = (topicData) => {
 };
 
 exports.formatStudentData = (studentData) => {
-   studentData.forEach((item) =>
+  studentData.forEach(
+    (item) =>
       (item.student_password = bcrypt.hashSync(item.student_password, 10))
-   );
+  );
 
   const formattedStudents = studentData.map((student) => [
     student.student_username,
@@ -44,19 +45,16 @@ exports.formatStudentData = (studentData) => {
     student.student_message_input,
     student.student_message_output,
     student.student_course_fk_id,
-    student.student_tutor_fk_id
+    student.student_tutor_fk_id,
   ]);
 
   return formattedStudents;
 };
 
 exports.formatAdminsData = (adminData) => {
-  
   adminData.forEach(
-    (item) =>
-      (item.admin_password = bcrypt.hashSync(item.admin_password, 10))
+    (item) => (item.admin_password = bcrypt.hashSync(item.admin_password, 10))
   );
-
 
   const formattedAdmin = adminData.map((admin) => [
     admin.admin_username,
@@ -67,15 +65,13 @@ exports.formatAdminsData = (adminData) => {
     admin.admin_active,
     admin.admin_image,
   ]);
- 
+
   return formattedAdmin;
 };
 
 exports.formatTutorData = (tutorData) => {
-
   tutorData.forEach(
-    (item) =>
-      (item.tutor_password = bcrypt.hashSync(item.tutor_password, 10))
+    (item) => (item.tutor_password = bcrypt.hashSync(item.tutor_password, 10))
   );
   const formattedTutors = tutorData.map((tutor) => [
     tutor.tutor_username,
@@ -184,9 +180,9 @@ exports.formatQuestionData = (questionData) => {
     question.question_response3,
     question.question_workingout,
     question.question_feedback,
-    question_number,
+    question.question_number,
     question.question_lesson_fk_id,
-    question.question_quiz_fk_id
+    question.question_quiz_fk_id,
   ]);
   return formattedQuestions;
 };

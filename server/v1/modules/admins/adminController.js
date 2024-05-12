@@ -10,7 +10,6 @@
  * getSettingPage
  * getResit
  */
-
 const {
   insertAdmin,
   selectAdmin,
@@ -19,6 +18,11 @@ const {
   updateAdminById,
   checkAdminExist,
 } = require('./adminModel');
+const { insertQuestion } = require('../questions/questionModel');
+
+const xlsx = require('xlsx');
+const fileSystem = require('fs');
+const { parse } = require('csv-parse');
 const endpoints = require('../../../../endpoints.json');
 
 /**
@@ -90,7 +94,6 @@ exports.postAdmin = async (req, res, next) => {
  * @param {object} res message response 
  * 
  */
-
 exports.deleteAdminById = async (req, res, next) => {
   try {
     const { admin_id } = req.params;
@@ -114,7 +117,6 @@ exports.deleteAdminById = async (req, res, next) => {
  * @param {object} res admin response - admin_username admin_firstname,  admin_lastname, admin_email, admin_active, admin_image, admin_password
  * 
  */
-
 exports.updateAdminById = async (req, res, next) => {
   try {
     const admin = req.body;
@@ -133,6 +135,7 @@ exports.updateAdminById = async (req, res, next) => {
     });
   }
 };
+
 /**
  * serves a json file of endpoint
  * @param {*} req 
@@ -186,5 +189,79 @@ exports.getResit = (req, res, next) => {
     res.status(200).send({ message: 'Welcome To The Reset Page' });
   } catch (err) {
     next(err);
+  }
+};
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.readInsertCSV = async (req, res) => {
+  try {
+    const parser = parse({ columns: true }, async (err, records) => {
+      const data = await Promise.all(records.map(async (element, index) => {
+        if (req.params.filename === 'question') {
+          for (const key in element) {
+            if (Object.prototype.hasOwnProperty.call(element, key) && element[key] === "") {
+              element[key] = null;
+            }
+          }
+          return insertQuestion(element);
+        }
+      }))
+
+      return res.status(200).json({
+        status: 200,
+        message: 'Success',
+        data
+      });
+    });
+
+    fileSystem.createReadStream(req.files.csvFile.path).pipe(parser);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};
+
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+exports.readInsertExcel = async (req, res) => {
+  try {
+    const workbook = xlsx.readFile(req.files.excelFile.path);
+    const sheet_name_list = workbook.SheetNames;
+    
+    const records = await xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]], {defval: ""});
+    const data = await Promise.all(records.map(async (element, index) => {
+      if (req.params.filename === 'question') {
+        for (const key in element) {
+          if (Object.prototype.hasOwnProperty.call(element, key) && element[key] === "") {
+            element[key] = null;
+          }
+        }
+        return insertQuestion(element);
+      }
+    }))
+
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: 'Internal Server Error',
+      error: error.message
+    });
   }
 };

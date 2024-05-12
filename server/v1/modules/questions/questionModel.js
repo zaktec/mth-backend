@@ -58,11 +58,11 @@ exports.insertQuestion = async (question) => {
     question_workingout,
     question_feedback,
     question_number,
+    question_lesson_fk_id,
     question_quiz_fk_id,
-    question_lesson_fk_id
   } = question;
 
-  const InsertQuery = `INSERT INTO question (question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_number,question_quiz_fk_id, question_lesson_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) RETURNING *;`;
+  const InsertQuery = `INSERT INTO question (question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_number, question_lesson_fk_id, question_quiz_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) RETURNING *;`;
   const data = await db.query(InsertQuery, [
     question_image,
     question_body,
@@ -85,9 +85,9 @@ exports.insertQuestion = async (question) => {
     question_response3,
     question_workingout,
     question_feedback,
-    question_quiz_fk_id,
-    question_lesson_fk_id,
     question_number,
+    question_lesson_fk_id,
+    question_quiz_fk_id,
   ]);
 
   return data.rows[0];
@@ -120,3 +120,10 @@ exports.getQuizQuestions = async (quiz_id) => {
   const data = await db.query(queryString, [quiz_id]);
   return data.rows;
 };
+
+exports.viewQuizQuestions = async (quiz_id) => {
+  queryString = `SELECT * FROM question WHERE question_quiz_fk_id = $1 ORDER BY question_number;`;
+  const data = await db.query(queryString, [quiz_id]);
+  return data.rows;
+};
+

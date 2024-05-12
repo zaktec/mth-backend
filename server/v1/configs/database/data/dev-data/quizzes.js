@@ -16,3 +16,4 @@ module.exports = [
     "quiz_topic_fk_id":  1,
   },
  ]
+ 
