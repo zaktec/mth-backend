@@ -147,39 +147,41 @@ exports.getQuizQuestions = async (req, res) => {
         data: studentQuiz
       });
       
-    const quizDetails = await selectQuizById(studentQuiz?.studentquiz_quiz_fk_id);
-    if (quizDetails.length === 0)
+    const quiz = await selectQuizById(studentQuiz?.studentquiz_quiz_fk_id);
+    if (quiz.length === 0)
       return res.status(404).json({
         status: 404,
         message: 'Not found',
-        data: quizDetails
+        data: quiz
       });
       
-    const quizQuestions = await getQuizQuestions(studentQuiz?.studentquiz_quiz_fk_id);
-    if (quizQuestions.length === 0)
+    const questions = await getQuizQuestions(studentQuiz?.studentquiz_quiz_fk_id);
+    if (questions.length === 0)
       return res.status(404).json({
         status: 404,
         message: 'Not found',
         data: quizQuestions
       });
 
-    const studentQuizResult = studentQuiz?.studentquiz_result !== null ? JSON.parse(studentQuiz?.studentquiz_result) : [];
-    const joinedQuizQuestionResult = quizQuestions.map(obj1 => {
-      const obj2 = studentQuizResult.find(obj2 => obj2.question_id === obj1.question_id);
-      return { ...obj1, ...obj2 };
-    });
+
+    if (studentQuiz && studentQuiz?.studentquiz_status === 'completed')
+      return res.status(200).json({
+        status: 200,
+        message: 'Success',
+        data: {
+          quiz,
+          questions: JSON.parse(studentQuiz?.studentquiz_result),
+          studentQuiz,
+        }
+      });
 
     return res.status(200).json({
       status: 200,
       message: 'Success',
       data: {
-        quizCorrection: studentQuiz?.studentquiz_percent,
-        quizTutorFeedback: studentQuiz.studentquiz_tutor_feedback,
-        quizStudentFeedback: studentQuiz.studentquiz_student_feedback,
-        quizTutorToggle: studentQuiz.studentquiz_tutor_feedback_toggle,
-        quizStudentToggle: studentQuiz.studentquiz_student_feedback_toggle,
-        quizDetails: quizDetails,
-        quizResults: joinedQuizQuestionResult,
+        quiz,
+        questions,
+        studentQuiz,
       }
     });
   } catch (error) {
@@ -207,28 +209,39 @@ exports.viewQuizQuestions = async (req, res) => {
         data: studentQuiz
       });
       
-    const quiz = await selectQuizById(studentQuiz?.studentquiz_quiz_fk_id);
-    if (quiz.length === 0)
+    const quizDetails = await selectQuizById(studentQuiz?.studentquiz_quiz_fk_id);
+    if (quizDetails.length === 0)
       return res.status(404).json({
         status: 404,
         message: 'Not found',
-        data: quiz
+        data: quizDetails
       });
       
-    const questions = await viewQuizQuestions(studentQuiz?.studentquiz_quiz_fk_id);
-    if (questions.length === 0)
+    const quizQuestions = await viewQuizQuestions(studentQuiz?.studentquiz_quiz_fk_id);
+    if (quizQuestions.length === 0)
       return res.status(404).json({
         status: 404,
         message: 'Not found',
         data: quizQuestions
       });
 
+    const studentQuizResult = studentQuiz?.studentquiz_result !== null ? JSON.parse(studentQuiz?.studentquiz_result) : [];
+    const joinedQuizQuestionResult = quizQuestions.map(obj1 => {
+      const obj2 = studentQuizResult.find(obj2 => obj2.question_id === obj1.question_id);
+      return { ...obj1, ...obj2 };
+    });
+
     return res.status(200).json({
       status: 200,
       message: 'Success',
       data: {
-        quiz,
-        questions
+        quizCorrection: studentQuiz?.studentquiz_percent,
+        quizTutorFeedback: studentQuiz.studentquiz_tutor_feedback,
+        quizStudentFeedback: studentQuiz.studentquiz_student_feedback,
+        quizTutorToggle: studentQuiz.studentquiz_tutor_feedback_toggle,
+        quizStudentToggle: studentQuiz.studentquiz_student_feedback_toggle,
+        quizDetails: quizDetails,
+        quizResults: joinedQuizQuestionResult,
       }
     });
   } catch (error) {

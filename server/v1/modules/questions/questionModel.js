@@ -116,14 +116,13 @@ exports.getStudentQuiz = async (student_id, quiz_id) => {
 };
 
 exports.getQuizQuestions = async (quiz_id) => {
-  queryString = `SELECT * FROM question WHERE question_quiz_fk_id = $1 ORDER BY RANDOM();`;
-  const data = await db.query(queryString, [quiz_id]);
-  return data.rows;
-};
-
-exports.viewQuizQuestions = async (quiz_id) => {
   queryString = `SELECT * FROM question WHERE question_quiz_fk_id = $1 ORDER BY question_number;`;
   const data = await db.query(queryString, [quiz_id]);
   return data.rows;
 };
 
+exports.viewQuizQuestions = async (quiz_id) => {
+  queryString = `SELECT * FROM question WHERE question_quiz_fk_id = $1 ORDER BY RANDOM();`;
+  const data = await db.query(queryString, [quiz_id]);
+  return data.rows;
+};

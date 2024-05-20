@@ -1,10 +1,10 @@
 /**
-* This quizController contains 7 functions required to handle
-* getQuizzes function.
-* getQuizById function.
-* postQuiz function.
-* deleteQuizById function.
-*/
+ * This quizController contains 7 functions required to handle
+ * getQuizzes function.
+ * getQuizById function.
+ * postQuiz function.
+ * deleteQuizById function.
+ */
 const {
   insertQuiz,
   selectQuizzes,
@@ -20,10 +20,10 @@ const {
   postStudentQuizShareableLink,
   getStudentQuizByStudentQuizId,
   selectStudentQuizByStudentQuizId,
-} = require('./quizModel');
+} = require("./quizModel");
 
-const { insertAuthStudent } = require('../auths/authModel.js');
-const { getStudentById } = require('../students/studentModel.js');
+const { insertAuthStudent } = require("../auths/authModel.js");
+const { getStudentById } = require("../students/studentModel.js");
 
 /**
  * Handle getQuizzes.
@@ -57,7 +57,7 @@ exports.getQuizById = async (req, res, next) => {
       const data = await selectQuizById(quiz_id);
       res.status(200).send({ data });
     } else {
-      res.status(400).send({ message: 'Invalid Input' });
+      res.status(400).send({ message: "Invalid Input" });
     }
   } catch (error) {
     return res.status(500).json({
@@ -94,7 +94,7 @@ exports.deleteQuizById = async (req, res, next) => {
     if (data) {
       res.sendStatus(204);
     } else {
-      res.status(400).send({ message: 'Invalid Input' });
+      res.status(400).send({ message: "Invalid Input" });
     }
   } catch (error) {
     return res.status(500).json({
@@ -112,7 +112,7 @@ exports.updateQuizById = async (req, res, next) => {
     if (data) {
       res.status(200).send({ data });
     } else {
-      res.status(400).send({ message: 'Invalid Input' });
+      res.status(400).send({ message: "Invalid Input" });
     }
   } catch (error) {
     return res.status(500).json({
@@ -128,21 +128,26 @@ exports.postStudentQuiz = async (req, res) => {
     if (!data === 0)
       return res.status(404).json({
         status: 404,
-        message: 'Student not found'
+        message: "Student not found",
       });
 
     data = await getStudentQuiz(req?.params?.student_id, req?.params?.quiz_id);
     if (data)
       return res.status(409).json({
-        status: 409 ,
-        message: 'Student quiz already assigned'
+        status: 409,
+        message: "Student quiz already assigned",
       });
-  
-    data = await postStudentQuiz(req.body, req?.tutor?.tutor_id, req?.params?.student_id, req?.params?.quiz_id);
+
+    data = await postStudentQuiz(
+      req.body,
+      req?.tutor?.tutor_id,
+      req?.params?.student_id,
+      req?.params?.quiz_id
+    );
     return res.status(200).json({
       status: 200,
-      message: 'Success',
-      data
+      message: "Success",
+      data,
     });
   } catch (error) {
     return res.status(500).json({ status: 500, error: error.toString() });
@@ -154,16 +159,16 @@ exports.getStudentQuizzes = async (req, res) => {
     const student_id = req?.student?.student_id || req?.params?.student_id;
     const data = await getStudentQuizzes(student_id);
     if (data.length === 0)
-    return res.status(404).json({
-      status: 404,
-      message: 'Not found',
-      data
-    });
+      return res.status(404).json({
+        status: 404,
+        message: "Not found",
+        data,
+      });
 
     return res.status(200).json({
       status: 200,
-      message: 'Success',
-      data
+      message: "Success",
+      data,
     });
   } catch (error) {
     return res.status(500).json({
@@ -175,43 +180,31 @@ exports.getStudentQuizzes = async (req, res) => {
 
 /**
  * save student quiz result
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
 exports.postStudentQuizResult = async (req, res) => {
   try {
-    const questionResutls = [];
     const student_id = req?.student?.student_id || req?.params?.student_id;
     let data = await getStudentQuizByStudentQuizId(student_id, req?.params?.studentquiz_id);
     if (data.length === 0)
       return res.status(404).json({
         status: 404,
-        message: 'Not found',
-        data
+        message: "Not found",
+        data,
       });
 
-    req.body.data.forEach((element) => {
-      questionResutls.push({
-        question_id: element.question_id,
-        question_help: element.question_help,
-        question_choice_class: element.question_choice_class,
-        question_choice_answer: element.question_choice_answer,
-        question_choice_answer_correct: element.question_choice_answer_correct
-      })
-    });
-
     const quizResult = {
-      studentQuiz_status: 'completed',
-      studentQuiz_percent: req.body.correction,
-      studentQuiz_result: JSON.stringify(questionResutls),
-    }
+      studentQuiz_status: "completed",
+      studentQuiz_result: JSON.stringify(req.body),
+    };
 
-    data = await postStudentQuizResult(student_id, req?.params?.studentquiz_id, quizResult);
+    data = await postStudentQuizResult(student_id,req?.params?.studentquiz_id, quizResult);
     return res.status(200).json({
       status: 200,
-      message: 'Success',
-      data
+      message: "Success",
+      data,
     });
   } catch (error) {
     return res.status(500).json({
@@ -223,19 +216,24 @@ exports.postStudentQuizResult = async (req, res) => {
 
 exports.updateStudentQuizResult = async (req, res) => {
   try {
-    let data = await selectStudentQuizByStudentQuizId(req?.params?.studentquiz_id);
+    let data = await selectStudentQuizByStudentQuizId(
+      req?.params?.studentquiz_id
+    );
     if (data.length === 0)
       return res.status(404).json({
         status: 404,
-        message: 'Not found',
-        data
+        message: "Not found",
+        data,
       });
 
-    data = await updateStudentQuizResult(req?.params?.studentquiz_id, req?.body);
+    data = await updateStudentQuizResult(
+      req?.params?.studentquiz_id,
+      req?.body
+    );
     return res.status(200).json({
       status: 200,
-      message: 'Success',
-      data
+      message: "Success",
+      data,
     });
   } catch (error) {
     return res.status(500).json({
@@ -247,26 +245,33 @@ exports.updateStudentQuizResult = async (req, res) => {
 
 exports.postStudentQuizShareableLink = async (req, res) => {
   try {
-    let data = await selectStudentQuizByStudentQuizId(req?.params?.studentquiz_id);
-    const authData = await insertAuthStudent(data?.studentquiz_student_fk_id, req?.params?.studentquiz_id);
+    let data = await selectStudentQuizByStudentQuizId(
+      req?.params?.studentquiz_id
+    );
+    const authData = await insertAuthStudent(
+      data?.studentquiz_student_fk_id,
+      req?.params?.studentquiz_id
+    );
 
     if (!data)
       return res.status(404).json({
         status: 404,
-        message: 'Not found',
-        data
+        message: "Not found",
+        data,
       });
 
     const body = {
       studentQuiz_shareable_link: req?.body?.studentQuiz_shareable_link,
       studentQuiz_verify_shareable_link: `${req?.body?.studentQuiz_verify_shareable_link}/${authData?.auth_student_token}`,
-    }
+    };
 
-    data = await postStudentQuizShareableLink(req?.params?.studentquiz_id, { studentQuiz_shareable_details : JSON.stringify(body)});
+    data = await postStudentQuizShareableLink(req?.params?.studentquiz_id, {
+      studentQuiz_shareable_details: JSON.stringify(body),
+    });
     return res.status(200).json({
       status: 200,
-      message: 'Success',
-      data
+      message: "Success",
+      data,
     });
   } catch (error) {
     return res.status(500).json({
