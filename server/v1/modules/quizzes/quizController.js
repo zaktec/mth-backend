@@ -158,6 +158,7 @@ exports.getStudentQuizzes = async (req, res) => {
   try {
     const student_id = req?.student?.student_id || req?.params?.student_id;
     const data = await getStudentQuizzes(student_id);
+
     if (data.length === 0)
       return res.status(404).json({
         status: 404,
@@ -195,12 +196,14 @@ exports.postStudentQuizResult = async (req, res) => {
         data,
       });
 
-    const quizResult = {
+    const quizBody = {
       studentQuiz_status: "completed",
-      studentQuiz_result: JSON.stringify(req.body),
+      studentQuiz_learner: req?.body?.studentQuiz_learner,
+      studentQuiz_percent: req?.body?.studentQuiz_percent,
+      studentQuiz_result: JSON.stringify(req.body?.studentQuiz_result),
     };
 
-    data = await postStudentQuizResult(student_id,req?.params?.studentquiz_id, quizResult);
+    data = await postStudentQuizResult(student_id,req?.params?.studentquiz_id, quizBody);
     return res.status(200).json({
       status: 200,
       message: "Success",
@@ -219,6 +222,7 @@ exports.updateStudentQuizResult = async (req, res) => {
     let data = await selectStudentQuizByStudentQuizId(
       req?.params?.studentquiz_id
     );
+
     if (data.length === 0)
       return res.status(404).json({
         status: 404,
@@ -226,10 +230,7 @@ exports.updateStudentQuizResult = async (req, res) => {
         data,
       });
 
-    data = await updateStudentQuizResult(
-      req?.params?.studentquiz_id,
-      req?.body
-    );
+    data = await updateStudentQuizResult(req?.params?.studentquiz_id, req?.body);
     return res.status(200).json({
       status: 200,
       message: "Success",

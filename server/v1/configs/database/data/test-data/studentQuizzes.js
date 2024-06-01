@@ -1,5 +1,6 @@
 module.exports = [
   {
+    'studentQuiz_learner': null,
     'studentQuiz_result': null,
     'studentQuiz_percent': null,
     'studentQuiz_status': 'pending',
@@ -13,6 +14,7 @@ module.exports = [
     'studentQuiz_student_fk_id': 1,
   },
   {
+    'studentQuiz_learner': null,
     'studentQuiz_result': null,
     'studentQuiz_percent': null,
     'studentQuiz_status': 'pending',

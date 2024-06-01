@@ -148,6 +148,7 @@ exports.getQuizQuestions = async (req, res) => {
       });
       
     const quiz = await selectQuizById(studentQuiz?.studentquiz_quiz_fk_id);
+
     if (quiz.length === 0)
       return res.status(404).json({
         status: 404,
@@ -155,14 +156,12 @@ exports.getQuizQuestions = async (req, res) => {
         data: quiz
       });
       
-    const questions = await getQuizQuestions(studentQuiz?.studentquiz_quiz_fk_id);
+    const questions = await getQuizQuestions(req?.params?.studentquiz_id);
     if (questions.length === 0)
       return res.status(404).json({
         status: 404,
         message: 'Not found',
-        data: quizQuestions
       });
-
 
     if (studentQuiz && studentQuiz?.studentquiz_status === 'completed')
       return res.status(200).json({
@@ -174,6 +173,7 @@ exports.getQuizQuestions = async (req, res) => {
           studentQuiz,
         }
       });
+
 
     return res.status(200).json({
       status: 200,

@@ -72,8 +72,9 @@ exports.getStudentQuiz = async (student_id, quiz_id) => {
 };
 
 exports.postStudentQuiz = async (body, tutor_id, student_id, quiz_id) => {
-  const queryString = `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_shareable_details, studentQuiz_tutor_feedback, studentQuiz_student_feedback, studentQuiz_tutor_feedback_toggle, studentQuiz_student_feedback_toggle, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
+  const queryString = `INSERT INTO studentQuiz (studentQuiz_learner, studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_shareable_details, studentQuiz_tutor_feedback, studentQuiz_student_feedback, studentQuiz_tutor_feedback_toggle, studentQuiz_student_feedback_toggle, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;`;
   const data = await db.query(queryString, [
+    '',
     'pending',
     body.studentQuiz_result || null,
     body.studentQuiz_percent || null,
@@ -108,9 +109,9 @@ exports.getStudentQuizByStudentQuizId = async (student_id, studentquiz_id) => {
   return data.rows[0];
 };
 
-exports.postStudentQuizResult = async (student_id, studentquiz_id, quizResult) => {  
-  const parameters = [...Object.values(quizResult)];
-  const keys = Object.keys(quizResult).map((key, index) => `${key} = $${index + 1}`).join(", ");
+exports.postStudentQuizResult = async (student_id, studentquiz_id, quizBody) => {  
+  const parameters = [...Object.values(quizBody)];
+  const keys = Object.keys(quizBody).map((key, index) => `${key} = $${index + 1}`).join(", ");
   const queryString = `UPDATE studentQuiz SET ${keys} WHERE studentQuiz_student_fk_id ='${student_id}' AND studentQuiz_id ='${studentquiz_id}' RETURNING *;`;
   const data = await db.query(queryString, parameters);
   return data.rows[0];
