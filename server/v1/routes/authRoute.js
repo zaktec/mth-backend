@@ -1,8 +1,8 @@
 const Router = require('express');
 const { body } = require('express-validator');
 const { handleInputErrors } = require('../helpers/errorHelper');
-const { validateSignin } = require('../middlewares/bodySchemaMiddleware');
 const { userAuthorization } = require('../middlewares/authMiddleware');
+const { validateSignin, validateStudentSignin } = require('../middlewares/bodySchemaMiddleware');
 
 const {
   verifyToken,
@@ -15,6 +15,7 @@ const {
   createNewAdmin,
   createNewTutor,
   createNewStudent,
+  verifyShareableLink,
 } = require('../modules/auths/authController');
 
 /**
@@ -24,6 +25,7 @@ const {
 
 const router = Router();
 router
+  .get('/verify-shareable-link', userAuthorization(['student']), verifyShareableLink)
   .get('/verify-token', userAuthorization(['admin', 'tutor', 'student']), verifyToken)
 
   .delete('/signout-admin', userAuthorization(['admin']), logoutAdmin)
@@ -36,6 +38,5 @@ router
 
   .delete('/signout-student', userAuthorization(['student']), logoutStudent)
   .post('/signup-student', body('student_username').isString(), handleInputErrors, createNewStudent)
-  .post('/signin-student', body('username').isString(), handleInputErrors, validateSignin, loginStudent);
-  //validateSignin,
+  .post('/signin-student', body('username').isString(), handleInputErrors, validateStudentSignin, loginStudent);
 module.exports = router;

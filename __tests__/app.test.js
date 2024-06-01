@@ -178,7 +178,6 @@ describe('Test7 - POST /api/v1/auth/signin-tutor', () => {
       .send({ username: 'scheema1', password: 'Password@123', deviceId: '3f9a1b2c8' })
       .expect(200)
       .then((res) => {
-        console.log(res.body)
         validTutor = `BEARER ${res.body.token}`;
         expect(res.body.message).toBe('Success');
         expect(res.body.deviceId).toBe('3f9a1b2c8');
@@ -218,7 +217,7 @@ describe('Test8 - POST /api/v1/auth/signup-student', () => {
         student_firstname: 'StudentFirstNameTest',
         student_lastname: 'StudentLastNameTest',
         student_email: 'csheraz-test@hotmail.com',
-        student_password: 'Password@123',
+        student_password: 'demo',
         student_image: '/student/student.png',
         student_grade: 7,
         student_targetgrade: 3,
@@ -260,7 +259,7 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
   test('POST- Student Login-  responds with and access token given correct username and password', () => {
     return request(server)
       .post('/api/v1/auth/signin-student')
-      .send({ username: 'studentUsernameTest', password: 'Password@123', deviceId: '3f9a1b2c8'})
+      .send({ username: 'studentUsernameTest', password: 'demo', deviceId: '3f9a1b2c8'})
       .expect(200)
       .then((res) => {
         validStudent = `BEARER ${res.body.token}`;
@@ -271,7 +270,7 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
   test('POST responds with status 401 for an incorrect password', () => {
     return request(server)
       .post('/api/v1/auth/signin-student')
-      .send({ username: 'studentUsernameTest', password: 'Password123', deviceId: '3f9a1b2c8' })
+      .send({ username: 'studentUsernameTest', password: 'demo', deviceId: '3f9a1b2c8' })
       .expect(400)
       .then((res) =>
       expect(res.body.error).toBe(JSON.parse(res.error.text).error)
@@ -282,10 +281,9 @@ describe('Test9 - POST /api/v1/auth/signin-student', () => {
   test('POST - responds with status 401 for an incorrect username', () => {
     return request(server)
       .post('/api/v1/auth/signin-student')
-      .send({ username: 'invalid-username', password: 'password@123', deviceId: '3f9a1b2c8' })
+      .send({ username: 'invalid-username', password: 'demo', deviceId: '3f9a1b2c8' })
       .expect(400)
       .then((res) => {
-        console.log(res.body)
         expect(res.body.error).toBe(JSON.parse(res.error.text).error)
       });
   });
@@ -1857,7 +1855,6 @@ describe('Test 45- Check  for student have quiz ', () =>{
     .set('Authorization', validTutor)
     .expect(200)
     .then((res)=>{
-      console.log(res.data)
       expect(res.body.message).toBe('Success')
     })
   })

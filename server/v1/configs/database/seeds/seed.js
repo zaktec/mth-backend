@@ -173,19 +173,24 @@ const runSeeds = async (data) => {
 
   const createStudentQuizQuery = `CREATE TABLE studentQuiz (
     studentQuiz_id SERIAL PRIMARY KEY,
+    studentQuiz_learner VARCHAR(100),
     studentQuiz_status VARCHAR(100),
-    studentQuiz_result INT DEFAULT 0,
-    studentQuiz_percent INT DEFAULT 0,
-    studentQuiz_feedback VARCHAR(100),
+    studentQuiz_result VARCHAR,
+    studentQuiz_percent VARCHAR(100),
+    studentQuiz_shareable_details VARCHAR,
+    studentQuiz_tutor_feedback VARCHAR,
+    studentQuiz_student_feedback VARCHAR,
+    studentQuiz_tutor_feedback_toggle VARCHAR(25),
+    studentQuiz_student_feedback_toggle VARCHAR(25),
     studentQuiz_quiz_fk_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE,
     studentQuiz_tutor_fk_id INT REFERENCES tutor(tutor_id) ON DELETE CASCADE,
     studentQuiz_student_fk_id INT REFERENCES student(student_id) ON DELETE CASCADE)`;
   await db.query(createStudentQuizQuery);
 
-  const createQuestionQuery = `CREATE TABLE question ( 
+  const createQuestionQuery = `CREATE TABLE question (
     question_id SERIAL PRIMARY KEY,
     question_image VARCHAR (1000),
-    question_body VARCHAR (200) NOT NULL,
+    question_body VARCHAR (200),
     question_answer1 VARCHAR (100),
     question_answer2 VARCHAR (100),
     question_answer3 VARCHAR (100),
@@ -198,13 +203,15 @@ const runSeeds = async (data) => {
     question_ans_sym_a VARCHAR (5),
     question_correct BOOLEAN DEFAULT false,  
     question_explaination VARCHAR (200), 
-    question_ans_mark INT DEFAULT 1, 
+    question_ans_mark INT DEFAULT 1,
     question_ans_image VARCHAR (100),  
     question_response1 VARCHAR (100),  
     question_response2 VARCHAR (100),  
     question_response3 VARCHAR (100),  
     question_workingout VARCHAR (100),  
-    question_feedback VARCHAR (100),  
+    question_feedback VARCHAR (100),
+    question_number INT,
+    question_lesson_fk_id INT REFERENCES lesson(lesson_id) ON DELETE CASCADE,
     question_quiz_fk_id INT REFERENCES quiz(quiz_id) ON DELETE CASCADE)`;
   await db.query(createQuestionQuery);
 
@@ -280,14 +287,14 @@ const runSeeds = async (data) => {
 
   const formattedStudentQuizzes = formatStudentQuizData(studentQuizData);
   const insertStudentQuizQuery = format(
-    `INSERT INTO studentQuiz (studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_feedback, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES %L RETURNING *;`,
+    `INSERT INTO studentQuiz (studentQuiz_learner, studentQuiz_status, studentQuiz_result, studentQuiz_percent, studentQuiz_shareable_details, studentQuiz_tutor_feedback, studentQuiz_student_feedback, studentQuiz_tutor_feedback_toggle, studentQuiz_student_feedback_toggle, studentQuiz_quiz_fk_id, studentQuiz_tutor_fk_id, studentQuiz_student_fk_id) VALUES %L RETURNING *;`,
     formattedStudentQuizzes
   );
   const studentQuiz = await db.query(insertStudentQuizQuery);
 
   const formattedQuestions = formatQuestionData(questionData);
   const insertQuestionQuery = format(
-    `INSERT INTO question (question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback,question_quiz_fk_id) VALUES %L RETURNING *;`,
+    `INSERT INTO question (question_image, question_body, question_answer1, question_answer2, question_answer3, question_answer4, question_mark, question_grade, question_type, question_calc, question_ans_sym_b, question_ans_sym_a, question_correct, question_explaination, question_ans_mark, question_ans_image, question_response1, question_response2, question_response3, question_workingout, question_feedback, question_number, question_lesson_fk_id, question_quiz_fk_id) VALUES %L RETURNING *;`,
     formattedQuestions
   );
   const question = await db.query(insertQuestionQuery);

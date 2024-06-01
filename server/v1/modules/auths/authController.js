@@ -11,7 +11,6 @@
  * logoutStudent
  * verifyToken
  */
-
 const {
   insertAuthAdmin,
   destroyAuthAdmin,
@@ -22,12 +21,13 @@ const {
   checkTutorByUsername,
   checkAdminByUsername,
   checkStudentByUsername,
+  checkStudentById,
 } = require("./authModel");
 const { insertAdmin } = require("../admins/adminModel");
 const { insertTutor } = require("../tutors/tutorModel");
 const { insertStudent } = require("../students/studentModel");
 const { comparePasswords } = require("../../helpers/passwordhelper");
-
+const { selectStudentQuizByStudentQuizId, getStudentQuizByStudentQuizId } = require("../quizzes/quizModel");
 
 /**
  * Register the Admin User
@@ -96,7 +96,6 @@ exports.loginAdmin = async (req, res, next) => {
  * @param {object} req admin request
  * @param {object} res message response
  */
-
 exports.logoutAdmin = async (req, res) => {
   try {
     await destroyAuthAdmin(
@@ -114,9 +113,9 @@ exports.logoutAdmin = async (req, res) => {
 };
 /**
  * Register the Tutor user
- * @param {object} req request body 
+ * @param {object} req request body
  * @param {object} res - tutor response, tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password
- * @returns 
+ * @returns
  */
 exports.createNewTutor = async (req, res) => {
   try {
@@ -138,12 +137,10 @@ exports.createNewTutor = async (req, res) => {
  * @param {object} res json response message, deviceId, token user- tutor_username, tutor_firstname, tutor_lastname, tutor_email, tutor_active, tutor_image, tutor_password
  * @returns {object} response.
  */
-
 exports.loginTutor = async (req, res) => {
   try {
-    
     const { username, password, deviceId } = req.body;
-   
+
     const isTutorExist = await checkTutorByUsername(username);
     if (!isTutorExist)
       return res
@@ -176,6 +173,7 @@ exports.loginTutor = async (req, res) => {
     });
   }
 };
+
 /**
  * Tutor logout
  * @param {object} req admin request
@@ -197,11 +195,10 @@ exports.logoutTutor = async (req, res, next) => {
   }
 };
 
-
 exports.createNewStudent = async (req, res, next) => {
   try {
     const student = req.body;
-   
+
     insertStudent(student).then((student) => {
       res.status(201).send({ student });
     });
@@ -219,8 +216,6 @@ exports.createNewStudent = async (req, res, next) => {
  * @param {object} res json response message, deviceId, token user- student response, student_username, student_firstname, student_lastname, student_email, student_active, student_image, student_password, student_grade, student_targetgrade, student_notes, student_progressbar, student_message_count, student_message_input, student_message_output, student_course_fk_id, student_tutor_fk_id
  * @returns {object} response.
  */
-
-
 exports.loginStudent = async (req, res, next) => {
   try {
     const { username, password, deviceId } = req.body;
@@ -245,7 +240,8 @@ exports.loginStudent = async (req, res, next) => {
       deviceId
     );
     delete isStudentExist.student_password;
-    res.status(200).json({
+
+    return res.status(200).json({
       status: 200,
       message: "Success",
       deviceId: authStudent.student_device_id,
@@ -265,14 +261,36 @@ exports.loginStudent = async (req, res, next) => {
  * @param {object} req admin request
  * @param {object} res message response
  */
-
 exports.logoutStudent = async (req, res, next) => {
   try {
-    await destroyAuthStudent(
-      req.student.student_id,
-      req.student.student_device_id,
-      req.student.auth_student_token
-    );
+    if (typeof req.student.student_device_id !== 'string') {
+      const studentQuiz = await getStudentQuizByStudentQuizId(req.student.student_id, req.student.student_device_id);
+      const shareableDetails = JSON.parse(studentQuiz?.studentquiz_shareable_details);
+      const shareableLink = shareableDetails?.studentQuiz_verify_shareable_link;
+      const shareableAuthStudentToken = shareableLink.split('/').pop();
+
+      if (shareableAuthStudentToken === req.student.auth_student_token)
+        return res.status(200).json({ status: 200, message: "Success" });
+    }
+
+    await destroyAuthStudent(req.student.student_id, req.student.student_device_id, req.student.auth_student_token);
+    return res.status(200).json({ status: 200, message: "Success" });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      error: error.toString(),
+    });
+  }
+};
+
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+exports.verifyToken = async (req, res) => {
+  try {
     res.status(200).json({ status: 200, message: "Success" });
   } catch (error) {
     return res.status(500).json({
@@ -283,16 +301,39 @@ exports.logoutStudent = async (req, res, next) => {
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ * Student logout
+ * @param {object} req admin request
+ * @param {object} res message response
  */
-
-
-exports.verifyToken = async (req, res) => {
+exports.verifyShareableLink = async (req, res) => {
   try {
-    res.status(200).json({ status: 200, message: "Success" });
+    const isStudentQuiz = await selectStudentQuizByStudentQuizId(req.student.student_device_id);
+    if (!isStudentQuiz)
+      return res.status(404).json({
+        status: 404,
+        message: "Not found",
+        data,
+      });
+
+    const isStudentExist = await checkStudentById(req.student.student_id);
+    if (!isStudentExist)
+      return res.status(404).json({
+        status: 404,
+        message: "Not found",
+        data,
+      });
+
+    delete isStudentExist.student_password;
+    res.status(200).json({
+      status: 200,
+      message: "Success",
+      studentQuiz: isStudentQuiz,
+      authUser: {
+        deviceId: req.student.student_device_id,
+        token: req.student.auth_student_token,
+        user: isStudentExist,
+      },
+    });
   } catch (error) {
     return res.status(500).json({
       status: 500,
